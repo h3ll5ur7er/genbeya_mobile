@@ -1,6 +1,6 @@
 # Experience
 
-What the app does, screen by screen, and what it leaves to the desktop. Tasks for each part are on the board; [[Roadmap]] orders them.
+What the app does, screen by screen, and what it leaves to the desktop. Tasks for each part are on the board; [[Roadmap]] orders them. [[User stories]] says who does what with it, and what has to be true when each story is done.
 
 [TOC]
 
