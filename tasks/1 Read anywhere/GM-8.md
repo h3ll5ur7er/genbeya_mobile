@@ -17,3 +17,4 @@ Pages exactly as the desktop shows them. See [[Experience#wiki]].
 - [ ] Tapping references opens tasks, pages and files; red references offer a new page (wired up in [[GM-16]])
 - [ ] **On this page** sheet; pinch to zoom diagrams and images
 - [ ] Opens in under a second for Genbeya's own wiki on a mid-range phone
+- [ ] Completions for `[[`, `@` and `//` answered by the app, 20 at a time

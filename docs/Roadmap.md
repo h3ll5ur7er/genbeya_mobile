@@ -65,6 +65,8 @@ The last row decides how an official client would be built: if following the des
 - **Git core**: Rust with `git2` or `git2dart`? Decided by [[GM-2]].
 - **Editor**: CodeMirror 6 in the kit or a native editor? Decided by [[GM-4]].
 - **Default target for edits** in a repository without a content branch: the checked-out branch, or `mobile/<handle>` with a pull request? The plan asks on the first edit; the trial shows which people pick.
+- **Replying on a pull request whose file is on the source branch**: commit onto that branch's tree without switching, and push it there with the next sync, or keep the desktop's read-only view until you switch? See [[Call chains#c8-review-a-pull-request]].
+- **The rescue branch**: keep it on the phone, or push it so the desktop can finish the merge? Pushing makes a failed sync visible to the team. See [[Call chains#c10-sync]].
 - **Merging pull requests on the phone**: left out of the trial. Worth adding once a merge without conflicts is the common case?
 - **The repository's license**: the same FSL-1.1-ALv2 as Genbeya?
 - **The kit upstream**: keep building it from Genbeya's sources here, or ask Genbeya for a `build:kit` target?

@@ -19,3 +19,5 @@ The Dart engines needed to show a repository, each checked by conformance cases.
 - [ ] People and handles, and "me"
 - [ ] References: resolving `[[…]]` to tasks, pages and files
 - [ ] `.genbeya-content` and the content branch layout (read only)
+- [ ] Event-driven repository model instead of polled snapshots, with a parse cache by blob ID ([[Call chains#the-repository-model]])
+- [ ] On resume, `status` catches changes made outside the app

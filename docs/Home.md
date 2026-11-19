@@ -37,4 +37,5 @@ The desktop app's rules hold here too, and a few follow from the device:
 | [[Experience]] | What the app does and how it feels: navigation, screens, editing, sync |
 | [[User stories]] | Who uses it, for what, and what has to be true when each story is done |
 | [[Architecture]] | Flutter, the Git core, the web kit reused from Genbeya, the ported engines, and how the two codebases stay in step |
+| [[Call chains]] | Each user story through the layers, call by call; what scales, and what can't cause harm |
 | [[Roadmap]] | Milestones, the live plan, how the trial is judged, risks and open decisions |

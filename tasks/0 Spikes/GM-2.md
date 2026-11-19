@@ -20,4 +20,6 @@ Done when, on a real Android phone and a real iPhone, a test screen can do each 
 - [ ] Fetch, rebase the local commit onto the remote, push
 - [ ] Commit onto another branch's tree without checking it out (for the content branch)
 - [ ] `log` for one path, `diff` from a merge base, `merge-tree` style conflict check
+- [ ] In-memory rebase that leaves the working tree alone until it succeeds
+- [ ] `core.symlinks=false`, no submodules or LFS; stale lock files after the app is killed
 - [ ] Note the build steps and what broke; decide Rust core or `git2dart`, and record it in [[Architecture]]

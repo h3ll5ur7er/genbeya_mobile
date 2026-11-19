@@ -1,6 +1,6 @@
 # Architecture
 
-How the app is put together, and how it stays in step with Genbeya desktop while the two codebases are separate. Decisions marked **Spike** are made in milestone M0 ([[Roadmap]]).
+How the app is put together, and how it stays in step with Genbeya desktop while the two codebases are separate. Decisions marked **Spike** are made in milestone M0 ([[Roadmap]]). [[Call chains]] follows each user story through these layers, call by call, and checks the design for scale and for harm.
 
 [TOC]
 
@@ -118,6 +118,10 @@ What the app decides itself is ported to Dart, small and pure as on desktop:
 | Search | `search-engine.ts` | Results and excerpts, over the files with Dart's regular expressions, in an isolate |
 
 Plan macros need no Dart port: the kit computes them from the tasks it is given, with the desktop's own `planning.ts` and `plan-history.ts`.
+
+## Repository state
+
+The desktop polls a snapshot every four seconds, because other programs change its files too. On the phone the clone lives in the app's private storage and the app is its only writer, so the state is event-driven instead: the app's own writes update an in-memory model, a sync reparses only the paths that changed between the old and the new HEAD, and parsed files are cached by blob ID. See [[Call chains#the-repository-model]]; it holds only while clones stay private to the app.
 
 ## Conformance
 
