@@ -23,7 +23,7 @@ The trial's estimates add up to about 86 working days; 3 more follow once Genbey
 
 M0 ends with a decision gate: if Git on iOS or the kit in a WebView doesn't work well enough, the plan changes before more is built (see [Risks](#risks)).
 
-**Android first** (2026-11-21): the app builds for iOS in CI, but trying it on an iPhone and signing it wait until a Mac is at hand; the spikes and milestones are judged on Android until then.
+**Android first** (2026-11-21): the app builds for iOS in CI, but trying it on an iPhone and signing it wait until a Mac is at hand; the spikes and milestones are judged on Android until then. A task finished without an iPhone check carries `ios: to-check` (a field in `.genbeya.yml`), so the iPhone round is a filter rather than a memory: once a Mac can build, sign and run the app, go through those and set `works` or `fails`.
 
 ## The plan
 

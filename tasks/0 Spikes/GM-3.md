@@ -8,6 +8,7 @@ estimate: 3d
 remaining: 3d
 milestone: M0
 depends_on: [GM-1]
+ios: to-check
 ---
 
 Show that Genbeya's own renderer runs in a Flutter WebView, offline, as one more host of the VS Code webview protocol. See [[Architecture#the-web-kit]].
@@ -16,7 +17,6 @@ Show that Genbeya's own renderer runs in a Flutter WebView, offline, as one more
 - [x] The desktop's content security policy, and no network requests (checked in Chromium)
 - [x] Serve it to a web view: `webview_flutter` and a loopback server under a random path (`lib/access/kit/`), host messages checked and tested; builds into the Android app
 - [x] Try it on a real Android phone (Pixel 9 Pro XL, 2026-11-21): the spike screen renders references with their states, mentions, dates, a checklist, a callout, a table, math, Mermaid and PlantUML offline; ready after 543 ms
-- [ ] Try it on an iPhone (waits for a Mac)
 - [x] Send `preview` with a page and a hand-made `MarkdownContext`; get `follow` and `toggle` back
 - [x] Renders Genbeya's `docs/Guide/References.md`, a Mermaid and a PlantUML diagram (rockuml's WebAssembly), math, and `[GANTT]` on both platforms
 - [x] The WebView reports its height and scrolls inside a native list (on the Pixel)

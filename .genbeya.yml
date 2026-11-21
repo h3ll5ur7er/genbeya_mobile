@@ -25,6 +25,13 @@ fields:
   - name: milestone
     type: choice
     options: [M0, M1, M2, M3, M4, M5]
+  # Android first: tasks are judged on Android until a Mac is at hand. Set
+  # `ios: to-check` on a task finished without trying it on an iPhone; filter
+  # by it once a Mac can build, sign and run the app. Leave it out where iOS
+  # doesn't matter (docs, tooling).
+  - name: ios
+    type: choice
+    options: [to-check, works, fails]
 # Rough dates for one developer working on it full time; move them as you learn.
 milestones:
   - name: M0

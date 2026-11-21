@@ -2,7 +2,7 @@
 id: GM-1
 title: Set up the Flutter project and CI
 type: chore
-status: review
+status: done
 priority: high
 estimate: 2d
 remaining: 2d
