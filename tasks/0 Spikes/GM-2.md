@@ -14,12 +14,15 @@ Prove that a phone can do what the app needs from Git, before anything is built 
 
 Done when, on a real Android phone and a real iPhone, a test screen can do each step against a private GitHub repository over HTTPS and over SSH:
 
-- [ ] Rust crate `native/genbeya_core` with `git2` (vendored libgit2, OpenSSL, libssh2), bound with flutter_rust_bridge
-- [ ] Shallow single-branch clone of genbeya/genbeya; time and size noted
-- [ ] Commit a changed file without a staging step
-- [ ] Fetch, rebase the local commit onto the remote, push
-- [ ] Commit onto another branch's tree without checking it out (for the content branch)
-- [ ] `log` for one path, `diff` from a merge base, `merge-tree` style conflict check
-- [ ] In-memory rebase that leaves the working tree alone until it succeeds
-- [ ] `core.symlinks=false`, no submodules or LFS; stale lock files after the app is killed
-- [ ] Note the build steps and what broke; if the Rust core doesn't clone, commit and push on both platforms within 2 days, switch to `git2dart` (D3 in [[Decisions]])
+- [x] Rust crate `native/genbeya_core` with `git2` (vendored libgit2, OpenSSL, libssh2), bound with flutter_rust_bridge
+- [x] Shallow single-branch clone of genbeya/genbeya; time and size noted
+- [x] Commit a changed file without a staging step
+- [x] Fetch, rebase the local commit onto the remote, push
+- [x] Commit onto another branch's tree without checking it out (for the content branch)
+- [x] `log` for one path, `diff` from a merge base, `merge-tree` style conflict check
+- [x] In-memory rebase that leaves the working tree alone until it succeeds
+- [x] `core.symlinks=false`, no submodules or LFS; stale lock files after the app is killed
+- [x] Note the build steps and what broke (`native/genbeya_core/README.md`); the Rust core works, so it stays (D3 in [[Decisions]])
+- [ ] Run the spike screen (Spikes → Git core) on a real Android phone and an iPhone, against a private repository over HTTPS with a token and over SSH
+
+On this Linux container: 11 flow tests (two clones playing teammates against a bare remote, shallow clones over `git daemon`) and the bridge test from Dart pass; a real depth-1 HTTPS clone of genbeya/genbeya took 1.1 s (1.8 MB received, 8.4 MB on disk). The Android app builds with `libgenbeya_core.so` for arm64-v8a, armeabi-v7a and x86_64, about 7 MB each in release (+7.6 MB to an arm64 release APK, mostly OpenSSL). Not run yet: a real phone, iOS (CI's macOS job is the first build), SSH against a real server, HTTPS push with a token.
