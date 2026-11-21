@@ -1,0 +1,27 @@
+[package]
+name = "genbeya_core"
+version = "0.1.0"
+edition = "2021"
+description = "Genbeya Mobile's Git core: task-shaped operations over libgit2, bound to Dart with flutter_rust_bridge"
+license = "FSL-1.1-ALv2"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+git2 = { version = "0.21.0", default-features = false, features = ["vendored-libgit2", "vendored-openssl", "https", "ssh"] }
+flutter_rust_bridge = "=2.13.0"
+
+[dev-dependencies]
+tempfile = "3.27.0"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+opt-level = "s"
+
+[lints.rust]
+# flutter_rust_bridge's attribute macros check this cfg.
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(frb_expand)"] }

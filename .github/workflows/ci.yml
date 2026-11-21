@@ -102,6 +102,8 @@ jobs:
           key: kit-genbeya-${{ hashFiles('kit/GENBEYA_REF') }}
       - name: Build the kit
         run: node tool/build_kit/build.mjs
+      - name: Rust targets for the Git core (GM-2)
+        run: rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
       - run: flutter build apk --debug
       - uses: actions/upload-artifact@v4
         with:
@@ -127,4 +129,26 @@ jobs:
           key: kit-genbeya-${{ hashFiles('kit/GENBEYA_REF') }}
       - name: Build the kit
         run: node tool/build_kit/build.mjs
+      - name: Rust targets for the Git core (GM-2)
+        run: rustup target add aarch64-apple-ios aarch64-apple-ios-sim x86_64-apple-ios
       - run: flutter build ios --debug --no-codesign
+
+  rust:
+    # The Git core (native/genbeya_core): its flow tests, then the same library
+    # driven from Dart through the generated bridge.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Flow tests
+        working-directory: native/genbeya_core
+        run: cargo test
+      - name: Build the library for this machine
+        working-directory: native/genbeya_core
+        run: cargo build --release --lib
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - name: The bridge, end to end
+        run: flutter test test/native_bridge_test.dart
