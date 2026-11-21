@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:material_ui/material_ui.dart';
 
+import '../../access/native/ca_bundle.dart';
 import '../../access/native/transfers.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -159,7 +160,7 @@ class _GitSpikeScreenState extends State<GitSpikeScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           Text(
-            core.coreVersion(),
+            '${core.coreVersion()}\nCertificates: ${CaBundleStatus.description}',
             style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(height: 12),
