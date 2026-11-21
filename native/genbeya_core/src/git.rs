@@ -335,8 +335,28 @@ struct Network {
     rejected: Arc<Mutex<Vec<String>>>,
 }
 
+/// Network timeouts, set once before the first network operation: without
+/// them libgit2 waits on a stalled connection for days (seen when a TLS
+/// handshake failed behind a proxy that stopped reading), with no progress
+/// callback in which a cancel could take effect.
+const CONNECT_TIMEOUT_MS: libc::c_int = 15_000;
+const SERVER_TIMEOUT_MS: libc::c_int = 60_000;
+
+fn apply_network_timeouts() {
+    static ONCE: std::sync::Once = std::sync::Once::new();
+    ONCE.call_once(|| {
+        // SAFETY: these only set libgit2's global options, before any
+        // network operation reads them; `Once` keeps it to one thread.
+        unsafe {
+            let _ = git2::opts::set_server_connect_timeout_in_milliseconds(CONNECT_TIMEOUT_MS);
+            let _ = git2::opts::set_server_timeout_in_milliseconds(SERVER_TIMEOUT_MS);
+        }
+    });
+}
+
 impl Network {
     fn new(options: &RemoteOptions) -> Self {
+        apply_network_timeouts();
         Network {
             options: options.clone(),
             unknown_host: Arc::new(Mutex::new(None)),
