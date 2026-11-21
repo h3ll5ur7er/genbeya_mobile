@@ -1,0 +1,10 @@
+{
+  "name": "genbeya-mobile-build-kit",
+  "private": true,
+  "type": "module",
+  "description": "Builds the kit (docs/Upstream/Kit-build.md) from Genbeya's sources at kit/GENBEYA_REF, with Genbeya's own esbuild; tests it with the preinstalled Playwright.",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node test.mjs"
+  }
+}
