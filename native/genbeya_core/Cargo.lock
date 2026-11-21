@@ -389,6 +389,9 @@ version = "0.1.0"
 dependencies = [
  "flutter_rust_bridge",
  "git2",
+ "libc",
+ "libgit2-sys",
+ "openssl-sys",
  "tempfile",
 ]
 

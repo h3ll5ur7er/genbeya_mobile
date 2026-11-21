@@ -33,6 +33,12 @@ pub fn set_ca_locations(file: Option<String>, dir: Option<String>) -> Result<(),
     git::set_ca_locations(file.as_deref(), dir.as_deref())
 }
 
+/// Adds trusted CA certificates (each DER-encoded) in memory; returns how many.
+/// The way on Android, where the vendored OpenSSL can't read files.
+pub fn add_ca_certificates(certificates: Vec<Vec<u8>>) -> Result<u32, CoreError> {
+    git::add_ca_certificates(&certificates)
+}
+
 /// Stops the clone or fetch started with this operation id.
 #[frb(sync)]
 pub fn cancel_operation(operation_id: u64) {

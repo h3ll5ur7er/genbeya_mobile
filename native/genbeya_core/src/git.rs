@@ -231,6 +231,38 @@ pub fn set_ca_locations(file: Option<&str>, dir: Option<&str>) -> Result<()> {
     Ok(())
 }
 
+/// Adds trusted CA certificates, each DER-encoded, to OpenSSL's store in
+/// memory, and returns how many it added; ones OpenSSL can't read are
+/// skipped. On Android the vendored OpenSSL is built without file access
+/// (`no-stdio`), so `set_ca_locations` can't work there: this is the way.
+pub fn add_ca_certificates(certificates: &[Vec<u8>]) -> Result<u32> {
+    libgit2_sys::init();
+    let mut added = 0;
+    for der in certificates {
+        let Ok(length) = libc::c_long::try_from(der.len()) else { continue };
+        // SAFETY: d2i_X509 reads at most `length` bytes from `der`, which
+        // outlives the call; the certificate it returns is freed below, after
+        // libgit2 added it to the store (which takes its own reference).
+        unsafe {
+            let mut bytes = der.as_ptr();
+            let certificate = openssl_sys::d2i_X509(std::ptr::null_mut(), &mut bytes, length);
+            if certificate.is_null() {
+                continue;
+            }
+            let code = libgit2_sys::git_libgit2_opts(
+                libgit2_sys::GIT_OPT_ADD_SSL_X509_CERT as libc::c_int,
+                certificate,
+            );
+            openssl_sys::X509_free(certificate);
+            if code < 0 {
+                return Err(git2::Error::last_error(code).into());
+            }
+        }
+        added += 1;
+    }
+    Ok(added)
+}
+
 fn cancel_flags() -> &'static Mutex<HashMap<u64, Arc<AtomicBool>>> {
     static FLAGS: OnceLock<Mutex<HashMap<u64, Arc<AtomicBool>>>> = OnceLock::new();
     FLAGS.get_or_init(|| Mutex::new(HashMap::new()))

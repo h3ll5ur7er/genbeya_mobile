@@ -19,6 +19,13 @@ String coreVersion() => RustLib.instance.api.crateApiGitCoreVersion();
 Future<void> setCaLocations({String? file, String? dir}) =>
     RustLib.instance.api.crateApiGitSetCaLocations(file: file, dir: dir);
 
+/// Adds trusted CA certificates (each DER-encoded) in memory; returns how many.
+/// The way on Android, where the vendored OpenSSL can't read files.
+Future<int> addCaCertificates({required List<Uint8List> certificates}) =>
+    RustLib.instance.api.crateApiGitAddCaCertificates(
+      certificates: certificates,
+    );
+
 /// Stops the clone or fetch started with this operation id.
 void cancelOperation({required BigInt operationId}) =>
     RustLib.instance.api.crateApiGitCancelOperation(operationId: operationId);

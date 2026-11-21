@@ -103,27 +103,31 @@ class _KitEditorSpikeScreenState extends State<KitEditorSpikeScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                _status,
-                style: Theme.of(context).textTheme.bodySmall,
+      // The toolbar stays above Android's navigation bar.
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  _status,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: KitView(
-              onMessage: _onMessage,
-              onRefused: (reason) =>
-                  setState(() => _status = 'Refused: $reason'),
+            Expanded(
+              child: KitView(
+                onMessage: _onMessage,
+                onRefused: (reason) =>
+                    setState(() => _status = 'Refused: $reason'),
+              ),
             ),
-          ),
-          EditorToolbar(onCommand: _command),
-        ],
+            EditorToolbar(onCommand: _command),
+          ],
+        ),
       ),
     );
   }

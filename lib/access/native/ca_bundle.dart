@@ -1,14 +1,15 @@
 /// Trusted CA certificates for the Git core's OpenSSL on Android.
 ///
-/// The vendored OpenSSL knows no store on Android. The app asks Android for
-/// the system's trusted certificates (`AndroidCAStore`, through
-/// MainActivity.kt) and writes them as one PEM file, which OpenSSL loads
-/// whole. The certificate folders are the fallback: OpenSSL can't use them
-/// directly, since Android names the files by OpenSSL's old hash, and since
-/// Android 14 the live store is the Conscrypt module's.
+/// The vendored OpenSSL knows no store on Android and is built without file
+/// access (`no-stdio`), so it can't read a CA file or folder. The app asks
+/// Android for the system's trusted certificates (`AndroidCAStore`, through
+/// MainActivity.kt) and hands them to the core in memory, DER-encoded
+/// (`add_ca_certificates`). The certificate folders are a fallback source.
 library;
 
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 /// The system's certificate folders, newest first.
 const androidCaFolders = [
@@ -17,7 +18,7 @@ const androidCaFolders = [
 ];
 
 final _certificate = RegExp(
-  r'-----BEGIN CERTIFICATE-----[\s\S]*?-----END CERTIFICATE-----',
+  r'-----BEGIN CERTIFICATE-----([\s\S]*?)-----END CERTIFICATE-----',
 );
 
 /// What the app trusts, for the Git core's screen.
@@ -28,22 +29,26 @@ class CaBundleStatus {
   static String description = 'not set up yet';
 }
 
-/// Writes `pems` to `bundle`; returns how many there were.
-Future<int> writePemBundle(File bundle, Iterable<String> pems) async {
-  final certificates = [
-    for (final pem in pems) ..._certificate.allMatches(pem).map((m) => m[0]!),
-  ];
-  if (certificates.isEmpty) return 0;
-  await bundle.parent.create(recursive: true);
-  await bundle.writeAsString('${certificates.join('\n')}\n', flush: true);
-  return certificates.length;
+/// The DER bytes of every PEM certificate in `pems`; text around them and
+/// blocks that aren't Base64 are skipped.
+List<Uint8List> derCertificates(Iterable<String> pems) => [
+  for (final pem in pems)
+    for (final match in _certificate.allMatches(pem)) ?_decode(match[1]!),
+];
+
+Uint8List? _decode(String body) {
+  try {
+    final der = base64Decode(body.replaceAll(RegExp(r'\s'), ''));
+    return der.isEmpty ? null : der;
+  } on FormatException {
+    return null;
+  }
 }
 
-/// Writes the certificates of the first readable folder that has any to
-/// `bundle`; returns how many and from where, or 0. Never throws: a folder the
-/// app may not list is skipped.
-Future<(int, String?)> writeCaBundleFromFolders(
-  File bundle, {
+/// The PEM text of the files in the first readable folder that has any
+/// certificate, and where; empty when none. Never throws: a folder the app may
+/// not list is skipped.
+Future<(List<String>, String?)> pemsFromFolders({
   List<String> folders = androidCaFolders,
 }) async {
   for (final path in folders) {
@@ -59,11 +64,10 @@ Future<(int, String?)> writeCaBundleFromFolders(
           continue;
         }
       }
-      final count = await writePemBundle(bundle, pems);
-      if (count > 0) return (count, path);
+      if (derCertificates(pems).isNotEmpty) return (pems, path);
     } on Object {
       continue;
     }
   }
-  return (0, null);
+  return (const <String>[], null);
 }

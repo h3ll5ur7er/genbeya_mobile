@@ -12,6 +12,10 @@ crate-type = ["cdylib", "staticlib", "rlib"]
 [dependencies]
 git2 = { version = "0.21.0", default-features = false, features = ["vendored-libgit2", "vendored-openssl", "https", "ssh"] }
 flutter_rust_bridge = "=2.13.0"
+# To add CA certificates from memory (add_ca_certificates); the same versions git2 uses.
+libgit2-sys = "=0.18.8"
+openssl-sys = "=0.9.118"
+libc = "0.2"
 
 [dev-dependencies]
 tempfile = "3.27.0"

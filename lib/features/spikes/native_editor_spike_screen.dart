@@ -56,6 +56,7 @@ class _NativeEditorSpikeScreenState extends State<NativeEditorSpikeScreen> {
   @override
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
+    final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Editor (native)'),
@@ -69,25 +70,35 @@ class _NativeEditorSpikeScreenState extends State<NativeEditorSpikeScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: CodeEditor(
-              controller: _controller,
-              wordWrap: true,
-              style: CodeEditorStyle(
-                fontSize: 15,
-                codeTheme: CodeHighlightTheme(
-                  languages: {
-                    'markdown': CodeHighlightThemeMode(mode: langMarkdown),
-                  },
-                  theme: dark ? atomOneDarkTheme : atomOneLightTheme,
+      // The toolbar stays above Android's navigation bar.
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: [
+            Expanded(
+              child: CodeEditor(
+                controller: _controller,
+                wordWrap: true,
+                style: CodeEditorStyle(
+                  fontSize: 15,
+                  // Plain text takes these, not the highlight theme's colours.
+                  textColor: scheme.onSurface,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  cursorColor: scheme.primary,
+                  selectionColor: scheme.primary.withValues(alpha: 0.3),
+                  cursorLineColor: scheme.onSurface.withValues(alpha: 0.05),
+                  codeTheme: CodeHighlightTheme(
+                    languages: {
+                      'markdown': CodeHighlightThemeMode(mode: langMarkdown),
+                    },
+                    theme: dark ? atomOneDarkTheme : atomOneLightTheme,
+                  ),
                 ),
               ),
             ),
-          ),
-          EditorToolbar(onCommand: _command),
-        ],
+            EditorToolbar(onCommand: _command),
+          ],
+        ),
       ),
     );
   }
