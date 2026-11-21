@@ -2,7 +2,7 @@
 id: GM-4
 title: "Spike: compare editors on the device"
 type: spike
-status: todo
+status: in-progress
 priority: high
 estimate: 2d
 remaining: 2d

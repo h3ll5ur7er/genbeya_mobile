@@ -2,7 +2,7 @@
 id: GM-5
 title: Build the conformance harness
 type: chore
-status: todo
+status: in-progress
 priority: high
 estimate: 2d
 remaining: 2d

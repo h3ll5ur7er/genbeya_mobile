@@ -2,7 +2,7 @@
 id: GM-2
 title: "Spike: Git on the device with a Rust core"
 type: spike
-status: todo
+status: in-progress
 priority: urgent
 estimate: 4d
 remaining: 4d
