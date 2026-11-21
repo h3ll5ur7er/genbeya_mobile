@@ -25,7 +25,8 @@ fn base64(text: &str) -> Vec<u8> {
 }
 
 fn system_certificates() -> Vec<Vec<u8>> {
-    let pem = std::fs::read_to_string("/etc/ssl/certs/ca-certificates.crt").expect("a CA bundle on this machine");
+    let pem = std::fs::read_to_string("/etc/ssl/certs/ca-certificates.crt")
+        .expect("a CA bundle on this machine");
     pem.split("-----BEGIN CERTIFICATE-----")
         .skip(1)
         .filter_map(|block| block.split("-----END CERTIFICATE-----").next())
@@ -37,7 +38,10 @@ fn system_certificates() -> Vec<Vec<u8>> {
 fn adds_every_certificate_and_skips_what_is_not_one() {
     let mut certificates = system_certificates();
     let real = certificates.len() as u32;
-    assert!(real > 50, "expected the machine's CA certificates, found {real}");
+    assert!(
+        real > 50,
+        "expected the machine's CA certificates, found {real}"
+    );
     certificates.push(b"not a certificate".to_vec());
     certificates.push(Vec::new());
     assert_eq!(add_ca_certificates(&certificates).unwrap(), real);
@@ -55,8 +59,10 @@ fn adds_every_certificate_and_skips_what_is_not_one() {
 #[ignore]
 fn https_clone_trusting_certificates_from_memory() {
     use genbeya_core::git::{clone, Auth, RemoteOptions};
-    let bundle = std::env::var("GENBEYA_TEST_CA_PEM").expect("GENBEYA_TEST_CA_PEM names a PEM bundle");
-    let url = std::env::var("GENBEYA_TEST_URL").unwrap_or_else(|_| "https://github.com/h3ll5ur7er/genbeya_mobile.git".into());
+    let bundle =
+        std::env::var("GENBEYA_TEST_CA_PEM").expect("GENBEYA_TEST_CA_PEM names a PEM bundle");
+    let url = std::env::var("GENBEYA_TEST_URL")
+        .unwrap_or_else(|_| "https://github.com/h3ll5ur7er/genbeya_mobile.git".into());
     let pem = std::fs::read_to_string(bundle).unwrap();
     let ders: Vec<Vec<u8>> = pem
         .split("-----BEGIN CERTIFICATE-----")
@@ -66,7 +72,19 @@ fn https_clone_trusting_certificates_from_memory() {
         .collect();
     println!("added {} certificates", add_ca_certificates(&ders).unwrap());
     let tmp = tempfile::tempdir().unwrap();
-    let options = RemoteOptions { auth: Auth::None, trusted_host_keys: vec![] };
-    let head = clone(&url, &tmp.path().join("clone"), None, Some(1), &options, None, None).unwrap();
+    let options = RemoteOptions {
+        auth: Auth::None,
+        trusted_host_keys: vec![],
+    };
+    let head = clone(
+        &url,
+        &tmp.path().join("clone"),
+        None,
+        Some(1),
+        &options,
+        None,
+        None,
+    )
+    .unwrap();
     println!("cloned: {:?}", head.commit);
 }

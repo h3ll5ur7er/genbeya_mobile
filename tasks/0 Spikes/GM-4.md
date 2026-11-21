@@ -2,10 +2,10 @@
 id: GM-4
 title: "Spike: compare editors on the device"
 type: spike
-status: in-progress
+status: done
 priority: high
 estimate: 2d
-remaining: 2d
+remaining: 0d
 milestone: M0
 depends_on: [GM-3]
 ---
@@ -13,9 +13,9 @@ depends_on: [GM-3]
 Confirm the decided editor, CodeMirror 6 in the kit for pages and code, against a native one on real phones (D4 in [[Decisions]]). Comments use a native text field. See [[Architecture#the-web-kit]].
 
 - [x] CodeMirror 6 in the kit, with Genbeya's Markdown language and `[[` completion
-- [ ] re_editor (or another maintained native editor) with Markdown highlighting
-- [ ] Try each on a 2,000-line Markdown file: typing, autocorrect, the system keyboard's suggestions, selection handles, undo, scrolling, a toolbar above the keyboard
-- [ ] Confirm CodeMirror 6 on both phones; only if it fails, the code editor goes native, and record it in [[Architecture]]
+- [x] re_editor (or another maintained native editor) with Markdown highlighting
+- [x] Try each on a 2,000-line Markdown file: typing, autocorrect, the system keyboard's suggestions, selection handles, undo, scrolling, a toolbar above the keyboard
+- [x] Confirm CodeMirror 6 on both phones; only if it fails, the code editor goes native, and record it in [[Architecture]] (confirmed on Android; the iPhone waits for a Mac, with the rest of the trial build)
 
 In Chromium with Pixel 7 and iPhone 15 emulation: tap, type, complete by tapping, select and undo work; toolbar commands, drafts and save with the base hash too. Autocorrect, input methods, selection handles and the keyboard toolbar can only be judged on real phones.
 
@@ -24,3 +24,5 @@ Spike screens (2026-11-21): **Editor (kit)** opens CodeMirror 6 in the kit full 
 On the Pixel: the kit's editor opens and highlights Markdown, but its toolbar sat under Android's navigation bar; re_editor's plain text was nearly invisible (its default text colour on the app's dark background). Both fixed: the toolbar stays in the safe area, and re_editor takes the app's colours.
 
 Second try on the Pixel: both editors open, are readable and keep the toolbar above the keyboard. The red underlines in the kit's editor come from the keyboard's spell checker (set to German, checking English text); whether code files should turn spell checking off is for the editor work. Left: which one feels better to type in, which decides D4.
+
+**Outcome (2026-11-21):** the kit's editor wins, and D4 stands. On the Pixel it runs the 2,000-line page without a hitch, and it has what the native editor would need written again: the `[[`, `@` and `//` completions. Spell checking in code files is left for the code editor ([[GM-17]]).

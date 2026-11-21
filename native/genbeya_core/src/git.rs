@@ -196,12 +196,55 @@ impl From<git2::Error> for CoreError {
             ErrorCode::Auth => CoreError::AuthFailed {
                 message: e.message().to_string(),
             },
+            // A server that refuses the credentials it got (a token without
+            // write access answers a push with 403) is an auth failure too,
+            // though libgit2 reports it as a generic HTTP error.
+            _ if e.class() == git2::ErrorClass::Http && refused_status(e.message()) => {
+                CoreError::AuthFailed {
+                    message: e.message().to_string(),
+                }
+            }
             _ => CoreError::Git {
                 code: e.raw_code(),
                 class: e.raw_class() as i32,
                 message: e.message().to_string(),
             },
         }
+    }
+}
+
+fn refused_status(message: &str) -> bool {
+    message
+        .strip_prefix("unexpected http status code: ")
+        .is_some_and(|code| code == "401" || code == "403")
+}
+
+#[cfg(test)]
+mod error_tests {
+    use super::*;
+
+    fn http(message: &str) -> git2::Error {
+        git2::Error::new(ErrorCode::GenericError, git2::ErrorClass::Http, message)
+    }
+
+    #[test]
+    fn refused_credentials_are_auth_failures() {
+        for code in ["401", "403"] {
+            let message = format!("unexpected http status code: {code}");
+            assert_eq!(
+                CoreError::from(http(&message)),
+                CoreError::AuthFailed { message }
+            );
+        }
+    }
+
+    #[test]
+    fn other_http_errors_stay_git_errors() {
+        let message = "unexpected http status code: 404";
+        assert!(matches!(
+            CoreError::from(http(message)),
+            CoreError::Git { class: 34, .. }
+        ));
     }
 }
 
@@ -239,7 +282,9 @@ pub fn add_ca_certificates(certificates: &[Vec<u8>]) -> Result<u32> {
     libgit2_sys::init();
     let mut added = 0;
     for der in certificates {
-        let Ok(length) = libc::c_long::try_from(der.len()) else { continue };
+        let Ok(length) = libc::c_long::try_from(der.len()) else {
+            continue;
+        };
         // SAFETY: d2i_X509 reads at most `length` bytes from `der`, which
         // outlives the call; the certificate it returns is freed below, after
         // libgit2 added it to the store (which takes its own reference).

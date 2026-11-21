@@ -9,11 +9,11 @@ use std::time::Duration;
 use flutter_rust_bridge::frb;
 
 use crate::frb_generated::StreamSink;
-pub use crate::git::{
-    Auth, ChangedFile, CommitInfo, Conflict, CoreError, DiffSummary, FileChange, HeadInfo, Identity, Progress,
-    PushOutcome, RebaseOutcome, RemoteOptions,
-};
 use crate::git::{self, Operation};
+pub use crate::git::{
+    Auth, ChangedFile, CommitInfo, Conflict, CoreError, DiffSummary, FileChange, HeadInfo,
+    Identity, Progress, PushOutcome, RebaseOutcome, RemoteOptions,
+};
 
 /// The versions inside the core, for the spike screen and bug reports.
 #[frb(sync)]
@@ -55,7 +55,10 @@ pub enum TransferEvent {
     Failed(CoreError),
 }
 
-fn finish(events: &StreamSink<TransferEvent>, result: Result<(), CoreError>) -> Result<(), CoreError> {
+fn finish(
+    events: &StreamSink<TransferEvent>,
+    result: Result<(), CoreError>,
+) -> Result<(), CoreError> {
     let _ = events.add(match result {
         Ok(()) => TransferEvent::Done,
         Err(error) => TransferEvent::Failed(error),
@@ -78,8 +81,16 @@ pub fn clone_repository(
     let mut report = |p: Progress| {
         let _ = events.add(TransferEvent::Progress(p));
     };
-    let result = git::clone(&url, Path::new(&dir), branch.as_deref(), depth, &remote, Some(&operation), Some(&mut report))
-        .map(|_| ());
+    let result = git::clone(
+        &url,
+        Path::new(&dir),
+        branch.as_deref(),
+        depth,
+        &remote,
+        Some(&operation),
+        Some(&mut report),
+    )
+    .map(|_| ());
     finish(&events, result)
 }
 
@@ -87,7 +98,12 @@ pub fn head(dir: String) -> Result<HeadInfo, CoreError> {
     git::head(Path::new(&dir))
 }
 
-pub fn commit_files(dir: String, paths: Vec<String>, message: String, identity: Identity) -> Result<String, CoreError> {
+pub fn commit_files(
+    dir: String,
+    paths: Vec<String>,
+    message: String,
+    identity: Identity,
+) -> Result<String, CoreError> {
     git::commit_files(Path::new(&dir), &paths, &message, &identity)
 }
 
@@ -113,11 +129,22 @@ pub fn fetch(
     let mut report = |p: Progress| {
         let _ = events.add(TransferEvent::Progress(p));
     };
-    let result = git::fetch(Path::new(&dir), &extra_branches, &remote, Some(&operation), Some(&mut report)).map(|_| ());
+    let result = git::fetch(
+        Path::new(&dir),
+        &extra_branches,
+        &remote,
+        Some(&operation),
+        Some(&mut report),
+    )
+    .map(|_| ());
     finish(&events, result)
 }
 
-pub fn rebase_onto_upstream(dir: String, identity: Identity, resolutions: Vec<FileChange>) -> Result<RebaseOutcome, CoreError> {
+pub fn rebase_onto_upstream(
+    dir: String,
+    identity: Identity,
+    resolutions: Vec<FileChange>,
+) -> Result<RebaseOutcome, CoreError> {
     git::rebase_onto_upstream(Path::new(&dir), &identity, &resolutions)
 }
 
@@ -129,11 +156,19 @@ pub fn log_path(dir: String, path: String, max: u32) -> Result<Vec<CommitInfo>, 
     git::log_path(Path::new(&dir), &path, max as usize)
 }
 
-pub fn diff_from_merge_base(dir: String, source: String, target: String) -> Result<DiffSummary, CoreError> {
+pub fn diff_from_merge_base(
+    dir: String,
+    source: String,
+    target: String,
+) -> Result<DiffSummary, CoreError> {
     git::diff_from_merge_base(Path::new(&dir), &source, &target)
 }
 
-pub fn merge_conflicts(dir: String, source: String, target: String) -> Result<Vec<String>, CoreError> {
+pub fn merge_conflicts(
+    dir: String,
+    source: String,
+    target: String,
+) -> Result<Vec<String>, CoreError> {
     git::merge_conflicts(Path::new(&dir), &source, &target)
 }
 

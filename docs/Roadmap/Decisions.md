@@ -80,7 +80,9 @@ The [[Call chains]] showed that the app needs Git as a few whole operations, eac
 
 Pages and code need what the desktop's editor already has, and writing it again is exactly the duplication the kit exists to avoid. On phones, text input is the part where drawn-by-the-app editors most often feel wrong; CodeMirror 6 leaves input to the platform and was built with touch in mind. Comments are short, though: a native field opens instantly and feels like a chat app, and the pickers come from the app anyway (see [[Call chains#c6-edit-a-page]]).
 
-**Decided 2026-11-21.** As recommended. [[GM-4]] confirms it on real phones; [[GM-13]] uses a native text field.
+**Decided 2026-11-21.** As recommended. [[GM-13]] uses a native text field.
+
+**Confirmed 2026-11-21** on a Pixel 9 Pro XL ([[GM-4]]): CodeMirror 6 in the kit handles a 2,000-line page without a hitch and has the completions the native editor lacks. The iPhone check waits for a Mac.
 
 ## D5 · Where edits go without a content branch
 
