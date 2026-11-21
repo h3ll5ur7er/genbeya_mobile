@@ -40,6 +40,8 @@ A new Flutter FFI plugin project.
     'DEFINES_MODULE' => 'YES',
     # Flutter.framework does not contain a i386 slice.
     'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
-    'OTHER_LDFLAGS' => '-force_load ${BUILT_PRODUCTS_DIR}/libgenbeya_core.a',
+    # libgit2 uses the system's zlib and iconv on Apple platforms.
+    'OTHER_LDFLAGS' => '-force_load ${BUILT_PRODUCTS_DIR}/libgenbeya_core.a -lz -liconv',
   }
+  s.libraries = 'z', 'iconv'
 end
