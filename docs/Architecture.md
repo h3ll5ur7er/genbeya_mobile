@@ -51,7 +51,7 @@ Mobile platforms have no `git` command, and iOS can't run one. Desktop Genbeya s
 
 **Spike** ([[GM-2]]): clone, edit, commit, fetch, rebase and push over HTTPS and SSH on a real Android phone and an iPhone, with a shallow clone, before anything else is built on it.
 
-**Result** (on Linux, phones pending): `native/genbeya_core` (git2 0.21, vendored libgit2 1.9.7, OpenSSL and libssh2), bound with flutter_rust_bridge 2.13.0 and built by cargokit into the Android app, does all of the above, including the in-memory rebase and commits onto another branch without a checkout. About 7 MB per Android ABI in release. The Rust core stays; `git2dart` isn't needed. See `native/genbeya_core/README.md`.
+**Result** (on Linux, phones pending): `native/genbeya_core` (git2 0.21, vendored libgit2 1.9.7, OpenSSL and libssh2), bound with flutter_rust_bridge 2.13.0 and built by cargokit into the Android app, does all of the above, including the in-memory rebase and commits onto another branch without a checkout. About 7 MB per Android ABI in release; the iOS build passes in CI too, unsigned. The Rust core stays; `git2dart` isn't needed. See `native/genbeya_core/README.md`.
 
 The native core exposes a small, task-shaped API rather than libgit2 itself: `clone`, `fetch`, `status`, `commitFiles` (write a commit from changed paths, optionally onto another branch's tree without a checkout), `rebaseOnto`, `push`, `log` (with paths, for activity and plan history), `diff` (merge base to head, for pull requests), `mergeTree` (would it conflict), `readBlob` (a file at a revision).
 
