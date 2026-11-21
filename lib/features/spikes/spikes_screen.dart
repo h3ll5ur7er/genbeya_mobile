@@ -1,5 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
+import 'kit_spike_screen.dart';
+
 /// Test screens for the M0 spikes (GM-2, GM-3, GM-4). They go once the spikes are done.
 class SpikesScreen extends StatelessWidget {
   const SpikesScreen({super.key});
@@ -9,16 +11,19 @@ class SpikesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Spikes')),
       body: ListView(
-        children: const [
-          ListTile(
+        children: [
+          const ListTile(
             title: Text('Git core'),
             subtitle: Text('GM-2: clone, commit, sync'),
           ),
           ListTile(
-            title: Text('Web kit'),
-            subtitle: Text('GM-3: Genbeya pages rendered offline'),
+            title: const Text('Web kit'),
+            subtitle: const Text('GM-3: Genbeya pages rendered offline'),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const KitSpikeScreen()),
+            ),
           ),
-          ListTile(
+          const ListTile(
             title: Text('Editor'),
             subtitle: Text('GM-4: CodeMirror 6 on the phone'),
           ),

@@ -1,1 +1,8 @@
-dist/
+# Built by tool/build_kit; only the placeholders that keep the asset folders are committed.
+dist/**
+!dist/
+!dist/.gitkeep
+!dist/chunks/
+!dist/chunks/.gitkeep
+!dist/fonts/
+!dist/fonts/.gitkeep

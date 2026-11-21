@@ -52,6 +52,14 @@ if (process.argv.includes("--check")) typeCheck();
 
 // 3. The bundle, with the esbuild settings of vscodeWebviewBundle in Genbeya's scripts/bundles.mjs.
 fs.rmSync(dist, { recursive: true, force: true });
+// The app declares these folders as assets; the placeholders keep them in Git.
+const keepPlaceholders = () => {
+  for (const folder of [dist, path.join(dist, "chunks"), path.join(dist, "fonts")]) {
+    fs.mkdirSync(folder, { recursive: true });
+    fs.writeFileSync(path.join(folder, ".gitkeep"), "");
+  }
+};
+process.on("exit", keepPlaceholders);
 const started = Date.now();
 const result = await esbuild.build({
   bundle: true,

@@ -14,10 +14,11 @@ Show that Genbeya's own renderer runs in a Flutter WebView, offline, as one more
 
 - [x] `kit/src/` and `tool/build_kit` as [[Kit build]] specifies: Genbeya's sources at `kit/GENBEYA_REF`, the bundle's layout, `manifest.json` and protocol, written to `kit/dist/`
 - [x] The desktop's content security policy, and no network requests (checked in Chromium)
-- [ ] Serve it from a custom scheme in flutter_inappwebview on Android and iOS
+- [x] Serve it to a web view: `webview_flutter` and a loopback server under a random path (`lib/access/kit/`), host messages checked and tested; builds into the Android app
+- [ ] Try it on a real Android phone and an iPhone: the spike screen (Spikes → Web kit) renders a sample page and logs the kit's messages
 - [x] Send `preview` with a page and a hand-made `MarkdownContext`; get `follow` and `toggle` back
 - [x] Renders Genbeya's `docs/Guide/References.md`, a Mermaid and a PlantUML diagram (rockuml's WebAssembly), math, and `[GANTT]` on both platforms
-- [ ] The WebView reports its height and scrolls inside a native list
+- [ ] The WebView reports its height and scrolls inside a native list (built into the spike screen; to judge on phones)
 - [x] Note bundle size, first render time and anything the protocol lacks
 - [ ] Bridge: context in versioned parts, apart from the page; every message from the kit checked (type, paths, sizes), as in [[Call chains#c5-render-a-page]]
 - [ ] Checkbox toggles carry the page's version and offset, and are checked before C4's write

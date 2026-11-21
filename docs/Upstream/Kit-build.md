@@ -58,7 +58,7 @@ window.genbeyaKitHost = { post(message: string): void };
 window.genbeyaKit = { receive(message: string): void };
 ```
 
-Messages are JSON strings, so every web view can carry them (flutter_inappwebview's handlers, Android's `WebMessagePort`, `WKScriptMessageHandler`, VS Code's `postMessage`). The kit's first message is `ready`, with the protocol it speaks.
+Messages are JSON strings, so every web view can carry them (Flutter's JavaScript channels, Android's `WebMessagePort`, `WKScriptMessageHandler`, VS Code's `postMessage`). The kit's first message is `ready`, with the protocol it speaks.
 
 ### Host → kit
 

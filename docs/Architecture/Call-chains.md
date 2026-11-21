@@ -315,6 +315,7 @@ Story: US-26. Not one chain but what every chain refuses:
 | A `.genbeya.yml` with huge lists | The settings engine's limits (500 people, 100 milestones, …), as on desktop |
 | A regular expression or diagram that never ends | The search isolate's time limit, the diagram time limit, both in other processes or isolates than the UI |
 | Links to other schemes | Only `http`, `https` and `mailto`, through the system browser |
+| Another app on the phone connects to the kit's loopback server | It finds a random port and needs the random path; even then it gets only the kit's own files, which are public. Repository content travels as messages, never through the server |
 
 ## Scaling
 

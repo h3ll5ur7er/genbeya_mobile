@@ -93,6 +93,15 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/cache@v4
+        with:
+          path: tool/build_kit/.cache
+          key: kit-genbeya-${{ hashFiles('kit/GENBEYA_REF') }}
+      - name: Build the kit
+        run: node tool/build_kit/build.mjs
       - run: flutter build apk --debug
       - uses: actions/upload-artifact@v4
         with:
@@ -109,4 +118,13 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/cache@v4
+        with:
+          path: tool/build_kit/.cache
+          key: kit-genbeya-${{ hashFiles('kit/GENBEYA_REF') }}
+      - name: Build the kit
+        run: node tool/build_kit/build.mjs
       - run: flutter build ios --debug --no-codesign
