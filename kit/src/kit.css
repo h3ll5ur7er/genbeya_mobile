@@ -27,12 +27,6 @@ body {
   padding: 12px 16px 24px;
 }
 
-/* Touch targets: links and checkboxes at least 44 pixels tall where they stand alone. */
-#preview .md-check {
-  min-width: 24px;
-  min-height: 24px;
-}
-
 #preview img {
   max-width: 100%;
   height: auto;

@@ -5,8 +5,8 @@
  * `editorCommand`. Loaded on first `edit`.
  */
 import { completionStatus } from "@codemirror/autocomplete";
-import { redo, undo } from "@codemirror/commands";
-import { Compartment, EditorSelection, EditorState, type ChangeSpec, type Extension } from "@codemirror/state";
+import { isolateHistory, redo, undo } from "@codemirror/commands";
+import { Compartment, EditorSelection, EditorState, Transaction, type ChangeSpec, type Extension, type TransactionSpec } from "@codemirror/state";
 import { EditorView, keymap } from "@codemirror/view";
 import { editingSetup, isProse, languageFor } from "genbeya/client/app/editor/editor-setup";
 import { wordWrap } from "genbeya/client/app/editor/editor-keymap";
@@ -21,6 +21,12 @@ import { markdownOptions, typeset } from "./renderer";
 const isMarkdown = (path: string) => /\.(md|markdown)$/i.test(path);
 /** How long typing pauses before the draft goes to the host. */
 const DRAFT_DELAY = 1500;
+/** A toolbar command is an undo step of its own, never merged into the typing around it. */
+const toolbarStep = (spec: TransactionSpec): TransactionSpec => ({
+  ...spec,
+  scrollIntoView: true,
+  annotations: [isolateHistory.of("full"), Transaction.userEvent.of("input.toolbar")],
+});
 
 interface Opened {
   readonly path: string;
@@ -106,7 +112,7 @@ export class Editor {
         this.save();
         break;
       case "insert":
-        view.dispatch(view.state.replaceSelection(command.text), { scrollIntoView: true });
+        view.dispatch(toolbarStep(view.state.replaceSelection(command.text)));
         break;
       case "bold":
         this.wrap("**", "**", "bold");
@@ -133,14 +139,15 @@ export class Editor {
   private wrap(before: string, after: string, placeholder: string) {
     const view = this.view!;
     view.dispatch(
-      view.state.changeByRange((range) => {
-        const text = view.state.sliceDoc(range.from, range.to) || placeholder;
-        return {
-          changes: { from: range.from, to: range.to, insert: before + text + after },
-          range: EditorSelection.range(range.from + before.length, range.from + before.length + text.length),
-        };
-      }),
-      { scrollIntoView: true },
+      toolbarStep(
+        view.state.changeByRange((range) => {
+          const text = view.state.sliceDoc(range.from, range.to) || placeholder;
+          return {
+            changes: { from: range.from, to: range.to, insert: before + text + after },
+            range: EditorSelection.range(range.from + before.length, range.from + before.length + text.length),
+          };
+        }),
+      ),
     );
   }
 
@@ -162,7 +169,7 @@ export class Editor {
       if (all && match) changes.push({ from: line.from, to: line.from + match[0].length });
       else if (!all) changes.push({ from: line.from, to: line.from + (/^(#{1,6} |- \[[ xX]\] |- )/.exec(text)?.[0].length ?? 0), insert: prefix });
     }
-    view.dispatch({ changes, scrollIntoView: true });
+    view.dispatch(toolbarStep({ changes }));
   }
 
   private save() {
