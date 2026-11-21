@@ -1,0 +1,5 @@
+# Bindings between native/genbeya_core (Rust) and lib/src/rust (Dart).
+# Regenerate after changing native/genbeya_core/src/api: flutter_rust_bridge_codegen generate
+rust_input: crate::api
+rust_root: native/genbeya_core/
+dart_output: lib/src/rust

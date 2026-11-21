@@ -21,3 +21,7 @@ lto = true
 codegen-units = 1
 strip = true
 opt-level = "s"
+
+[lints.rust]
+# flutter_rust_bridge's attribute macros check this cfg.
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(frb_expand)"] }
