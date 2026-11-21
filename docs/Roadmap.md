@@ -2,7 +2,7 @@
 
 Six milestones, each ending in something to hold in the hand. The order puts the risky parts first (Git on a phone, Genbeya's renderer in a WebView), then reading, then the edits people make most often on a phone, then writing, planning and review.
 
-The trial's estimates add up to about 88 working days, plus 2 for images in tasks and pull requests after it. The critical path is 35 days (Git core → repositories → board → task edits → comments → review actions → trial), so the timeline below, which runs work in parallel where nothing waits, is what two or three people could do; the milestone dates in `.genbeya.yml` assume one developer full time. Move them as you learn.
+The trial's estimates add up to about 86 working days; 3 more follow once Genbeya ships the two [[Upstream]] specs, which the trial doesn't wait for. The critical path is 35 days (Git core → repositories → board → task edits → comments → review actions → trial), so the timeline below, which runs work in parallel where nothing waits, is what two or three people could do; the milestone dates in `.genbeya.yml` assume one developer full time. Move them as you learn.
 
 > [!TIP]
 > Open this repository in Genbeya desktop (the `develop` build, which has planning) to see the blocks below drawn from the tasks: the timeline, what waits for what, and the effort.
@@ -14,12 +14,12 @@ The trial's estimates add up to about 88 working days, plus 2 for images in task
 | | Milestone | You can | Tasks |
 | --- | --- | --- | --- |
 | M0 | **Spikes** | Clone, commit and push on a real phone; see a Genbeya page rendered offline; pick the editor | [[GM-1]] to [[GM-5]] |
-| M1 | **Read anywhere** | Clone a repository, read its wiki, browse its board, search, open `genbeya://` links | [[GM-6]] to [[GM-10]], [[GM-25]] |
+| M1 | **Read anywhere** | Clone a repository, read its wiki, browse its board, search, open `genbeya://` links | [[GM-6]] to [[GM-10]] |
 | M2 | **Work on tasks** | Move tasks, edit fields, tick checklists, comment, create tasks, sync, see **Today** | [[GM-11]] to [[GM-15]] |
 | M3 | **Write** | Edit pages and add photos to them, browse and edit code, copy references to lines | [[GM-16]], [[GM-17]] |
 | M4 | **Plan and review** | See effort and what blocks what, log time; review pull requests, comment on lines, approve | [[GM-18]] to [[GM-21]] |
 | M5 | **Trial** | Install a test build, try the sample project, use it daily for two weeks, decide | [[GM-22]] to [[GM-24]], [[GM-27]] |
-| — | **After the trial** | Images in tasks and pull requests, once Genbeya has them | [[GM-26]] |
+| — | **When Genbeya has it** | The kit from Genbeya's releases; images in tasks and pull requests ([[Upstream]]) | [[GM-25]], [[GM-26]] |
 
 M0 ends with a decision gate: if Git on iOS or the kit in a WebView doesn't work well enough, the plan changes before more is built (see [Risks](#risks)).
 

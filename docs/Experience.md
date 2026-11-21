@@ -42,7 +42,7 @@ The screen a repository opens on, and the one thing desktop doesn't have: what n
 - **Checklists** tick while reading, which saves the page, as on desktop.
 - **On this page** (a sheet from the top bar) lists the headings.
 - **Editing** opens the page's Markdown in the editor with a toolbar above the keyboard: heading, bold, list, checkbox, link, and pickers for `[[` references, `@` people and `//` dates, the same completions the desktop offers. Swipe or tap **Preview** to see the result.
-- **Photo** puts a picture or a screenshot into the page: taken or picked, shrunk to 1600 pixels, stripped of location and camera data, its size shown before saving, and written to `images/` next to the page, which renders it as the desktop does. Images in tasks and pull requests come at release, following Genbeya.
+- **Photo** puts a picture or a screenshot into the page: taken or picked, shrunk to 1600 pixels, stripped of location and camera data, its size shown before saving, and written to the wiki's `images/` folder, linked from the page, which renders it as the desktop does ([[Attached images]]). Images in tasks and pull requests come at release, following Genbeya.
 - **New** below the current one; moving and renaming pages, with the reference rewrite, come later.
 
 ## Tasks

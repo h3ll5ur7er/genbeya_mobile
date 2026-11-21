@@ -195,7 +195,7 @@ Priorities are for the trial: **Must** stories decide whether it succeeds, **Sho
 **As a** maintainer, **I want** to add a photo of the whiteboard to the meeting notes, **so that** the sketch stays with the decision it led to.
 
 - **Photo** takes a picture or picks one, shrinks it to 1600 pixels, strips location and camera data, and shows its size before saving.
-- The image goes into `images/` next to the page and its reference into the page, in one commit; the page renders it as the desktop does.
+- The image goes into the wiki's `images/` folder and its reference into the page, in one commit, as [[Attached images]] describes; the page renders it as the desktop does.
 
 **Should** · [[GM-16]]
 

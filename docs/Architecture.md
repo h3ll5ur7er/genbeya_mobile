@@ -94,7 +94,7 @@ Genbeya renders Markdown with a pipeline of about 5,000 lines (`src/client/app/m
 
 The VS Code extension already solved the same problem: its webviews (`src/shells/vscode/webview/`) render pages and tasks with the client's pipeline, outside Angular, and talk to the host only through messages (`protocol.ts`): the host sends a document and a `MarkdownContext` (wiki tree, task titles and states, people, settings, plan tasks); the webview reports followed links, checkbox toggles and requests for images and files. **The mobile app is another host for that protocol.**
 
-- **The kit** is a small bundle built from a pinned Genbeya commit: the VS Code webview's Markdown renderer and its message protocol, plus a CodeMirror 6 editor with Genbeya's Markdown language and the `[[`, `@` and `//` completions (`references.ts`, `mention-suggestions.ts`, `smart-dates.ts`). `tool/build_kit` checks out Genbeya at the ref in `kit/GENBEYA_REF`, builds, and copies the result into `kit/dist/`, which is committed so the app builds without Node. That is for the spike: from M1 Genbeya builds the kit itself (`build:kit`) and each release carries it, so `tool/build_kit` downloads the pinned release's bundle and checks its SHA-256 ([[GM-25]]).
+- **The kit** is a small bundle built from a pinned Genbeya commit: the VS Code webview's Markdown renderer and its message protocol, plus a CodeMirror 6 editor with Genbeya's Markdown language and the `[[`, `@` and `//` completions (`references.ts`, `mention-suggestions.ts`, `smart-dates.ts`). `tool/build_kit` checks out Genbeya at the ref in `kit/GENBEYA_REF`, builds, and copies the result into `kit/dist/`, which is committed so the app builds without Node. Once Genbeya builds the kit itself ([[Kit build]]), `tool/build_kit` downloads the pinned release's bundle and checks it against its manifest instead ([[GM-25]]); until then it builds the same bundle from source, so the app doesn't wait.
 - **The WebView** is flutter_inappwebview, serving the kit from a custom scheme (as Electron serves `genbeya://app`), with the desktop's content security policy: no remote scripts, no network, WebAssembly allowed for rockuml. Markdown never becomes HTML; the allowlisted DOM builder is the same code.
 - **Native around it**: titles, chips, sheets, lists and the board are Flutter. The WebView renders the body of a page, a task's description and comments, a pull request's file, and hosts the editors. It reports its height so it scrolls with the native parts around it.
 - **Theme**: the app's colours are passed in as the kit's tokens, light and dark.
@@ -163,7 +163,7 @@ docs/  tasks/  .genbeya.yml       # this wiki and board
 
 ## Changes upstream that would help
 
-None are needed for the trial; each makes an official client cheaper. The first two are decided:
+None are needed for the trial; each makes an official client cheaper. The first two are specified in [[Upstream]]:
 
 - A `build:kit` target in Genbeya that builds the VS Code webview renderer and the editor as one browser bundle, carried by each release, so the mobile repository doesn't need its own build of Genbeya's sources ([[GM-25]]).
 - Screenshots in tasks and pull requests, a convention Genbeya defines and the mobile app follows at release ([[GM-26]]).

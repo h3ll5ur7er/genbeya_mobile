@@ -1,0 +1,126 @@
+# Kit build
+
+A spec for Genbeya: **`npm run build:kit`** builds Genbeya's Markdown renderer and its editor as one self-contained browser bundle, the **kit**, that any host can show in a web view and talk to through messages. Each release carries it, as it carries the web demo and the VS Code extension. The mobile app is the first host; the VS Code webviews could become the second.
+
+> [!NOTE]
+> Proposed. Nothing here changes Genbeya's file formats or its managers. The kit is a shell like the VS Code webviews: it may use the client's code, and the client doesn't depend on it.
+
+[TOC]
+
+## Why
+
+The VS Code extension already renders pages and tasks with the client's pipeline outside Angular (`src/shells/vscode/webview/`), and talks to its host only through messages (`protocol.ts`). A phone needs the same, plus an editor. Building it in Genbeya rather than in each client means:
+
+- a change to the renderer that breaks the kit fails Genbeya's own CI, not a nightly job elsewhere;
+- a host downloads one pinned, checked file instead of building Genbeya's sources with its whole toolchain;
+- the protocol is documented and versioned next to the code that implements it.
+
+## What the bundle holds
+
+```text
+genbeya-kit-<version>.zip
+  kit.html          the page a host loads; the content security policy as a meta tag
+  kit.js            entry: bridge, renderer, editor (loaded when first asked for)
+  chunks/*.js       Mermaid, KaTeX, CodeMirror languages: loaded on demand
+  kit.css           styles from the app's tokens
+  rockuml.wasm      PlantUML's engine
+  fonts/*.woff2     Inter, JetBrains Mono, STIX Two Math
+  manifest.json     what this is: version, commit, protocol, every file with its SHA-256 and size
+  LICENSES.txt      the third-party licenses of everything bundled
+```
+
+`manifest.json`:
+
+```json
+{
+  "name": "genbeya-kit",
+  "genbeya": "0.2.0",
+  "commit": "51bca82…",
+  "protocol": 1,
+  "files": [{ "path": "kit.js", "sha256": "…", "bytes": 182311 }]
+}
+```
+
+- **Built with** the esbuild settings of `vscodeWebviewBundle` in `scripts/bundles.mjs` (browser, ESM, splitting, minified), from a new folder `src/shells/kit/`: `kit.ts` (entry), `bridge.ts` (the host interface below), `protocol.ts` (the messages), `editor.ts`.
+- **What it reuses**: the renderer of `src/shells/vscode/webview/markdown.ts` and the client modules it imports (`markdown-pipeline`, `markdown-dom`, `link-target`, `file-embeds`, `references`, `mathml`); for the editor, CodeMirror with the client's editor modules that don't need Angular (`editor-setup`, `syntax`, `markdown-completion`, `reference-completion`, `mention-suggestions`, `smart-dates`, `find-widget`).
+- **Not in it**: the board and the task view of the VS Code webviews. A host draws those natively; the kit renders Markdown bodies and edits text.
+- **Content security policy**: `CONTENT_SECURITY_POLICY` of `src/shells/content-security-policy.ts`, as the demo applies it in `index.demo.html`. No network: `connect-src 'self'` and nothing loaded from elsewhere.
+
+## Talking to the host
+
+The kit knows nothing about the host's web view. The host defines one global before `kit.html` loads, and the kit defines one:
+
+```ts
+// Set by the host, e.g. with a user script:
+window.genbeyaKitHost = { post(message: string): void };
+// Set by the kit once it has started:
+window.genbeyaKit = { receive(message: string): void };
+```
+
+Messages are JSON strings, so every web view can carry them (flutter_inappwebview's handlers, Android's `WebMessagePort`, `WKScriptMessageHandler`, VS Code's `postMessage`). The kit's first message is `ready`, with the protocol it speaks.
+
+### Host → kit
+
+| Message | Carries | Notes |
+| --- | --- | --- |
+| `context` | Parts of the `MarkdownContext`, each with its own version: `wiki`, `tasks`, `plan`, `files`, `people`, `settings`, `author` | Only parts whose version changed are sent. On a repository with 20,000 files, the file list goes once, not with every edit |
+| `theme` | The app's colour and type tokens, light or dark | Applied as CSS variables |
+| `preview` | A document: `page` (path, title, source), `task` (as in VS Code's protocol), or `markdown` (area, path, source: a pull request file, a comment) | Rendered against the current context |
+| `edit` | Path, area, language (from the extension, as `languageFor` decides), text, its hash, read-only or not | Opens the editor |
+| `editorCommand` | `bold`, `heading`, `list`, `checkbox`, `link`, `insert(text)`, `undo`, `redo`, `find` | The host's keyboard toolbar drives the editor |
+| `reply` | The answer to a request: `id`, `value` or `error` | As in VS Code's protocol |
+
+### Kit → host
+
+| Message | Carries | The host must |
+| --- | --- | --- |
+| `ready` | `protocol`, the kit's Genbeya version | Refuse a kit whose protocol it doesn't speak |
+| `follow` | A followed link: `external`, `missing` page, `file` with anchor, `task`, `person` | Navigate; open web links only for `http`, `https` and `mailto` |
+| `toggle` | Area, path, the **hash** of the version shown, the offset of the checkbox | Check that the file still has that hash and a checkbox at that offset, then write |
+| `image`, `file`, `fileAt` | `id`, a path (and a revision) | Check the path with Genbeya's path rules and answer read-only: a data URL for images of the allowed types, text for files, with Genbeya's size limits |
+| `planHistory` | `id`, an optional baseline | Answer as `content.planHistory` does, for `[BURNDOWN]` and `[BASELINE]` |
+| `height` | The rendered height in CSS pixels | Size the web view inside its native screen |
+| `draft` | Path, base hash, text | Keep it outside the repository |
+| `save` | Path, base hash, text | Write it as `content.write` does: refused once the file changed |
+| `editorState` | Dirty or not, selection, the active completion | Show or hide toolbar buttons |
+
+Completion for `[[`, `@` and `//` runs inside the kit, from the context it already has, as `src/shells/vscode/webview/completion.ts` does: no round trip per keystroke.
+
+Everything the kit sends is untrusted input to the host: the page it rendered is repository content. The protocol keeps the kit's power to what is listed: read files through checked paths, tick a checkbox in a version it names, and save text the person typed.
+
+### Versions
+
+- `protocol` is a whole number. Adding a message or an optional field keeps it; removing or changing one raises it.
+- A host pins a Genbeya release and checks the kit's `protocol` on `ready`.
+
+## In Genbeya's CI and releases
+
+- `build.yml` builds the kit on Linux next to the web demo, uploads `Genbeya-kit` as an artifact on every run, and writes its compressed size to the step summary.
+- A release attaches `genbeya-kit-<version>.zip`.
+- `npm run e2e:kit` loads `kit.html` in Playwright's Chromium with a test host and checks that it renders a page with references, a Mermaid and a PlantUML diagram and math, answers a checkbox with `toggle`, completes `[[`, makes no request outside its own files, and that the policy refuses an inline script.
+- The protocol's message checks get unit tests like `rpc.spec.ts`.
+- Genbeya's [Architecture](https://github.com/genbeya/genbeya/blob/develop/docs/Architecture.md) gets the kit as a shell, and [Development](https://github.com/genbeya/genbeya/blob/develop/docs/Development.md) the command.
+
+## Done when
+
+- [ ] `npm run build:kit` writes `dist/kit/` with the files above, `manifest.json` listing each with its SHA-256
+- [ ] The kit renders `preview` messages of all three kinds and edits text with completions, through the two globals only
+- [ ] `context` parts are versioned and applied separately
+- [ ] Every message from the kit is one of the protocol's, checked by unit tests
+- [ ] `e2e:kit` passes in CI; the release attaches the zip
+- [ ] The protocol is documented in Genbeya's wiki
+
+## Until Genbeya has it
+
+The mobile app builds exactly this bundle itself:
+
+- `kit/src/` in this repository holds `kit.ts`, `bridge.ts`, `protocol.ts` and `editor.ts` as specified here, importing Genbeya's sources from the commit pinned in `kit/GENBEYA_REF`.
+- `tool/build_kit` checks Genbeya out at that commit, bundles with the same esbuild settings, and writes the same zip layout and `manifest.json` into `kit/dist/`, which is committed so the app builds without Node ([[GM-3]]).
+- When Genbeya ships `build:kit`, `kit/src/` moves into `src/shells/kit/` in a pull request to Genbeya, and `tool/build_kit` downloads the release's zip and checks it against its manifest instead ([[GM-25]]). The app itself doesn't change: it talks to the same protocol.
+- The nightly conformance job keeps building from Genbeya's `develop` source, since artifacts of unreleased runs need a login to download.
+
+## Open questions
+
+- **The VS Code webviews as a host.** They could load the kit instead of their own bundle, leaving one renderer bundle in Genbeya; their board and task view would stay. Worth it once the kit exists?
+- **Fonts.** Bundling three font families costs about a megabyte; a host could pass its own. Keep them in the kit so it renders the same everywhere?
+- **The editor's size.** CodeMirror with every language is large; `@codemirror/language-data` loads languages on demand, which the split build keeps. Is a size budget per chunk worth a CI check?

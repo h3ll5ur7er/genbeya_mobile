@@ -178,7 +178,7 @@ sequenceDiagram
   B->>S: navigate to GM-12
 ```
 
-- **The context** (wiki tree, task titles and states, people, settings, plan tasks) is sent once per model version, not with every page: 3,000 tasks are about 300 KB, which is fine once and wasteful per page. The VS Code protocol sends it with each preview; the mobile bridge splits the two messages.
+- **The context** (wiki tree, task titles and states, files, people, settings, plan tasks) is sent in parts, each with its own version, and only the parts that changed: 3,000 tasks are about 300 KB and 20,000 file paths more, fine once and wasteful per edit. The VS Code protocol sends it with each preview; the kit's protocol splits it ([[Kit build]]).
 - **Messages from the kit are untrusted:** a page is repository content, and a bug in a renderer must not turn into a write. The bridge accepts only the known message types, checks every path, caps sizes, and answers file and image requests read-only.
 - **The one write the kit can ask for** is ticking a checkbox. The message carries the page's version and the offset; the bridge checks that the version is current and that a checkbox stands at that offset, then runs C4's chain for the page. Anything else is ignored.
 - **Plan macros** are computed in the kit from `context.plan`. `[BURNDOWN]` and `[BASELINE]` ask for `planHistory`, which reads at most 300 commits of the task folder; when the clone is shallower, the bridge asks the user before it deepens the clone over the network.
@@ -189,11 +189,11 @@ sequenceDiagram
 Stories: US-15, US-16, US-18.
 
 1. **Edit** → the kit's editor gets the page text and its hash.
-2. Typing `[[`, `@` or `//` → the kit sends `complete(kind, prefix)` → the bridge answers the best 20 matches from the model. The kit never holds the whole index; a repository with 3,000 tasks answers as fast as one with 30.
+2. Typing `[[`, `@` or `//` → the kit completes from the context it already has, as VS Code's webview does: no round trip per keystroke ([[Kit build]]).
 3. Every few seconds, and when the app goes to the background, the kit sends `draft(text)` → the drafts store keeps it in app storage, outside the repository, keyed by path and base hash.
 4. **Save** → `content.write(ws, path, text, expectedHash)` → C4's chain: queue, hash check, atomic write with the file's line endings and byte order mark, journal, commit.
 5. On reopening, a draft whose base hash still matches is offered back; one whose page changed meanwhile is offered next to the current text, never written over it.
-6. **Photo** → the phone shrinks the image to 1600 pixels and strips its location and camera metadata before anything is written, shows its size, then writes it to `images/` next to the page and its reference into the page, in one commit (C4's chain).
+6. **Photo** → the phone shrinks the image to 1600 pixels and strips its location and camera metadata before anything is written, shows its size, then writes it to the wiki's `images/` folder and its reference into the page, in one commit (C4's chain, [[Attached images]]).
 
 ## C7 · Log time
 
@@ -365,7 +365,7 @@ What could go wrong for the person using the app, for their teammates, and for t
 | An event-driven repository model, with a parse cache by blob ID, instead of polled snapshots; clones stay private to the app | [[GM-7]] |
 | A write journal, so no write is left uncommitted after a crash | [[GM-11]] |
 | No force push; push retries; rebase in memory; renumbering colliding task IDs | [[GM-11]] |
-| The kit bridge: context once per version, every message checked, the checkbox toggle with version and offset, completions answered by the app | [[GM-3]], [[GM-8]] |
+| The kit bridge: context in versioned parts, every message checked, the checkbox toggle with version and offset, completions inside the kit ([[Kit build]]) | [[GM-3]], [[GM-8]] |
 | Drafts kept outside the repository, offered back only on an unchanged base | [[GM-16]] |
 | `core.symlinks=false`, no submodules or LFS, stale lock files cleared, in-memory rebase proven in the spike | [[GM-2]] |
 | Replies on a pull request whose file is on the source branch commit onto that branch's tree, named on the button | [[GM-21]] |

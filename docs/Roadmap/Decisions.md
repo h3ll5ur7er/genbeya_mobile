@@ -50,7 +50,7 @@ To do with it: a third-party notice screen, since the app ships libgit2 (GPLv2 w
 
 The spike ([[GM-3]]) should find out what the kit needs (entry points, messages, styles) without changing Genbeya for a trial that may end. Once that is known, the bundle belongs to Genbeya, beside the VS Code webview it is built from: a change to the renderer then breaks the kit in Genbeya's own CI, not in a nightly job here, and this repository downloads one pinned file instead of building someone else's project. Upstream, the change is a pull request into `develop` with no version bump.
 
-**Decided 2026-11-21.** As recommended. [[GM-3]] builds the kit here; [[GM-25]] moves the build into Genbeya in M1.
+**Decided 2026-11-21.** As recommended. [[GM-3]] builds the kit here, to the spec in [[Kit build]]; [[GM-25]] switches to Genbeya's build once a release has it, which the app doesn't wait for.
 
 ## D3 · Git core
 
@@ -139,11 +139,11 @@ The [[Call chains]] rest on the app being the only writer: it is what makes larg
 
 - **Shrunk** to 1600 pixels on the long side as JPEG or WebP, with the size shown before saving: a photo is in the history forever.
 - **Stripped** of location and camera metadata: a photo's GPS position doesn't belong in a repository.
-- **Next to the page**, in an `images` folder beside it, as Genbeya's own wiki does.
+- **In the wiki's `images` folder**, linked relatively, as Genbeya's own wiki keeps them (`docs/images/`).
 
 Pages already render relative images on desktop, so B adds a button, not a format. Task attachments need a place and a rule that every Genbeya client shares, and by Genbeya's lean test a new convention is decided in Genbeya's design pages, not invented by one client.
 
-**Decided 2026-11-21.** Wider than the recommendation. In the trial, images go into pages, as in B and with its three guards ([[GM-16]], US-28 in [[User stories]]). At release, images go into tasks and pull requests too: screenshots in tasks and pull requests are coming to Genbeya itself, so the convention is decided there and this app follows it, checked by conformance cases ([[GM-26]]).
+**Decided 2026-11-21.** Wider than the recommendation. In the trial, images go into pages, as in B and with its three guards ([[GM-16]], US-28 in [[User stories]]). At release, images go into tasks and pull requests too: screenshots in tasks and pull requests are coming to Genbeya itself, so the convention is decided there and this app follows it, checked by conformance cases ([[GM-26]]). The convention is specified in [[Attached images]]; pages follow it from the trial on.
 
 ## D9 · Replies on a pull request whose file is on the source branch
 

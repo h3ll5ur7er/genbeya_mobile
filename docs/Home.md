@@ -40,3 +40,4 @@ The desktop app's rules hold here too, and a few follow from the device:
 | [[Call chains]] | Each user story through the layers, call by call; what scales, and what can't cause harm |
 | [[Roadmap]] | Milestones, the live plan, how the trial is judged, risks and open decisions |
 | [[Decisions]] | The open decisions, each with options, a recommendation and the reasons |
+| [[Upstream]] | Specs for changes in Genbeya itself: the kit build and attached images; none blocks the first version |
