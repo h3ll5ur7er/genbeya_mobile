@@ -22,4 +22,4 @@ Done when, on a real Android phone and a real iPhone, a test screen can do each 
 - [ ] `log` for one path, `diff` from a merge base, `merge-tree` style conflict check
 - [ ] In-memory rebase that leaves the working tree alone until it succeeds
 - [ ] `core.symlinks=false`, no submodules or LFS; stale lock files after the app is killed
-- [ ] Note the build steps and what broke; decide Rust core or `git2dart`, and record it in [[Architecture]]
+- [ ] Note the build steps and what broke; if the Rust core doesn't clone, commit and push on both platforms within 2 days, switch to `git2dart` (D3 in [[Decisions]])

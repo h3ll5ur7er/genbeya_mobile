@@ -47,6 +47,16 @@ Priorities are for the trial: **Must** stories decide whether it succeeds, **Sho
 
 **Should** · [[GM-6]]
 
+### US-29 · Try it without a repository of my own
+
+**As a** tester, **I want** to try every screen on a repository that nothing depends on, **so that** I can learn the app without fear of breaking a real board.
+
+- **Try the sample project** on the start screen makes Genbeya's sample repository on the phone, the same files and commits as the desktop's, without a remote.
+- Sync explains that the sample has no remote; everything else works.
+- The first time an idea matters (the sync badge, where edits go, why "me" is someone), a short sheet explains it, once.
+
+**Should** · [[GM-27]]
+
 ## Staying informed
 
 ### US-4 · See what needs me this morning
@@ -180,6 +190,15 @@ Priorities are for the trial: **Must** stories decide whether it succeeds, **Sho
 
 **Should** · [[GM-16]]
 
+### US-28 · Add a photo of the whiteboard
+
+**As a** maintainer, **I want** to add a photo of the whiteboard to the meeting notes, **so that** the sketch stays with the decision it led to.
+
+- **Photo** takes a picture or picks one, shrinks it to 1600 pixels, strips location and camera data, and shows its size before saving.
+- The image goes into `images/` next to the page and its reference into the page, in one commit; the page renders it as the desktop does.
+
+**Should** · [[GM-16]]
+
 ### US-17 · Point someone at the code
 
 **As a** team developer, **I want** to select lines in a file and paste a reference to them into a comment, **so that** "the bug is here" is exact.
@@ -244,7 +263,7 @@ Priorities are for the trial: **Must** stories decide whether it succeeds, **Sho
 
 **As a** team developer, **I want** a sync that can't be resolved on the phone to keep my work safe, **so that** I can trust the app with real edits.
 
-- Local commits are kept on `mobile/rescue-<date>`, the branch is reset to the remote, and the app lists the files that differ.
+- Local commits are kept on `mobile/rescue/<handle>-<date>`, the branch is reset to the remote, and a banner lists the files that differ until the rescue's commits are upstream; then the app offers to delete it.
 - The rescue branch is pushed, so I can finish the merge on the desktop.
 - No sync ever discards a commit.
 
@@ -254,7 +273,7 @@ Priorities are for the trial: **Must** stories decide whether it succeeds, **Sho
 
 **As a** team developer on a project with protected branches, **I want** my mobile edits to go to a branch of my own, **so that** I follow the project's rules.
 
-- On the first edit, the app asks where edits go: the checked-out branch, or `mobile/<handle>`.
+- When the host refuses a push to the checked-out branch, the app offers to move the commits not pushed yet to `mobile/<handle>`.
 - With my own branch, the app offers **New pull request** from it.
 
 **Should** · [[GM-11]], [[GM-21]]
@@ -306,4 +325,5 @@ What people might ask for, deliberately left out, so the trial stays a test of t
 - Interactive rebase, cherry-pick, stashes, staging lines.
 - Editing settings through forms (`.genbeya.yml` stays editable as a file).
 - Background sync while the app is closed, which iOS doesn't allow reliably.
+- Images in tasks and pull requests: at release, following the convention Genbeya will have ([[GM-26]]).
 - Notifications when a teammate pushes: nothing tells the phone without a server, and Genbeya has none.

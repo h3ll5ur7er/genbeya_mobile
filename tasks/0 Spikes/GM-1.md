@@ -15,5 +15,5 @@ An empty app that builds, tests and runs on an Android phone and an iPhone, with
 - [ ] Folders as in [[Architecture#repository-layout]], Riverpod and go_router wired up
 - [ ] CI: `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test`, an Android build and an iOS build without signing
 - [ ] Light and dark theme from Genbeya's colour tokens
-- [ ] License chosen (FSL-1.1-ALv2 like Genbeya, or other) and README
+- [x] License: FSL-1.1-ALv2, as Genbeya (D1 in [[Decisions]]), and README
 - [ ] Managers and engines import no Flutter, so they can run headless later (checked by a lint rule)

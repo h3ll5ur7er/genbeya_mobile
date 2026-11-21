@@ -43,8 +43,8 @@ Mobile platforms have no `git` command, and iOS can't run one. Desktop Genbeya s
 
 | Option | Clone, fetch, push | Merge, rebase, diff | Android and iOS | Verdict |
 | --- | --- | --- | --- | --- |
-| **Rust core with `git2` (libgit2)** through flutter_rust_bridge | Yes, HTTPS and SSH | Yes, with options close to Git's (indent heuristic, rename detection) | Cross-compiles with vendored libgit2, OpenSSL and libssh2; GitSync is a Flutter app on this stack | **Recommended**. The Tauri shell is already Rust, and rockuml can join the same crate later |
-| `git2dart` (libgit2 over Dart FFI) | Yes | Yes | Prebuilt binaries for Android and iOS | Fallback if the Rust toolchain costs too much time |
+| **Rust core with `git2` (libgit2)** through flutter_rust_bridge | Yes, HTTPS and SSH | Yes, with options close to Git's (indent heuristic, rename detection) | Cross-compiles with vendored libgit2, OpenSSL and libssh2; GitSync is a Flutter app on this stack | **Decided** ([[Decisions]]). The Tauri shell is already Rust, and rockuml can join the same crate later |
+| `git2dart` (libgit2 over Dart FFI) | Yes | Yes | Prebuilt binaries for Android and iOS | The fallback, if the Rust core doesn't clone, commit and push on both platforms within two days of the spike |
 | gitoxide (`gix`) | Clone and fetch; push not finished | Partly | Pure Rust, easy to build | Not yet |
 | Pure-Dart Git | Partial | Little | Yes | Too incomplete |
 | Forge APIs only (GitHub, GitLab REST) | Through the API | Through the API | Yes | Breaks "any Git host" and offline; not the core, maybe a later "quick look without cloning" |
@@ -78,12 +78,13 @@ sequenceDiagram
     A->>L: Genbeya merge: fields one by one, signed lines from both sides
     A->>R: push
   else still conflicts
-    A->>L: keep local commits on mobile/rescue-date, reset to the remote
+    A->>R: push local commits to mobile/rescue/handle-date
+    A->>L: reset to the remote
     A->>U: say what differs, finish on desktop
   end
 ```
 
-- The target branch (content branch, checked-out branch, or `mobile/<handle>`) is chosen per repository, see [[Experience#sync-and-changes]].
+- The target branch is the content branch for its areas, else the checked-out branch, moved to `mobile/<handle>` when the host refuses a push; see [[Experience#sync-and-changes]].
 - The Genbeya merge for task and pull request files is an engine of its own ([[GM-11]]): three-way per frontmatter key; for `## Comments`, `## Time log`, replies and verdicts, both sides' new lines in time order. It only acts where the formats were designed to merge, and gives up otherwise.
 - Pushes go through a queue: one sync at a time per repository, as the desktop's serial queue does.
 
@@ -93,12 +94,12 @@ Genbeya renders Markdown with a pipeline of about 5,000 lines (`src/client/app/m
 
 The VS Code extension already solved the same problem: its webviews (`src/shells/vscode/webview/`) render pages and tasks with the client's pipeline, outside Angular, and talk to the host only through messages (`protocol.ts`): the host sends a document and a `MarkdownContext` (wiki tree, task titles and states, people, settings, plan tasks); the webview reports followed links, checkbox toggles and requests for images and files. **The mobile app is another host for that protocol.**
 
-- **The kit** is a small bundle built from a pinned Genbeya commit: the VS Code webview's Markdown renderer and its message protocol, plus a CodeMirror 6 editor with Genbeya's Markdown language and the `[[`, `@` and `//` completions (`references.ts`, `mention-suggestions.ts`, `smart-dates.ts`). `tool/build_kit` checks out Genbeya at the ref in `kit/GENBEYA_REF`, builds, and copies the result into `kit/dist/`, which is committed so the app builds without Node.
+- **The kit** is a small bundle built from a pinned Genbeya commit: the VS Code webview's Markdown renderer and its message protocol, plus a CodeMirror 6 editor with Genbeya's Markdown language and the `[[`, `@` and `//` completions (`references.ts`, `mention-suggestions.ts`, `smart-dates.ts`). `tool/build_kit` checks out Genbeya at the ref in `kit/GENBEYA_REF`, builds, and copies the result into `kit/dist/`, which is committed so the app builds without Node. That is for the spike: from M1 Genbeya builds the kit itself (`build:kit`) and each release carries it, so `tool/build_kit` downloads the pinned release's bundle and checks its SHA-256 ([[GM-25]]).
 - **The WebView** is flutter_inappwebview, serving the kit from a custom scheme (as Electron serves `genbeya://app`), with the desktop's content security policy: no remote scripts, no network, WebAssembly allowed for rockuml. Markdown never becomes HTML; the allowlisted DOM builder is the same code.
 - **Native around it**: titles, chips, sheets, lists and the board are Flutter. The WebView renders the body of a page, a task's description and comments, a pull request's file, and hosts the editors. It reports its height so it scrolls with the native parts around it.
 - **Theme**: the app's colours are passed in as the kit's tokens, light and dark.
 
-**Spike** ([[GM-3]], [[GM-4]]): render this wiki and Genbeya's own `docs/` (references, Mermaid, PlantUML, math, `[GANTT]`) on both platforms offline; and compare editing a long Markdown file in CodeMirror 6 in the WebView with a native Flutter editor (re_editor) for typing, selection handles, autocorrect and scrolling on real devices. CodeMirror 6 is the expected winner (built for touch, the desktop's editor, completions for free); if it loses, the code editor goes native and only Markdown stays in the kit.
+**Spike** ([[GM-3]], [[GM-4]]): render this wiki and Genbeya's own `docs/` (references, Mermaid, PlantUML, math, `[GANTT]`) on both platforms offline; and compare editing a long Markdown file in CodeMirror 6 in the WebView with a native Flutter editor (re_editor) for typing, selection handles, autocorrect and scrolling on real devices. CodeMirror 6 is the expected winner (built for touch, the desktop's editor, completions for free); if it loses, the code editor goes native and only Markdown stays in the kit. **Decided** ([[Decisions]]): CodeMirror 6 for pages and code, one WebView kept warm; comments use a native text field with the app's pickers.
 
 ## Engines
 
@@ -115,6 +116,7 @@ What the app decides itself is ported to Dart, small and pure as on desktop:
 | People | `people-engine.ts`, `utilities/people.ts` | Handles, aliases, "me" |
 | Wiki | `wiki-engine.ts` | The page tree and titles from file names |
 | Activity | `task-activity.ts` | Field changes between versions of a task |
+| Sample | `sample-engine.ts` | The sample project's files and commits, for **Try the sample project** ([[GM-27]]) |
 | Search | `search-engine.ts` | Results and excerpts, over the files with Dart's regular expressions, in an isolate |
 
 Plan macros need no Dart port: the kit computes them from the tasks it is given, with the desktop's own `planning.ts` and `plan-history.ts`.
@@ -161,8 +163,9 @@ docs/  tasks/  .genbeya.yml       # this wiki and board
 
 ## Changes upstream that would help
 
-None are needed for the trial; each would make an official client cheaper:
+None are needed for the trial; each makes an official client cheaper. The first two are decided:
 
-- A `build:kit` target in Genbeya that builds the VS Code webview renderer and the editor as one browser bundle, so the mobile repository doesn't need its own build of Genbeya's sources.
+- A `build:kit` target in Genbeya that builds the VS Code webview renderer and the editor as one browser bundle, carried by each release, so the mobile repository doesn't need its own build of Genbeya's sources ([[GM-25]]).
+- Screenshots in tasks and pull requests, a convention Genbeya defines and the mobile app follows at release ([[GM-26]]).
 - Conformance cases kept in Genbeya, next to the engines' specs, as JSON any client can run.
 - A short page of the file formats' grammar (signed lines, verdicts, time log), which the design pages already ask for.

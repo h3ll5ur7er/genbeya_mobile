@@ -10,9 +10,9 @@ milestone: M0
 depends_on: [GM-3]
 ---
 
-Choose the editor for pages, comments and code by trying both on real phones. See [[Architecture#the-web-kit]].
+Confirm the decided editor, CodeMirror 6 in the kit for pages and code, against a native one on real phones (D4 in [[Decisions]]). Comments use a native text field. See [[Architecture#the-web-kit]].
 
 - [ ] CodeMirror 6 in the kit, with Genbeya's Markdown language and `[[` completion
 - [ ] re_editor (or another maintained native editor) with Markdown highlighting
 - [ ] Try each on a 2,000-line Markdown file: typing, autocorrect, the system keyboard's suggestions, selection handles, undo, scrolling, a toolbar above the keyboard
-- [ ] Decide, and record why in [[Architecture]]
+- [ ] Confirm CodeMirror 6 on both phones; only if it fails, the code editor goes native, and record it in [[Architecture]]

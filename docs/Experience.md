@@ -17,7 +17,7 @@ flowchart LR
   sync[Sync badge] -.-> changes[Changes]
 ```
 
-- **Repositories** is the start screen: clones on the device, with their branch, unsynced edits and last sync. **Add** clones from a URL, a pasted or scanned `genbeya://` link, or a repository from the forge account you signed in with.
+- **Repositories** is the start screen: clones on the device, with their branch, unsynced edits and last sync. **Add** clones from a URL, a pasted or scanned `genbeya://` link, or a repository from the forge account you signed in with. **Try the sample project** makes Genbeya's sample repository on the phone, without a remote, to try everything safely.
 - **A bottom bar** inside a repository: **Today**, **Wiki**, **Tasks**, **Pull requests**, **Code**. Parts the project doesn't use, or that hide themselves until used (planning, time log, pull requests), are left out as on desktop ([Optional parts](https://github.com/genbeya/genbeya/blob/develop/docs/Design/Optional-parts.md)).
 - **Search** sits in the top bar of every screen: one field for pages, tasks, pull requests and files by name, and full text below them. It plays the part of the desktop's `Ctrl+K` palette.
 - **The sync badge** in the top bar shows unsynced edits and opens **Changes**.
@@ -42,7 +42,8 @@ The screen a repository opens on, and the one thing desktop doesn't have: what n
 - **Checklists** tick while reading, which saves the page, as on desktop.
 - **On this page** (a sheet from the top bar) lists the headings.
 - **Editing** opens the page's Markdown in the editor with a toolbar above the keyboard: heading, bold, list, checkbox, link, and pickers for `[[` references, `@` people and `//` dates, the same completions the desktop offers. Swipe or tap **Preview** to see the result.
-- **New page** below the current one; moving and renaming pages, with the reference rewrite, come later.
+- **Photo** puts a picture or a screenshot into the page: taken or picked, shrunk to 1600 pixels, stripped of location and camera data, its size shown before saving, and written to `images/` next to the page, which renders it as the desktop does. Images in tasks and pull requests come at release, following Genbeya.
+- **New** below the current one; moving and renaming pages, with the reference rewrite, come later.
 
 ## Tasks
 
@@ -52,7 +53,7 @@ The screen a repository opens on, and the one thing desktop doesn't have: what n
 - **A task** opens full screen: title, then chips for status, type, priority, assignee, epic and labels that open bottom sheets; custom fields below them; the description rendered, with tickable checklist items; then **Comments**, **Activity** (from Git history) and, where planning is used, the five numbers, **Blocked by**, **Blocks** and float.
 - **Log time** is a bottom sheet: the time spent, what for, and the new remaining effort, filled with the old value minus the time spent.
 - **New task** from the board, from a column, from the app icon's quick action, or from text shared into the app from another app. Choosing a type fills the description from its template (`tasks/.templates/<type>.md`).
-- **Comments** have a composer above the keyboard with `@`, `//` and `[[` pickers, signed with the Git name and time, written in the desktop's exact format; your own can be edited and deleted.
+- **Comments** have a native composer above the keyboard with `@`, `//` and `[[` pickers, signed with the Git name and time, written in the desktop's exact format; your own can be edited and deleted.
 
 ## Pull requests
 
@@ -63,7 +64,8 @@ Shown once the repository has a pull request file, as on desktop ([Pull requests
 - **Files**: one file at a time as a unified diff (side by side only on tablets in landscape), with review threads under their lines and outdated ones marked.
 - **Comment on lines**: tap a line number, drag to extend the range, then start a topic or add the range to one, with an optional suggestion (edit the lines; the app writes the `diff` block) and an optional to-do.
 - **Reply, Approve, Request changes, Withdraw approval, Request review** append the desktop's signed lines, naming the commit the source branch is at.
-- **New pull request** from a branch, and **Close** and **Reopen**.
+- **Where replies go**: when pull requests live in the checkout, the file is on the source branch. The app commits onto that branch without switching to it, names it on the button (*Reply on feature/GM-2-git-core*), and pushes it with the next sync, never forced; only branches the remote has.
+- **New pull request** from a branch; **Close**, **Reopen**, and **Mark merged** once the target has every commit of the source, after a merge on the desktop or the forge.
 - **Merging** and **Clean up…** stay on the desktop in the trial: a merge can stop for conflicts, which a phone is a poor place to resolve.
 
 ## Code
@@ -84,12 +86,12 @@ How a mobile edit reaches everyone else is the part that has to be right; [[Arch
 
 - **Every save is a commit** on the device, named after what changed and the task (`GM-12: Move to review`), signed with the repository's Git identity. A phone has no staging step to forget.
 - **Sync** fetches, puts local commits on top of what others pushed, and pushes. It runs when you tap the badge, on pull to refresh in any list, and (optionally) a few seconds after an edit, as **Sync automatically** does on desktop.
-- **Where commits go** is chosen per repository on its first edit:
-  - **The content branch**, when the project keeps tasks, wiki or pull requests there. This is what the content branch was made for, and needs no further choice.
-  - **The checked-out branch**, for repositories where people push to it directly.
-  - **A branch of my own** (`mobile/<handle>`), with a pull request to open from it: for projects that never push to `main` or `develop` directly.
+- **Where commits go**:
+  - **The content branch**, for the areas the project keeps there. This is what the content branch was made for, and needs no choice.
+  - Otherwise the first edit asks, offering **the checked-out branch**.
+  - When the host refuses a push to it (a protected branch), the app offers to move the commits not pushed yet to **a branch of my own** (`mobile/<handle>`), with **New pull request** from it.
 - **Changes** lists the unsynced commits and lets you undo the last ones before they are pushed.
-- **When sync can't finish**, tasks and pull request files are merged the Genbeya way (fields one by one; comments, time log lines and replies both kept, since new ones always go last). If that still conflicts, local commits are kept on `mobile/rescue-<date>`, the branch is reset to the remote, and the app says what happened and which files differ, so the desktop can finish the job. Nothing is ever discarded.
+- **When sync can't finish**, tasks and pull request files are merged the Genbeya way (fields one by one; comments, time log lines and replies both kept, since new ones always go last). If that still conflicts, local commits go to `mobile/rescue/<handle>-<date>`, which is pushed (offline, with the next sync), and the branch is reset to the remote. A banner says which files differ until the desktop has finished the job; once the rescue's commits are upstream, the app offers to delete it. Nothing is ever discarded.
 
 ## Sharing and links
 

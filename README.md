@@ -13,3 +13,7 @@ A trial mobile client for [Genbeya](https://github.com/genbeya/genbeya), in Flut
 - [Tasks](tasks/): the backlog, one Markdown file per task
 
 Open this folder in Genbeya to see the plan with live references, the board and the timeline.
+
+## License
+
+Genbeya Mobile is [fair source](https://fsl.software), under the same license as Genbeya: the [Functional Source License, Version 1.1, ALv2 Future License](LICENSE.md) (FSL-1.1-ALv2). Two years after each release, that version is also under the Apache License 2.0.

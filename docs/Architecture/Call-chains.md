@@ -36,7 +36,7 @@ flowchart LR
   model --> screens[Screens, kit context]
 ```
 
-This replaces the desktop's polling with work proportional to what changed, which is what makes large repositories affordable on a phone (see [Scaling](#scaling)). It holds only while clones stay private to the app: exposing them to the Files app or another editor brings back polling.
+This replaces the desktop's polling with work proportional to what changed, which is what makes large repositories affordable on a phone (see [Scaling](#scaling)). It holds only while clones stay private to the app, as decided ([[Decisions]]): exposing them to the Files app or another editor would bring back polling.
 
 ## C1 · Open a repository and show Today
 
@@ -193,6 +193,7 @@ Stories: US-15, US-16, US-18.
 3. Every few seconds, and when the app goes to the background, the kit sends `draft(text)` → the drafts store keeps it in app storage, outside the repository, keyed by path and base hash.
 4. **Save** → `content.write(ws, path, text, expectedHash)` → C4's chain: queue, hash check, atomic write with the file's line endings and byte order mark, journal, commit.
 5. On reopening, a draft whose base hash still matches is offered back; one whose page changed meanwhile is offered next to the current text, never written over it.
+6. **Photo** → the phone shrinks the image to 1600 pixels and strips its location and camera metadata before anything is written, shows its size, then writes it to `images/` next to the page and its reference into the page, in one commit (C4's chain).
 
 ## C7 · Log time
 
@@ -226,7 +227,7 @@ sequenceDiagram
 
 - **Change IDs are cached forever** by the pair of commit and merge base: both are immutable, so a pull request with many verdicts costs one diff per new revision, not per view.
 - **Diffs are lazy**, one file at a time, with large files shown only on request.
-- **Where the reply is committed** depends on where pull requests live. On the content branch, the commit goes onto it (C10). In the checkout, the file sits on the source branch: the native core can commit onto that branch's tree without switching to it, and the next sync pushes it there, which is what the desktop's reviewers do after switching. The screen names the branch the reply goes to. Whether the trial does this, or keeps the desktop's read-only view until you switch, is an open decision in [[Roadmap#open-decisions]].
+- **Where the reply is committed** depends on where pull requests live. On the content branch, the commit goes onto it (C10). In the checkout, the file sits on the source branch: the native core can commit onto that branch's tree without switching to it, and the next sync pushes it there, which is what the desktop's reviewers do after switching. The screen names the branch the reply goes to. The trial does this, only for branches the remote has, and never forced (decided, [[Decisions]]).
 - **Verdicts are recorded, not verified**, as on desktop: the screen shows who committed a verdict when it differs from the name in it.
 
 ## C9 · Search
@@ -267,7 +268,7 @@ sequenceDiagram
         V->>N: continue rebase
       else can't merge
         V->>N: abort rebase
-        V->>N: branch mobile/rescue-date at local head
+        V->>N: branch mobile/rescue/handle-date at local head, push it
         V->>N: reset branch to upstream
       end
       V->>N: push (never forced)
@@ -283,10 +284,10 @@ sequenceDiagram
 
 - **The rebase runs in memory** (libgit2's in-memory rebase): the working tree changes only once the result is known, so a stopped sync leaves the checkout as it was.
 - **Nothing is ever forced.** The app has no force push at all; a rejected push means fetch and try again.
-- **Nothing is ever discarded.** The rescue branch keeps the local commits before the reset; whether it is also pushed is an open decision ([[Roadmap#open-decisions]]).
+- **Nothing is ever discarded.** The rescue branch, `mobile/rescue/<handle>-<date>`, keeps the local commits before the reset and is pushed (offline, with the next sync); a banner stays until its commits are upstream, then the app offers to delete it.
 - **Task ID collisions:** two people offline both create `GM-25` in the same place. Git sees two different files added at one path; the Genbeya merge can't merge two tasks. Since the local `GM-25` isn't pushed yet, the app renumbers it to the next free ID in its own commits, rewrites references to it in the files those commits changed, and says "your GM-25 is now GM-26". A collision in different epics (two files, one ID) is found the same way, by ID rather than by path.
 - **The content branch** is a second branch in the loop; its commits never touch the working tree.
-- **`mobile/<handle>`** is the branch in the loop when the repository is set up that way; it is pushed to its own name.
+- **`mobile/<handle>`** joins the loop once a push to the checked-out branch was refused and the user moved the commits there; it is pushed to its own name.
 
 ## C11 · Capture from another app
 
@@ -348,8 +349,9 @@ What could go wrong for the person using the app, for their teammates, and for t
 | A file is corrupted or reformatted | C4, C6, C7, C8 writes | One engine per format, conformance against Genbeya, atomic writes |
 | An edit lands on a stale file | C4 when two writes race | Serial queue; expected hash; refusal and reload |
 | Teammates lose commits | C10 pushing | No force push at all; rebase only local, unpushed commits |
-| Teammates get surprise commits on their branch | C8 replies on the source branch | The branch is named on the screen; an open decision for the trial |
+| Teammates get surprise commits on their branch | C8 replies on the source branch | The branch named on the button, branches the remote has only, never forced |
 | Duplicate task IDs | C4, C11 offline creation | Renumbering the local, unpushed task at sync |
+| A photo reveals where it was taken | C6 photos | Location and camera metadata stripped on the phone before writing |
 | A secret leaks | C2 credentials; links | Keychain only; credentials only to their host; never in config, URLs or links |
 | Untrusted content runs code | C5, C12 | The kit's policy and allowlist; untrusted bridge messages; no hooks or filter programs |
 | Private information spreads further than meant | C7 time log, C4 comments | Same as desktop: in the repository for everyone with access, with the time log off until the project uses it; nothing sent anywhere but the remote |
@@ -366,5 +368,5 @@ What could go wrong for the person using the app, for their teammates, and for t
 | The kit bridge: context once per version, every message checked, the checkbox toggle with version and offset, completions answered by the app | [[GM-3]], [[GM-8]] |
 | Drafts kept outside the repository, offered back only on an unchanged base | [[GM-16]] |
 | `core.symlinks=false`, no submodules or LFS, stale lock files cleared, in-memory rebase proven in the spike | [[GM-2]] |
-| Replies on a pull request whose file is on the source branch: commit onto that branch's tree, or read-only until switched | [[GM-21]], [[Roadmap#open-decisions]] |
+| Replies on a pull request whose file is on the source branch commit onto that branch's tree, named on the button | [[GM-21]] |
 | Managers without Flutter imports, so background sync can come later | [[GM-1]] |
