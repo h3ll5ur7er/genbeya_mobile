@@ -52,6 +52,33 @@ jobs:
       - name: They match what is committed
         run: git diff --exit-code tool/conformance/expected
 
+  kit:
+    # Builds the kit from Genbeya's sources at kit/GENBEYA_REF and checks it in
+    # Chromium (tool/build_kit/test.mjs). See kit/README.md.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/cache@v4
+        with:
+          path: tool/build_kit/.cache
+          key: kit-genbeya-${{ hashFiles('kit/GENBEYA_REF') }}
+      - name: Build the kit
+        working-directory: tool/build_kit
+        run: node build.mjs --check
+      - name: Test the kit in Chromium
+        working-directory: tool/build_kit
+        run: |
+          npm install --global playwright@1.63.0
+          npx playwright install --with-deps chromium
+          node test.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kit
+          path: kit/dist
+
   android:
     needs: check
     runs-on: ubuntu-latest

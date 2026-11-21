@@ -42,9 +42,10 @@ genbeya-kit-<version>.zip
 ```
 
 - **Built with** the esbuild settings of `vscodeWebviewBundle` in `scripts/bundles.mjs` (browser, ESM, splitting, minified), from a new folder `src/shells/kit/`: `kit.ts` (entry), `bridge.ts` (the host interface below), `protocol.ts` (the messages), `editor.ts`.
-- **What it reuses**: the renderer of `src/shells/vscode/webview/markdown.ts` and the client modules it imports (`markdown-pipeline`, `markdown-dom`, `link-target`, `file-embeds`, `references`, `mathml`); for the editor, CodeMirror with the client's editor modules that don't need Angular (`editor-setup`, `syntax`, `markdown-completion`, `reference-completion`, `mention-suggestions`, `smart-dates`, `find-widget`).
+- **What it reuses**: the renderer of `src/shells/vscode/webview/markdown.ts`, adapted (its `toggle` carries no hash, it leaves `[BURNDOWN]` and `[BASELINE]` waiting, and it passes no calendar: Genbeya should share one renderer between VS Code and the kit), and the client modules it imports (`markdown-pipeline`, `markdown-dom`, `link-target`, `file-embeds`, `references`, `mathml`); for the editor, CodeMirror with the client's editor modules that don't need Angular (`editor-setup`, `syntax`, `markdown-completion`, `reference-completion`, `mention-suggestions`, `smart-dates`, `find-widget`). Two helpers they import reach Angular (`isMac` and `MOD_KEY` from the hotkeys, `iconElement`); Genbeya should move them into plain modules, so the kit needs no shims.
 - **Not in it**: the board and the task view of the VS Code webviews. A host draws those natively; the kit renders Markdown bodies and edits text.
-- **Content security policy**: `CONTENT_SECURITY_POLICY` of `src/shells/content-security-policy.ts`, as the demo applies it in `index.demo.html`. No network: `connect-src 'self'` and nothing loaded from elsewhere.
+- **Content security policy**: `CONTENT_SECURITY_POLICY` of `src/shells/content-security-policy.ts`, as the demo applies it in `index.demo.html`, without `frame-ancestors`, which a meta tag can't carry. No network: `connect-src 'self'` and nothing loaded from elsewhere.
+- **Served from an origin**: the host serves the files from a custom scheme or a local server, with their media types (`application/wasm` for `rockuml.wasm`); `file://` doesn't allow the modules and WebAssembly to load.
 
 ## Talking to the host
 
@@ -65,9 +66,9 @@ Messages are JSON strings, so every web view can carry them (flutter_inappwebvie
 | --- | --- | --- |
 | `context` | Parts of the `MarkdownContext`, each with its own version: `wiki`, `tasks`, `plan`, `files`, `people`, `settings`, `author` | Only parts whose version changed are sent. On a repository with 20,000 files, the file list goes once, not with every edit |
 | `theme` | The app's colour and type tokens, light or dark | Applied as CSS variables |
-| `preview` | A document: `page` (path, title, source), `task` (as in VS Code's protocol), or `markdown` (area, path, source: a pull request file, a comment) | Rendered against the current context |
-| `edit` | Path, area, language (from the extension, as `languageFor` decides), text, its hash, read-only or not | Opens the editor |
-| `editorCommand` | `bold`, `heading`, `list`, `checkbox`, `link`, `insert(text)`, `undo`, `redo`, `find` | The host's keyboard toolbar drives the editor |
+| `preview` | A document: `page` (path, title, source, hash), `task` (as in VS Code's protocol; the kit shows its description and comments, the host its title and properties), or `markdown` (area, path, source, hash: a pull request file, a comment) | Rendered against the current context; the hash comes back with `toggle` |
+| `edit` | Path, area, text, its hash, read-only or not; the language follows from the path, as `languageFor` decides | Opens the editor; the hash comes back with `save` |
+| `editorCommand` | `bold`, `italic`, `heading`, `list`, `checkbox`, `link`, `insert(text)`, `undo`, `redo`, `find`, `save` | The host's keyboard toolbar drives the editor |
 | `reply` | The answer to a request: `id`, `value` or `error` | As in VS Code's protocol |
 
 ### Kit → host
@@ -75,14 +76,15 @@ Messages are JSON strings, so every web view can carry them (flutter_inappwebvie
 | Message | Carries | The host must |
 | --- | --- | --- |
 | `ready` | `protocol`, the kit's Genbeya version | Refuse a kit whose protocol it doesn't speak |
-| `follow` | A followed link: `external`, `missing` page, `file` with anchor, `task`, `person` | Navigate; open web links only for `http`, `https` and `mailto` |
-| `toggle` | Area, path, the **hash** of the version shown, the offset of the checkbox | Check that the file still has that hash and a checkbox at that offset, then write |
+| `follow` | A followed link: `external`, `missing` page, `person`, or `file` with anchor; a task reference arrives as its task's file | Navigate; open web links only for `http`, `https` and `mailto` |
+| `toggle` | Area, path, the **hash** of the version shown, the offset of the checkbox in the source the kit rendered (a page's file, a task's description) | Check that the file still has that hash and a checkbox at that offset, then write |
 | `image`, `file`, `fileAt` | `id`, a path (and a revision) | Check the path with Genbeya's path rules and answer read-only: a data URL for images of the allowed types, text for files, with Genbeya's size limits |
 | `planHistory` | `id`, an optional baseline | Answer as `content.planHistory` does, for `[BURNDOWN]` and `[BASELINE]` |
 | `height` | The rendered height in CSS pixels | Size the web view inside its native screen |
 | `draft` | Path, base hash, text | Keep it outside the repository |
 | `save` | Path, base hash, text | Write it as `content.write` does: refused once the file changed |
-| `editorState` | Dirty or not, selection, the active completion | Show or hide toolbar buttons |
+| `editorState` | The path, dirty or not, the selection, whether a completion is open | Show or hide toolbar buttons |
+| `error` | What the kit refused, such as an invalid message | Log it |
 
 Completion for `[[`, `@` and `//` runs inside the kit, from the context it already has, as `src/shells/vscode/webview/completion.ts` does: no round trip per keystroke.
 
@@ -115,7 +117,7 @@ Everything the kit sends is untrusted input to the host: the page it rendered is
 The mobile app builds exactly this bundle itself:
 
 - `kit/src/` in this repository holds `kit.ts`, `bridge.ts`, `protocol.ts` and `editor.ts` as specified here, importing Genbeya's sources from the commit pinned in `kit/GENBEYA_REF`.
-- `tool/build_kit` checks Genbeya out at that commit, bundles with the same esbuild settings, and writes the same zip layout and `manifest.json` into `kit/dist/`, which is committed so the app builds without Node ([[GM-3]]).
+- `tool/build_kit` checks Genbeya out at that commit, bundles with the same esbuild settings, and writes the same layout and `manifest.json` into `kit/dist/` ([[GM-3]]). At 18 MB it isn't committed: CI builds it before building the app, and caches it by `kit/GENBEYA_REF`.
 - When Genbeya ships `build:kit`, `kit/src/` moves into `src/shells/kit/` in a pull request to Genbeya, and `tool/build_kit` downloads the release's zip and checks it against its manifest instead ([[GM-25]]). The app itself doesn't change: it talks to the same protocol.
 - The nightly conformance job keeps building from Genbeya's `develop` source, since artifacts of unreleased runs need a login to download.
 
@@ -123,4 +125,5 @@ The mobile app builds exactly this bundle itself:
 
 - **The VS Code webviews as a host.** They could load the kit instead of their own bundle, leaving one renderer bundle in Genbeya; their board and task view would stay. Worth it once the kit exists?
 - **Fonts.** Bundling three font families costs about a megabyte; a host could pass its own. Keep them in the kit so it renders the same everywhere?
+- **Size.** The first load is about 400 kB (125 kB compressed); everything is 18 MB, of which rockuml's WebAssembly is 10 MB and Mermaid's chunks 6 MB. Should PlantUML be a later download in the app?
 - **The editor's size.** CodeMirror with every language is large; `@codemirror/language-data` loads languages on demand, which the split build keeps. Is a size budget per chunk worth a CI check?

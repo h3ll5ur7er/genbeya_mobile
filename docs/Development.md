@@ -13,11 +13,12 @@ How to build, test and run the app. The plan behind it is in [[Architecture]] an
 | Java | 21 | Gradle 9.5 and the Android Gradle plugin 9.3 |
 | Xcode | Current, on macOS | iOS builds |
 | Rust | Stable | The Git core ([[GM-2]]) |
-| Node.js | 22 or 24 | Building the kit ([[GM-3]]) and the conformance cases ([[GM-5]]) |
+| Node.js | 22 or 24 | Building the kit ([[GM-3]]), which the app needs, and the conformance cases ([[GM-5]]) |
 
 ## Commands
 
 ```bash
+(cd tool/build_kit && node build.mjs)   # the kit, into kit/dist; `node test.mjs` checks it
 flutter pub get
 dart format lib test          # CI fails on unformatted code
 flutter analyze
