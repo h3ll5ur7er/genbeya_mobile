@@ -18,3 +18,5 @@ Confirm the decided editor, CodeMirror 6 in the kit for pages and code, against 
 - [ ] Confirm CodeMirror 6 on both phones; only if it fails, the code editor goes native, and record it in [[Architecture]]
 
 In Chromium with Pixel 7 and iPhone 15 emulation: tap, type, complete by tapping, select and undo work; toolbar commands, drafts and save with the base hash too. Autocorrect, input methods, selection handles and the keyboard toolbar can only be judged on real phones.
+
+Spike screens (2026-11-21): **Editor (kit)** opens CodeMirror 6 in the kit full screen with Genbeya's completions, a native toolbar above the keyboard and a status line (selection, drafts, save); **Editor (native)** opens re_editor 0.10 on the same text with the same toolbar, without completions. Both switch to a 2,000-line page. The first build had no editor screen at all (the tile led nowhere); this one is to try on the Pixel.

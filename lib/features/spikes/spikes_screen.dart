@@ -1,7 +1,9 @@
 import 'package:material_ui/material_ui.dart';
 
 import 'git_spike_screen.dart';
+import 'kit_editor_spike_screen.dart';
 import 'kit_spike_screen.dart';
+import 'native_editor_spike_screen.dart';
 
 /// Test screens for the M0 spikes (GM-2, GM-3, GM-4). They go once the spikes are done.
 class SpikesScreen extends StatelessWidget {
@@ -27,9 +29,25 @@ class SpikesScreen extends StatelessWidget {
               MaterialPageRoute<void>(builder: (_) => const KitSpikeScreen()),
             ),
           ),
-          const ListTile(
-            title: Text('Editor'),
-            subtitle: Text('GM-4: CodeMirror 6 on the phone'),
+          ListTile(
+            title: const Text('Editor (kit)'),
+            subtitle: const Text(
+              'GM-4: CodeMirror 6 with Genbeya\'s completions',
+            ),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const KitEditorSpikeScreen(),
+              ),
+            ),
+          ),
+          ListTile(
+            title: const Text('Editor (native)'),
+            subtitle: const Text('GM-4: re_editor, to compare'),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const NativeEditorSpikeScreen(),
+              ),
+            ),
           ),
         ],
       ),
