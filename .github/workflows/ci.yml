@@ -64,7 +64,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: tool/build_kit/.cache
-          key: kit-genbeya-${{ hashFiles('kit/GENBEYA_REF') }}
+          key: kit-genbeya-${{ runner.os }}-${{ hashFiles('kit/GENBEYA_REF') }}
       - name: Build the kit
         working-directory: tool/build_kit
         run: node build.mjs --check
@@ -99,7 +99,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: tool/build_kit/.cache
-          key: kit-genbeya-${{ hashFiles('kit/GENBEYA_REF') }}
+          key: kit-genbeya-${{ runner.os }}-${{ hashFiles('kit/GENBEYA_REF') }}
       - name: Build the kit
         run: node tool/build_kit/build.mjs
       - name: Rust targets for the Git core (GM-2)
@@ -126,7 +126,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: tool/build_kit/.cache
-          key: kit-genbeya-${{ hashFiles('kit/GENBEYA_REF') }}
+          key: kit-genbeya-${{ runner.os }}-${{ hashFiles('kit/GENBEYA_REF') }}
       - name: Build the kit
         run: node tool/build_kit/build.mjs
       - name: Rust targets for the Git core (GM-2)
