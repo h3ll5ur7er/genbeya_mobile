@@ -1,0 +1,13 @@
+{
+  "name": "genbeya-mobile-build-kit",
+  "private": true,
+  "type": "module",
+  "description": "Builds the kit (docs/Upstream/Kit-build.md) from Genbeya's sources at kit/GENBEYA_REF.",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node test.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10"
+  }
+}
