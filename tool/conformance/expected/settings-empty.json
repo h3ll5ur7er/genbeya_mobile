@@ -1,0 +1,57 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "settings": {
+    "name": "my-repo",
+    "wikiRoot": "docs",
+    "wikiHome": "Home.md",
+    "taskRoot": "tasks",
+    "taskPrefix": "MR",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "statusIcons": {},
+    "hiddenColumns": [],
+    "types": [
+      {
+        "name": "bug",
+        "icon": "bug",
+        "tone": "red"
+      },
+      {
+        "name": "feature",
+        "icon": "sparkles",
+        "tone": "purple"
+      },
+      {
+        "name": "improvement",
+        "icon": "trending-up",
+        "tone": "blue"
+      },
+      {
+        "name": "chore",
+        "icon": "wrench",
+        "tone": "gray"
+      }
+    ],
+    "fields": [],
+    "people": [],
+    "pullRoot": "pulls",
+    "pullPrefix": "PR",
+    "requiredApprovals": 1,
+    "todosBlockMerge": true,
+    "unused": [],
+    "workdays": [
+      "mon",
+      "tue",
+      "wed",
+      "thu",
+      "fri"
+    ],
+    "holidays": [],
+    "milestones": []
+  }
+}

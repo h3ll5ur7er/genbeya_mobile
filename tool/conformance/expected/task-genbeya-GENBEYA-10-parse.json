@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-10",
+    "path": "tasks/GENBEYA-10.md",
+    "title": "Render PlantUML without Java",
+    "status": "backlog",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "wiki"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "PlantUML needs a local `plantuml` command or a configured server. Evaluate a bundled renderer so diagrams work out of the box without sending source anywhere.\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

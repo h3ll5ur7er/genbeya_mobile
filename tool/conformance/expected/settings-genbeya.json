@@ -1,0 +1,86 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "settings": {
+    "name": "Genbeya",
+    "wikiRoot": "docs",
+    "wikiHome": "Home.md",
+    "taskRoot": "tasks",
+    "taskPrefix": "GENBEYA",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "statusIcons": {},
+    "hiddenColumns": [],
+    "types": [
+      {
+        "name": "bug",
+        "icon": "bug",
+        "tone": "red"
+      },
+      {
+        "name": "feature",
+        "icon": "sparkles",
+        "tone": "purple"
+      },
+      {
+        "name": "improvement",
+        "icon": "trending-up",
+        "tone": "blue"
+      },
+      {
+        "name": "chore",
+        "icon": "wrench",
+        "tone": "gray"
+      }
+    ],
+    "fields": [
+      {
+        "name": "estimate",
+        "type": "effort"
+      },
+      {
+        "name": "remaining",
+        "type": "effort"
+      },
+      {
+        "name": "duration",
+        "type": "effort"
+      },
+      {
+        "name": "start",
+        "type": "date"
+      },
+      {
+        "name": "due",
+        "type": "date"
+      },
+      {
+        "name": "milestone",
+        "type": "text"
+      },
+      {
+        "name": "depends_on",
+        "type": "tasks"
+      }
+    ],
+    "people": [],
+    "pullRoot": "pulls",
+    "pullPrefix": "PR",
+    "requiredApprovals": 1,
+    "todosBlockMerge": true,
+    "unused": [],
+    "workdays": [
+      "mon",
+      "tue",
+      "wed",
+      "thu",
+      "fri"
+    ],
+    "holidays": [],
+    "milestones": []
+  }
+}

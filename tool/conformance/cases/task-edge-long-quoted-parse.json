@@ -1,0 +1,16 @@
+{
+  "id": "task-edge-long-quoted-parse",
+  "kind": "task.parse",
+  "input": {
+    "path": "tasks/long-quoted.md",
+    "content": "---\nid: EDGE-9\ntitle: \"A long title that needs quotes: because it has a colon and space, and it goes well past eighty characters in width\"\nstatus: todo\npriority: high\n---\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

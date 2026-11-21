@@ -1,0 +1,30 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-58",
+    "path": "tasks/Planning demo/GENBEYA-58.md",
+    "title": "DEMO: Design the data model",
+    "status": "in-progress",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "demo"
+    ],
+    "type": "chore",
+    "fields": {
+      "milestone": "DEMO",
+      "estimate": "2d",
+      "remaining": "1d",
+      "duration": "2d",
+      "start": "2026-10-26",
+      "due": "2026-10-28",
+      "depends_on": [
+        "GENBEYA-57"
+      ]
+    },
+    "body": "> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nOn the critical path. Try **Log time** here, then change **Remaining** and watch the forecast and variance.\n\n## Time log\n\n- 2026-10-26 — Ada Lovelace — 4h — First draft of the schema\n",
+    "epic": "Planning demo",
+    "hash": "hash",
+    "comments": []
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-61",
+    "path": "tasks/Planning demo/GENBEYA-61.md",
+    "title": "DEMO: Write the user guide",
+    "status": "todo",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "demo"
+    ],
+    "type": "chore",
+    "fields": {
+      "milestone": "DEMO",
+      "estimate": "4h",
+      "remaining": "4h",
+      "depends_on": [
+        "GENBEYA-57"
+      ]
+    },
+    "body": "> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nNo duration and no dates: its half day comes from its remaining effort at 8 hours a day. Lots of float, and ready to start, since GENBEYA-57 is done.\n",
+    "epic": "Planning demo",
+    "hash": "hash",
+    "comments": []
+  }
+}

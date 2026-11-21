@@ -1,0 +1,18 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "EDGE-6",
+    "path": "tasks/empty-body.md",
+    "title": "No description",
+    "status": "done",
+    "priority": "none",
+    "assignee": "",
+    "labels": [],
+    "type": "",
+    "fields": {},
+    "body": "",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

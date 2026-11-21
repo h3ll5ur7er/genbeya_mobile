@@ -1,0 +1,23 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "EDGE-8",
+    "path": "tasks/spacing.md",
+    "title": "Blank lines and comments between keys",
+    "status": "todo",
+    "priority": "none",
+    "assignee": "",
+    "labels": [
+      "a",
+      "b"
+    ],
+    "type": "",
+    "fields": {
+      "note": "a block\nscalar\n"
+    },
+    "body": "Body\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

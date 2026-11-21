@@ -1,0 +1,25 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-19",
+    "path": "tasks/4 Plan and review/GM-19.md",
+    "title": "Port the pull request engine",
+    "status": "backlog",
+    "priority": "high",
+    "assignee": "",
+    "labels": [],
+    "type": "feature",
+    "fields": {
+      "estimate": "4d",
+      "remaining": "4d",
+      "milestone": "M4",
+      "depends_on": [
+        "GM-5"
+      ]
+    },
+    "body": "Read and write pull request files as Genbeya does. See [[Architecture#engines]].\n\n- [ ] Parse topics, code ranges, suggestions, to-dos, replies and verdicts; flag unreadable lines\n- [ ] Append replies and verdicts; tick to-dos; new pull request file with the next ID\n- [ ] Effective approvals and **Ready to merge?** from the policy (`requiredApprovals`, `todosBlockMerge`)\n- [ ] The change ID, with conformance cases that compare it with the desktop's on the same branches; if libgit2's diff can't match Git's, decide how to show it (see [[Roadmap#risks]])\n- [ ] \"Recorded, not verified\": compare the verdict's name with the committer\n",
+    "epic": "4 Plan and review",
+    "hash": "hash",
+    "comments": []
+  }
+}

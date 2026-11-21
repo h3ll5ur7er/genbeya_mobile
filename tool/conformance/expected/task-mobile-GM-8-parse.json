@@ -1,0 +1,27 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-8",
+    "path": "tasks/1 Read anywhere/GM-8.md",
+    "title": "Read the wiki",
+    "status": "backlog",
+    "priority": "high",
+    "assignee": "",
+    "labels": [],
+    "type": "feature",
+    "fields": {
+      "estimate": "3d",
+      "remaining": "3d",
+      "milestone": "M1",
+      "depends_on": [
+        "GM-3",
+        "GM-6",
+        "GM-7"
+      ]
+    },
+    "body": "Pages exactly as the desktop shows them. See [[Experience#wiki]].\n\n- [ ] Page tree drawer, breadcrumb, home page first\n- [ ] Page body in the kit with a real `MarkdownContext`; images and embeds served through checked paths\n- [ ] Tapping references opens tasks, pages and files; red references offer a new page (wired up in [[GM-16]])\n- [ ] **On this page** sheet; pinch to zoom diagrams and images\n- [ ] Opens in under a second for Genbeya's own wiki on a mid-range phone\n- [ ] Completions for `[[`, `@` and `//` inside the kit, from its context ([[Kit build]])\n",
+    "epic": "1 Read anywhere",
+    "hash": "hash",
+    "comments": []
+  }
+}

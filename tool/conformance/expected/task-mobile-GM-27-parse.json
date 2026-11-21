@@ -1,0 +1,26 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-27",
+    "path": "tasks/5 Trial/GM-27.md",
+    "title": "Sample project and first-time sheets",
+    "status": "backlog",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [],
+    "type": "feature",
+    "fields": {
+      "estimate": "2d",
+      "remaining": "2d",
+      "milestone": "M5",
+      "depends_on": [
+        "GM-7",
+        "GM-11"
+      ]
+    },
+    "body": "Let testers try everything safely, and explain what is new on a phone where it first matters (D11 in [[Decisions]]). No tour. See US-29 in [[User stories]].\n\n- [ ] Port the sample engine (`sample-engine.ts`): the sample project's files and commits, as data\n- [ ] **Try the sample project** on the start screen: a repository on the phone without a remote; sync says so\n- [ ] Conformance: the sample's files and commit messages as the desktop makes them\n- [ ] First-time sheets, each once: every save is a commit and the sync badge, where edits go (D5), how \"me\" is found\n- [ ] Empty states that explain: no repository yet, no tasks of mine, no pull requests\n",
+    "epic": "5 Trial",
+    "hash": "hash",
+    "comments": []
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-30",
+    "path": "tasks/GENBEYA-30.md",
+    "title": "The wiki's Save button doesn't show whether there is anything to save",
+    "status": "review",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "feedback",
+      "wiki"
+    ],
+    "type": "bug",
+    "fields": {},
+    "body": "Reported by a tester:\n\n> In Code when I press Ctrl+S the purple button becomes grey. In Wiki not.\n\nTo reproduce: edit a wiki page, change something, press `Ctrl+S`: the page is saved, but **Save** stays purple. Do the same with a file in **Code**: **Save** turns grey.\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": [
+      {
+        "author": "Claude",
+        "date": "2026-10-14T00:40+02:00",
+        "body": "**Triage: fix, after a small decision.** Reproduced in the web demo; `Ctrl+S` does save (the Changes count went up), only the button doesn't show it.\n\nCause: in Code the button follows the unsaved state (`btn-primary` and enabled only while dirty, `features/code/file-editor.ts`); in the wiki it is always `btn-primary` (`features/wiki/wiki-page.ts`). The two buttons also do different things: in Code, Save only saves; in the wiki, the button saves *and closes the editor* (`save(true)`), while `Ctrl+S` saves and stays (`save(false)`).\n\nTo decide, what the wiki's button shows when nothing is unsaved:\n\n- **Done** in the default style, closing the editor; **Save** in purple only while there are changes. (My suggestion: it keeps the one-click way out and reads like the state.)\n- Grey and disabled, as in Code; leaving the editor is then only **Cancel**."
+      },
+      {
+        "author": "Emanuel Knecht",
+        "date": "2026-10-14T01:29+02:00",
+        "body": "yes, your recommendation solves it neatly."
+      },
+      {
+        "author": "Claude",
+        "date": "2026-10-14T02:00+02:00",
+        "body": "Done as recommended: while editing a page, the button is **Save** (purple, saves and closes) while there are unsaved changes, and **Done** (default style, closes) once everything is saved, so `Ctrl+S` turns it into **Done**. The wiki guide says so."
+      }
+    ]
+  }
+}

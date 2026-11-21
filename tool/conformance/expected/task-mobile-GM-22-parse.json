@@ -1,0 +1,28 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-22",
+    "path": "tasks/5 Trial/GM-22.md",
+    "title": "Tablet layout, polish and accessibility",
+    "status": "backlog",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [],
+    "type": "feature",
+    "fields": {
+      "estimate": "3d",
+      "remaining": "3d",
+      "milestone": "M5",
+      "depends_on": [
+        "GM-14",
+        "GM-16",
+        "GM-17",
+        "GM-21"
+      ]
+    },
+    "body": "Make it feel finished enough to judge.\n\n- [ ] Two panes on tablets and foldables\n- [ ] Dark mode checked on every screen\n- [ ] Screen readers, large text, touch targets of at least 48 points\n- [ ] Haptics on moves and syncs; skeletons instead of spinners\n- [ ] Cold start and sync times measured (see [[Roadmap#how-the-trial-is-judged]])\n- [ ] Third-party notices: libgit2, libssh2, OpenSSL and the kit's dependencies (D1)\n",
+    "epic": "5 Trial",
+    "hash": "hash",
+    "comments": []
+  }
+}

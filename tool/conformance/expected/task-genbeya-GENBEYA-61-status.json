@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-61\ntitle: \"DEMO: Write the user guide\"\ntype: chore\nstatus: in-progress\npriority: low\nlabels:\n  - demo\nmilestone: DEMO\nestimate: 4h\nremaining: 4h\ndepends_on: [GENBEYA-57]\n---\n\n> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nNo duration and no dates: its half day comes from its remaining effort at 8 hours a day. Lots of float, and ready to start, since GENBEYA-57 is done.\n"
+}

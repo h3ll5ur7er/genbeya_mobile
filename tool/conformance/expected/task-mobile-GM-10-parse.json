@@ -1,0 +1,25 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-10",
+    "path": "tasks/1 Read anywhere/GM-10.md",
+    "title": "Search and Genbeya links",
+    "status": "backlog",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [],
+    "type": "feature",
+    "fields": {
+      "estimate": "3d",
+      "remaining": "3d",
+      "milestone": "M1",
+      "depends_on": [
+        "GM-7"
+      ]
+    },
+    "body": "Find anything, and open what others share. See [[Experience#search]] and [[Experience#sharing-and-links]].\n\n- [ ] Search field in every screen's top bar: names first, full text below, grouped by kind, hidden parts left out\n- [ ] Full-text search in an isolate over the working tree, with excerpts as `search-engine.ts` makes them\n- [ ] `genbeya://open?…` links registered on Android and iOS, parsed with the desktop's strict rules; open the clone with that remote or offer to clone\n- [ ] **Copy Genbeya link** and **Copy web link** through the share sheet\n",
+    "epic": "1 Read anywhere",
+    "hash": "hash",
+    "comments": []
+  }
+}

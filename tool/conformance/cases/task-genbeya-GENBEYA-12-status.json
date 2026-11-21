@@ -1,0 +1,19 @@
+{
+  "id": "task-genbeya-GENBEYA-12-status",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/GENBEYA-12.md",
+    "content": "---\nid: GENBEYA-12\ntitle: Virtualize long lists\nstatus: backlog\npriority: medium\nlabels: [performance]\n---\n\nThe file tree caps at what the DOM handles comfortably, and history loads 200 commits per page.\n\n- [ ] Virtualized file tree\n- [ ] Virtualized history list with the commit graph\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "status": "todo"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-19",
+    "path": "tasks/GENBEYA-19.md",
+    "title": "New logo and app icons",
+    "status": "done",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [
+      "branding"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "Replace the branch mark with the obeya logo in `branding/`, everywhere the app shows an icon.\n\n- [x] Logo files and their rules in `branding/`\n- [x] App icons of Electron, Tauri and Deno Desktop rendered from the logo (`npm run icons`)\n- [x] Favicon and the start screen's mark\n- [x] Logo in the README and the start screen screenshot\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

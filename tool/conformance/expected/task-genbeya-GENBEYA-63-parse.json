@@ -1,0 +1,28 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-63",
+    "path": "tasks/Planning demo/GENBEYA-63.md",
+    "title": "DEMO: Ship the demo release",
+    "status": "todo",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "demo"
+    ],
+    "type": "chore",
+    "fields": {
+      "milestone": "DEMO",
+      "duration": "4h",
+      "due": "2026-11-03",
+      "depends_on": [
+        "GENBEYA-61",
+        "GENBEYA-62"
+      ]
+    },
+    "body": "> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nOnly a due date: a milestone on the timeline. The end of the critical path.\n",
+    "epic": "Planning demo",
+    "hash": "hash",
+    "comments": []
+  }
+}

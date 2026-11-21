@@ -1,0 +1,19 @@
+{
+  "id": "task-genbeya-GENBEYA-3-status",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/GENBEYA-3.md",
+    "content": "---\nid: GENBEYA-3\ntitle: Resolve merge conflicts in the app\nstatus: backlog\npriority: high\nlabels: [git]\n---\n\nConflicted files currently show as `U` in Changes and must be fixed in the editor or a terminal.\n\n- [ ] Three-way view: ours, theirs, result\n- [ ] Mark resolved and continue the merge or rebase\n- [ ] Content branch sync: offer the same instead of aborting the rebase\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "status": "todo"
+    }
+  }
+}

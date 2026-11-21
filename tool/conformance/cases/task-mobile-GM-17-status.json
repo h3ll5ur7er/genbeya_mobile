@@ -1,0 +1,19 @@
+{
+  "id": "task-mobile-GM-17-status",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/3 Write/GM-17.md",
+    "content": "---\nid: GM-17\ntitle: Browse and edit code\ntype: feature\nstatus: backlog\npriority: medium\nestimate: 4d\nremaining: 4d\nmilestone: M3\ndepends_on: [GM-4, GM-11]\n---\n\nSmall edits to any file, and references to lines. See [[Experience#code]].\n\n- [ ] File tree with a filter and recent files\n- [ ] Viewer: highlighting, line numbers, find, wrap; Markdown preview; images\n- [ ] Select lines → **Copy reference** (`[[path#L10-L20]]`); references open with their lines selected; pinned ones read-only at their revision\n- [ ] Edit with undo, find and replace; new file, rename, delete\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "status": "todo"
+    }
+  }
+}

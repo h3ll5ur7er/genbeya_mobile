@@ -1,0 +1,9 @@
+{
+  "id": "settings-empty",
+  "kind": "settings.parse",
+  "input": {
+    "content": "",
+    "folderName": "my-repo",
+    "windows": false
+  }
+}

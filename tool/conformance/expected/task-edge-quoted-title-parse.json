@@ -1,0 +1,18 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "EDGE-2",
+    "path": "tasks/quoted-title.md",
+    "title": "Spike: titles with a colon stay quoted",
+    "status": "in-progress",
+    "priority": "none",
+    "assignee": "Ada Lovelace",
+    "labels": [],
+    "type": "spike",
+    "fields": {},
+    "body": "Body.\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

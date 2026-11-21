@@ -1,0 +1,19 @@
+{
+  "id": "task-genbeya-GENBEYA-60-status",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/Planning demo/GENBEYA-60.md",
+    "content": "---\nid: GENBEYA-60\ntitle: \"DEMO: Build the UI\"\ntype: chore\nstatus: todo\npriority: low\nlabels: [demo]\nmilestone: DEMO\nestimate: 16h\nremaining: 20h\nduration: 2d\nstart: 2026-10-27\ndue: 2026-10-30\ndepends_on: [GENBEYA-58]\n---\n\n> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nOne day of float: it takes 2 days next to the API's 3. Its remaining 20h is over its 16h estimate, so the variance shows in orange. Its start date is before GENBEYA-58 is due, which the timeline marks as a conflict.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "status": "in-progress"
+    }
+  }
+}

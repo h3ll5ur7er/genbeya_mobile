@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-6\ntitle: Pull requests for GitHub, GitLab and Bitbucket\nstatus: backlog\npriority: low\nlabels:\n  - integrations\nremaining: 3h\n---\n\nShow open pull requests for the current branch and create one after pushing. Needs per-provider APIs and token handling through the system keychain.\n"
+}

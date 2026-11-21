@@ -1,0 +1,19 @@
+{
+  "id": "task-genbeya-GENBEYA-58-status",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/Planning demo/GENBEYA-58.md",
+    "content": "---\nid: GENBEYA-58\ntitle: \"DEMO: Design the data model\"\ntype: chore\nstatus: in-progress\npriority: low\nlabels: [demo]\nmilestone: DEMO\nestimate: 2d\nremaining: 1d\nduration: 2d\nstart: 2026-10-26\ndue: 2026-10-28\ndepends_on: [GENBEYA-57]\n---\n\n> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nOn the critical path. Try **Log time** here, then change **Remaining** and watch the forecast and variance.\n\n## Time log\n\n- 2026-10-26 — Ada Lovelace — 4h — First draft of the schema\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "status": "review"
+    }
+  }
+}

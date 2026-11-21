@@ -1,0 +1,16 @@
+{
+  "id": "task-genbeya-GENBEYA-10-parse",
+  "kind": "task.parse",
+  "input": {
+    "path": "tasks/GENBEYA-10.md",
+    "content": "---\nid: GENBEYA-10\ntitle: Render PlantUML without Java\nstatus: backlog\npriority: low\nlabels: [wiki]\n---\n\nPlantUML needs a local `plantuml` command or a configured server. Evaluate a bundled renderer so diagrams work out of the box without sending source anywhere.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

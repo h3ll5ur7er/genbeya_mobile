@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-22\ntitle: References and preview in VS Code's Markdown editor\ntype: feature\nstatus: review\nlabels:\n  - vscode\n---\n\nPages and tasks are edited in VS Code's own Markdown editor, which knows nothing of Genbeya's references. Teach it, reusing the link engine. (Genbeya's preview renders them already.)\n\n- [x] `[[…]]` completion of tasks, pages and files\n- [x] Hover with a task's title and status, a page's title\n- [x] Document links: Ctrl+click opens the task, page or file (lines too)\n- [x] Missing pages and tasks as diagnostics\n- [x] `@mention` completion of the repository's people, and `//` dates\n- [x] Open the Genbeya preview beside the editor, scrolled along with it (by share of the length; line-exact scrolling would need source positions in the rendered page)\n"
+}

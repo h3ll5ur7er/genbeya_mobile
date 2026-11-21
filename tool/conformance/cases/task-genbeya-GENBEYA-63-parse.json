@@ -1,0 +1,16 @@
+{
+  "id": "task-genbeya-GENBEYA-63-parse",
+  "kind": "task.parse",
+  "input": {
+    "path": "tasks/Planning demo/GENBEYA-63.md",
+    "content": "---\nid: GENBEYA-63\ntitle: \"DEMO: Ship the demo release\"\ntype: chore\nstatus: todo\npriority: low\nlabels: [demo]\nmilestone: DEMO\nduration: 4h\ndue: 2026-11-03\ndepends_on: [GENBEYA-61, GENBEYA-62]\n---\n\n> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nOnly a due date: a milestone on the timeline. The end of the critical path.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-62",
+    "path": "tasks/Planning demo/GENBEYA-62.md",
+    "title": "DEMO: Run the integration tests",
+    "status": "todo",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "demo"
+    ],
+    "type": "chore",
+    "fields": {
+      "milestone": "DEMO",
+      "duration": "1d",
+      "start": "2026-11-02",
+      "due": "2026-11-02",
+      "depends_on": [
+        "GENBEYA-59",
+        "GENBEYA-60"
+      ]
+    },
+    "body": "> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nWaits for two tasks: the arrow diagram joins them with dashed dummy arrows.\n",
+    "epic": "Planning demo",
+    "hash": "hash",
+    "comments": []
+  }
+}

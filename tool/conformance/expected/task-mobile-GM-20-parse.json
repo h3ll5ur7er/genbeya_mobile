@@ -1,0 +1,26 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-20",
+    "path": "tasks/4 Plan and review/GM-20.md",
+    "title": "Pull request list, conversation and files",
+    "status": "backlog",
+    "priority": "high",
+    "assignee": "",
+    "labels": [],
+    "type": "feature",
+    "fields": {
+      "estimate": "5d",
+      "remaining": "5d",
+      "milestone": "M4",
+      "depends_on": [
+        "GM-19",
+        "GM-8"
+      ]
+    },
+    "body": "Review on the phone. See [[Experience#pull-requests]].\n\n- [ ] List with states, filter and open to-dos; shows once a pull request file exists\n- [ ] Conversation: branches, ahead and behind, reviewers' verdicts, ready to merge, tasks, the file rendered with tickable to-dos\n- [ ] Files: unified diff per file (side by side on tablets in landscape), threads under their lines, outdated ones marked\n- [ ] Pull requests whose file is on another branch: read only, as on desktop\n",
+    "epic": "4 Plan and review",
+    "hash": "hash",
+    "comments": []
+  }
+}

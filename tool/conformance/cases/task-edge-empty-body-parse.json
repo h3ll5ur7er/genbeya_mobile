@@ -1,0 +1,16 @@
+{
+  "id": "task-edge-empty-body-parse",
+  "kind": "task.parse",
+  "input": {
+    "path": "tasks/empty-body.md",
+    "content": "---\nid: EDGE-6\ntitle: No description\nstatus: done\n---\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

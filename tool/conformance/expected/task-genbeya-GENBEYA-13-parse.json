@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-13",
+    "path": "tasks/GENBEYA-13.md",
+    "title": "Custom task fields and templates",
+    "status": "backlog",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "tasks"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "Teams want fields such as estimate, due date or component, and description templates for bugs and features. Unknown frontmatter fields already survive edits; show them in the task panel and allow editing.\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

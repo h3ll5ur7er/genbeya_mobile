@@ -1,0 +1,24 @@
+{
+  "id": "task-edge-no-frontmatter-field-list",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/no-frontmatter.md",
+    "content": "# Just a page\n\nNo frontmatter here.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "fields": {
+        "depends_on": [
+          "GM-1",
+          "GM-2"
+        ]
+      }
+    }
+  }
+}

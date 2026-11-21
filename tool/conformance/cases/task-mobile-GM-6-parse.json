@@ -1,0 +1,16 @@
+{
+  "id": "task-mobile-GM-6-parse",
+  "kind": "task.parse",
+  "input": {
+    "path": "tasks/1 Read anywhere/GM-6.md",
+    "content": "---\nid: GM-6\ntitle: Repositories, cloning and signing in\ntype: feature\nstatus: backlog\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M1\ndepends_on: [GM-2]\n---\n\nThe start screen and everything needed to get a repository onto the phone. See [[Experience#navigation]] and [[Experience#signing-in]].\n\n- [ ] Repositories screen: clones with branch, unsynced edits, last sync, size; **Remove clone**\n- [ ] Clone from a URL; choose the branch; shallow by default\n- [ ] HTTPS token in the keychain; SSH key made on the device with the public key to copy; host key trust on first use\n- [ ] GitHub and GitLab device-flow sign-in, ending in a token\n- [ ] Git name and email per repository\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+# Settings with every shape
+name: TaskBoard
+statuses:
+  - todo
+  - name: doing
+    icon: play
+  - done
+hiddenColumns: [done]
+types:
+  - bug
+  - name: spike
+    icon: flask-conical
+    tone: purple
+  - feature
+fields:
+  - name: area
+    type: choice
+    options: [ui, backend, 3]
+  - name: due
+    type: date
+people:
+  - handle: ada
+    name: Ada Lovelace
+    email: ada@example.com
+    aliases: [Ada King]
+workdays: [fri, mon]
+holidays: [2026-12-25, 2026-12-24, 2026-12-25]
+unused: [terminal, wiki]

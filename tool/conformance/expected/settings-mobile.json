@@ -1,0 +1,106 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "settings": {
+    "name": "Genbeya Mobile",
+    "wikiRoot": "docs",
+    "wikiHome": "Home.md",
+    "taskRoot": "tasks",
+    "taskPrefix": "GM",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "statusIcons": {},
+    "hiddenColumns": [],
+    "types": [
+      {
+        "name": "spike",
+        "icon": "circle-dot"
+      },
+      {
+        "name": "feature",
+        "icon": "sparkles",
+        "tone": "purple"
+      },
+      {
+        "name": "chore",
+        "icon": "wrench",
+        "tone": "gray"
+      },
+      {
+        "name": "docs",
+        "icon": "file-text",
+        "tone": "green"
+      }
+    ],
+    "fields": [
+      {
+        "name": "estimate",
+        "type": "effort"
+      },
+      {
+        "name": "remaining",
+        "type": "effort"
+      },
+      {
+        "name": "depends_on",
+        "type": "tasks"
+      },
+      {
+        "name": "milestone",
+        "type": "choice",
+        "options": [
+          "M0",
+          "M1",
+          "M2",
+          "M3",
+          "M4",
+          "M5"
+        ]
+      }
+    ],
+    "people": [],
+    "pullRoot": "pulls",
+    "pullPrefix": "PR",
+    "requiredApprovals": 1,
+    "todosBlockMerge": true,
+    "unused": [],
+    "workdays": [
+      "mon",
+      "tue",
+      "wed",
+      "thu",
+      "fri"
+    ],
+    "holidays": [],
+    "milestones": [
+      {
+        "name": "M0",
+        "due": "2026-12-04"
+      },
+      {
+        "name": "M1",
+        "due": "2026-12-23"
+      },
+      {
+        "name": "M2",
+        "due": "2027-01-29"
+      },
+      {
+        "name": "M3",
+        "due": "2027-02-19"
+      },
+      {
+        "name": "M4",
+        "due": "2027-03-19"
+      },
+      {
+        "name": "M5",
+        "due": "2027-04-02"
+      }
+    ]
+  }
+}

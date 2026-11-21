@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-11",
+    "path": "tasks/GENBEYA-11.md",
+    "title": "Manual order of cards within a column",
+    "status": "backlog",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "tasks"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "Cards sort by priority, then by ID. Allow dragging within a column; store the order in the task file (`rank:`) so it survives merges.\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

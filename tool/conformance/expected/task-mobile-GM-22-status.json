@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-22\ntitle: Tablet layout, polish and accessibility\ntype: feature\nstatus: todo\npriority: medium\nestimate: 3d\nremaining: 3d\nmilestone: M5\ndepends_on: [GM-14, GM-16, GM-17, GM-21]\n---\n\nMake it feel finished enough to judge.\n\n- [ ] Two panes on tablets and foldables\n- [ ] Dark mode checked on every screen\n- [ ] Screen readers, large text, touch targets of at least 48 points\n- [ ] Haptics on moves and syncs; skeletons instead of spinners\n- [ ] Cold start and sync times measured (see [[Roadmap#how-the-trial-is-judged]])\n- [ ] Third-party notices: libgit2, libssh2, OpenSSL and the kit's dependencies (D1)\n"
+}

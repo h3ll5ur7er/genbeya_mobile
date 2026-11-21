@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-7",
+    "path": "tasks/GENBEYA-7.md",
+    "title": "Code signing, auto-update and release builds",
+    "status": "backlog",
+    "priority": "high",
+    "assignee": "",
+    "labels": [
+      "release"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "`npm run package` builds an unsigned installer for the current OS.\n\n- [ ] Windows and macOS signing, macOS notarization\n- [ ] Release workflow that builds all three platforms\n- [ ] Auto-update channel\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-14",
+    "path": "tasks/2 Work on tasks/GM-14.md",
+    "title": "Today: what needs me",
+    "status": "backlog",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [],
+    "type": "feature",
+    "fields": {
+      "estimate": "3d",
+      "remaining": "3d",
+      "milestone": "M2",
+      "depends_on": [
+        "GM-9",
+        "GM-10"
+      ]
+    },
+    "body": "The screen a repository opens on. See [[Experience#today]].\n\n- [ ] My open tasks, in-progress first, overdue in red\n- [ ] Pull requests waiting for my verdict, and mine with news (once [[GM-20]] is there)\n- [ ] Recent mentions of my handle\n- [ ] Checklist items with due dates in my tasks\n- [ ] Empty state that explains how \"me\" is found when the identity matches no one\n",
+    "epic": "2 Work on tasks",
+    "hash": "hash",
+    "comments": []
+  }
+}

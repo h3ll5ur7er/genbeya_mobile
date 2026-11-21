@@ -1,0 +1,21 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-56",
+    "path": "tasks/3 Pull requests/GENBEYA-56.md",
+    "title": "Show a task's pull requests",
+    "status": "review",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "pull-requests",
+      "tasks"
+    ],
+    "type": "feature",
+    "fields": {},
+    "body": "Tasks already find their branches by the ID in the branch name. In the same way, a task shows the pull requests whose source branch is one of its branches, or that reference it, with their state (\"open into develop, 1 of 2 approvals\"), and a pull request shows its tasks. Done when both directions show and link. See [[Design/Pull-requests#pull-requests-and-tasks]].\n\nBuilt on `feature/pull-requests`: pull requests name tasks by their source branch, title or description (`taskIdsOf`).\n\n- [x] Task panel: pull requests of the task, with state\n- [x] Pull request: its tasks, as references\n- [x] Board card: a mark for an open pull request\n- [x] Demo counterpart, `npm run e2e:demo`\n- [x] Document in [[Guide/Tasks]]\n",
+    "epic": "3 Pull requests",
+    "hash": "hash",
+    "comments": []
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-16",
+    "path": "tasks/3 Write/GM-16.md",
+    "title": "Edit wiki pages",
+    "status": "backlog",
+    "priority": "high",
+    "assignee": "",
+    "labels": [],
+    "type": "feature",
+    "fields": {
+      "estimate": "4d",
+      "remaining": "4d",
+      "milestone": "M3",
+      "depends_on": [
+        "GM-4",
+        "GM-8",
+        "GM-11"
+      ]
+    },
+    "body": "Fix and write pages on the phone. See [[Experience#wiki]].\n\n- [ ] Editor with the toolbar above the keyboard: heading, bold, list, checkbox, link, `[[`, `@`, `//`\n- [ ] Preview by swipe or button; unsaved edits survive the app being sent to the background\n- [ ] Tick checklists while reading\n- [ ] New page below the current one, and from a red reference\n- [ ] Keeps the file's line endings and BOM\n- [ ] Drafts kept outside the repository, keyed by path and base hash; offered back only next to a page that changed\n- [ ] **Photo**: take or pick one, shrink to 1600 pixels, strip location and camera data, show the size; write it to the wiki's `images/` folder with its reference, in one commit (D8, [[Attached images]])\n- [ ] Conformance: the image reference as the desktop renders it, relative to the page\n",
+    "epic": "3 Write",
+    "hash": "hash",
+    "comments": []
+  }
+}

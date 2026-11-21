@@ -1,0 +1,14 @@
+{
+  "name": "genbeya-mobile-conformance",
+  "private": true,
+  "type": "module",
+  "description": "Runs Genbeya's engines over the conformance cases and writes what they produce, for the Dart engines to match.",
+  "scripts": {
+    "cases": "node make-cases.mjs",
+    "expected": "node generate.mjs"
+  },
+  "dependencies": {
+    "esbuild": "0.28.2",
+    "yaml": "2.9.1"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-1",
+    "path": "tasks/GENBEYA-1.md",
+    "title": "Full-text search across wiki, tasks and code",
+    "status": "todo",
+    "priority": "high",
+    "assignee": "",
+    "labels": [
+      "search"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "The command palette matches titles and paths only. Search should also find text inside pages, task descriptions and code.\n\n- [ ] Use `git grep` for tracked files (works on every host, respects `.gitignore`)\n- [ ] Show matches with context in the palette, grouped by area\n- [ ] Jump to the line in the code editor, or to the heading in a page\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-3",
+    "path": "tasks/GENBEYA-3.md",
+    "title": "Resolve merge conflicts in the app",
+    "status": "backlog",
+    "priority": "high",
+    "assignee": "",
+    "labels": [
+      "git"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "Conflicted files currently show as `U` in Changes and must be fixed in the editor or a terminal.\n\n- [ ] Three-way view: ours, theirs, result\n- [ ] Mark resolved and continue the merge or rebase\n- [ ] Content branch sync: offer the same instead of aborting the rebase\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

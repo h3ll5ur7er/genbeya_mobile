@@ -1,0 +1,26 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-57",
+    "path": "tasks/Planning demo/GENBEYA-57.md",
+    "title": "DEMO: Gather requirements",
+    "status": "done",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "demo"
+    ],
+    "type": "chore",
+    "fields": {
+      "milestone": "DEMO",
+      "estimate": "6h",
+      "duration": "1d",
+      "start": "2026-10-19",
+      "due": "2026-10-20"
+    },
+    "body": "> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nFinished, and over its estimate: 7h logged against 6h. Finished tasks are left out of the critical path.\n\n## Time log\n\n- 2026-10-19 — Ada Lovelace — 4h — Interviews\n- 2026-10-20 — Ada Lovelace — 3h — Wrote them up\n",
+    "epic": "Planning demo",
+    "hash": "hash",
+    "comments": []
+  }
+}

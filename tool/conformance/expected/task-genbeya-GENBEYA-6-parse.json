@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-6",
+    "path": "tasks/GENBEYA-6.md",
+    "title": "Pull requests for GitHub, GitLab and Bitbucket",
+    "status": "backlog",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "integrations"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "Show open pull requests for the current branch and create one after pushing. Needs per-provider APIs and token handling through the system keychain.\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

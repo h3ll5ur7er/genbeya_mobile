@@ -1,0 +1,19 @@
+{
+  "id": "task-genbeya-GENBEYA-62-status",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/Planning demo/GENBEYA-62.md",
+    "content": "---\nid: GENBEYA-62\ntitle: \"DEMO: Run the integration tests\"\ntype: chore\nstatus: todo\npriority: low\nlabels: [demo]\nmilestone: DEMO\nduration: 1d\nstart: 2026-11-02\ndue: 2026-11-02\ndepends_on: [GENBEYA-59, GENBEYA-60]\n---\n\n> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nWaits for two tasks: the arrow diagram joins them with dashed dummy arrows.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "status": "in-progress"
+    }
+  }
+}

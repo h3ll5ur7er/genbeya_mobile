@@ -1,0 +1,80 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "settings": {
+    "name": "TaskBoard",
+    "wikiRoot": "docs",
+    "wikiHome": "Home.md",
+    "taskRoot": "tasks",
+    "taskPrefix": "MR",
+    "statuses": [
+      "todo",
+      "doing",
+      "done"
+    ],
+    "statusIcons": {
+      "doing": "play"
+    },
+    "hiddenColumns": [
+      "done"
+    ],
+    "types": [
+      {
+        "name": "bug",
+        "icon": "bug",
+        "tone": "red"
+      },
+      {
+        "name": "spike",
+        "icon": "flask-conical",
+        "tone": "purple"
+      },
+      {
+        "name": "feature",
+        "icon": "sparkles",
+        "tone": "purple"
+      }
+    ],
+    "fields": [
+      {
+        "name": "area",
+        "type": "choice",
+        "options": [
+          "ui",
+          "backend",
+          "3"
+        ]
+      },
+      {
+        "name": "due",
+        "type": "date"
+      }
+    ],
+    "people": [
+      {
+        "handle": "ada",
+        "name": "Ada Lovelace",
+        "email": "ada@example.com",
+        "aliases": [
+          "Ada King"
+        ]
+      }
+    ],
+    "pullRoot": "pulls",
+    "pullPrefix": "PR",
+    "requiredApprovals": 1,
+    "todosBlockMerge": true,
+    "unused": [
+      "wiki",
+      "terminal"
+    ],
+    "workdays": [
+      "mon",
+      "fri"
+    ],
+    "holidays": [
+      "2026-12-24",
+      "2026-12-25"
+    ],
+    "milestones": []
+  }
+}

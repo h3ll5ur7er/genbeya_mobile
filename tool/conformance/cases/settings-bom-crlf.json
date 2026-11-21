@@ -1,0 +1,9 @@
+{
+  "id": "settings-bom-crlf",
+  "kind": "settings.parse",
+  "input": {
+    "content": "﻿name: \"my project\"\r\nwikiRoot: documentation\r\n",
+    "folderName": "my-repo",
+    "windows": false
+  }
+}

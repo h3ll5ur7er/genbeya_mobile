@@ -1,0 +1,25 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-18",
+    "path": "tasks/4 Plan and review/GM-18.md",
+    "title": "Planning on tasks and logging time",
+    "status": "backlog",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [],
+    "type": "feature",
+    "fields": {
+      "estimate": "4d",
+      "remaining": "4d",
+      "milestone": "M4",
+      "depends_on": [
+        "GM-12"
+      ]
+    },
+    "body": "The planning prototype of Genbeya's develop branch on the phone. See [[Experience#tasks]].\n\n- [ ] Planning engine port: effort, the five numbers, blocked and ready, critical path and float; conformance cases from Genbeya's planning specs\n- [ ] Task screen: estimate, logged, remaining, forecast, variance; **Blocked by**, **Blocks**, float\n- [ ] Cards: lock when blocked, critical-path mark\n- [ ] **Log time** sheet updating `remaining`; time log lines exactly as on desktop; unreadable lines flagged\n- [ ] Plan macros (`[EFFORT]`, `[GANTT]`, `[BURNDOWN]`, …) render in pages with the plan context and history the kit needs\n",
+    "epic": "4 Plan and review",
+    "hash": "hash",
+    "comments": []
+  }
+}

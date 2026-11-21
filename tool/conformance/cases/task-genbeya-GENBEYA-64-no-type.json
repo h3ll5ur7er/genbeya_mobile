@@ -1,0 +1,19 @@
+{
+  "id": "task-genbeya-GENBEYA-64-no-type",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/Planning demo/GENBEYA-64.md",
+    "content": "---\nid: GENBEYA-64\ntitle: \"DEMO: Broken plan, on purpose\"\ntype: chore\nstatus: todo\npriority: low\nlabels: [demo]\nmilestone: DEMO\nestimate: 1d\nremaining: soon\ndepends_on: [GENBEYA-64, GENBEYA-999]\n---\n\n> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nEverything here is wrong on purpose, to see how planning says so: it depends on itself and on a task that doesn't exist, **Remaining** isn't an effort, and one line of the time log can't be read.\n\n## Time log\n\n- 2026-10-26 — Ada Lovelace — 1h — Fine\n- yesterday, for a while\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "type": ""
+    }
+  }
+}

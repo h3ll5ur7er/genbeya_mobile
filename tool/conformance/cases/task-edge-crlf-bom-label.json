@@ -1,0 +1,23 @@
+{
+  "id": "task-edge-crlf-bom-label",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/crlf-bom.md",
+    "content": "﻿---\r\n# Managed by Genbeya; keep the comments.\r\nid: EDGE-1\r\ntitle: Keep the byte order mark and CRLF\r\nstatus: todo   # moves as work goes\r\npriority: high\r\nlabels: [mobile, conformance]\r\nestimate: 4h\r\nx-tool: kept\r\n---\r\n\r\nA description with\r\nCRLF line endings.\r\n\r\n- [ ] One\r\n- [x] Two\r\n\r\n## Comments\r\n\r\n### Ada Lovelace — 2026-10-10 14:32+02:00\r\n\r\nFirst comment.\r\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "labels": [
+        "mobile",
+        "conformance",
+        "mobile"
+      ]
+    }
+  }
+}

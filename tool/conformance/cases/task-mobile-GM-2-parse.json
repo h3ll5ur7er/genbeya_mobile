@@ -1,0 +1,16 @@
+{
+  "id": "task-mobile-GM-2-parse",
+  "kind": "task.parse",
+  "input": {
+    "path": "tasks/0 Spikes/GM-2.md",
+    "content": "---\nid: GM-2\ntitle: \"Spike: Git on the device with a Rust core\"\ntype: spike\nstatus: in-progress\npriority: urgent\nestimate: 4d\nremaining: 4d\nmilestone: M0\ndepends_on: [GM-1]\n---\n\nProve that a phone can do what the app needs from Git, before anything is built on it. See [[Architecture#git-on-the-device]].\n\nDone when, on a real Android phone and a real iPhone, a test screen can do each step against a private GitHub repository over HTTPS and over SSH:\n\n- [ ] Rust crate `native/genbeya_core` with `git2` (vendored libgit2, OpenSSL, libssh2), bound with flutter_rust_bridge\n- [ ] Shallow single-branch clone of genbeya/genbeya; time and size noted\n- [ ] Commit a changed file without a staging step\n- [ ] Fetch, rebase the local commit onto the remote, push\n- [ ] Commit onto another branch's tree without checking it out (for the content branch)\n- [ ] `log` for one path, `diff` from a merge base, `merge-tree` style conflict check\n- [ ] In-memory rebase that leaves the working tree alone until it succeeds\n- [ ] `core.symlinks=false`, no submodules or LFS; stale lock files after the app is killed\n- [ ] Note the build steps and what broke; if the Rust core doesn't clone, commit and push on both platforms within 2 days, switch to `git2dart` (D3 in [[Decisions]])\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

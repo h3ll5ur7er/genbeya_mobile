@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-8",
+    "path": "tasks/GENBEYA-8.md",
+    "title": "Task comments and activity from Git history",
+    "status": "todo",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [
+      "tasks"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "Show who changed a task and when, from `git log --follow` on the task file, and allow comments stored in the task file below the description.\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

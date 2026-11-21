@@ -1,0 +1,9 @@
+{
+  "id": "settings-icons-types-people",
+  "kind": "settings.parse",
+  "input": {
+    "content": "# Settings with every shape\nname: TaskBoard\nstatuses:\n  - todo\n  - name: doing\n    icon: play\n  - done\nhiddenColumns: [done]\ntypes:\n  - bug\n  - name: spike\n    icon: flask-conical\n    tone: purple\n  - feature\nfields:\n  - name: area\n    type: choice\n    options: [ui, backend, 3]\n  - name: due\n    type: date\npeople:\n  - handle: ada\n    name: Ada Lovelace\n    email: ada@example.com\n    aliases: [Ada King]\nworkdays: [fri, mon]\nholidays: [2026-12-25, 2026-12-24, 2026-12-25]\nunused: [terminal, wiki]\n",
+    "folderName": "my-repo",
+    "windows": false
+  }
+}

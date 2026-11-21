@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-10\ntitle: Search and Genbeya links\ntype: feature\nstatus: todo\npriority: medium\nestimate: 3d\nremaining: 3d\nmilestone: M1\ndepends_on: [GM-7]\n---\n\nFind anything, and open what others share. See [[Experience#search]] and [[Experience#sharing-and-links]].\n\n- [ ] Search field in every screen's top bar: names first, full text below, grouped by kind, hidden parts left out\n- [ ] Full-text search in an isolate over the working tree, with excerpts as `search-engine.ts` makes them\n- [ ] `genbeya://open?…` links registered on Android and iOS, parsed with the desktop's strict rules; open the clone with that remote or offer to clone\n- [ ] **Copy Genbeya link** and **Copy web link** through the share sheet\n"
+}

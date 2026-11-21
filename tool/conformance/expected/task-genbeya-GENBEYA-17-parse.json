@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-17",
+    "path": "tasks/GENBEYA-17.md",
+    "title": "Smoke-test on macOS and Linux",
+    "status": "review",
+    "priority": "high",
+    "assignee": "",
+    "labels": [
+      "release"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "Development and testing happened on Windows. Verify window chrome, menus, shortcuts (`⌘`), the dev script and packaging on macOS and Linux.\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

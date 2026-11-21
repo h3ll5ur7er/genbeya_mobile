@@ -1,0 +1,19 @@
+{
+  "id": "task-genbeya-GENBEYA-6-no-type",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/GENBEYA-6.md",
+    "content": "---\nid: GENBEYA-6\ntitle: Pull requests for GitHub, GitLab and Bitbucket\nstatus: backlog\npriority: low\nlabels: [integrations]\n---\n\nShow open pull requests for the current branch and create one after pushing. Needs per-provider APIs and token handling through the system keychain.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "type": ""
+    }
+  }
+}

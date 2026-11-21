@@ -1,0 +1,9 @@
+{
+  "id": "settings-mobile",
+  "kind": "settings.parse",
+  "input": {
+    "content": "name: Genbeya Mobile\nwikiRoot: docs\nwikiHome: Home.md\ntaskRoot: tasks\ntaskPrefix: GM\nstatuses:\n  - backlog\n  - todo\n  - in-progress\n  - review\n  - done\ntypes:\n  - spike\n  - feature\n  - chore\n  - docs\n# Planning fields: the roadmap in docs/Roadmap.md is drawn from them.\nfields:\n  - name: estimate\n    type: effort\n  - name: remaining\n    type: effort\n  - name: depends_on\n    type: tasks\n  - name: milestone\n    type: choice\n    options: [M0, M1, M2, M3, M4, M5]\n# Rough dates for one developer working on it full time; move them as you learn.\nmilestones:\n  - name: M0\n    due: 2026-12-04\n  - name: M1\n    due: 2026-12-23\n  - name: M2\n    due: 2027-01-29\n  - name: M3\n    due: 2027-02-19\n  - name: M4\n    due: 2027-03-19\n  - name: M5\n    due: 2027-04-02\n",
+    "folderName": "my-repo",
+    "windows": false
+  }
+}

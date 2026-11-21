@@ -1,0 +1,21 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-18",
+    "path": "tasks/GENBEYA-18.md",
+    "title": "Show the wiki and board of other branches",
+    "status": "backlog",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [
+      "wiki",
+      "tasks"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "In checkout mode the wiki follows the current branch. Allow browsing another branch's pages and tasks read-only without switching.\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

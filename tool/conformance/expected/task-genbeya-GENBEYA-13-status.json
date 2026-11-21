@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-13\ntitle: Custom task fields and templates\nstatus: todo\npriority: low\nlabels:\n  - tasks\n---\n\nTeams want fields such as estimate, due date or component, and description templates for bugs and features. Unknown frontmatter fields already survive edits; show them in the task panel and allow editing.\n"
+}

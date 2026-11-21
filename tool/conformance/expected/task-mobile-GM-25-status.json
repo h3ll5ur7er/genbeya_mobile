@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-25\ntitle: Use the kit Genbeya builds\ntype: chore\nstatus: todo\npriority: low\nestimate: 1d\nremaining: 1d\ndepends_on: [GM-3]\n---\n\nWaits for Genbeya to ship [[Kit build]]. Until then `tool/build_kit` builds the same bundle from Genbeya's sources ([[GM-3]]), so nothing in the app waits for this (D2 in [[Decisions]]).\n\n- [ ] `tool/build_kit` downloads `genbeya-kit-<version>.zip` of the release named in `kit/GENBEYA_REF` and checks every file against its `manifest.json`\n- [ ] The app refuses a kit whose `protocol` on `ready` it doesn't speak\n- [ ] Remove `kit/src/` once Genbeya's `src/shells/kit/` replaces it; keep the source build for the nightly job against `develop`\n- [ ] Note the Genbeya version in [[Upstream]]\n"
+}

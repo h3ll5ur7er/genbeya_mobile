@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-2",
+    "path": "tasks/GENBEYA-2.md",
+    "title": "Rewrite links when a page moves",
+    "status": "todo",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [
+      "wiki"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "Moving a page keeps its subpages together but leaves links pointing at the old path.\n\n- [ ] Find relative Markdown links and `[[wiki links]]` to the moved pages\n- [ ] Offer to update them in the same operation (one commit on a content branch)\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "settings-not-a-map",
+  "kind": "settings.parse",
+  "input": {
+    "content": "- just\n- a list\n",
+    "folderName": "my-repo",
+    "windows": false
+  }
+}

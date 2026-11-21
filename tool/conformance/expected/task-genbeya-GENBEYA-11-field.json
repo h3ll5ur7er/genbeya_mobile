@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-11\ntitle: Manual order of cards within a column\nstatus: backlog\npriority: low\nlabels:\n  - tasks\nremaining: 3h\n---\n\nCards sort by priority, then by ID. Allow dragging within a column; store the order in the task file (`rank:`) so it survives merges.\n"
+}

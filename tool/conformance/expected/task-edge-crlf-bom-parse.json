@@ -1,0 +1,30 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "EDGE-1",
+    "path": "tasks/crlf-bom.md",
+    "title": "Keep the byte order mark and CRLF",
+    "status": "todo",
+    "priority": "high",
+    "assignee": "",
+    "labels": [
+      "mobile",
+      "conformance"
+    ],
+    "type": "",
+    "fields": {
+      "estimate": "4h",
+      "x-tool": "kept"
+    },
+    "body": "A description with\r\nCRLF line endings.\r\n\r\n- [ ] One\r\n- [x] Two\r\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": [
+      {
+        "author": "Ada Lovelace",
+        "date": "2026-10-10T14:32+02:00",
+        "body": "First comment."
+      }
+    ]
+  }
+}

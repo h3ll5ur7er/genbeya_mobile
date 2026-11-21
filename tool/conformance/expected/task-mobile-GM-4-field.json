@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-4\ntitle: \"Spike: compare editors on the device\"\ntype: spike\nstatus: in-progress\npriority: high\nestimate: 2d\nremaining: 3h\nmilestone: M0\ndepends_on: [GM-3]\n---\n\nConfirm the decided editor, CodeMirror 6 in the kit for pages and code, against a native one on real phones (D4 in [[Decisions]]). Comments use a native text field. See [[Architecture#the-web-kit]].\n\n- [ ] CodeMirror 6 in the kit, with Genbeya's Markdown language and `[[` completion\n- [ ] re_editor (or another maintained native editor) with Markdown highlighting\n- [ ] Try each on a 2,000-line Markdown file: typing, autocorrect, the system keyboard's suggestions, selection handles, undo, scrolling, a toolbar above the keyboard\n- [ ] Confirm CodeMirror 6 on both phones; only if it fails, the code editor goes native, and record it in [[Architecture]]\n"
+}

@@ -1,0 +1,35 @@
+# Nightly: runs the conformance cases against Genbeya's develop branch. A
+# failure means Genbeya changed a format the mobile engines don't follow yet:
+# update the engines, then bump kit/GENBEYA_REF. See docs/Development.md.
+name: Drift from Genbeya develop
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: genbeya/genbeya
+          ref: develop
+          path: .genbeya
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.50.1
+          channel: stable
+          cache: true
+      - name: Expected outputs from develop
+        working-directory: tool/conformance
+        run: |
+          npm ci
+          GENBEYA_SRC="$GITHUB_WORKSPACE/.genbeya" node generate.mjs --ref develop
+      - name: The Dart engines still match
+        run: flutter test test/conformance_test.dart

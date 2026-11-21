@@ -1,0 +1,19 @@
+{
+  "id": "task-edge-long-title-status",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/long-title.md",
+    "content": "---\nid: EDGE-7\ntitle: A title that is quite long and contains characters like # hash, 'quotes', \"double quotes\" and a trailing colon:\nstatus: todo\npriority: medium\nlabels: []\n---\nText right after the frontmatter, without a blank line.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "status": "in-progress"
+    }
+  }
+}

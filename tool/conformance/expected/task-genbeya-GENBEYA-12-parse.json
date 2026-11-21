@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-12",
+    "path": "tasks/GENBEYA-12.md",
+    "title": "Virtualize long lists",
+    "status": "backlog",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [
+      "performance"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "The file tree caps at what the DOM handles comfortably, and history loads 200 commits per page.\n\n- [ ] Virtualized file tree\n- [ ] Virtualized history list with the commit graph\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

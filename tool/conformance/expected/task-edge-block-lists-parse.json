@@ -1,0 +1,26 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "EDGE-3",
+    "path": "tasks/block-lists.md",
+    "title": "Labels written as a block list",
+    "status": "backlog",
+    "priority": "none",
+    "assignee": "",
+    "labels": [
+      "one",
+      "two"
+    ],
+    "type": "",
+    "fields": {
+      "depends_on": [
+        "EDGE-1",
+        "EDGE-2"
+      ]
+    },
+    "body": "",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

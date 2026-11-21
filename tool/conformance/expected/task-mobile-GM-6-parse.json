@@ -1,0 +1,25 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-6",
+    "path": "tasks/1 Read anywhere/GM-6.md",
+    "title": "Repositories, cloning and signing in",
+    "status": "backlog",
+    "priority": "high",
+    "assignee": "",
+    "labels": [],
+    "type": "feature",
+    "fields": {
+      "estimate": "4d",
+      "remaining": "4d",
+      "milestone": "M1",
+      "depends_on": [
+        "GM-2"
+      ]
+    },
+    "body": "The start screen and everything needed to get a repository onto the phone. See [[Experience#navigation]] and [[Experience#signing-in]].\n\n- [ ] Repositories screen: clones with branch, unsynced edits, last sync, size; **Remove clone**\n- [ ] Clone from a URL; choose the branch; shallow by default\n- [ ] HTTPS token in the keychain; SSH key made on the device with the public key to copy; host key trust on first use\n- [ ] GitHub and GitLab device-flow sign-in, ending in a token\n- [ ] Git name and email per repository\n",
+    "epic": "1 Read anywhere",
+    "hash": "hash",
+    "comments": []
+  }
+}

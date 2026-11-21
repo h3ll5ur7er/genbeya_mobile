@@ -1,0 +1,23 @@
+{
+  "id": "task-edge-spacing-label",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/spacing.md",
+    "content": "---\n# A comment above everything\n\n# A comment above id\nid: EDGE-8\ntitle: Blank lines and comments between keys\n\n# Why the status\nstatus: todo\nassignee:\nlabels: [ a ,b ]\nmeta: {owner: ada, size: 3}\nnested:\n    deep: four-space indent\nnote: |\n  a block\n  scalar\n---\nBody\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "labels": [
+        "a",
+        "b",
+        "mobile"
+      ]
+    }
+  }
+}

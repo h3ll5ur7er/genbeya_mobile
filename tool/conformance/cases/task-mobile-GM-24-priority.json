@@ -1,0 +1,19 @@
+{
+  "id": "task-mobile-GM-24-priority",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/5 Trial/GM-24.md",
+    "content": "---\nid: GM-24\ntitle: Dogfood and decide\ntype: chore\nstatus: backlog\npriority: medium\nestimate: 5d\nremaining: 5d\nmilestone: M5\ndepends_on: [GM-23]\n---\n\nUse the app for real for two weeks, then decide whether Genbeya gets an official mobile client. See [[Roadmap#how-the-trial-is-judged]].\n\n- [ ] Walk through every **Must** story in [[User stories]] on an Android phone and an iPhone, and the three moments of \"A day with the app\"\n- [ ] Use it daily on genbeya/genbeya itself: its board, wiki and pull requests\n- [ ] Watch the desktop for spurious diffs in files the app wrote\n- [ ] Collect what was missed and what was never used\n- [ ] Write the verdict and what an official client would need into [[Roadmap]]\n- [ ] For genbeya/genbeya: move its tasks to the content branch, or use `mobile/<handle>` (D5)\n- [ ] Note reviews that stopped at \"approved, merge later\" (D10) and reactions missed without notifications (D12)\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "priority": "high"
+    }
+  }
+}

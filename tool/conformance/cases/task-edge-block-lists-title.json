@@ -1,0 +1,19 @@
+{
+  "id": "task-edge-block-lists-title",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/block-lists.md",
+    "content": "---\nid: EDGE-3\ntitle: Labels written as a block list\nstatus: backlog\nlabels:\n  - one\n  - two\ndepends_on:\n  - EDGE-1\n  - EDGE-2\n---\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "title": "Renamed: on the phone"
+    }
+  }
+}

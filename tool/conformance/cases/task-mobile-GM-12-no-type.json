@@ -1,0 +1,19 @@
+{
+  "id": "task-mobile-GM-12-no-type",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/2 Work on tasks/GM-12.md",
+    "content": "---\nid: GM-12\ntitle: Edit tasks\ntype: feature\nstatus: backlog\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M2\ndepends_on: [GM-9, GM-11]\n---\n\nKeep the board true from the phone. See [[Experience#tasks]].\n\n- [ ] Task engine writes: change a field keeping order, comments, line endings; conformance cases for each kind\n- [ ] Status, type, priority, assignee (people picker), epic (moves the file), labels in bottom sheets; custom fields\n- [ ] Tick checklist items in the description\n- [ ] Drag cards between columns and swimlanes; **Move to…** on long press\n- [ ] Edit title and description\n- [ ] New task with the next ID, from the board, a column, the app icon's quick action and shared text; type templates\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "type": ""
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "task-edge-unknown-keys-title",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/unknown-keys.md",
+    "content": "---\nid: EDGE-4\ntitle: Keys other tools wrote\nstatus: review\npriority: low\ncustom:\n  nested: map\n  list: [1, 2]\ncreated: 2026-01-02\nscore: 3.5\ndone_flag: true\n'quoted key': value\n---\n\n## Not comments\n\n### Ada Lovelace — 2026-10-10 14:32+02:00 inside code is code:\n\n```markdown\n## Comments\n\n### Ada Lovelace — 2026-10-10 14:32+02:00\n```\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "title": "Renamed: on the phone"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "settings-genbeya",
+  "kind": "settings.parse",
+  "input": {
+    "content": "name: Genbeya\nwikiRoot: docs\nwikiHome: Home.md\ntaskRoot: tasks\ntaskPrefix: GENBEYA\nstatuses:\n  - backlog\n  - todo\n  - in-progress\n  - review\n  - done\n# Planning fields (GENBEYA-43 to GENBEYA-48). The DEMO tasks in tasks/Planning demo/ use them.\nfields:\n  - name: estimate\n    type: effort\n  - name: remaining\n    type: effort\n  - name: duration\n    type: effort\n  - name: start\n    type: date\n  - name: due\n    type: date\n  - name: milestone\n    type: text\n  - name: depends_on\n    type: tasks\n",
+    "folderName": "my-repo",
+    "windows": false
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "EDGE-5",
+    "path": "tasks/time-log.md",
+    "title": "A time log and comments",
+    "status": "in-progress",
+    "priority": "none",
+    "assignee": "",
+    "labels": [],
+    "type": "",
+    "fields": {
+      "estimate": "2d",
+      "remaining": "6h"
+    },
+    "body": "Work to do.\n\n## Time log\n\n- 2026-10-21 — Alex Chen — 2h — Investigated the flow\n- 2026-10-22 — Alex Chen — 3h — Implemented it\n- not an entry\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": [
+      {
+        "author": "Sam Rivera",
+        "date": "2026-10-23T09:10+02:00",
+        "body": "Looks good."
+      },
+      {
+        "author": "Alex Chen",
+        "date": "2026-10-23T12:45+02:00",
+        "body": "Thanks."
+      }
+    ]
+  }
+}

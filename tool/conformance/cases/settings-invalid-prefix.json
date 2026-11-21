@@ -1,0 +1,9 @@
+{
+  "id": "settings-invalid-prefix",
+  "kind": "settings.parse",
+  "input": {
+    "content": "name: Broken\ntaskPrefix: 1BAD\n",
+    "folderName": "my-repo",
+    "windows": false
+  }
+}

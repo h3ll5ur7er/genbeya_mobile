@@ -1,0 +1,24 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-25",
+    "path": "tasks/6 Upstream/GM-25.md",
+    "title": "Use the kit Genbeya builds",
+    "status": "backlog",
+    "priority": "low",
+    "assignee": "",
+    "labels": [],
+    "type": "chore",
+    "fields": {
+      "estimate": "1d",
+      "remaining": "1d",
+      "depends_on": [
+        "GM-3"
+      ]
+    },
+    "body": "Waits for Genbeya to ship [[Kit build]]. Until then `tool/build_kit` builds the same bundle from Genbeya's sources ([[GM-3]]), so nothing in the app waits for this (D2 in [[Decisions]]).\n\n- [ ] `tool/build_kit` downloads `genbeya-kit-<version>.zip` of the release named in `kit/GENBEYA_REF` and checks every file against its `manifest.json`\n- [ ] The app refuses a kit whose `protocol` on `ready` it doesn't speak\n- [ ] Remove `kit/src/` once Genbeya's `src/shells/kit/` replaces it; keep the source build for the nightly job against `develop`\n- [ ] Note the Genbeya version in [[Upstream]]\n",
+    "epic": "6 Upstream",
+    "hash": "hash",
+    "comments": []
+  }
+}

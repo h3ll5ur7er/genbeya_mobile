@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\n# A comment above everything\n\n# A comment above id\nid: EDGE-8\ntitle: \"Renamed: on the phone\"\n\n# Why the status\nstatus: todo\nlabels:\n  - a\n  - b\nmeta: {owner: ada, size: 3}\nnested:\n  deep: four-space indent\nnote: |\n  a block\n  scalar\n---\n\nBody\n"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "task-genbeya-GENBEYA-7-status",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/GENBEYA-7.md",
+    "content": "---\nid: GENBEYA-7\ntitle: Code signing, auto-update and release builds\nstatus: backlog\npriority: high\nlabels: [release]\n---\n\n`npm run package` builds an unsigned installer for the current OS.\n\n- [ ] Windows and macOS signing, macOS notarization\n- [ ] Release workflow that builds all three platforms\n- [ ] Auto-update channel\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "status": "todo"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-64",
+    "path": "tasks/Planning demo/GENBEYA-64.md",
+    "title": "DEMO: Broken plan, on purpose",
+    "status": "todo",
+    "priority": "low",
+    "assignee": "",
+    "labels": [
+      "demo"
+    ],
+    "type": "chore",
+    "fields": {
+      "milestone": "DEMO",
+      "estimate": "1d",
+      "remaining": "soon",
+      "depends_on": [
+        "GENBEYA-64",
+        "GENBEYA-999"
+      ]
+    },
+    "body": "> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nEverything here is wrong on purpose, to see how planning says so: it depends on itself and on a task that doesn't exist, **Remaining** isn't an effort, and one line of the time log can't be read.\n\n## Time log\n\n- 2026-10-26 — Ada Lovelace — 1h — Fine\n- yesterday, for a while\n",
+    "epic": "Planning demo",
+    "hash": "hash",
+    "comments": []
+  }
+}

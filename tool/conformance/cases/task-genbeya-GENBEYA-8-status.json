@@ -1,0 +1,19 @@
+{
+  "id": "task-genbeya-GENBEYA-8-status",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/GENBEYA-8.md",
+    "content": "---\nid: GENBEYA-8\ntitle: Task comments and activity from Git history\nstatus: todo\npriority: medium\nlabels: [tasks]\n---\n\nShow who changed a task and when, from `git log --follow` on the task file, and allow comments stored in the task file below the description.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "status": "in-progress"
+    }
+  }
+}

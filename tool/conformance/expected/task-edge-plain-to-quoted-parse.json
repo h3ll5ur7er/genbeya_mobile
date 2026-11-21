@@ -1,0 +1,22 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "EDGE-10",
+    "path": "tasks/plain-to-quoted.md",
+    "title": "Plain title",
+    "status": "todo",
+    "priority": "none",
+    "assignee": "",
+    "labels": [],
+    "type": "",
+    "fields": {
+      "estimate": 8,
+      "reviewer": "single quoted",
+      "flag": "true"
+    },
+    "body": "",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

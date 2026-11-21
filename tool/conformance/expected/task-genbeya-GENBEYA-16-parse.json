@@ -1,0 +1,20 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GENBEYA-16",
+    "path": "tasks/GENBEYA-16.md",
+    "title": "Accessibility pass",
+    "status": "todo",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [
+      "accessibility"
+    ],
+    "type": "",
+    "fields": {},
+    "body": "- [ ] Screen reader labels on all icon buttons and menus\n- [ ] Keyboard-only drag and drop on the board (move with a menu)\n- [ ] Focus order in the task panel and dialogs\n- [ ] Contrast check for both themes\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

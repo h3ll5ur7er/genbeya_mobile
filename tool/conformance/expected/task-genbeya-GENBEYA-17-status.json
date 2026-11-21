@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-17\ntitle: Smoke-test on macOS and Linux\nstatus: done\npriority: high\nlabels:\n  - release\n---\n\nDevelopment and testing happened on Windows. Verify window chrome, menus, shortcuts (`⌘`), the dev script and packaging on macOS and Linux.\n"
+}

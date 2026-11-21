@@ -1,0 +1,16 @@
+{
+  "id": "task-edge-plain-to-quoted-parse",
+  "kind": "task.parse",
+  "input": {
+    "path": "tasks/plain-to-quoted.md",
+    "content": "---\nid: EDGE-10\ntitle: Plain title\nstatus: todo\nestimate: 08\nreviewer: 'single quoted'\nflag: \"true\"\n---\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

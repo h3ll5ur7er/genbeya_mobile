@@ -1,0 +1,18 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "EDGE-7",
+    "path": "tasks/long-title.md",
+    "title": "A title that is quite long and contains characters like",
+    "status": "todo",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [],
+    "type": "",
+    "fields": {},
+    "body": "Text right after the frontmatter, without a blank line.\n",
+    "epic": "",
+    "hash": "hash",
+    "comments": []
+  }
+}

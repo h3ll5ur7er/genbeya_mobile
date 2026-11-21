@@ -27,6 +27,31 @@ jobs:
       - name: Test
         run: flutter test
 
+  conformance:
+    # The expected outputs must be what Genbeya, at the commit in kit/GENBEYA_REF,
+    # produces for the cases; the Dart side is checked by `flutter test` above.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the pinned Genbeya commit
+        id: ref
+        run: echo "sha=$(cat kit/GENBEYA_REF)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          repository: genbeya/genbeya
+          ref: ${{ steps.ref.outputs.sha }}
+          path: .genbeya
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Regenerate the expected outputs
+        working-directory: tool/conformance
+        run: |
+          npm ci
+          GENBEYA_SRC="$GITHUB_WORKSPACE/.genbeya" node generate.mjs
+      - name: They match what is committed
+        run: git diff --exit-code tool/conformance/expected
+
   android:
     needs: check
     runs-on: ubuntu-latest

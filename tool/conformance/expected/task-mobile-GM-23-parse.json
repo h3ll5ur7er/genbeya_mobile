@@ -1,0 +1,26 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "task": {
+    "id": "GM-23",
+    "path": "tasks/5 Trial/GM-23.md",
+    "title": "Test builds for TestFlight and Play",
+    "status": "backlog",
+    "priority": "medium",
+    "assignee": "",
+    "labels": [],
+    "type": "chore",
+    "fields": {
+      "estimate": "2d",
+      "remaining": "2d",
+      "milestone": "M5",
+      "depends_on": [
+        "GM-22",
+        "GM-27"
+      ]
+    },
+    "body": "Get the app onto testers' phones.\n\n- [ ] Signing for iOS and Android in CI\n- [ ] TestFlight and Google Play internal testing tracks\n- [ ] A short note for testers: what to try, how to report\n",
+    "epic": "5 Trial",
+    "hash": "hash",
+    "comments": []
+  }
+}

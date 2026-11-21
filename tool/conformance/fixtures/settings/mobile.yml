@@ -1,0 +1,41 @@
+name: Genbeya Mobile
+wikiRoot: docs
+wikiHome: Home.md
+taskRoot: tasks
+taskPrefix: GM
+statuses:
+  - backlog
+  - todo
+  - in-progress
+  - review
+  - done
+types:
+  - spike
+  - feature
+  - chore
+  - docs
+# Planning fields: the roadmap in docs/Roadmap.md is drawn from them.
+fields:
+  - name: estimate
+    type: effort
+  - name: remaining
+    type: effort
+  - name: depends_on
+    type: tasks
+  - name: milestone
+    type: choice
+    options: [M0, M1, M2, M3, M4, M5]
+# Rough dates for one developer working on it full time; move them as you learn.
+milestones:
+  - name: M0
+    due: 2026-12-04
+  - name: M1
+    due: 2026-12-23
+  - name: M2
+    due: 2027-01-29
+  - name: M3
+    due: 2027-02-19
+  - name: M4
+    due: 2027-03-19
+  - name: M5
+    due: 2027-04-02

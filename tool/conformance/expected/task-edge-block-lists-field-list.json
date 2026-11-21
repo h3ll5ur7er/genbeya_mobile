@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: EDGE-3\ntitle: Labels written as a block list\nstatus: backlog\nlabels:\n  - one\n  - two\ndepends_on:\n  - GM-1\n  - GM-2\n---\n"
+}
