@@ -1,0 +1,9 @@
+{
+  "id": "page-edge-trailing-spaces-toggle-43",
+  "kind": "page.toggle",
+  "input": {
+    "content": "---\ntitle: x\n---  \n- [ ] Spaces after the closing dashes\n",
+    "offset": 43,
+    "item": false
+  }
+}

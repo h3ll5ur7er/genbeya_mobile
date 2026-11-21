@@ -1,0 +1,18 @@
+{
+  "id": "task-mobile-GM-23-toggle-35",
+  "kind": "task.toggle",
+  "input": {
+    "path": "tasks/5 Trial/GM-23.md",
+    "content": "---\nid: GM-23\ntitle: Test builds for TestFlight and Play\ntype: chore\nstatus: backlog\npriority: medium\nestimate: 2d\nremaining: 2d\nmilestone: M5\ndepends_on: [GM-22, GM-27]\n---\n\nGet the app onto testers' phones.\n\n- [ ] Signing for iOS and Android in CI\n- [ ] TestFlight and Google Play internal testing tracks\n- [ ] A short note for testers: what to try, how to report\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "offset": 35,
+    "item": true
+  }
+}

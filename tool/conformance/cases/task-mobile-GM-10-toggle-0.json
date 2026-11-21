@@ -1,0 +1,18 @@
+{
+  "id": "task-mobile-GM-10-toggle-0",
+  "kind": "task.toggle",
+  "input": {
+    "path": "tasks/1 Read anywhere/GM-10.md",
+    "content": "---\nid: GM-10\ntitle: Search and Genbeya links\ntype: feature\nstatus: backlog\npriority: medium\nestimate: 3d\nremaining: 3d\nmilestone: M1\ndepends_on: [GM-7]\n---\n\nFind anything, and open what others share. See [[Experience#search]] and [[Experience#sharing-and-links]].\n\n- [ ] Search field in every screen's top bar: names first, full text below, grouped by kind, hidden parts left out\n- [ ] Full-text search in an isolate over the working tree, with excerpts as `search-engine.ts` makes them\n- [ ] `genbeya://open?…` links registered on Android and iOS, parsed with the desktop's strict rules; open the clone with that remote or offer to clone\n- [ ] **Copy Genbeya link** and **Copy web link** through the share sheet\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "offset": 0,
+    "item": false
+  }
+}

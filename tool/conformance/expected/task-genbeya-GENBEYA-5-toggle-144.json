@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-5\ntitle: Stash, rebase, tags and branch deletion\nstatus: backlog\npriority: low\nlabels:\n  - git\n---\n\nCommon Git operations that still need a terminal.\n\n- [ ] Stash list with apply and drop\n- [ ] Delete merged branches\n- [ ] Create and push tags\n- [x] Interactive rebase is out of scope\n"
+}

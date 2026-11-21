@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-19\ntitle: Port the pull request engine\ntype: feature\nstatus: backlog\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M4\ndepends_on: [GM-5]\n---\n\nRead and write pull request files as Genbeya does. See [[Architecture#engines]].\n\n- [ ] Parse topics, code ranges, suggestions, to-dos, replies and verdicts; flag unreadable lines\n- [ ] Append replies and verdicts; tick to-dos; new pull request file with the next ID\n- [ ] Effective approvals and **Ready to merge?** from the policy (`requiredApprovals`, `todosBlockMerge`)\n- [ ] The change ID, with conformance cases that compare it with the desktop's on the same branches; if libgit2's diff can't match Git's, decide how to show it (see [[Roadmap#risks]])\n- [x] \"Recorded, not verified\": compare the verdict's name with the committer\n"
+}

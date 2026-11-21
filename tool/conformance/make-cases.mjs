@@ -45,6 +45,55 @@ for (const set of readdirSync(join(here, "fixtures/tasks")).sort()) {
     });
 }
 
+// Checkbox toggles: a page's checkbox at every task list item (the first and
+// last three of a long page) and at offsets where no item starts, which this
+// app refuses and Genbeya would tick the next checkbox for; a task's in its
+// description. `item` says whether an item starts at the offset.
+const ITEM = /^(?:[ \t]*>[ \t]?)*[ \t]*((?:[-*+]|\d{1,9}[.)])[ \t]+\[[ xX]\])/dgm;
+const itemOffsets = (text) => [...text.matchAll(ITEM)].map((m) => m.indices[1][0]);
+const sample = (list) => (list.length > 6 ? [...list.slice(0, 3), ...list.slice(-3)] : list);
+const offsetCases = (text, edge) => [
+  ...sample(itemOffsets(text)).map((offset) => ({ offset, item: true })),
+  ...(itemOffsets(text).includes(0) ? [] : [{ offset: 0, item: false }]),
+  ...(edge ? [{ offset: text.length + 5, item: false }] : []),
+];
+const stripPageFrontmatter = (text) => text.replace(/^---\r?\n[\s\S]*?\r?\n---[ \t]*\r?\n/, "");
+for (const set of readdirSync(join(here, "fixtures/pages")).sort()) {
+  for (const name of readdirSync(join(here, "fixtures/pages", set)).sort()) {
+    const content = read(join(here, "fixtures/pages", set, name));
+    for (const { offset, item } of offsetCases(stripPageFrontmatter(content), set === "edge")) {
+      add(`page-${set}-${name.replace(/\.md$/, "")}-toggle-${offset}`, "page.toggle", { content, offset, item });
+    }
+  }
+}
+function descriptionOf(content) {
+  const raw = content.replace(/^\uFEFF/, "");
+  const front = /^---\r?\n([\s\S]*?\r?\n)?---[ \t]*(?:\r?\n|$)/.exec(raw);
+  const body = (front ? raw.slice(front[0].length) : raw).replace(/^\r?\n/, "");
+  const comments = /^## Comments[ \t]*$/m.exec(body);
+  return comments ? body.slice(0, comments.index) : body;
+}
+for (const set of readdirSync(join(here, "fixtures/tasks")).sort()) {
+  const root = join(here, "fixtures/tasks", set);
+  for (const file of walk(root).filter((f) => f.endsWith(".md")).sort()) {
+    const content = read(file);
+    const offsets = itemOffsets(descriptionOf(content));
+    if (!offsets.length) continue;
+    const chosen = [...new Set([offsets[0], offsets.at(-1)])].map((offset) => ({ offset, item: true }));
+    if (set === "edge" || !offsets.includes(0)) chosen.push({ offset: 0, item: offsets.includes(0) });
+    for (const { offset, item } of chosen) {
+      add(`task-${set}-${basename(file, ".md")}-toggle-${offset}`, "task.toggle", {
+        path: `tasks/${relative(root, file)}`,
+        content,
+        taskRoot: "tasks",
+        statuses: STATUSES,
+        offset,
+        item,
+      });
+    }
+  }
+}
+
 function labelsOf(content) {
   const flow = /^labels:\s*\[(.*)\]/m.exec(content);
   if (flow) return flow[1].split(",").map((s) => s.trim()).filter(Boolean);

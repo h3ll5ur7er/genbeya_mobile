@@ -1,0 +1,9 @@
+{
+  "id": "page-edge-dashes-toggle-75",
+  "kind": "page.toggle",
+  "input": {
+    "content": "---\nnot: closed\n# No closing line: nothing is frontmatter\n\n- [ ] Item\n",
+    "offset": 75,
+    "item": false
+  }
+}

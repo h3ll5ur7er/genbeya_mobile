@@ -1,0 +1,9 @@
+{
+  "id": "page-edge-frontmatter-toggle-34",
+  "kind": "page.toggle",
+  "input": {
+    "content": "---\ntitle: Release checklist\ntags: [release]\n---\n# Release\n\n- [ ] Bump the version\n- [x] Write the notes\n",
+    "offset": 34,
+    "item": true
+  }
+}

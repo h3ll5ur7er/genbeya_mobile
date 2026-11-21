@@ -1,0 +1,9 @@
+{
+  "id": "page-edge-empty-frontmatter-toggle-34",
+  "kind": "page.toggle",
+  "input": {
+    "content": "---\n---\n- [ ] Directly after\n",
+    "offset": 34,
+    "item": false
+  }
+}

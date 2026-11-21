@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-2\ntitle: Rewrite links when a page moves\nstatus: todo\npriority: medium\nlabels:\n  - wiki\n---\n\nMoving a page keeps its subpages together but leaves links pointing at the old path.\n\n- [x] Find relative Markdown links and `[[wiki links]]` to the moved pages\n- [ ] Offer to update them in the same operation (one commit on a content branch)\n"
+}

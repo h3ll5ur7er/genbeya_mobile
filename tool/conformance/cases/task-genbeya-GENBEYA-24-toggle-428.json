@@ -1,0 +1,18 @@
+{
+  "id": "task-genbeya-GENBEYA-24-toggle-428",
+  "kind": "task.toggle",
+  "input": {
+    "path": "tasks/GENBEYA-24.md",
+    "content": "---\nid: GENBEYA-24\ntitle: Genbeya's Git tools in VS Code\ntype: feature\nstatus: backlog\npriority: low\nlabels: [vscode, git]\n---\n\nGenbeya's Git tools are more intuitive and more capable than VS Code's built-in ones. Offer them as a view of their own, natively where possible.\n\n- [ ] Decide what to offer next to VS Code's Source Control instead of replacing it\n- [ ] Changes as a tree with staging of lines, amend, ignore\n- [ ] History with branches, tags and stashes; reset, revert, cherry-pick\n- [ ] Merge, rebase (interactive too) and conflict resolution\n- [ ] Push with upstream and force with lease\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "offset": 428,
+    "item": true
+  }
+}

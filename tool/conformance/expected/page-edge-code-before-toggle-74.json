@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "# Code\n\n```markdown\n- [ ] not a checkbox, in code\n```\n\nInline `[ ]` too.\n\n- [x] The real one\n"
+}

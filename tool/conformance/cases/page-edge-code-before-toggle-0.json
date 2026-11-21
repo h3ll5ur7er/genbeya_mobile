@@ -1,0 +1,9 @@
+{
+  "id": "page-edge-code-before-toggle-0",
+  "kind": "page.toggle",
+  "input": {
+    "content": "# Code\n\n```markdown\n- [ ] not a checkbox, in code\n```\n\nInline `[ ]` too.\n\n- [ ] The real one\n",
+    "offset": 0,
+    "item": false
+  }
+}

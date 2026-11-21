@@ -5,15 +5,34 @@
 import { SettingsEngine } from "genbeya/src/engines/settings-engine";
 import { TaskEngine } from "genbeya/src/engines/task-engine";
 import type { TaskInput } from "genbeya/src/contracts/model";
+import { toggleCheckboxAt } from "genbeya/src/client/app/markdown/task-checkbox";
+// Imports Angular, which generate.mjs stubs: only this plain function is used.
+import { stripFrontmatter } from "genbeya/src/client/app/core/file-resource";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle";
   readonly input: Record<string, any>;
 }
 
 const settings = new SettingsEngine();
 const tasks = new TaskEngine();
+
+/** What the desktop client sends to update a task: the whole task (task-model.ts inputOf) with the change applied. */
+function inputOf(task: ReturnType<TaskEngine["parse"]>, change: Record<string, any>): TaskInput {
+  return {
+    title: task.title,
+    status: task.status,
+    priority: task.priority,
+    assignee: task.assignee,
+    labels: task.labels,
+    type: task.type,
+    fields: { ...task.fields, ...(change.fields ?? {}) },
+    body: task.body,
+    epic: task.epic,
+    ...Object.fromEntries(Object.entries(change).filter(([key]) => key !== "fields")),
+  } as TaskInput;
+}
 
 function run(c: Case): unknown {
   const i = c.input;
@@ -24,20 +43,18 @@ function run(c: Case): unknown {
       return { task: tasks.parse(i.path, i.content, "hash", i.taskRoot) };
     case "task.update": {
       const task = tasks.parse(i.path, i.content, "hash", i.taskRoot);
-      // What the desktop client sends: the whole task (task-model.ts inputOf) with the change applied.
-      const input: TaskInput = {
-        title: task.title,
-        status: task.status,
-        priority: task.priority,
-        assignee: task.assignee,
-        labels: task.labels,
-        type: task.type,
-        fields: { ...task.fields, ...(i.change.fields ?? {}) },
-        body: task.body,
-        epic: task.epic,
-        ...Object.fromEntries(Object.entries(i.change).filter(([key]) => key !== "fields")),
-      } as TaskInput;
-      return { output: tasks.serializeUpdate(i.content, tasks.validate(input, i.statuses)) };
+      return { output: tasks.serializeUpdate(i.content, tasks.validate(inputOf(task, i.change), i.statuses)) };
+    }
+    case "page.toggle": {
+      // wiki-page.ts toggleCheckbox: offsets count from the end of the frontmatter.
+      const at = i.content.length - stripFrontmatter(i.content).length + i.offset;
+      return { output: toggleCheckboxAt(i.content, at) };
+    }
+    case "task.toggle": {
+      // task-panel.ts toggleCheckbox: the description with the checkbox flipped.
+      const task = tasks.parse(i.path, i.content, "hash", i.taskRoot);
+      const change = { body: toggleCheckboxAt(task.body, i.offset) };
+      return { output: tasks.serializeUpdate(i.content, tasks.validate(inputOf(task, change), i.statuses)) };
     }
   }
 }

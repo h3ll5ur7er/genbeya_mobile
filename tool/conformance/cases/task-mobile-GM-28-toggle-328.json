@@ -1,0 +1,18 @@
+{
+  "id": "task-mobile-GM-28-toggle-328",
+  "kind": "task.toggle",
+  "input": {
+    "path": "tasks/0 Spikes/GM-28.md",
+    "content": "---\nid: GM-28\ntitle: Write the upstream specs\ntype: docs\nstatus: done\npriority: medium\nestimate: 4h\nmilestone: M0\n---\n\nSpecs for the two changes this app wants in Genbeya, written so that neither blocks the first version: [[Upstream]].\n\n- [x] [[Kit build]]: the bundle, its host interface and protocol, CI and releases\n- [x] [[Attached images]]: folders, names, references and processing for pages, tasks and pull requests, and the change ID rule\n- [x] What the app does until Genbeya has each\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "offset": 328,
+    "item": true
+  }
+}

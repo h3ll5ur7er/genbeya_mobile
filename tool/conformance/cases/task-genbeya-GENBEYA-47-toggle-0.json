@@ -1,0 +1,18 @@
+{
+  "id": "task-genbeya-GENBEYA-47-toggle-0",
+  "kind": "task.toggle",
+  "input": {
+    "path": "tasks/2 Planning/GENBEYA-47.md",
+    "content": "---\nid: GENBEYA-47\ntitle: Timeline as a wiki macro\ntype: feature\nstatus: review\npriority: low\nlabels: [planning, wiki]\n---\n\n`[GANTT …]` on a wiki page shows the matching tasks with `start` and `due` as a Mermaid timeline, with their dependencies, and marks conflicts: a task that starts before a task it depends on is due, a task due after its milestone. Dates are only ever set by people. Done when the macro renders live with the filters of [[GENBEYA-45]] and lists tasks without dates. See [[Design/Planning#dates-and-the-timeline]].\n\nBuilt on `feature/planning-prototype`: `[GANTT]`; a task with only a due date is a milestone.\n\n- [x] Engine: tasks to a Mermaid Gantt chart, conflicts, with spec tests\n- [x] Renderer, clickable tasks\n- [x] Milestones as points in time, once [[GENBEYA-43]] decides what a milestone is\n- [x] VS Code preview\n- [x] Document in [[Guide/Wiki]]\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "offset": 0,
+    "item": false
+  }
+}

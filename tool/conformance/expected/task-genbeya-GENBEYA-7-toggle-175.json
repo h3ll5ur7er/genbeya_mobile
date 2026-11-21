@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-7\ntitle: Code signing, auto-update and release builds\nstatus: backlog\npriority: high\nlabels:\n  - release\n---\n\n`npm run package` builds an unsigned installer for the current OS.\n\n- [ ] Windows and macOS signing, macOS notarization\n- [ ] Release workflow that builds all three platforms\n- [x] Auto-update channel\n"
+}

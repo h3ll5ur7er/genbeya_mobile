@@ -1,11 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:material_ui/material_ui.dart';
 
+import '../../access/kit/kit_host.dart';
 import '../../access/kit/kit_protocol.dart';
+import '../../engines/checkbox_engine.dart';
 import '../kit/kit_view.dart';
 
 /// GM-3 on a phone: a native screen with the kit in it, rendering a sample
-/// page, sizing itself to the height the kit reports, and logging every
-/// message the kit sends.
+/// page through [KitHost], sizing itself to the height the kit reports, and
+/// logging what the kit sends. A ticked checkbox goes the whole way: the host
+/// checks it against the version shown, the page's text changes, and the new
+/// version is shown (the commit is C4's, later).
 class KitSpikeScreen extends StatefulWidget {
   const KitSpikeScreen({super.key});
 
@@ -17,55 +23,70 @@ class _KitSpikeScreenState extends State<KitSpikeScreen> {
   final _log = <String>[];
   double _height = 400;
   final _started = Stopwatch()..start();
+  late final KitHost _host;
+  var _page = const KitPage(
+    path: 'docs/Spike.md',
+    title: 'Spike',
+    content: _samplePage,
+    hash: 'spike-1',
+  );
+  var _version = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    _host =
+        KitHost(
+            files: _SpikeFiles(),
+            onReady: (genbeya) => _note('ready: Genbeya $genbeya'),
+            onHeight: (height) =>
+                setState(() => _height = height.clamp(200, 20000)),
+            onToggle: _toggle,
+            onFollow: (link) => _note(
+              'follow: ${switch (link) {
+                ExternalLink(:final url) => 'web link $url',
+                MissingPage(:final title) => 'new page "$title"',
+                PersonLink(:final handle) => '@$handle',
+                FileLink(:final path, :final anchor) => '$path${anchor == null ? '' : '#$anchor'}',
+              }}',
+            ),
+            onLog: _note,
+          )
+          ..updateContext(_sampleContext)
+          ..show(_page);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _host.setTheme(dark: Theme.of(context).brightness == Brightness.dark);
+  }
 
   void _note(String line) {
     if (!mounted) return;
     setState(() => _log.insert(0, '${_started.elapsedMilliseconds} ms  $line'));
   }
 
-  void _onMessage(FromKit message, KitSend send) {
-    switch (message) {
-      case KitReady(:final protocol, :final genbeya):
-        _note('ready: protocol $protocol, Genbeya $genbeya');
-        if (protocol != kitProtocol) {
-          _note('refused: this app speaks protocol $kitProtocol');
-          return;
-        }
-        send(
-          themeMessage(dark: Theme.of(context).brightness == Brightness.dark),
-        );
-        send(contextMessage(_sampleContext));
-        send(
-          previewPageMessage(
-            path: 'docs/Spike.md',
-            title: 'Spike',
-            source: _samplePage,
-            hash: 'spike-1',
-          ),
-        );
-      case KitHeight(:final height):
-        setState(() => _height = height.clamp(200, 20000));
-      case KitToggle(:final path, :final hash, :final offset):
-        _note('toggle: $path at $offset in version $hash');
-      case KitFollow(:final link):
-        _note(
-          'follow: ${switch (link) {
-            ExternalLink(:final url) => 'web link $url',
-            MissingPage(:final title) => 'new page "$title"',
-            PersonLink(:final handle) => '@$handle',
-            FileLink(:final path, :final anchor) => '$path${anchor == null ? '' : '#$anchor'}',
-          }}',
-        );
-      case KitRequest():
-        _note(
-          'request ${message.runtimeType} ${message.id}: answered with an error in the spike',
-        );
-        send(replyTo(message, error: 'Not in the spike.'));
-      case KitError(:final message):
-        _note('kit error: $message');
-      default:
-        _note(message.runtimeType.toString());
+  /// What C4 will do with a file: refuse once the version changed, else write
+  /// the checkbox flipped (here only in memory) and show the new version.
+  Future<void> _toggle(KitDocument document, int offset) async {
+    if (document.hash != _page.hash) {
+      _note('toggle refused: the page changed meanwhile');
+      return;
     }
+    final content = togglePageCheckbox(_page.content, offset);
+    if (content == null) {
+      _note('toggle refused: no checkbox at $offset');
+      return;
+    }
+    _page = KitPage(
+      path: _page.path,
+      title: _page.title,
+      content: content,
+      hash: 'spike-${++_version}',
+    );
+    _note('toggle at $offset: written as ${_page.hash}');
+    _host.show(_page);
   }
 
   @override
@@ -83,7 +104,7 @@ class _KitSpikeScreenState extends State<KitSpikeScreen> {
           SizedBox(
             height: _height,
             child: KitView(
-              onMessage: _onMessage,
+              host: _host,
               onRefused: (reason) => _note('refused: $reason'),
             ),
           ),
@@ -105,6 +126,22 @@ class _KitSpikeScreenState extends State<KitSpikeScreen> {
   }
 }
 
+/// The spike has no repository: requests are answered with an error.
+class _SpikeFiles implements KitFiles {
+  @override
+  Future<Uint8List> image(String path) =>
+      Future.error(KitReadException('No images in the spike.'));
+  @override
+  Future<String> file(String path) =>
+      Future.error(KitReadException('No files in the spike.'));
+  @override
+  Future<String> fileAt(String path, String revision) =>
+      Future.error(KitReadException('No history in the spike.'));
+  @override
+  Future<String> planHistory(String? baseline) =>
+      Future.error(KitReadException('No plan in the spike.'));
+}
+
 const _tasks = [
   ('GM-1', 'Set up the Flutter project and CI', 'review'),
   ('GM-2', 'Spike: Git on the device with a Rust core', 'in-progress'),
@@ -112,7 +149,7 @@ const _tasks = [
   ('GM-6', 'Repositories, cloning and signing in', 'backlog'),
 ];
 
-final _sampleContext = <String, ({String version, Object? value})>{
+final _sampleContext = <String, KitContextPart>{
   'tasks': (
     version: 't1',
     value: [
@@ -168,12 +205,16 @@ final _sampleContext = <String, ({String version, Object? value})>{
   'author': (version: 'a1', value: 'Alex Chen'),
 };
 
-const _samplePage = r'''# Spike
+const _samplePage = r'''---
+title: Spike
+---
+# Spike
 
 Rendered by Genbeya's own pipeline: [[GM-2]] and [[GM-3]] show their state, [[Architecture]] is a page, [[Meeting notes]] doesn't exist yet. Asked by @alex on 2026-11-21.
 
 - [x] Render this page offline
-- [ ] Tick this box: the host gets a toggle
+- [ ] Tick this box: the host checks it and shows the new version
+  - [ ] Nested boxes count too
 
 > [!NOTE]
 > Callouts, tables, math and diagrams come from the kit.

@@ -322,6 +322,13 @@ String previewPageMessage({
   },
 });
 
+/// A task, as Genbeya's `Task` (the model's `toJson`): the kit shows its
+/// description and comments, the host its title and properties.
+String previewTaskMessage(Map<String, Object?> task) => jsonEncode({
+  'type': 'preview',
+  'document': {'kind': 'task', 'task': task},
+});
+
 String previewMarkdownMessage({
   required String area,
   required String path,

@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "# Kinds\n\n- [ ] Top\n  - [x] Nested\n1. [ ] Ordered\n2) [ ] Paren\n> - [ ] Quoted\n* [ ] Star\n+ [ ] Plus\n"
+}

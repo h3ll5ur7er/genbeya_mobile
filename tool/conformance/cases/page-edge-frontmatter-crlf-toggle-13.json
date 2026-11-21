@@ -1,0 +1,9 @@
+{
+  "id": "page-edge-frontmatter-crlf-toggle-13",
+  "kind": "page.toggle",
+  "input": {
+    "content": "---\r\ntitle: Windows\r\n---\r\n# Windows\r\n\r\n- [ ] One\r\n- [X] Two\r\n",
+    "offset": 13,
+    "item": true
+  }
+}

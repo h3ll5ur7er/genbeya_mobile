@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-20\ntitle: Pull request list, conversation and files\ntype: feature\nstatus: backlog\npriority: high\nestimate: 5d\nremaining: 5d\nmilestone: M4\ndepends_on: [GM-19, GM-8]\n---\n\nReview on the phone. See [[Experience#pull-requests]].\n\n- [ ] List with states, filter and open to-dos; shows once a pull request file exists\n- [ ] Conversation: branches, ahead and behind, reviewers' verdicts, ready to merge, tasks, the file rendered with tickable to-dos\n- [ ] Files: unified diff per file (side by side on tablets in landscape), threads under their lines, outdated ones marked\n- [x] Pull requests whose file is on another branch: read only, as on desktop\n"
+}

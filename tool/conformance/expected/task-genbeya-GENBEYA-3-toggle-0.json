@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-3\ntitle: Resolve merge conflicts in the app\nstatus: backlog\npriority: high\nlabels:\n  - git\n---\n\nConflicted files currently show as `U` in Changes and must be fixed in the editor or a terminal.\n\n- [x] Three-way view: ours, theirs, result\n- [ ] Mark resolved and continue the merge or rebase\n- [ ] Content branch sync: offer the same instead of aborting the rebase\n"
+}

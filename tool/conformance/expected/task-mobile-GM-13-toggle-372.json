@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-13\ntitle: Comments with pickers\ntype: feature\nstatus: backlog\npriority: medium\nestimate: 3d\nremaining: 3d\nmilestone: M2\ndepends_on: [GM-12, GM-4]\n---\n\nAnswer a comment as easily as in a chat app, in Genbeya's format. See [[Experience#tasks]].\n\n- [ ] A native text field above the keyboard (D4); `@`, `//` and `[[` pickers from the app\n- [ ] Signed with the Git name and the local time with its offset, exactly as `task-comments.ts` writes it; headings in the text protected with `\\`\n- [ ] Edit and delete your own comments\n- [x] Conformance cases: append, edit, delete, a comment written on two branches\n"
+}

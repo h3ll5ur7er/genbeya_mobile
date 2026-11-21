@@ -1,0 +1,9 @@
+{
+  "id": "page-edge-text-before-toggle-54",
+  "kind": "page.toggle",
+  "input": {
+    "content": "# Text\n\nA paragraph mentioning [x] and [ ] in prose.\n\n- [ ] The list item\n",
+    "offset": 54,
+    "item": true
+  }
+}

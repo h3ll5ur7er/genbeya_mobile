@@ -1,0 +1,9 @@
+{
+  "id": "page-edge-bom-frontmatter-toggle-79",
+  "kind": "page.toggle",
+  "input": {
+    "content": "﻿---\ntitle: A BOM keeps the frontmatter\n---\n- [ ] After a byte order mark\n",
+    "offset": 79,
+    "item": false
+  }
+}

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:genbeya_mobile/contracts/model.dart';
+import 'package:genbeya_mobile/engines/checkbox_engine.dart';
 import 'package:genbeya_mobile/engines/js.dart';
 import 'package:genbeya_mobile/engines/settings_engine.dart';
 import 'package:genbeya_mobile/engines/task_engine.dart';
@@ -95,6 +96,38 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
           'output': _tasks.serializeUpdate(
             content,
             _tasks.validate(taskInput, statuses),
+          ),
+        };
+      case 'page.toggle':
+        // Where an item starts, the app's checked toggle writes Genbeya's
+        // bytes; elsewhere it refuses, and the lenient port still matches.
+        final content = input['content']! as String;
+        final offset = input['offset']! as int;
+        final checked = togglePageCheckbox(content, offset);
+        if ((checked != null) != input['item']) {
+          return {'error': 'The item check disagrees at $offset.'};
+        }
+        final at = content.length - stripFrontmatter(content).length + offset;
+        return {'output': checked ?? toggleCheckboxAt(content, at)};
+      case 'task.toggle':
+        final content = input['content']! as String;
+        final offset = input['offset']! as int;
+        final task = _tasks.parse(
+          input['path']! as String,
+          content,
+          'hash',
+          input['taskRoot']! as String,
+        );
+        final checked = toggleDescriptionCheckbox(task.body, offset);
+        if ((checked != null) != input['item']) {
+          return {'error': 'The item check disagrees at $offset.'};
+        }
+        final body = checked ?? toggleCheckboxAt(task.body, offset);
+        final statuses = (input['statuses']! as List).cast<String>();
+        return {
+          'output': _tasks.serializeUpdate(
+            content,
+            _tasks.validate(task.toInput().copyWith(body: body), statuses),
           ),
         };
     }

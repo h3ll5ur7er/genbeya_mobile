@@ -5,22 +5,18 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:material_ui/material_ui.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../access/kit/kit_protocol.dart';
+import '../../access/kit/kit_host.dart';
 import '../../access/kit/kit_server.dart';
-
-/// Sends one message to the kit (a JSON string from kit_protocol.dart's builders).
-typedef KitSend = Future<void> Function(String message);
 
 /// Genbeya's renderer and editor (the kit, `kit/dist/`) in a web view, served
 /// from the loopback interface ([KitServer]) and talked to only through
-/// messages. Every message from the kit is checked by [parseFromKit] before
-/// [onMessage] sees it; navigation never leaves the kit.
+/// messages, which [host] checks and answers; navigation never leaves the kit.
 class KitView extends StatefulWidget {
-  const KitView({super.key, required this.onMessage, this.onRefused});
+  const KitView({super.key, required this.host, this.onRefused});
 
-  final void Function(FromKit message, KitSend send) onMessage;
+  final KitHost host;
 
-  /// A message or a navigation the host refused, for the log.
+  /// A navigation the view refused, for the log.
   final void Function(String reason)? onRefused;
 
   @override
@@ -60,7 +56,7 @@ class _KitViewState extends State<KitView> {
       ..setBackgroundColor(const Color(0x00000000))
       ..addJavaScriptChannel(
         'GenbeyaKit',
-        onMessageReceived: (message) => _receive(message.message),
+        onMessageReceived: (message) => widget.host.receive(message.message),
       )
       ..setNavigationDelegate(
         NavigationDelegate(
@@ -74,6 +70,11 @@ class _KitViewState extends State<KitView> {
           },
         ),
       );
+    widget.host.attach(
+      (message) => controller.runJavaScript(
+        'window.genbeyaKit.receive(${jsonEncode(message)})',
+      ),
+    );
     await controller.loadRequest(server.kitUri);
     if (!mounted) {
       await server.close();
@@ -83,20 +84,6 @@ class _KitViewState extends State<KitView> {
       _server = server;
       _controller = controller;
     });
-  }
-
-  void _receive(String text) {
-    try {
-      widget.onMessage(parseFromKit(text), _send);
-    } on KitProtocolException catch (error) {
-      widget.onRefused?.call(error.message);
-    }
-  }
-
-  Future<void> _send(String message) async {
-    await _controller?.runJavaScript(
-      'window.genbeyaKit.receive(${jsonEncode(message)})',
-    );
   }
 
   @override

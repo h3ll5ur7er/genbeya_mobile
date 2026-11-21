@@ -1,0 +1,18 @@
+{
+  "id": "task-genbeya-GENBEYA-16-toggle-171",
+  "kind": "task.toggle",
+  "input": {
+    "path": "tasks/GENBEYA-16.md",
+    "content": "---\nid: GENBEYA-16\ntitle: Accessibility pass\nstatus: todo\npriority: medium\nlabels: [accessibility]\n---\n\n- [ ] Screen reader labels on all icon buttons and menus\n- [ ] Keyboard-only drag and drop on the board (move with a menu)\n- [ ] Focus order in the task panel and dialogs\n- [ ] Contrast check for both themes\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "offset": 171,
+    "item": true
+  }
+}

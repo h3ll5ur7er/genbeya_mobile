@@ -1,0 +1,9 @@
+{
+  "id": "page-edge-astral-toggle-84",
+  "kind": "page.toggle",
+  "input": {
+    "content": "# Wide 😀 characters 𝔾\n\nEmoji 🎉🎉 before the list.\n\n- [ ] After astral characters\n- [x] 日本語 too\n",
+    "offset": 84,
+    "item": true
+  }
+}

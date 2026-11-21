@@ -1,0 +1,9 @@
+{
+  "id": "page-edge-nested-ordered-quoted-toggle-21",
+  "kind": "page.toggle",
+  "input": {
+    "content": "# Kinds\n\n- [ ] Top\n  - [x] Nested\n1. [X] Ordered\n2) [ ] Paren\n> - [ ] Quoted\n* [ ] Star\n+ [ ] Plus\n",
+    "offset": 21,
+    "item": true
+  }
+}

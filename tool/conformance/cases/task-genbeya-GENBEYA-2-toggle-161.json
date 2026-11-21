@@ -1,0 +1,18 @@
+{
+  "id": "task-genbeya-GENBEYA-2-toggle-161",
+  "kind": "task.toggle",
+  "input": {
+    "path": "tasks/GENBEYA-2.md",
+    "content": "---\nid: GENBEYA-2\ntitle: Rewrite links when a page moves\nstatus: todo\npriority: medium\nlabels: [wiki]\n---\n\nMoving a page keeps its subpages together but leaves links pointing at the old path.\n\n- [ ] Find relative Markdown links and `[[wiki links]]` to the moved pages\n- [ ] Offer to update them in the same operation (one commit on a content branch)\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "offset": 161,
+    "item": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "page-edge-no-frontmatter-toggle-39",
+  "kind": "page.toggle",
+  "input": {
+    "content": "# Plain\n\n- [ ] First\n- [ ] Second\n",
+    "offset": 39,
+    "item": false
+  }
+}

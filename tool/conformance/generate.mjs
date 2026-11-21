@@ -46,7 +46,29 @@ await build({
   alias: { genbeya: src },
   nodePaths: [join(here, "node_modules")],
   logLevel: "warning",
+  plugins: [angularStub()],
 });
+
+// The runner imports one plain function from a client module that also uses
+// Angular, rxjs and (through it) @noble/hashes, none of which that function
+// needs: they are replaced by a stub whose every export is a no-op. Anything
+// else a case needs and can't resolve still fails the build.
+function angularStub() {
+  return {
+    name: "angular-stub",
+    setup(build) {
+      build.onResolve({ filter: /^(@angular\/|rxjs($|\/)|@noble\/hashes\/)/ }, (args) => ({ path: args.path, namespace: "angular-stub" }));
+      build.onLoad({ filter: /.*/, namespace: "angular-stub" }, () => ({
+        // esbuild's interop copies a module's own names and keeps its prototype,
+        // so the stub answers every name through its prototype.
+        contents:
+          "function noop() { return noop; } const any = new Proxy({}, { get: () => noop });" +
+          "module.exports = new Proxy({}, { get: () => noop, getPrototypeOf: () => any });",
+        loader: "js",
+      }));
+    },
+  };
+}
 const { runCase } = createRequire(import.meta.url)(bundle);
 
 const out = join(here, "expected");

@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-9\ntitle: Task list, board and task screen (reading)\ntype: feature\nstatus: backlog\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M1\ndepends_on: [GM-6, GM-7]\n---\n\nThe tasks as phones and tablets show them best. See [[Experience#tasks]].\n\n- [x] List grouped by state, with the desktop's filters, milestone included\n- [ ] Board: one column per screen with a position strip on phones, the whole board and swimlanes on tablets; hidden columns left out\n- [ ] Cards with type, ID, title, assignee, priority, dates (overdue in red)\n- [ ] Task screen: chips, fields, rendered description, comments, activity from Git history (deepening a shallow clone when needed)\n- [ ] Branches and pull requests of the task, listed\n"
+}
