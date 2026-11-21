@@ -7,6 +7,10 @@ import '../frb_generated.dart';
 import '../git.dart';
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
+part 'git.freezed.dart';
+
+// These functions are ignored because they are not marked as `pub`: `finish`
 
 /// The versions inside the core, for the spike screen and bug reports.
 String coreVersion() => RustLib.instance.api.crateApiGitCoreVersion();
@@ -19,9 +23,9 @@ Future<void> setCaLocations({String? file, String? dir}) =>
 void cancelOperation({required BigInt operationId}) =>
     RustLib.instance.api.crateApiGitCancelOperation(operationId: operationId);
 
-/// Clones into the new folder `dir`, reporting progress on the stream, which
-/// ends when the clone is done or fails with the error. Read `head` afterwards.
-Stream<Progress> cloneRepository({
+/// Clones into the new folder `dir`. The stream reports progress and ends
+/// with `Done` or `Failed`; read `head` afterwards.
+Stream<TransferEvent> cloneRepository({
   required String url,
   required String dir,
   String? branch,
@@ -66,8 +70,8 @@ Future<String> commitOntoBranch({
   identity: identity,
 );
 
-/// Fetches, reporting progress on the stream, which ends when done or fails with the error.
-Stream<Progress> fetch({
+/// Fetches. The stream reports progress and ends with `Done` or `Failed`.
+Stream<TransferEvent> fetch({
   required String dir,
   required List<String> extraBranches,
   required RemoteOptions remote,
@@ -132,3 +136,13 @@ Future<List<String>> clearStaleLocks({
   dir: dir,
   olderThanSeconds: olderThanSeconds,
 );
+
+@freezed
+sealed class TransferEvent with _$TransferEvent {
+  const TransferEvent._();
+
+  const factory TransferEvent.progress(Progress field0) =
+      TransferEvent_Progress;
+  const factory TransferEvent.done() = TransferEvent_Done;
+  const factory TransferEvent.failed(CoreError field0) = TransferEvent_Failed;
+}

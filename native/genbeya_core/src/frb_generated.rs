@@ -142,8 +142,8 @@ fn wire__crate__api__git__clone_repository_impl(
             let api_depth = <Option<i32>>::sse_decode(&mut deserializer);
             let api_remote = <crate::git::RemoteOptions>::sse_decode(&mut deserializer);
             let api_operation_id = <u64>::sse_decode(&mut deserializer);
-            let api_progress = <StreamSink<
-                crate::git::Progress,
+            let api_events = <StreamSink<
+                crate::api::git::TransferEvent,
                 flutter_rust_bridge::for_generated::SseCodec,
             >>::sse_decode(&mut deserializer);
             deserializer.end();
@@ -156,7 +156,7 @@ fn wire__crate__api__git__clone_repository_impl(
                         api_depth,
                         api_remote,
                         api_operation_id,
-                        api_progress,
+                        api_events,
                     )?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -339,8 +339,8 @@ fn wire__crate__api__git__fetch_impl(
             let api_extra_branches = <Vec<String>>::sse_decode(&mut deserializer);
             let api_remote = <crate::git::RemoteOptions>::sse_decode(&mut deserializer);
             let api_operation_id = <u64>::sse_decode(&mut deserializer);
-            let api_progress = <StreamSink<
-                crate::git::Progress,
+            let api_events = <StreamSink<
+                crate::api::git::TransferEvent,
                 flutter_rust_bridge::for_generated::SseCodec,
             >>::sse_decode(&mut deserializer);
             deserializer.end();
@@ -351,7 +351,7 @@ fn wire__crate__api__git__fetch_impl(
                         api_extra_branches,
                         api_remote,
                         api_operation_id,
-                        api_progress,
+                        api_events,
                     )?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -582,7 +582,9 @@ impl SseDecode for flutter_rust_bridge::for_generated::anyhow::Error {
     }
 }
 
-impl SseDecode for StreamSink<crate::git::Progress, flutter_rust_bridge::for_generated::SseCodec> {
+impl SseDecode
+    for StreamSink<crate::api::git::TransferEvent, flutter_rust_bridge::for_generated::SseCodec>
+{
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <String>::sse_decode(deserializer);
@@ -1011,6 +1013,29 @@ impl SseDecode for crate::git::RemoteOptions {
     }
 }
 
+impl SseDecode for crate::api::git::TransferEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_field0 = <crate::git::Progress>::sse_decode(deserializer);
+                return crate::api::git::TransferEvent::Progress(var_field0);
+            }
+            1 => {
+                return crate::api::git::TransferEvent::Done;
+            }
+            2 => {
+                let mut var_field0 = <crate::git::CoreError>::sse_decode(deserializer);
+                return crate::api::git::TransferEvent::Failed(var_field0);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseDecode for u32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1373,6 +1398,34 @@ impl flutter_rust_bridge::IntoIntoDart<crate::git::RemoteOptions> for crate::git
         self
     }
 }
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::git::TransferEvent {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::git::TransferEvent::Progress(field0) => {
+                [0.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::git::TransferEvent::Done => [1.into_dart()].into_dart(),
+            crate::api::git::TransferEvent::Failed(field0) => {
+                [2.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::git::TransferEvent
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::git::TransferEvent>
+    for crate::api::git::TransferEvent
+{
+    fn into_into_dart(self) -> crate::api::git::TransferEvent {
+        self
+    }
+}
 
 impl SseEncode for flutter_rust_bridge::for_generated::anyhow::Error {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1381,7 +1434,9 @@ impl SseEncode for flutter_rust_bridge::for_generated::anyhow::Error {
     }
 }
 
-impl SseEncode for StreamSink<crate::git::Progress, flutter_rust_bridge::for_generated::SseCodec> {
+impl SseEncode
+    for StreamSink<crate::api::git::TransferEvent, flutter_rust_bridge::for_generated::SseCodec>
+{
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         unimplemented!("")
@@ -1716,6 +1771,28 @@ impl SseEncode for crate::git::RemoteOptions {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <crate::git::Auth>::sse_encode(self.auth, serializer);
         <Vec<String>>::sse_encode(self.trusted_host_keys, serializer);
+    }
+}
+
+impl SseEncode for crate::api::git::TransferEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::git::TransferEvent::Progress(field0) => {
+                <i32>::sse_encode(0, serializer);
+                <crate::git::Progress>::sse_encode(field0, serializer);
+            }
+            crate::api::git::TransferEvent::Done => {
+                <i32>::sse_encode(1, serializer);
+            }
+            crate::api::git::TransferEvent::Failed(field0) => {
+                <i32>::sse_encode(2, serializer);
+                <crate::git::CoreError>::sse_encode(field0, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 

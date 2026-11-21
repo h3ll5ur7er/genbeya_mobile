@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_io.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:genbeya_mobile/access/native/transfers.dart';
 import 'package:genbeya_mobile/src/rust/api/git.dart';
 import 'package:genbeya_mobile/src/rust/frb_generated.dart';
 import 'package:genbeya_mobile/src/rust/git.dart';
@@ -61,14 +62,31 @@ void main() {
       auth: const Auth.none(),
       trustedHostKeys: const [],
     );
-    final progress = await cloneRepository(
-      url: 'file://$remote',
-      dir: phone,
-      branch: 'main',
-      remote: options,
-      operationId: BigInt.one,
-    ).toList();
+    final progress = <Progress>[];
+    await runTransfer(
+      cloneRepository(
+        url: 'file://$remote',
+        dir: phone,
+        branch: 'main',
+        remote: options,
+        operationId: BigInt.one,
+      ),
+      onProgress: progress.add,
+    );
     expect(progress, isNotEmpty);
+    // A failed clone reports its typed error on the stream (not a follow-up error).
+    await expectLater(
+      runTransfer(
+        cloneRepository(
+          url: 'file://${tmp.path}/no-such-remote',
+          dir: '${tmp.path}/failed',
+          remote: options,
+          operationId: BigInt.two,
+        ),
+      ),
+      throwsA(isA<CoreError>()),
+    );
+    expect(Directory('${tmp.path}/failed').existsSync(), isFalse);
     final head0 = await head(dir: phone);
     expect(head0.branch, 'main');
     expect(head0.upstream, 'origin/main');

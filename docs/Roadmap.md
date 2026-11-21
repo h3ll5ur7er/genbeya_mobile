@@ -23,6 +23,8 @@ The trial's estimates add up to about 86 working days; 3 more follow once Genbey
 
 M0 ends with a decision gate: if Git on iOS or the kit in a WebView doesn't work well enough, the plan changes before more is built (see [Risks](#risks)).
 
+**Android first** (2026-11-21): the app builds for iOS in CI, but trying it on an iPhone and signing it wait until a Mac is at hand; the spikes and milestones are judged on Android until then.
+
 ## The plan
 
 [GANTT]

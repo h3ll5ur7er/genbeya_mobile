@@ -40,6 +40,11 @@ body {
   overflow-x: auto;
 }
 
+/* A table's box fits its rows, so its border and header don't stop short. */
+#preview table {
+  width: max-content;
+}
+
 #preview .md-diagram img {
   max-width: 100%;
 }

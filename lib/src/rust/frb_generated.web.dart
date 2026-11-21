@@ -28,7 +28,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   AnyhowException dco_decode_AnyhowException(dynamic raw);
 
   @protected
-  RustStreamSink<Progress> dco_decode_StreamSink_progress_Sse(dynamic raw);
+  RustStreamSink<TransferEvent> dco_decode_StreamSink_transfer_event_Sse(
+    dynamic raw,
+  );
 
   @protected
   String dco_decode_String(dynamic raw);
@@ -40,10 +42,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool dco_decode_bool(dynamic raw);
 
   @protected
+  CoreError dco_decode_box_autoadd_core_error(dynamic raw);
+
+  @protected
   int dco_decode_box_autoadd_i_32(dynamic raw);
 
   @protected
   Identity dco_decode_box_autoadd_identity(dynamic raw);
+
+  @protected
+  Progress dco_decode_box_autoadd_progress(dynamic raw);
 
   @protected
   RemoteOptions dco_decode_box_autoadd_remote_options(dynamic raw);
@@ -118,6 +126,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RemoteOptions dco_decode_remote_options(dynamic raw);
 
   @protected
+  TransferEvent dco_decode_transfer_event(dynamic raw);
+
+  @protected
   int dco_decode_u_32(dynamic raw);
 
   @protected
@@ -133,7 +144,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
 
   @protected
-  RustStreamSink<Progress> sse_decode_StreamSink_progress_Sse(
+  RustStreamSink<TransferEvent> sse_decode_StreamSink_transfer_event_Sse(
     SseDeserializer deserializer,
   );
 
@@ -147,10 +158,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
+  CoreError sse_decode_box_autoadd_core_error(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_box_autoadd_i_32(SseDeserializer deserializer);
 
   @protected
   Identity sse_decode_box_autoadd_identity(SseDeserializer deserializer);
+
+  @protected
+  Progress sse_decode_box_autoadd_progress(SseDeserializer deserializer);
 
   @protected
   RemoteOptions sse_decode_box_autoadd_remote_options(
@@ -227,6 +244,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RemoteOptions sse_decode_remote_options(SseDeserializer deserializer);
 
   @protected
+  TransferEvent sse_decode_transfer_event(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_u_32(SseDeserializer deserializer);
 
   @protected
@@ -245,8 +265,8 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  void sse_encode_StreamSink_progress_Sse(
-    RustStreamSink<Progress> self,
+  void sse_encode_StreamSink_transfer_event_Sse(
+    RustStreamSink<TransferEvent> self,
     SseSerializer serializer,
   );
 
@@ -260,10 +280,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_core_error(
+    CoreError self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_identity(Identity self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_progress(Progress self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_remote_options(
@@ -354,6 +383,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_remote_options(RemoteOptions self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_transfer_event(TransferEvent self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_32(int self, SseSerializer serializer);

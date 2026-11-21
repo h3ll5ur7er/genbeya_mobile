@@ -39,8 +39,26 @@ pub fn cancel_operation(operation_id: u64) {
     git::cancel(operation_id)
 }
 
-/// Clones into the new folder `dir`, reporting progress on the stream, which
-/// ends when the clone is done or fails with the error. Read `head` afterwards.
+/// What a clone or fetch streams: progress while it runs, then how it ended.
+/// The outcome travels on the stream because flutter_rust_bridge drops the
+/// return value of functions that stream; a failure keeps its typed error,
+/// such as an SSH host key to confirm.
+pub enum TransferEvent {
+    Progress(Progress),
+    Done,
+    Failed(CoreError),
+}
+
+fn finish(events: &StreamSink<TransferEvent>, result: Result<(), CoreError>) -> Result<(), CoreError> {
+    let _ = events.add(match result {
+        Ok(()) => TransferEvent::Done,
+        Err(error) => TransferEvent::Failed(error),
+    });
+    Ok(())
+}
+
+/// Clones into the new folder `dir`. The stream reports progress and ends
+/// with `Done` or `Failed`; read `head` afterwards.
 pub fn clone_repository(
     url: String,
     dir: String,
@@ -48,13 +66,15 @@ pub fn clone_repository(
     depth: Option<i32>,
     remote: RemoteOptions,
     operation_id: u64,
-    progress: StreamSink<Progress>,
+    events: StreamSink<TransferEvent>,
 ) -> Result<(), CoreError> {
     let operation = Operation::start(operation_id);
     let mut report = |p: Progress| {
-        let _ = progress.add(p);
+        let _ = events.add(TransferEvent::Progress(p));
     };
-    git::clone(&url, Path::new(&dir), branch.as_deref(), depth, &remote, Some(&operation), Some(&mut report)).map(|_| ())
+    let result = git::clone(&url, Path::new(&dir), branch.as_deref(), depth, &remote, Some(&operation), Some(&mut report))
+        .map(|_| ());
+    finish(&events, result)
 }
 
 pub fn head(dir: String) -> Result<HeadInfo, CoreError> {
@@ -75,19 +95,20 @@ pub fn commit_onto_branch(
     git::commit_onto_branch(Path::new(&dir), &branch, &changes, &message, &identity)
 }
 
-/// Fetches, reporting progress on the stream, which ends when done or fails with the error.
+/// Fetches. The stream reports progress and ends with `Done` or `Failed`.
 pub fn fetch(
     dir: String,
     extra_branches: Vec<String>,
     remote: RemoteOptions,
     operation_id: u64,
-    progress: StreamSink<Progress>,
+    events: StreamSink<TransferEvent>,
 ) -> Result<(), CoreError> {
     let operation = Operation::start(operation_id);
     let mut report = |p: Progress| {
-        let _ = progress.add(p);
+        let _ = events.add(TransferEvent::Progress(p));
     };
-    git::fetch(Path::new(&dir), &extra_branches, &remote, Some(&operation), Some(&mut report))
+    let result = git::fetch(Path::new(&dir), &extra_branches, &remote, Some(&operation), Some(&mut report)).map(|_| ());
+    finish(&events, result)
 }
 
 pub fn rebase_onto_upstream(dir: String, identity: Identity, resolutions: Vec<FileChange>) -> Result<RebaseOutcome, CoreError> {

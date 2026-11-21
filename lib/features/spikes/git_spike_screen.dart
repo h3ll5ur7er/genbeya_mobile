@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:material_ui/material_ui.dart';
+
+import '../../access/native/transfers.dart';
+
 import 'package:path_provider/path_provider.dart';
 
 import '../../src/rust/api/git.dart' as core;
@@ -76,15 +79,16 @@ class _GitSpikeScreenState extends State<GitSpikeScreen> {
     final dir = await _dir();
     if (Directory(dir).existsSync()) Directory(dir).deleteSync(recursive: true);
     _operation++;
-    await for (final p in core.cloneRepository(
-      url: _url.text.trim(),
-      dir: dir,
-      depth: int.tryParse(_depth.text),
-      remote: _remote,
-      operationId: BigInt.from(_operation),
-    )) {
-      setState(() => _progress = p);
-    }
+    await runTransfer(
+      core.cloneRepository(
+        url: _url.text.trim(),
+        dir: dir,
+        depth: int.tryParse(_depth.text),
+        remote: _remote,
+        operationId: BigInt.from(_operation),
+      ),
+      onProgress: (p) => setState(() => _progress = p),
+    );
     final head = await core.head(dir: dir);
     final size = _sizeOf(Directory(dir));
     return '${head.branch} at ${head.commit.substring(0, 7)}, shallow ${head.shallow}, '
@@ -112,14 +116,15 @@ class _GitSpikeScreenState extends State<GitSpikeScreen> {
   Future<String> _sync() async {
     final dir = await _dir();
     _operation++;
-    await core
-        .fetch(
-          dir: dir,
-          extraBranches: const [],
-          remote: _remote,
-          operationId: BigInt.from(_operation),
-        )
-        .drain<void>();
+    await runTransfer(
+      core.fetch(
+        dir: dir,
+        extraBranches: const [],
+        remote: _remote,
+        operationId: BigInt.from(_operation),
+      ),
+      onProgress: (p) => setState(() => _progress = p),
+    );
     final rebase = await core.rebaseOntoUpstream(
       dir: dir,
       identity: _identity,
