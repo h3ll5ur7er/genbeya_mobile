@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -413470200;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1672238967;
 
 // Section: executor
 
@@ -567,6 +567,84 @@ fn wire__crate__api__git__generate_ssh_key_impl(
             move |context| {
                 transform_result_sse::<_, crate::git::CoreError>((move || {
                     let output_ok = crate::api::git::generate_ssh_key(api_comment)?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__git__grep_files_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "grep_files",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_dir = <String>::sse_decode(&mut deserializer);
+            let api_commit = <String>::sse_decode(&mut deserializer);
+            let api_query = <crate::git::GrepQuery>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, crate::git::CoreError>((move || {
+                    let output_ok = crate::api::git::grep_files(api_dir, api_commit, api_query)?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__git__grep_lines_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "grep_lines",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_dir = <String>::sse_decode(&mut deserializer);
+            let api_commit = <String>::sse_decode(&mut deserializer);
+            let api_paths = <Vec<String>>::sse_decode(&mut deserializer);
+            let api_query = <crate::git::GrepQuery>::sse_decode(&mut deserializer);
+            let api_max_matches = <u32>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, crate::git::CoreError>((move || {
+                    let output_ok = crate::api::git::grep_lines(
+                        api_dir,
+                        api_commit,
+                        api_paths,
+                        api_query,
+                        api_max_matches,
+                    )?;
                     std::result::Result::Ok(output_ok)
                 })())
             }
@@ -1287,6 +1365,62 @@ impl SseDecode for crate::git::FileRevision {
     }
 }
 
+impl SseDecode for crate::git::GrepFile {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_path = <String>::sse_decode(deserializer);
+        let mut var_lines = <Vec<crate::git::GrepLine>>::sse_decode(deserializer);
+        return crate::git::GrepFile {
+            path: var_path,
+            lines: var_lines,
+        };
+    }
+}
+
+impl SseDecode for crate::git::GrepLine {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_line = <u32>::sse_decode(deserializer);
+        let mut var_text = <String>::sse_decode(deserializer);
+        let mut var_ranges = <Vec<crate::git::GrepRange>>::sse_decode(deserializer);
+        let mut var_isMatch = <bool>::sse_decode(deserializer);
+        return crate::git::GrepLine {
+            line: var_line,
+            text: var_text,
+            ranges: var_ranges,
+            is_match: var_isMatch,
+        };
+    }
+}
+
+impl SseDecode for crate::git::GrepQuery {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_text = <String>::sse_decode(deserializer);
+        let mut var_caseSensitive = <bool>::sse_decode(deserializer);
+        let mut var_regex = <bool>::sse_decode(deserializer);
+        let mut var_wholeWord = <bool>::sse_decode(deserializer);
+        return crate::git::GrepQuery {
+            text: var_text,
+            case_sensitive: var_caseSensitive,
+            regex: var_regex,
+            whole_word: var_wholeWord,
+        };
+    }
+}
+
+impl SseDecode for crate::git::GrepRange {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_start = <u32>::sse_decode(deserializer);
+        let mut var_end = <u32>::sse_decode(deserializer);
+        return crate::git::GrepRange {
+            start: var_start,
+            end: var_end,
+        };
+    }
+}
+
 impl SseDecode for crate::git::HeadInfo {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1414,6 +1548,42 @@ impl SseDecode for Vec<crate::git::FileRevision> {
         let mut ans_ = Vec::with_capacity(len_ as usize);
         for idx_ in 0..len_ {
             ans_.push(<crate::git::FileRevision>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::git::GrepFile> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::git::GrepFile>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::git::GrepLine> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::git::GrepLine>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::git::GrepRange> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::git::GrepRange>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -1699,19 +1869,21 @@ fn pde_ffi_dispatcher_primary_impl(
         12 => wire__crate__api__git__fetch_impl(port, ptr, rust_vec_len, data_len),
         13 => wire__crate__api__git__file_history_impl(port, ptr, rust_vec_len, data_len),
         14 => wire__crate__api__git__generate_ssh_key_impl(port, ptr, rust_vec_len, data_len),
-        15 => wire__crate__api__git__head_impl(port, ptr, rust_vec_len, data_len),
-        16 => wire__crate__api__git__list_files_impl(port, ptr, rust_vec_len, data_len),
-        17 => wire__crate__api__git__log_path_impl(port, ptr, rust_vec_len, data_len),
-        18 => wire__crate__api__git__merge_conflicts_impl(port, ptr, rust_vec_len, data_len),
-        19 => wire__crate__api__git__push_impl(port, ptr, rust_vec_len, data_len),
-        20 => wire__crate__api__git__read_blob_impl(port, ptr, rust_vec_len, data_len),
-        21 => wire__crate__api__git__read_blobs_impl(port, ptr, rust_vec_len, data_len),
-        22 => wire__crate__api__git__read_file_at_impl(port, ptr, rust_vec_len, data_len),
-        23 => wire__crate__api__git__rebase_onto_upstream_impl(port, ptr, rust_vec_len, data_len),
-        24 => wire__crate__api__git__remote_branches_impl(port, ptr, rust_vec_len, data_len),
-        25 => wire__crate__api__git__resolve_commit_impl(port, ptr, rust_vec_len, data_len),
-        26 => wire__crate__api__git__set_ca_locations_impl(port, ptr, rust_vec_len, data_len),
-        27 => wire__crate__api__git__set_config_value_impl(port, ptr, rust_vec_len, data_len),
+        15 => wire__crate__api__git__grep_files_impl(port, ptr, rust_vec_len, data_len),
+        16 => wire__crate__api__git__grep_lines_impl(port, ptr, rust_vec_len, data_len),
+        17 => wire__crate__api__git__head_impl(port, ptr, rust_vec_len, data_len),
+        18 => wire__crate__api__git__list_files_impl(port, ptr, rust_vec_len, data_len),
+        19 => wire__crate__api__git__log_path_impl(port, ptr, rust_vec_len, data_len),
+        20 => wire__crate__api__git__merge_conflicts_impl(port, ptr, rust_vec_len, data_len),
+        21 => wire__crate__api__git__push_impl(port, ptr, rust_vec_len, data_len),
+        22 => wire__crate__api__git__read_blob_impl(port, ptr, rust_vec_len, data_len),
+        23 => wire__crate__api__git__read_blobs_impl(port, ptr, rust_vec_len, data_len),
+        24 => wire__crate__api__git__read_file_at_impl(port, ptr, rust_vec_len, data_len),
+        25 => wire__crate__api__git__rebase_onto_upstream_impl(port, ptr, rust_vec_len, data_len),
+        26 => wire__crate__api__git__remote_branches_impl(port, ptr, rust_vec_len, data_len),
+        27 => wire__crate__api__git__resolve_commit_impl(port, ptr, rust_vec_len, data_len),
+        28 => wire__crate__api__git__set_ca_locations_impl(port, ptr, rust_vec_len, data_len),
+        29 => wire__crate__api__git__set_config_value_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -1955,6 +2127,74 @@ impl flutter_rust_bridge::IntoDart for crate::git::FileRevision {
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::git::FileRevision {}
 impl flutter_rust_bridge::IntoIntoDart<crate::git::FileRevision> for crate::git::FileRevision {
     fn into_into_dart(self) -> crate::git::FileRevision {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::git::GrepFile {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.path.into_into_dart().into_dart(),
+            self.lines.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::git::GrepFile {}
+impl flutter_rust_bridge::IntoIntoDart<crate::git::GrepFile> for crate::git::GrepFile {
+    fn into_into_dart(self) -> crate::git::GrepFile {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::git::GrepLine {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.line.into_into_dart().into_dart(),
+            self.text.into_into_dart().into_dart(),
+            self.ranges.into_into_dart().into_dart(),
+            self.is_match.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::git::GrepLine {}
+impl flutter_rust_bridge::IntoIntoDart<crate::git::GrepLine> for crate::git::GrepLine {
+    fn into_into_dart(self) -> crate::git::GrepLine {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::git::GrepQuery {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.text.into_into_dart().into_dart(),
+            self.case_sensitive.into_into_dart().into_dart(),
+            self.regex.into_into_dart().into_dart(),
+            self.whole_word.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::git::GrepQuery {}
+impl flutter_rust_bridge::IntoIntoDart<crate::git::GrepQuery> for crate::git::GrepQuery {
+    fn into_into_dart(self) -> crate::git::GrepQuery {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::git::GrepRange {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.start.into_into_dart().into_dart(),
+            self.end.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::git::GrepRange {}
+impl flutter_rust_bridge::IntoIntoDart<crate::git::GrepRange> for crate::git::GrepRange {
+    fn into_into_dart(self) -> crate::git::GrepRange {
         self
     }
 }
@@ -2349,6 +2589,42 @@ impl SseEncode for crate::git::FileRevision {
     }
 }
 
+impl SseEncode for crate::git::GrepFile {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.path, serializer);
+        <Vec<crate::git::GrepLine>>::sse_encode(self.lines, serializer);
+    }
+}
+
+impl SseEncode for crate::git::GrepLine {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u32>::sse_encode(self.line, serializer);
+        <String>::sse_encode(self.text, serializer);
+        <Vec<crate::git::GrepRange>>::sse_encode(self.ranges, serializer);
+        <bool>::sse_encode(self.is_match, serializer);
+    }
+}
+
+impl SseEncode for crate::git::GrepQuery {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.text, serializer);
+        <bool>::sse_encode(self.case_sensitive, serializer);
+        <bool>::sse_encode(self.regex, serializer);
+        <bool>::sse_encode(self.whole_word, serializer);
+    }
+}
+
+impl SseEncode for crate::git::GrepRange {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u32>::sse_encode(self.start, serializer);
+        <u32>::sse_encode(self.end, serializer);
+    }
+}
+
 impl SseEncode for crate::git::HeadInfo {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -2450,6 +2726,36 @@ impl SseEncode for Vec<crate::git::FileRevision> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::git::FileRevision>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::git::GrepFile> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::git::GrepFile>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::git::GrepLine> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::git::GrepLine>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::git::GrepRange> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::git::GrepRange>::sse_encode(item, serializer);
         }
     }
 }

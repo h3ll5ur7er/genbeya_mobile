@@ -10,6 +10,7 @@ import 'package:genbeya_mobile/engines/file_tree.dart';
 import 'package:genbeya_mobile/engines/people.dart';
 import 'package:genbeya_mobile/engines/people_engine.dart';
 import 'package:genbeya_mobile/engines/remote_url.dart';
+import 'package:genbeya_mobile/engines/search_engine.dart';
 import 'package:genbeya_mobile/engines/wiki_engine.dart';
 import 'package:genbeya_mobile/engines/js.dart';
 import 'package:genbeya_mobile/engines/settings_engine.dart';
@@ -58,6 +59,7 @@ final _settings = SettingsEngine();
 final _tasks = TaskEngine();
 final _wiki = WikiEngine();
 final _people = PeopleEngine();
+final _search = SearchEngine();
 
 Map<String, Object?> _run(String kind, Map<String, Object?> input) {
   try {
@@ -111,6 +113,44 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
         final strings = (input['strings']! as List).cast<String>().toList();
         stableSort(strings, collate);
         return {'output': strings};
+      case 'search.area':
+        final paths = (input['paths']! as List).cast<String>();
+        return {
+          'output': [
+            for (final settings
+                in (input['settings']! as List).cast<Map<String, Object?>>())
+              [
+                for (final path in paths)
+                  _search.areaOf(
+                    path,
+                    wikiRoot: settings['wikiRoot']! as String,
+                    taskRoot: settings['taskRoot']! as String,
+                    pullRoot: settings['pullRoot']! as String,
+                  ),
+              ],
+          ],
+        };
+      case 'search.excerpt':
+        return {
+          'output': [
+            for (final item
+                in (input['lines']! as List).cast<Map<String, Object?>>())
+              () {
+                final excerpt = _search.excerpt(item['line']! as String, [
+                  for (final range
+                      in (item['ranges']! as List).cast<Map<String, Object?>>())
+                    (start: range['start']! as int, end: range['end']! as int),
+                ]);
+                return {
+                  'text': excerpt.text,
+                  'ranges': [
+                    for (final range in excerpt.ranges)
+                      {'start': range.start, 'end': range.end},
+                  ],
+                };
+              }(),
+          ],
+        };
       case 'area.of':
         final paths = (input['paths']! as List).cast<String>();
         return {

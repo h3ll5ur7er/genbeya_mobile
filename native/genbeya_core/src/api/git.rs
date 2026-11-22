@@ -12,8 +12,8 @@ use crate::frb_generated::StreamSink;
 use crate::git::{self, Operation};
 pub use crate::git::{
     Auth, AuthorCount, ChangedFile, CommitInfo, Conflict, CoreError, DiffSummary, FileChange,
-    FileHistory, FileRevision, HeadInfo, Identity, Progress, PushOutcome, RebaseOutcome,
-    RemoteBranches, RemoteOptions, SshKeyPair, TreeFile,
+    FileHistory, FileRevision, GrepFile, GrepLine, GrepQuery, GrepRange, HeadInfo, Identity,
+    Progress, PushOutcome, RebaseOutcome, RemoteBranches, RemoteOptions, SshKeyPair, TreeFile,
 };
 
 /// The versions inside the core, for the spike screen and bug reports.
@@ -166,6 +166,28 @@ pub fn file_history(
     max_bytes: u64,
 ) -> Result<FileHistory, CoreError> {
     git::file_history(Path::new(&dir), &start, &path, limit as usize, max_bytes)
+}
+
+/// The files of a commit with a match, as `git grep -l` would list them.
+pub fn grep_files(dir: String, commit: String, query: GrepQuery) -> Result<Vec<String>, CoreError> {
+    git::grep_files(Path::new(&dir), &commit, &query)
+}
+
+/// The matching lines of some files of a commit, with the lines around them.
+pub fn grep_lines(
+    dir: String,
+    commit: String,
+    paths: Vec<String>,
+    query: GrepQuery,
+    max_matches: u32,
+) -> Result<Vec<GrepFile>, CoreError> {
+    git::grep_lines(
+        Path::new(&dir),
+        &commit,
+        &paths,
+        &query,
+        max_matches as usize,
+    )
 }
 
 /// The authors of HEAD's newest commits, as .mailmap names them.

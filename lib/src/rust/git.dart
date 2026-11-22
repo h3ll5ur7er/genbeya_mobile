@@ -284,6 +284,105 @@ class FileRevision {
           after == other.after;
 }
 
+class GrepFile {
+  final String path;
+  final List<GrepLine> lines;
+
+  const GrepFile({required this.path, required this.lines});
+
+  @override
+  int get hashCode => path.hashCode ^ lines.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GrepFile &&
+          runtimeType == other.runtimeType &&
+          path == other.path &&
+          lines == other.lines;
+}
+
+/// A line of a file: a match, or a line next to one.
+class GrepLine {
+  /// From 1.
+  final int line;
+  final String text;
+  final List<GrepRange> ranges;
+  final bool isMatch;
+
+  const GrepLine({
+    required this.line,
+    required this.text,
+    required this.ranges,
+    required this.isMatch,
+  });
+
+  @override
+  int get hashCode =>
+      line.hashCode ^ text.hashCode ^ ranges.hashCode ^ isMatch.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GrepLine &&
+          runtimeType == other.runtimeType &&
+          line == other.line &&
+          text == other.text &&
+          ranges == other.ranges &&
+          isMatch == other.isMatch;
+}
+
+/// What to search for.
+class GrepQuery {
+  final String text;
+  final bool caseSensitive;
+  final bool regex;
+  final bool wholeWord;
+
+  const GrepQuery({
+    required this.text,
+    required this.caseSensitive,
+    required this.regex,
+    required this.wholeWord,
+  });
+
+  @override
+  int get hashCode =>
+      text.hashCode ^
+      caseSensitive.hashCode ^
+      regex.hashCode ^
+      wholeWord.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GrepQuery &&
+          runtimeType == other.runtimeType &&
+          text == other.text &&
+          caseSensitive == other.caseSensitive &&
+          regex == other.regex &&
+          wholeWord == other.wholeWord;
+}
+
+/// A part of a line that matched, in UTF-16 code units, as Dart counts.
+class GrepRange {
+  final int start;
+  final int end;
+
+  const GrepRange({required this.start, required this.end});
+
+  @override
+  int get hashCode => start.hashCode ^ end.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GrepRange &&
+          runtimeType == other.runtimeType &&
+          start == other.start &&
+          end == other.end;
+}
+
 class HeadInfo {
   /// The checked-out branch, or None when HEAD is detached.
   final String? branch;

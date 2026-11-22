@@ -808,6 +808,227 @@ fn key_error(error: ssh_key::Error) -> CoreError {
     }
 }
 
+// ---------- Search ----------
+//
+// Full-text search over a commit's files, as Genbeya searches a working tree
+// with `git grep`: text or a regular expression, case-insensitive unless
+// asked, whole words optionally; binary files left out.
+
+/// What to search for.
+#[derive(Debug, Clone)]
+pub struct GrepQuery {
+    pub text: String,
+    pub case_sensitive: bool,
+    pub regex: bool,
+    pub whole_word: bool,
+}
+
+/// A part of a line that matched, in UTF-16 code units, as Dart counts.
+#[derive(Debug, Clone, PartialEq)]
+pub struct GrepRange {
+    pub start: u32,
+    pub end: u32,
+}
+
+/// A line of a file: a match, or a line next to one.
+#[derive(Debug, Clone, PartialEq)]
+pub struct GrepLine {
+    /// From 1.
+    pub line: u32,
+    pub text: String,
+    pub ranges: Vec<GrepRange>,
+    pub is_match: bool,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct GrepFile {
+    pub path: String,
+    pub lines: Vec<GrepLine>,
+}
+
+/// Files larger than this are not searched, as the phone reads no larger text.
+const GREP_FILE_LIMIT: u64 = 2 * 1024 * 1024;
+
+fn grep_matcher(query: &GrepQuery) -> Result<regex::Regex> {
+    if query.text.trim().is_empty() || query.text.contains(['\r', '\n', '\0']) {
+        return Err(CoreError::InvalidArgument {
+            message: "Search for text within one line.".into(),
+        });
+    }
+    let pattern = if query.regex {
+        query.text.clone()
+    } else {
+        regex::escape(&query.text)
+    };
+    regex::RegexBuilder::new(&pattern)
+        .case_insensitive(!query.case_sensitive)
+        .size_limit(1 << 20)
+        .build()
+        .map_err(|e| CoreError::InvalidArgument {
+            message: format!("Not a valid regular expression: {e}"),
+        })
+}
+
+fn is_word(c: char) -> bool {
+    c.is_alphanumeric() || c == '_'
+}
+
+/// Where `matcher` matches `line`, as byte ranges; with `whole_word`, only
+/// matches with no letter, digit or underscore right before or after.
+fn grep_ranges(matcher: &regex::Regex, line: &str, whole_word: bool) -> Vec<(usize, usize)> {
+    let mut ranges = Vec::new();
+    let mut at = 0;
+    while at <= line.len() {
+        let Some(found) = matcher.find_at(line, at) else {
+            break;
+        };
+        let next = |i: usize| {
+            line[i..]
+                .chars()
+                .next()
+                .map_or(line.len() + 1, |c| i + c.len_utf8())
+        };
+        let fits = !whole_word
+            || (!line[..found.start()]
+                .chars()
+                .next_back()
+                .is_some_and(is_word)
+                && !line[found.end()..].chars().next().is_some_and(is_word));
+        if fits && found.end() > found.start() {
+            ranges.push((found.start(), found.end()));
+            at = found.end();
+        } else {
+            at = next(found.start());
+        }
+    }
+    ranges
+}
+
+fn utf16_at(line: &str, byte: usize) -> u32 {
+    line[..byte].chars().map(|c| c.len_utf16() as u32).sum()
+}
+
+/// A blob's text, or None for binary files and those over the limit.
+fn grep_text(odb: &git2::Odb, id: Oid) -> Result<Option<String>> {
+    let (size, _) = odb.read_header(id)?;
+    if size as u64 > GREP_FILE_LIMIT {
+        return Ok(None);
+    }
+    let object = odb.read(id)?;
+    let data = object.data();
+    // Git's own test: a NUL in the first 8000 bytes makes a file binary.
+    if data[..data.len().min(8000)].contains(&0) {
+        return Ok(None);
+    }
+    Ok(Some(String::from_utf8_lossy(data).into_owned()))
+}
+
+/// The files of `commit` with a match, in the tree's order.
+pub fn grep_files(dir: &Path, commit: &str, query: &GrepQuery) -> Result<Vec<String>> {
+    let matcher = grep_matcher(query)?;
+    let files = list_files(dir, commit)?;
+    let repo = Repository::open(dir)?;
+    let odb = repo.odb()?;
+    let mut found = Vec::new();
+    for file in files {
+        let Some(text) = grep_text(&odb, Oid::from_str(&file.blob)?)? else {
+            continue;
+        };
+        // Line by line, as git grep matches: `^` and `$` are a line's ends,
+        // and a CRLF line keeps its CR, so `$` doesn't match before it.
+        let matches = text.split('\n').any(|line| {
+            if query.whole_word {
+                !grep_ranges(&matcher, line, true).is_empty()
+            } else {
+                matcher.is_match(line)
+            }
+        });
+        if matches {
+            found.push(file.path);
+        }
+    }
+    Ok(found)
+}
+
+/// The matching lines of `paths` in `commit`, at most `max_matches` per
+/// file, each with the line before and after it.
+pub fn grep_lines(
+    dir: &Path,
+    commit: &str,
+    paths: &[String],
+    query: &GrepQuery,
+    max_matches: usize,
+) -> Result<Vec<GrepFile>> {
+    let matcher = grep_matcher(query)?;
+    let repo = Repository::open(dir)?;
+    let tree = repo.find_commit(Oid::from_str(commit)?)?.tree()?;
+    let odb = repo.odb()?;
+    let mut out = Vec::new();
+    for path in paths {
+        check_path(path)?;
+        let Ok(entry) = tree.get_path(Path::new(path)) else {
+            continue;
+        };
+        let Some(text) = grep_text(&odb, entry.id())? else {
+            continue;
+        };
+        // Matched with their CR, as git grep does; shown without it.
+        let lines: Vec<&str> = text.split('\n').collect();
+        let shown = |line: &str| line.strip_suffix('\r').unwrap_or(line).to_string();
+        let mut picked: std::collections::BTreeMap<usize, GrepLine> = Default::default();
+        let mut matched = 0;
+        for (index, line) in lines.iter().enumerate() {
+            if matched == max_matches {
+                break;
+            }
+            let ranges = grep_ranges(&matcher, line, query.whole_word);
+            if ranges.is_empty() {
+                continue;
+            }
+            matched += 1;
+            picked.insert(
+                index,
+                GrepLine {
+                    line: index as u32 + 1,
+                    text: shown(line),
+                    ranges: ranges
+                        .iter()
+                        .map(|&(start, end)| GrepRange {
+                            start: utf16_at(line, start),
+                            end: utf16_at(line, end),
+                        })
+                        .collect(),
+                    is_match: true,
+                },
+            );
+        }
+        let matches: Vec<usize> = picked.keys().copied().collect();
+        for index in matches {
+            for near in [index.wrapping_sub(1), index + 1] {
+                if near < lines.len()
+                    && !picked.contains_key(&near)
+                    && !(near + 1 == lines.len() && lines[near].is_empty())
+                {
+                    picked.insert(
+                        near,
+                        GrepLine {
+                            line: near as u32 + 1,
+                            text: shown(lines[near]),
+                            ranges: vec![],
+                            is_match: false,
+                        },
+                    );
+                }
+            }
+        }
+        out.push(GrepFile {
+            path: path.clone(),
+            lines: picked.into_values().collect(),
+        });
+    }
+    Ok(out)
+}
+
 // ---------- Objects ----------
 //
 // The repository model reads every area from Git's objects: the checked-out

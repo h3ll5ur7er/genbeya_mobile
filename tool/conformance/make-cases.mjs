@@ -265,6 +265,27 @@ for (const set of readdirSync(join(here, "fixtures/activity")).sort()) {
   add("activity-edge-moved-and-edited", "task.changes", { before: { path: "tasks/A-1.md", content: t() }, after: { path: "tasks/Epic/A-1.md", content: t().replace("First", "Second") }, taskRoot: "tasks" });
 }
 
+// Search: which list a file shows in, and long lines shortened around a match.
+add("search-areas", "search.area", {
+  settings: [{ wikiRoot: "docs", taskRoot: "tasks", pullRoot: "pulls" }, { wikiRoot: ".", taskRoot: "work/tasks", pullRoot: "docs/pulls" }],
+  paths: ["docs/Home.md", "docs/a/B.MD", "docs/images/x.png", "tasks/GM-1.md", "tasks/Epic/GM-2.md", "tasks/.templates/bug.md", "tasks/notes.txt", "pulls/PR-1.md", "pulls/sub/PR-2.md", "pulls/.images/PR-1/a.png", "work/tasks/X-1.md", "docs/pulls/PR-3.md", "README.md", "src/main.dart"],
+});
+{
+  const long = (n, c = "a") => c.repeat(n);
+  const lines = [
+    ["short line with board", [[16, 21]]],
+    [long(300), [[0, 5]]],
+    [long(300), [[150, 155]]],
+    [long(300), [[290, 300]]],
+    [long(300), [[10, 20], [100, 120], [250, 260]]],
+    [long(300), []],
+    ["😀".repeat(150) + " board", [[301, 306]]],
+    [long(199) + "b", [[199, 200]]],
+    [long(201), [[195, 201]]],
+  ];
+  add("search-excerpts", "search.excerpt", { lines: lines.map(([line, ranges]) => ({ line, ranges: ranges.map(([start, end]) => ({ start, end })) })) });
+}
+
 function labelsOf(content) {
   const flow = /^labels:\s*\[(.*)\]/m.exec(content);
   if (flow) return flow[1].split(",").map((s) => s.trim()).filter(Boolean);

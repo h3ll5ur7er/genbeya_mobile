@@ -68,7 +68,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => -413470200;
+  int get rustContentHash => 1672238967;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -156,6 +156,20 @@ abstract class RustLibApi extends BaseApi {
   });
 
   Future<SshKeyPair> crateApiGitGenerateSshKey({required String comment});
+
+  Future<List<String>> crateApiGitGrepFiles({
+    required String dir,
+    required String commit,
+    required GrepQuery query,
+  });
+
+  Future<List<GrepFile>> crateApiGitGrepLines({
+    required String dir,
+    required String commit,
+    required List<String> paths,
+    required GrepQuery query,
+    required int maxMatches,
+  });
 
   Future<HeadInfo> crateApiGitHead({required String dir});
 
@@ -745,6 +759,82 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "generate_ssh_key", argNames: ["comment"]);
 
   @override
+  Future<List<String>> crateApiGitGrepFiles({
+    required String dir,
+    required String commit,
+    required GrepQuery query,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(dir, serializer);
+          sse_encode_String(commit, serializer);
+          sse_encode_box_autoadd_grep_query(query, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 15,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_list_String,
+          decodeErrorData: sse_decode_core_error,
+        ),
+        constMeta: kCrateApiGitGrepFilesConstMeta,
+        argValues: [dir, commit, query],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGitGrepFilesConstMeta => const TaskConstMeta(
+    debugName: "grep_files",
+    argNames: ["dir", "commit", "query"],
+  );
+
+  @override
+  Future<List<GrepFile>> crateApiGitGrepLines({
+    required String dir,
+    required String commit,
+    required List<String> paths,
+    required GrepQuery query,
+    required int maxMatches,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(dir, serializer);
+          sse_encode_String(commit, serializer);
+          sse_encode_list_String(paths, serializer);
+          sse_encode_box_autoadd_grep_query(query, serializer);
+          sse_encode_u_32(maxMatches, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 16,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_list_grep_file,
+          decodeErrorData: sse_decode_core_error,
+        ),
+        constMeta: kCrateApiGitGrepLinesConstMeta,
+        argValues: [dir, commit, paths, query, maxMatches],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGitGrepLinesConstMeta => const TaskConstMeta(
+    debugName: "grep_lines",
+    argNames: ["dir", "commit", "paths", "query", "maxMatches"],
+  );
+
+  @override
   Future<HeadInfo> crateApiGitHead({required String dir}) {
     return handler.executeNormal(
       NormalTask(
@@ -754,7 +844,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 15,
+            funcId: 17,
             port: port_,
           );
         },
@@ -786,7 +876,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 16,
+            funcId: 18,
             port: port_,
           );
         },
@@ -820,7 +910,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 17,
+            funcId: 19,
             port: port_,
           );
         },
@@ -856,7 +946,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 18,
+            funcId: 20,
             port: port_,
           );
         },
@@ -892,7 +982,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 19,
+            funcId: 21,
             port: port_,
           );
         },
@@ -928,7 +1018,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 20,
+            funcId: 22,
             port: port_,
           );
         },
@@ -964,7 +1054,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 21,
+            funcId: 23,
             port: port_,
           );
         },
@@ -1002,7 +1092,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 22,
+            funcId: 24,
             port: port_,
           );
         },
@@ -1038,7 +1128,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 23,
+            funcId: 25,
             port: port_,
           );
         },
@@ -1073,7 +1163,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 24,
+            funcId: 26,
             port: port_,
           );
         },
@@ -1107,7 +1197,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 25,
+            funcId: 27,
             port: port_,
           );
         },
@@ -1138,7 +1228,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 26,
+            funcId: 28,
             port: port_,
           );
         },
@@ -1174,7 +1264,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 27,
+            funcId: 29,
             port: port_,
           );
         },
@@ -1260,6 +1350,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   CoreError dco_decode_box_autoadd_core_error(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_core_error(raw);
+  }
+
+  @protected
+  GrepQuery dco_decode_box_autoadd_grep_query(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_grep_query(raw);
   }
 
   @protected
@@ -1416,6 +1512,58 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  GrepFile dco_decode_grep_file(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return GrepFile(
+      path: dco_decode_String(arr[0]),
+      lines: dco_decode_list_grep_line(arr[1]),
+    );
+  }
+
+  @protected
+  GrepLine dco_decode_grep_line(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return GrepLine(
+      line: dco_decode_u_32(arr[0]),
+      text: dco_decode_String(arr[1]),
+      ranges: dco_decode_list_grep_range(arr[2]),
+      isMatch: dco_decode_bool(arr[3]),
+    );
+  }
+
+  @protected
+  GrepQuery dco_decode_grep_query(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return GrepQuery(
+      text: dco_decode_String(arr[0]),
+      caseSensitive: dco_decode_bool(arr[1]),
+      regex: dco_decode_bool(arr[2]),
+      wholeWord: dco_decode_bool(arr[3]),
+    );
+  }
+
+  @protected
+  GrepRange dco_decode_grep_range(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return GrepRange(
+      start: dco_decode_u_32(arr[0]),
+      end: dco_decode_u_32(arr[1]),
+    );
+  }
+
+  @protected
   HeadInfo dco_decode_head_info(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -1496,6 +1644,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<FileRevision> dco_decode_list_file_revision(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_file_revision).toList();
+  }
+
+  @protected
+  List<GrepFile> dco_decode_list_grep_file(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_grep_file).toList();
+  }
+
+  @protected
+  List<GrepLine> dco_decode_list_grep_line(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_grep_line).toList();
+  }
+
+  @protected
+  List<GrepRange> dco_decode_list_grep_range(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_grep_range).toList();
   }
 
   @protected
@@ -1757,6 +1923,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  GrepQuery sse_decode_box_autoadd_grep_query(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_grep_query(deserializer));
+  }
+
+  @protected
   int sse_decode_box_autoadd_i_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_i_32(deserializer));
@@ -1925,6 +2097,52 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  GrepFile sse_decode_grep_file(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_path = sse_decode_String(deserializer);
+    var var_lines = sse_decode_list_grep_line(deserializer);
+    return GrepFile(path: var_path, lines: var_lines);
+  }
+
+  @protected
+  GrepLine sse_decode_grep_line(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_line = sse_decode_u_32(deserializer);
+    var var_text = sse_decode_String(deserializer);
+    var var_ranges = sse_decode_list_grep_range(deserializer);
+    var var_isMatch = sse_decode_bool(deserializer);
+    return GrepLine(
+      line: var_line,
+      text: var_text,
+      ranges: var_ranges,
+      isMatch: var_isMatch,
+    );
+  }
+
+  @protected
+  GrepQuery sse_decode_grep_query(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_text = sse_decode_String(deserializer);
+    var var_caseSensitive = sse_decode_bool(deserializer);
+    var var_regex = sse_decode_bool(deserializer);
+    var var_wholeWord = sse_decode_bool(deserializer);
+    return GrepQuery(
+      text: var_text,
+      caseSensitive: var_caseSensitive,
+      regex: var_regex,
+      wholeWord: var_wholeWord,
+    );
+  }
+
+  @protected
+  GrepRange sse_decode_grep_range(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_start = sse_decode_u_32(deserializer);
+    var var_end = sse_decode_u_32(deserializer);
+    return GrepRange(start: var_start, end: var_end);
+  }
+
+  @protected
   HeadInfo sse_decode_head_info(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_branch = sse_decode_opt_String(deserializer);
@@ -2047,6 +2265,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var ans_ = <FileRevision>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_file_revision(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<GrepFile> sse_decode_list_grep_file(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <GrepFile>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_grep_file(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<GrepLine> sse_decode_list_grep_line(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <GrepLine>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_grep_line(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<GrepRange> sse_decode_list_grep_range(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <GrepRange>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_grep_range(deserializer));
     }
     return ans_;
   }
@@ -2362,6 +2616,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_grep_query(
+    GrepQuery self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_grep_query(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self, serializer);
@@ -2496,6 +2759,38 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_grep_file(GrepFile self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.path, serializer);
+    sse_encode_list_grep_line(self.lines, serializer);
+  }
+
+  @protected
+  void sse_encode_grep_line(GrepLine self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.line, serializer);
+    sse_encode_String(self.text, serializer);
+    sse_encode_list_grep_range(self.ranges, serializer);
+    sse_encode_bool(self.isMatch, serializer);
+  }
+
+  @protected
+  void sse_encode_grep_query(GrepQuery self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.text, serializer);
+    sse_encode_bool(self.caseSensitive, serializer);
+    sse_encode_bool(self.regex, serializer);
+    sse_encode_bool(self.wholeWord, serializer);
+  }
+
+  @protected
+  void sse_encode_grep_range(GrepRange self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.start, serializer);
+    sse_encode_u_32(self.end, serializer);
+  }
+
+  @protected
   void sse_encode_head_info(HeadInfo self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_opt_String(self.branch, serializer);
@@ -2601,6 +2896,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_file_revision(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_grep_file(
+    List<GrepFile> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_grep_file(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_grep_line(
+    List<GrepLine> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_grep_line(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_grep_range(
+    List<GrepRange> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_grep_range(item, serializer);
     }
   }
 

@@ -5,6 +5,7 @@
 import { SettingsEngine } from "genbeya/src/engines/settings-engine";
 import { TaskEngine } from "genbeya/src/engines/task-engine";
 import { contentAreaOf } from "genbeya/src/engines/settings-engine";
+import { SearchEngine } from "genbeya/src/engines/search-engine";
 import type { TaskInput } from "genbeya/src/contracts/model";
 import { toggleCheckboxAt } from "genbeya/src/client/app/markdown/task-checkbox";
 // Imports Angular, which generate.mjs stubs: only this plain function is used.
@@ -22,7 +23,7 @@ import { join } from "node:path";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base" | "task.changes";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base" | "task.changes" | "search.area" | "search.excerpt";
   readonly input: Record<string, any>;
 }
 
@@ -30,6 +31,7 @@ const settings = new SettingsEngine();
 const tasks = new TaskEngine();
 const wiki = new WikiEngine();
 const people = new PeopleEngine();
+const search = new SearchEngine();
 
 /**
  * content-store.ts areasAt: `git config --blob <commit>:.genbeya-content --list`
@@ -88,6 +90,10 @@ function run(c: Case): unknown {
     case "collate":
       // The comparison Genbeya sorts names and titles with (file-tree.ts, wiki-engine.ts).
       return { output: [...i.strings].sort((a: string, b: string) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" })) };
+    case "search.area":
+      return { output: i.settings.map((settings: any) => i.paths.map((path: string) => search.areaOf(path, settings))) };
+    case "search.excerpt":
+      return { output: i.lines.map(({ line, ranges }: any) => search.excerpt(line, ranges)) };
     case "area.of":
       return { output: i.settings.map((settings: any) => i.paths.map((path: string) => contentAreaOf(path, settings))) };
     case "remote.parse":

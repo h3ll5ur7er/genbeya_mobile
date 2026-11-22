@@ -52,6 +52,15 @@ class FileRevision {
   final Uint8List? after;
 }
 
+/// A line of a file found by search: a match with its ranges, or a line
+/// next to one.
+typedef GrepLine = ({
+  int line,
+  String text,
+  List<({int start, int end})> ranges,
+  bool isMatch,
+});
+
 abstract interface class GitObjects {
   /// The commit [revision] names, or null.
   Future<String?> resolveCommit(String revision);
@@ -70,6 +79,26 @@ abstract interface class GitObjects {
 
   /// A value of the repository's Git configuration.
   Future<String?> configValue(String key);
+
+  /// The files of [commit] with a match, as `git grep -l` lists them.
+  Future<List<String>> grepFiles(
+    String commit,
+    String text, {
+    required bool caseSensitive,
+    required bool regex,
+    required bool wholeWord,
+  });
+
+  /// The matching lines of [paths] in [commit], with the lines around them.
+  Future<Map<String, List<GrepLine>>> grepLines(
+    String commit,
+    List<String> paths,
+    String text, {
+    required bool caseSensitive,
+    required bool regex,
+    required bool wholeWord,
+    required int maxMatches,
+  });
 
   /// The newest [limit] commits from [start] that changed [path], following
   /// renames, without merges; `truncated` when a shallow clone ends first.

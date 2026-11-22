@@ -46,6 +46,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   CoreError dco_decode_box_autoadd_core_error(dynamic raw);
 
   @protected
+  GrepQuery dco_decode_box_autoadd_grep_query(dynamic raw);
+
+  @protected
   int dco_decode_box_autoadd_i_32(dynamic raw);
 
   @protected
@@ -82,6 +85,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   FileRevision dco_decode_file_revision(dynamic raw);
 
   @protected
+  GrepFile dco_decode_grep_file(dynamic raw);
+
+  @protected
+  GrepLine dco_decode_grep_line(dynamic raw);
+
+  @protected
+  GrepQuery dco_decode_grep_query(dynamic raw);
+
+  @protected
+  GrepRange dco_decode_grep_range(dynamic raw);
+
+  @protected
   HeadInfo dco_decode_head_info(dynamic raw);
 
   @protected
@@ -113,6 +128,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<FileRevision> dco_decode_list_file_revision(dynamic raw);
+
+  @protected
+  List<GrepFile> dco_decode_list_grep_file(dynamic raw);
+
+  @protected
+  List<GrepLine> dco_decode_list_grep_line(dynamic raw);
+
+  @protected
+  List<GrepRange> dco_decode_list_grep_range(dynamic raw);
 
   @protected
   List<Uint8List> dco_decode_list_list_prim_u_8_strict(dynamic raw);
@@ -195,6 +219,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   CoreError sse_decode_box_autoadd_core_error(SseDeserializer deserializer);
 
   @protected
+  GrepQuery sse_decode_box_autoadd_grep_query(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_box_autoadd_i_32(SseDeserializer deserializer);
 
   @protected
@@ -233,6 +260,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   FileRevision sse_decode_file_revision(SseDeserializer deserializer);
 
   @protected
+  GrepFile sse_decode_grep_file(SseDeserializer deserializer);
+
+  @protected
+  GrepLine sse_decode_grep_line(SseDeserializer deserializer);
+
+  @protected
+  GrepQuery sse_decode_grep_query(SseDeserializer deserializer);
+
+  @protected
+  GrepRange sse_decode_grep_range(SseDeserializer deserializer);
+
+  @protected
   HeadInfo sse_decode_head_info(SseDeserializer deserializer);
 
   @protected
@@ -266,6 +305,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<FileRevision> sse_decode_list_file_revision(
     SseDeserializer deserializer,
   );
+
+  @protected
+  List<GrepFile> sse_decode_list_grep_file(SseDeserializer deserializer);
+
+  @protected
+  List<GrepLine> sse_decode_list_grep_line(SseDeserializer deserializer);
+
+  @protected
+  List<GrepRange> sse_decode_list_grep_range(SseDeserializer deserializer);
 
   @protected
   List<Uint8List> sse_decode_list_list_prim_u_8_strict(
@@ -359,6 +407,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_box_autoadd_grep_query(
+    GrepQuery self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer);
 
   @protected
@@ -396,6 +450,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_file_revision(FileRevision self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_grep_file(GrepFile self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_grep_line(GrepLine self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_grep_query(GrepQuery self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_grep_range(GrepRange self, SseSerializer serializer);
 
   @protected
   void sse_encode_head_info(HeadInfo self, SseSerializer serializer);
@@ -442,6 +508,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_file_revision(
     List<FileRevision> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_grep_file(List<GrepFile> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_grep_line(List<GrepLine> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_grep_range(
+    List<GrepRange> self,
     SseSerializer serializer,
   );
 

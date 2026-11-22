@@ -146,6 +146,32 @@ Future<FileHistory> fileHistory({
   maxBytes: maxBytes,
 );
 
+/// The files of a commit with a match, as `git grep -l` would list them.
+Future<List<String>> grepFiles({
+  required String dir,
+  required String commit,
+  required GrepQuery query,
+}) => RustLib.instance.api.crateApiGitGrepFiles(
+  dir: dir,
+  commit: commit,
+  query: query,
+);
+
+/// The matching lines of some files of a commit, with the lines around them.
+Future<List<GrepFile>> grepLines({
+  required String dir,
+  required String commit,
+  required List<String> paths,
+  required GrepQuery query,
+  required int maxMatches,
+}) => RustLib.instance.api.crateApiGitGrepLines(
+  dir: dir,
+  commit: commit,
+  paths: paths,
+  query: query,
+  maxMatches: maxMatches,
+);
+
 /// The authors of HEAD's newest commits, as .mailmap names them.
 Future<List<AuthorCount>> commitAuthors({
   required String dir,

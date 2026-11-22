@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import '../../src/rust/api/git.dart' as core;
+import '../../src/rust/git.dart' as core;
 import '../git/git_objects.dart';
 
 /// [GitObjects] of a clone, through the Rust core.
@@ -81,6 +82,59 @@ class NativeGitObjects implements GitObjects {
       truncated: history.truncated,
     );
   }
+
+  core.GrepQuery _query(
+    String text,
+    bool caseSensitive,
+    bool regex,
+    bool wholeWord,
+  ) => core.GrepQuery(
+    text: text,
+    caseSensitive: caseSensitive,
+    regex: regex,
+    wholeWord: wholeWord,
+  );
+
+  @override
+  Future<List<String>> grepFiles(
+    String commit,
+    String text, {
+    required bool caseSensitive,
+    required bool regex,
+    required bool wholeWord,
+  }) => core.grepFiles(
+    dir: dir,
+    commit: commit,
+    query: _query(text, caseSensitive, regex, wholeWord),
+  );
+
+  @override
+  Future<Map<String, List<GrepLine>>> grepLines(
+    String commit,
+    List<String> paths,
+    String text, {
+    required bool caseSensitive,
+    required bool regex,
+    required bool wholeWord,
+    required int maxMatches,
+  }) async => {
+    for (final file in await core.grepLines(
+      dir: dir,
+      commit: commit,
+      paths: paths,
+      query: _query(text, caseSensitive, regex, wholeWord),
+      maxMatches: maxMatches,
+    ))
+      file.path: [
+        for (final line in file.lines)
+          (
+            line: line.line,
+            text: line.text,
+            ranges: [for (final r in line.ranges) (start: r.start, end: r.end)],
+            isMatch: line.isMatch,
+          ),
+      ],
+  };
 
   @override
   Future<String?> configValue(String key) =>

@@ -12,10 +12,13 @@ import '../access/git/git_objects.dart';
 import '../access/kit/kit_host.dart';
 import '../contracts/model.dart';
 import '../engines/content_layout.dart';
+import '../engines/search_engine.dart';
 import '../engines/task_activity.dart';
 import '../engines/task_engine.dart';
 import '../engines/wiki_engine.dart';
 import 'repository_model.dart';
+import 'search.dart';
+import 'task_views.dart';
 
 class RepositorySession {
   RepositorySession(this.git, {required String folderName, this.author})
@@ -148,6 +151,127 @@ class RepositorySession {
   }
 
   final _taskEngine = TaskEngine();
+  final _search = SearchEngine();
+
+  /// Full-text search, as desktop's `searchContent`: each file where its
+  /// area lives (code in the checkout, content areas on their branch), at
+  /// most 30 files per list and 10 matches per file.
+  Future<ContentResults> search(SearchQuery query) async {
+    final state = _state;
+    final settings = state.settings;
+    String? areaOfContent(String path) => contentAreaOf(
+      path,
+      wikiRoot: settings.wikiRoot,
+      taskRoot: settings.taskRoot,
+      pullRoot: settings.pullRoot,
+    );
+    // One source per commit, and what it holds.
+    final holds = <String, Set<String>>{
+      state.place.head: {'code'},
+    };
+    for (final area in contentAreas) {
+      (holds[state.place.commitOf(area)] ??= {}).add(area);
+    }
+    var truncated = false;
+    final files = {
+      for (final area in ['wiki', 'tasks', 'code', 'pulls']) area: <String>[],
+    };
+    final matches = <String, List<SearchMatch>>{};
+    for (final MapEntry(key: commit, value: held) in holds.entries) {
+      final listed = <String>[];
+      for (final path in await git.grepFiles(
+        commit,
+        query.text,
+        caseSensitive: query.caseSensitive,
+        regex: query.regex,
+        wholeWord: query.wholeWord,
+      )) {
+        if (!held.contains(areaOfContent(path) ?? 'code')) continue;
+        final list =
+            files[_search.areaOf(
+              path,
+              wikiRoot: settings.wikiRoot,
+              taskRoot: settings.taskRoot,
+              pullRoot: settings.pullRoot,
+            )]!;
+        if (list.length == searchFilesPerArea) {
+          truncated = true;
+        } else {
+          list.add(path);
+          listed.add(path);
+        }
+      }
+      if (listed.isEmpty) continue;
+      final lines = await git.grepLines(
+        commit,
+        listed,
+        query.text,
+        caseSensitive: query.caseSensitive,
+        regex: query.regex,
+        wholeWord: query.wholeWord,
+        maxMatches: searchMatchesPerFile + 1,
+      );
+      for (final MapEntry(key: path, value: found) in lines.entries) {
+        final text = {for (final line in found) line.line: line.text};
+        String? around(int line) => text[line] == null
+            ? null
+            : _search.excerpt(text[line]!, const []).text;
+        matches[path] = [
+          for (final line in found)
+            if (line.isMatch)
+              () {
+                final excerpt = _search.excerpt(line.text, line.ranges);
+                return (
+                  line: line.line,
+                  text: excerpt.text,
+                  ranges: excerpt.ranges,
+                  before: around(line.line - 1),
+                  after: around(line.line + 1),
+                );
+              }(),
+        ];
+      }
+    }
+    List<ContentHit> hits(String area) => [
+      for (final path in files[area]!)
+        if ((matches[path] ?? const []).isNotEmpty)
+          () {
+            final found = matches[path]!;
+            if (found.length > searchMatchesPerFile) truncated = true;
+            final task = state.tasks.where((t) => t.path == path).firstOrNull;
+            return (
+              path: path,
+              title: switch (area) {
+                'wiki' => _wiki.titleOf(path),
+                'tasks' =>
+                  task == null
+                      ? path
+                            .split('/')
+                            .last
+                            .replaceFirst(
+                              RegExp(r'\.md$', caseSensitive: false),
+                              '',
+                            )
+                      : '${displayId(task.id)} ${task.title}',
+                _ => path.split('/').last,
+              },
+              detail: area == 'tasks' ? titleCase(task?.status ?? '') : path,
+              matches: found.take(searchMatchesPerFile).toList(),
+            );
+          }(),
+    ];
+    final wiki = hits('wiki');
+    final tasks = hits('tasks');
+    final code = hits('code');
+    final pulls = hits('pulls');
+    return (
+      wiki: wiki,
+      tasks: tasks,
+      code: code,
+      pulls: pulls,
+      truncated: truncated,
+    );
+  }
 
   /// What the kit may read: images, files and files as committed.
   KitFiles kitFiles() => _SessionFiles(this);

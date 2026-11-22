@@ -1011,3 +1011,132 @@ fn a_files_history_follows_renames_skips_merges_and_knows_a_shallow_end() {
     assert!(cut.truncated);
     assert!(cut.revisions.iter().all(|r| r.subject != "Create A-1"));
 }
+
+#[test]
+fn search_finds_what_git_grep_finds() {
+    let tmp = tempfile::tempdir().unwrap();
+    let dir = tmp.path().join("repo");
+    sh(
+        tmp.path(),
+        &["init", "-q", "-b", "main", dir.to_str().unwrap()],
+    );
+    sh(&dir, &["config", "user.name", "Ada"]);
+    sh(&dir, &["config", "user.email", "ada@example.com"]);
+    fs::create_dir_all(dir.join("docs")).unwrap();
+    fs::write(
+        dir.join("docs/Home.md"),
+        "# Home\n\nThe Board shows tasks.\nboards and onboarding\n",
+    )
+    .unwrap();
+    fs::write(
+        dir.join("docs/Crlf.md"),
+        "line one\r\nthe board\r\nlast\r\n",
+    )
+    .unwrap();
+    fs::write(
+        dir.join("docs/Ümlaut.md"),
+        "Über die Straße\nmit 😀 board_x\n",
+    )
+    .unwrap();
+    fs::write(dir.join("code.rs"), "fn board() {}\n// TODO: board\n").unwrap();
+    fs::write(dir.join("image.bin"), [0u8, 98, 111, 97, 114, 100]).unwrap();
+    sh(&dir, &["add", "-A"]);
+    sh(&dir, &["commit", "-q", "-m", "Seed"]);
+    let head = sh(&dir, &["rev-parse", "HEAD"]);
+
+    let query = |text: &str, case_sensitive: bool, regex: bool, whole_word: bool| GrepQuery {
+        text: text.into(),
+        case_sensitive,
+        regex,
+        whole_word,
+    };
+    // Each query against `git grep` with the same flags.
+    let cases: Vec<(GrepQuery, Vec<&str>)> = vec![
+        (query("board", false, false, false), vec!["-i", "-F"]),
+        (query("Board", true, false, false), vec!["-F"]),
+        (query("board", false, false, true), vec!["-i", "-F", "-w"]),
+        (query("^the", false, true, false), vec!["-i", "-E"]),
+        (query("b(oa)rds?$", false, true, false), vec!["-i", "-E"]),
+        (query("straße", false, false, false), vec!["-i", "-F"]),
+        (query("nothing-here", false, false, false), vec!["-i", "-F"]),
+    ];
+    for (q, flags) in cases {
+        let mut files = git::grep_files(&dir, &head, &q).unwrap();
+        files.sort();
+        let mut args = vec!["-c", "core.quotePath=false", "grep", "-l", "-I"];
+        args.extend(flags.iter().copied());
+        args.extend(["-e", q.text.as_str(), "HEAD", "--"]);
+        let out = Command::new("git")
+            .args(&args)
+            .current_dir(&dir)
+            .output()
+            .unwrap();
+        let mut expected: Vec<String> = String::from_utf8_lossy(&out.stdout)
+            .lines()
+            .map(|l| l.trim_start_matches("HEAD:").to_string())
+            .collect();
+        expected.sort();
+        assert_eq!(files, expected, "{} with {flags:?}", q.text);
+
+        // The matching lines, as git grep -n numbers them.
+        let lines = git::grep_lines(&dir, &head, &files, &q, 100).unwrap();
+        let mut ours: Vec<String> = lines
+            .iter()
+            .flat_map(|f| {
+                f.lines
+                    .iter()
+                    .filter(|l| l.is_match)
+                    .map(move |l| format!("{}:{}", f.path, l.line))
+            })
+            .collect();
+        ours.sort();
+        let mut args = vec!["-c", "core.quotePath=false", "grep", "-n", "-I"];
+        args.extend(flags.iter().copied());
+        args.extend(["-e", q.text.as_str(), "HEAD", "--"]);
+        let out = Command::new("git")
+            .args(&args)
+            .current_dir(&dir)
+            .output()
+            .unwrap();
+        let mut theirs: Vec<String> = String::from_utf8_lossy(&out.stdout)
+            .lines()
+            .map(|l| {
+                let l = l.trim_start_matches("HEAD:");
+                let mut parts = l.splitn(3, ':');
+                format!("{}:{}", parts.next().unwrap(), parts.next().unwrap())
+            })
+            .collect();
+        theirs.sort();
+        assert_eq!(ours, theirs, "lines of {} with {flags:?}", q.text);
+    }
+
+    // Ranges in UTF-16 units, context lines around a match, a limit per file.
+    let found = git::grep_lines(
+        &dir,
+        &head,
+        &["docs/Ümlaut.md".into()],
+        &query("board", false, false, false),
+        10,
+    )
+    .unwrap();
+    let line = found[0].lines.iter().find(|l| l.is_match).unwrap();
+    assert_eq!(line.text, "mit 😀 board_x");
+    assert_eq!(line.ranges, vec![GrepRange { start: 7, end: 12 }]);
+    assert!(
+        found[0].lines.iter().any(|l| !l.is_match && l.line == 1),
+        "the line before"
+    );
+    let limited = git::grep_lines(
+        &dir,
+        &head,
+        &["docs/Home.md".into()],
+        &query("board", false, false, false),
+        1,
+    )
+    .unwrap();
+    assert_eq!(limited[0].lines.iter().filter(|l| l.is_match).count(), 1);
+    assert!(matches!(
+        git::grep_files(&dir, &head, &query("(", false, true, false)),
+        Err(CoreError::InvalidArgument { .. })
+    ));
+}

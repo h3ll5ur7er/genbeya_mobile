@@ -1,0 +1,34 @@
+{
+  "id": "search-areas",
+  "kind": "search.area",
+  "input": {
+    "settings": [
+      {
+        "wikiRoot": "docs",
+        "taskRoot": "tasks",
+        "pullRoot": "pulls"
+      },
+      {
+        "wikiRoot": ".",
+        "taskRoot": "work/tasks",
+        "pullRoot": "docs/pulls"
+      }
+    ],
+    "paths": [
+      "docs/Home.md",
+      "docs/a/B.MD",
+      "docs/images/x.png",
+      "tasks/GM-1.md",
+      "tasks/Epic/GM-2.md",
+      "tasks/.templates/bug.md",
+      "tasks/notes.txt",
+      "pulls/PR-1.md",
+      "pulls/sub/PR-2.md",
+      "pulls/.images/PR-1/a.png",
+      "work/tasks/X-1.md",
+      "docs/pulls/PR-3.md",
+      "README.md",
+      "src/main.dart"
+    ]
+  }
+}

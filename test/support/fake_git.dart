@@ -61,6 +61,53 @@ class FakeGit implements GitObjects {
   @override
   Future<String?> configValue(String key) async => config[key];
 
+  @override
+  Future<List<String>> grepFiles(
+    String commit,
+    String text, {
+    required bool caseSensitive,
+    required bool regex,
+    required bool wholeWord,
+  }) async => [
+    for (final e in commits[commit]!.entries)
+      if (utf8
+          .decode(e.value, allowMalformed: true)
+          .toLowerCase()
+          .contains(text.toLowerCase()))
+        e.key,
+  ];
+
+  @override
+  Future<Map<String, List<GrepLine>>> grepLines(
+    String commit,
+    List<String> paths,
+    String text, {
+    required bool caseSensitive,
+    required bool regex,
+    required bool wholeWord,
+    required int maxMatches,
+  }) async => {
+    for (final path in paths)
+      path: [
+        for (final (index, line)
+            in utf8.decode(commits[commit]![path]!).split('\n').indexed)
+          if (line.toLowerCase().contains(text.toLowerCase()))
+            (
+              line: index + 1,
+              text: line,
+              ranges: [
+                (
+                  start: line.toLowerCase().indexOf(text.toLowerCase()),
+                  end:
+                      line.toLowerCase().indexOf(text.toLowerCase()) +
+                      text.length,
+                ),
+              ],
+              isMatch: true,
+            ),
+      ].take(maxMatches).toList(),
+  };
+
   /// Histories by path, for tests that need one.
   final histories = <String, List<FileRevision>>{};
 
