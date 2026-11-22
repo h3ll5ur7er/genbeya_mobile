@@ -6,6 +6,7 @@ import '../../contracts/model.dart';
 import '../../managers/repository_session.dart';
 import '../kit/kit_view.dart';
 import 'links.dart';
+import 'search_screen.dart';
 
 /// The wiki: pages rendered by Genbeya's own renderer, the page tree in a
 /// drawer, the page's place as a breadcrumb, its headings in "On this page"
@@ -189,6 +190,15 @@ class _WikiScreenState extends State<WikiScreen> {
             ],
           ),
           actions: [
+            IconButton(
+              tooltip: 'Search',
+              icon: const Icon(Icons.search),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => SearchScreen(session: _session),
+                ),
+              ),
+            ),
             if (_outline.length > 1)
               IconButton(
                 tooltip: 'On this page',

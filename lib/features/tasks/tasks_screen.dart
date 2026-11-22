@@ -4,6 +4,7 @@ import '../../contracts/model.dart';
 import '../../managers/repository_model.dart';
 import '../../managers/repository_session.dart';
 import '../../managers/task_views.dart';
+import '../repository/search_screen.dart';
 import '../repository/task_view_screen.dart';
 import 'task_card.dart';
 import 'task_look.dart';
@@ -86,12 +87,21 @@ class _TasksScreenState extends State<TasksScreen> {
             : const Text('Tasks'),
         actions: [
           IconButton(
-            tooltip: _searching ? 'Stop searching' : 'Search tasks',
-            icon: Icon(_searching ? Icons.close : Icons.search),
+            tooltip: _searching ? 'Stop filtering' : 'Filter tasks by text',
+            icon: Icon(_searching ? Icons.close : Icons.filter_list),
             onPressed: () => setState(() {
               _searching = !_searching;
               if (!_searching) _filters = _filters.copyWith(query: '');
             }),
+          ),
+          IconButton(
+            tooltip: 'Search everything',
+            icon: const Icon(Icons.manage_search),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => SearchScreen(session: widget.session),
+              ),
+            ),
           ),
           IconButton(
             tooltip: _board ? 'List' : 'Board',
