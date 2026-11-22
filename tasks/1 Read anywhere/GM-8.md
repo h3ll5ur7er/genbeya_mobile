@@ -22,3 +22,5 @@ Pages exactly as the desktop shows them. See [[Experience#wiki]].
 - [x] Completions for `[[`, `@` and `//` inside the kit, from its context ([[Kit build]]): in the kit's editor since [[GM-4]]
 
 Built (2026-11-22): opening a clone shows a shell with **Wiki**, **Tasks** (until [[GM-9]]) and **About**. The wiki opens on the home page, full screen in the kit; the drawer holds the page tree and how long the last page took to open, the app bar the breadcrumb and **On this page**; back goes to the previous page. Checkbox ticks say they come with editing ([[GM-11]]). To measure on the phone: opening a page of Genbeya's wiki.
+
+On the Pixel (2026-11-22): the wiki, its page tree, references and **On this page** work. Left: pinch to zoom, and the time to open a page of Genbeya's wiki (the drawer shows it).

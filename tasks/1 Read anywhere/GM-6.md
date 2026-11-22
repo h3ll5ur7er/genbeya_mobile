@@ -2,7 +2,7 @@
 id: GM-6
 title: Repositories, cloning and signing in
 type: feature
-status: review
+status: done
 priority: high
 estimate: 4d
 remaining: 0d
@@ -22,3 +22,5 @@ The start screen and everything needed to get a repository onto the phone. See [
 Built (2026-11-22): the core lists a remote's branches before cloning, clones extra branches the remote has (the content branch) at the same depth, writes a clone's config, and makes Ed25519 keys; a flow test clones and pushes over SSH against a local `sshd` with such a key (unknown host key asked about with its fingerprint, a changed one refused, a stranger's key an auth failure). `RepositoriesManager` keeps clones in the app's storage (`repositories.json`; tokens and the private key in the keychain; trusted host keys and the public key in `remote-settings.json`), checks addresses with Genbeya's `parseRemote` (61 conformance cases) and strips credentials from them. Screens: **Repositories** (pull to refresh, remove, Git identity, the phone's SSH key, the spikes), **Add a repository** (address; public, token or SSH key; branch, depth, identity; progress and cancel; host key prompt), and an interim repository summary from the model until [[GM-8]] and [[GM-9]]. Device-flow sign-in followed: a sheet with the code to copy, the browser opened on the forge's page, polling until confirmed (`slow_down` respected), then the token in the keychain, the identity filled in and the account's repositories listed.
 
 To try on the phone: add a public repository over https, a private one with a token, one over SSH after adding the phone's key (Repositories → menu → SSH key of this phone), remove one; and sign in once the OAuth apps exist. iPhone: `ios: to-check`.
+
+On the Pixel 9 Pro XL (2026-11-22, CI run 31): a public clone over https, an SSH clone of a private repository with the phone's own key (host key trusted after comparing its fingerprint), the start screen and removing clones all work. Tokens were tried in the spike ([[GM-2]]). Signing in with GitHub and GitLab waits for the OAuth apps.
