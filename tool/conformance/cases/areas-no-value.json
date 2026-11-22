@@ -1,0 +1,7 @@
+{
+  "id": "areas-no-value",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas]\nwiki\ntasks = branch\n"
+  }
+}

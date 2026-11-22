@@ -1,0 +1,7 @@
+{
+  "id": "areas-unclosed-section",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas\nwiki = branch\n"
+  }
+}

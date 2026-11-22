@@ -1,0 +1,7 @@
+{
+  "id": "areas-subsection",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas \"x\"]\nwiki = branch\n[areas]\ntasks = branch\n"
+  }
+}

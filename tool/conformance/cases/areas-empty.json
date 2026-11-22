@@ -1,0 +1,7 @@
+{
+  "id": "areas-empty",
+  "kind": "areas.parse",
+  "input": {
+    "file": ""
+  }
+}

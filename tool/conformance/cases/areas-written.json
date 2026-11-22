@@ -1,0 +1,7 @@
+{
+  "id": "areas-written",
+  "kind": "areas.parse",
+  "input": {
+    "file": "# Where Genbeya keeps each area: \"branch\" is this content branch,\n# \"checkout\" is the checked-out code branch of every clone.\n[areas]\n\twiki = branch\n\ttasks = branch\n\tsettings = checkout\n\tpulls = checkout\n"
+  }
+}

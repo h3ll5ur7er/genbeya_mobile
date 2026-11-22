@@ -1,0 +1,7 @@
+{
+  "id": "areas-upper-value",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas]\nwiki = Branch\n"
+  }
+}

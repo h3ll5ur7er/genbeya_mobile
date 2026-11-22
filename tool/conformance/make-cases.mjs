@@ -163,6 +163,36 @@ add("people-slugs", "handle.slug", {
   texts: ["Ada Lovelace", "Zoë.O'Brien", "  --Ada--  ", "李雷", "Ægir", "Straße", "José Núñez", "ÅSA", "x".repeat(50), "a-".repeat(30), "Ⅻ", "ﬁle", "İstanbul", "ǅemal"],
 });
 
+// The content branch's .genbeya-content, read as Genbeya reads it: through
+// `git config --list`, then its areas rule. Null is a branch without the file.
+const areaFiles = {
+  written: '# Where Genbeya keeps each area: "branch" is this content branch,\n# "checkout" is the checked-out code branch of every clone.\n[areas]\n\twiki = branch\n\ttasks = branch\n\tsettings = checkout\n\tpulls = checkout\n',
+  missing: null,
+  empty: "",
+  crlf: "[areas]\r\n\twiki = branch\r\n\ttasks = checkout\r\n",
+  "upper-case": "[AREAS]\n  WIKI = branch\n  Tasks = branch\n",
+  "upper-value": "[areas]\nwiki = Branch\n",
+  quoted: '[areas]\nwiki = "branch"\ntasks = "bra"nch\nsettings = " branch"\n',
+  comments: "; a comment\n[areas] # trailing\nwiki = branch ; why\ntasks = branch# no space\n",
+  "last-wins": "[areas]\nwiki = branch\nwiki = checkout\ntasks = checkout\ntasks = branch\n",
+  subsection: '[areas "x"]\nwiki = branch\n[areas]\ntasks = branch\n',
+  "old-subsection": "[areas.x]\nwiki = branch\n",
+  "no-value": "[areas]\nwiki\ntasks = branch\n",
+  "other-section": "[core]\nwiki = branch\n",
+  continued: "[areas]\nwiki = bra\\\nnch\n",
+  escapes: '[areas]\nwiki = "br\\anch"\ntasks = b\\tranch\n',
+  "garbage-line": "[areas]\nwiki = branch\nthis is not config\n",
+  "before-section": "wiki = branch\n[areas]\ntasks = branch\n",
+  "unclosed-section": "[areas\nwiki = branch\n",
+  "unclosed-quote": '[areas]\nwiki = "branch\n',
+  "bad-key": "[areas]\n1wiki = branch\n",
+  "spaces-in-value": "[areas]\nwiki =   branch   \ntasks = branch  thing\n",
+  bom: "\ufeff[areas]\nwiki = branch\n",
+  "no-newline": "[areas]\nwiki = branch",
+  "section-same-line": "[areas] wiki = branch\n",
+};
+for (const [name, file] of Object.entries(areaFiles)) add(`areas-${name}`, "areas.parse", { file });
+
 function labelsOf(content) {
   const flow = /^labels:\s*\[(.*)\]/m.exec(content);
   if (flow) return flow[1].split(",").map((s) => s.trim()).filter(Boolean);

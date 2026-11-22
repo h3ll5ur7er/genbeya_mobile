@@ -778,6 +778,24 @@ pub fn read_blob(dir: &Path, blob: &str, max_bytes: u64) -> Result<Vec<u8>> {
     Ok(bytes)
 }
 
+/// Many blobs at once, opening the repository once: each one's bytes, or
+/// None when it is larger than `max_bytes`.
+pub fn read_blobs(dir: &Path, blobs: &[String], max_bytes: u64) -> Result<Vec<Option<Vec<u8>>>> {
+    let repo = Repository::open(dir)?;
+    let odb = repo.odb()?;
+    blobs
+        .iter()
+        .map(|blob| {
+            let id = git2::Oid::from_str(blob)?;
+            let (size, _) = odb.read_header(id)?;
+            if size as u64 > max_bytes {
+                return Ok(None);
+            }
+            Ok(Some(odb.read(id)?.data().to_vec()))
+        })
+        .collect()
+}
+
 /// The bytes of `path` in `commit`, None when it has no such file.
 pub fn read_file_at(
     dir: &Path,

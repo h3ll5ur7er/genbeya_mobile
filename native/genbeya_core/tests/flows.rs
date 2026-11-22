@@ -575,6 +575,15 @@ fn reads_files_from_objects_for_the_repository_model() {
         git::read_blob(&phone, &task.blob, 4),
         Err(CoreError::InvalidArgument { .. })
     ));
+    let blobs = [task.blob.clone(), task.blob.clone()];
+    assert_eq!(
+        git::read_blobs(&phone, &blobs, 1 << 20).unwrap(),
+        vec![
+            Some(TASK.as_bytes().to_vec()),
+            Some(TASK.as_bytes().to_vec())
+        ]
+    );
+    assert_eq!(git::read_blobs(&phone, &blobs[..1], 4).unwrap(), vec![None]);
     assert_eq!(
         git::read_file_at(&phone, &head, "tasks/GM-1.md", 1 << 20).unwrap(),
         Some(TASK.as_bytes().to_vec())

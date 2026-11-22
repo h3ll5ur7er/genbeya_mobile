@@ -1,0 +1,7 @@
+{
+  "id": "areas-crlf",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas]\r\n\twiki = branch\r\n\ttasks = checkout\r\n"
+  }
+}

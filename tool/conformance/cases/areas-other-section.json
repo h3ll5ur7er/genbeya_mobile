@@ -1,0 +1,7 @@
+{
+  "id": "areas-other-section",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[core]\nwiki = branch\n"
+  }
+}

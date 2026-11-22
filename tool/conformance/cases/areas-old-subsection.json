@@ -1,0 +1,7 @@
+{
+  "id": "areas-old-subsection",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas.x]\nwiki = branch\n"
+  }
+}

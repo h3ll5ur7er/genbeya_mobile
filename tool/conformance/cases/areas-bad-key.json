@@ -1,0 +1,7 @@
+{
+  "id": "areas-bad-key",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas]\n1wiki = branch\n"
+  }
+}

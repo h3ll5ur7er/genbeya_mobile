@@ -1,0 +1,7 @@
+{
+  "id": "areas-upper-case",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[AREAS]\n  WIKI = branch\n  Tasks = branch\n"
+  }
+}

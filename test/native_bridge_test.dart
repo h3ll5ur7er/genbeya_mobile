@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_io.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:genbeya_mobile/access/native/native_git_objects.dart';
 import 'package:genbeya_mobile/access/native/transfers.dart';
+import 'package:genbeya_mobile/managers/repository_model.dart';
 import 'package:genbeya_mobile/src/rust/api/git.dart';
 import 'package:genbeya_mobile/src/rust/frb_generated.dart';
 import 'package:genbeya_mobile/src/rust/git.dart';
@@ -108,6 +110,14 @@ void main() {
       git(tmp.path, ['--git-dir', remote, 'log', '-1', '--format=%s']),
       'GM-1: Done',
     );
+
+    // The repository model reads the clone through the core's objects.
+    final state = await RepositoryModel(
+      NativeGitObjects(phone),
+      folderName: 'phone',
+    ).load();
+    expect([for (final t in state.tasks) '${t.id} ${t.status}'], ['GM-1 done']);
+    expect(state.place.head, (await head(dir: phone)).commit);
 
     // Errors arrive as typed exceptions.
     await expectLater(

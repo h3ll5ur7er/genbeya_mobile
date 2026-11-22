@@ -75,6 +75,17 @@ Future<Uint8List> readBlob({
   maxBytes: maxBytes,
 );
 
+/// Many blobs at once: each one's bytes, or None when larger than `max_bytes`.
+Future<List<Uint8List?>> readBlobs({
+  required String dir,
+  required List<String> blobs,
+  required BigInt maxBytes,
+}) => RustLib.instance.api.crateApiGitReadBlobs(
+  dir: dir,
+  blobs: blobs,
+  maxBytes: maxBytes,
+);
+
 /// A file as committed, or None.
 Future<Uint8List?> readFileAt({
   required String dir,

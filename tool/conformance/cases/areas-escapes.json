@@ -1,0 +1,7 @@
+{
+  "id": "areas-escapes",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas]\nwiki = \"br\\anch\"\ntasks = b\\tranch\n"
+  }
+}

@@ -127,6 +127,8 @@ Plan macros need no Dart port: the kit computes them from the tasks it is given,
 
 The desktop polls a snapshot every four seconds, because other programs change its files too. On the phone the clone lives in the app's private storage and the app is its only writer, so the state is event-driven instead: the app's own writes update an in-memory model, a sync reparses only the paths that changed between the old and the new HEAD, and parsed files are cached by blob ID. See [[Call chains#the-repository-model]]; it holds only while clones stay private to the app.
 
+`RepositoryModel` (`lib/managers/repository_model.dart`) reads every area from Git's objects through the core (`list_files`, `read_blobs`, `read_file_at`), not from the working tree: the checked-out commit and the content branch alike, so the content branch needs no worktree on the phone. Where each area lives follows Genbeya's content store: the content branch (`genbeya`, or `genbeya.branch`; the local branch before the remote's) unless `genbeya.storage` is `worktree`, with the areas its `.genbeya-content` lists, read as `git config` reads it (`lib/engines/content_layout.dart`). Parsed tasks are cached by blob ID and path, so loading again after a sync parses only changed files. Text is decoded as Genbeya decodes it: strict UTF-8, binary refused, a byte order mark kept (Dart's decoder drops it), and hashed with SHA-256 like the desktop.
+
 ## Conformance
 
 Two codebases drift unless something notices. Every engine is checked against Genbeya itself:

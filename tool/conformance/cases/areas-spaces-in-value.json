@@ -1,0 +1,7 @@
+{
+  "id": "areas-spaces-in-value",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas]\nwiki =   branch   \ntasks = branch  thing\n"
+  }
+}

@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:genbeya_mobile/contracts/model.dart';
 import 'package:genbeya_mobile/engines/checkbox_engine.dart';
 import 'package:genbeya_mobile/engines/collation.dart';
+import 'package:genbeya_mobile/engines/content_layout.dart';
 import 'package:genbeya_mobile/engines/file_tree.dart';
 import 'package:genbeya_mobile/engines/people.dart';
 import 'package:genbeya_mobile/engines/people_engine.dart';
@@ -109,6 +110,13 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
         final strings = (input['strings']! as List).cast<String>().toList();
         stableSort(strings, collate);
         return {'output': strings};
+      case 'areas.parse':
+        return {
+          'output': {
+            for (final e in areasOf(input['file'] as String?).entries)
+              e.key: e.value.name,
+          },
+        };
       case 'collate.full':
         final strings = (input['strings']! as List).cast<String>().toList();
         stableSort(strings, collateFull);

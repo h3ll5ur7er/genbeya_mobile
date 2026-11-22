@@ -1,0 +1,7 @@
+{
+  "id": "areas-last-wins",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas]\nwiki = branch\nwiki = checkout\ntasks = checkout\ntasks = branch\n"
+  }
+}

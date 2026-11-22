@@ -1,0 +1,7 @@
+{
+  "id": "areas-bom",
+  "kind": "areas.parse",
+  "input": {
+    "file": "﻿[areas]\nwiki = branch\n"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "id": "areas-before-section",
+  "kind": "areas.parse",
+  "input": {
+    "file": "wiki = branch\n[areas]\ntasks = branch\n"
+  }
+}

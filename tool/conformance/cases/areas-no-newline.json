@@ -1,0 +1,7 @@
+{
+  "id": "areas-no-newline",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas]\nwiki = branch"
+  }
+}

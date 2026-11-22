@@ -1,0 +1,7 @@
+{
+  "id": "areas-section-same-line",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas] wiki = branch\n"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "id": "areas-garbage-line",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas]\nwiki = branch\nthis is not config\n"
+  }
+}

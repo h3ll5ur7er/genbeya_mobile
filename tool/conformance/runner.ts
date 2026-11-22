@@ -12,10 +12,15 @@ import { buildFileTree } from "genbeya/src/utilities/file-tree";
 import { WikiEngine } from "genbeya/src/engines/wiki-engine";
 import { PeopleEngine } from "genbeya/src/engines/people-engine";
 import { handleSlug } from "genbeya/src/utilities/people";
+import { CONTENT_AREAS } from "genbeya/src/contracts/model";
+import { execFileSync } from "node:child_process";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse";
   readonly input: Record<string, any>;
 }
 
@@ -23,6 +28,28 @@ const settings = new SettingsEngine();
 const tasks = new TaskEngine();
 const wiki = new WikiEngine();
 const people = new PeopleEngine();
+
+/**
+ * content-store.ts areasAt: `git config --blob <commit>:.genbeya-content --list`
+ * (here `--file`, the same parser), null when Git refuses it, then parseAreas,
+ * which is private there and mirrored line for line.
+ */
+function areasOf(file: string | null): Record<string, string> {
+  if (file === null) return Object.fromEntries(CONTENT_AREAS.map((area) => [area, "branch"]));
+  const dir = mkdtempSync(join(tmpdir(), "areas-"));
+  let listed: string | null;
+  try {
+    writeFileSync(join(dir, "areas"), file);
+    listed = execFileSync("git", ["config", "--file", join(dir, "areas"), "--list"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+  } catch {
+    listed = null;
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+  if (listed === null) return Object.fromEntries(CONTENT_AREAS.map((area) => [area, "branch"]));
+  const values = new Map(listed.split("\n").map((line) => [line.slice(0, line.indexOf("=")), line.slice(line.indexOf("=") + 1).trim()]));
+  return Object.fromEntries(CONTENT_AREAS.map((area) => [area, values.get(`areas.${area}`) === "branch" ? "branch" : "checkout"]));
+}
 
 /** What the desktop client sends to update a task: the whole task (task-model.ts inputOf) with the change applied. */
 function inputOf(task: ReturnType<TaskEngine["parse"]>, change: Record<string, any>): TaskInput {
@@ -59,6 +86,8 @@ function run(c: Case): unknown {
     case "collate":
       // The comparison Genbeya sorts names and titles with (file-tree.ts, wiki-engine.ts).
       return { output: [...i.strings].sort((a: string, b: string) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" })) };
+    case "areas.parse":
+      return { output: areasOf(i.file) };
     case "collate.full":
       // The comparison Genbeya sorts people with (people-engine.ts).
       return { output: [...i.strings].sort((a: string, b: string) => a.localeCompare(b)) };

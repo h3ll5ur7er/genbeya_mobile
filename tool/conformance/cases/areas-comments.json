@@ -1,0 +1,7 @@
+{
+  "id": "areas-comments",
+  "kind": "areas.parse",
+  "input": {
+    "file": "; a comment\n[areas] # trailing\nwiki = branch ; why\ntasks = branch# no space\n"
+  }
+}

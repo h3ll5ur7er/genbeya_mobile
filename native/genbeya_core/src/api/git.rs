@@ -113,6 +113,15 @@ pub fn read_blob(dir: String, blob: String, max_bytes: u64) -> Result<Vec<u8>, C
     git::read_blob(Path::new(&dir), &blob, max_bytes)
 }
 
+/// Many blobs at once: each one's bytes, or None when larger than `max_bytes`.
+pub fn read_blobs(
+    dir: String,
+    blobs: Vec<String>,
+    max_bytes: u64,
+) -> Result<Vec<Option<Vec<u8>>>, CoreError> {
+    git::read_blobs(Path::new(&dir), &blobs, max_bytes)
+}
+
 /// A file as committed, or None.
 pub fn read_file_at(
     dir: String,

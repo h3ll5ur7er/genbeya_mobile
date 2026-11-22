@@ -1,0 +1,7 @@
+{
+  "id": "areas-quoted",
+  "kind": "areas.parse",
+  "input": {
+    "file": "[areas]\nwiki = \"branch\"\ntasks = \"bra\"nch\nsettings = \" branch\"\n"
+  }
+}
