@@ -61,6 +61,18 @@ class FakeGit implements GitObjects {
   @override
   Future<String?> configValue(String key) async => config[key];
 
+  /// Histories by path, for tests that need one.
+  final histories = <String, List<FileRevision>>{};
+
+  @override
+  Future<({List<FileRevision> revisions, bool truncated})> fileHistory(
+    String start,
+    String path, {
+    required int limit,
+    required int maxBytes,
+  }) async =>
+      (revisions: histories[path] ?? const <FileRevision>[], truncated: false);
+
   final authors = <({String name, String email, int commits})>[];
   int authorReads = 0;
 

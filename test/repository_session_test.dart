@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:genbeya_mobile/access/git/git_objects.dart';
 import 'package:genbeya_mobile/access/kit/kit_host.dart';
 import 'package:genbeya_mobile/managers/repository_model.dart';
 import 'package:genbeya_mobile/managers/repository_session.dart';
@@ -102,4 +106,46 @@ void main() {
       );
     },
   );
+
+  test("a task's activity: each commit and what it changed", () async {
+    final git = repository();
+    Uint8List bytes(String text) => Uint8List.fromList(utf8.encode(text));
+    const v1 = '---\nid: DM-1\ntitle: First\nstatus: todo\n---\n\nDo it.\n';
+    const v2 = '---\nid: DM-1\ntitle: First\nstatus: done\n---\n\nDo it.\n';
+    git.histories['tasks/DM-1.md'] = [
+      FileRevision(
+        commit: 'c2',
+        author: 'Ada',
+        time: 1763700000,
+        subject: 'DM-1: Done',
+        path: 'tasks/DM-1.md',
+        oldPath: 'tasks/Old/DM-1.md',
+        before: bytes(v1),
+        after: bytes(v2),
+      ),
+      FileRevision(
+        commit: 'c1',
+        author: 'Sam',
+        time: 1763600000,
+        subject: 'Create DM-1',
+        path: 'tasks/Old/DM-1.md',
+        oldPath: null,
+        before: null,
+        after: bytes(v1),
+      ),
+    ];
+    final session = RepositorySession(git, folderName: 'demo');
+    final state = await session.load();
+    final activity = await session.taskActivity(state.tasks.single);
+    expect(activity.entries.map((e) => e.changes), [
+      [
+        {'kind': 'field', 'field': 'status', 'from': 'todo', 'to': 'done'},
+        {'kind': 'field', 'field': 'epic', 'from': 'Old', 'to': ''},
+      ],
+      [
+        {'kind': 'created'},
+      ],
+    ]);
+    expect(activity.entries.first.author, 'Ada');
+  });
 }

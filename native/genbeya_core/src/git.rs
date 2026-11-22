@@ -944,6 +944,157 @@ pub fn changed_paths(dir: &Path, from: &str, to: &str) -> Result<Vec<String>> {
     Ok(paths.into_iter().collect())
 }
 
+/// A commit that changed a file, with the file before and after.
+#[derive(Debug, Clone, PartialEq)]
+pub struct FileRevision {
+    pub commit: String,
+    pub author: String,
+    pub email: String,
+    pub time: i64,
+    pub subject: String,
+    /// The file's path at this commit.
+    pub path: String,
+    /// Its path before: None when this commit created it.
+    pub old_path: Option<String>,
+    /// The contents before and after; None where there is none, or it is
+    /// larger than the limit.
+    pub before: Option<Vec<u8>>,
+    pub after: Option<Vec<u8>>,
+}
+
+/// The newest commits that changed a file, as `git log --follow --no-merges`.
+#[derive(Debug, Clone, PartialEq)]
+pub struct FileHistory {
+    pub revisions: Vec<FileRevision>,
+    /// The history goes further back than this shallow clone has.
+    pub truncated: bool,
+}
+
+/// The newest `limit` commits from `start` that changed `path`, following
+/// renames, without merges; each with the file before and after unless a
+/// version is larger than `max_bytes`.
+pub fn file_history(
+    dir: &Path,
+    start: &str,
+    path: &str,
+    limit: usize,
+    max_bytes: u64,
+) -> Result<FileHistory> {
+    check_path(path)?;
+    let repo = Repository::open(dir)?;
+    let shallow: std::collections::HashSet<Oid> = fs::read_to_string(repo.path().join("shallow"))
+        .unwrap_or_default()
+        .lines()
+        .filter_map(|line| Oid::from_str(line.trim()).ok())
+        .collect();
+    let mailmap = repo.mailmap()?;
+    let odb = repo.odb()?;
+    let content = |id: Option<Oid>| -> Result<Option<Vec<u8>>> {
+        let Some(id) = id else { return Ok(None) };
+        let (size, _) = odb.read_header(id)?;
+        if size as u64 > max_bytes {
+            return Ok(None);
+        }
+        Ok(Some(odb.read(id)?.data().to_vec()))
+    };
+    let blob_at = |tree: &git2::Tree, path: &str| -> Option<Oid> {
+        tree.get_path(Path::new(path))
+            .ok()
+            .filter(|entry| entry.kind() == Some(git2::ObjectType::Blob))
+            .map(|entry| entry.id())
+    };
+    let mut walk = repo.revwalk()?;
+    walk.push(Oid::from_str(start)?)?;
+    // Children before parents, which following a path needs; newest first among equals.
+    walk.set_sorting(Sort::TOPOLOGICAL | Sort::TIME)?;
+    let mut current = path.to_string();
+    let mut revisions = Vec::new();
+    let mut truncated = false;
+    for id in walk {
+        if revisions.len() >= limit {
+            break;
+        }
+        let commit = repo.find_commit(id?)?;
+        if commit.parent_count() > 1 {
+            continue;
+        }
+        let tree = commit.tree()?;
+        let Some(after_id) = blob_at(&tree, &current) else {
+            continue;
+        };
+        if commit.parent_count() == 0 && shallow.contains(&commit.id()) {
+            // The clone ends here: older history isn't on the phone.
+            truncated = true;
+            break;
+        }
+        let parent_tree = match commit.parent_count() {
+            1 => Some(commit.parent(0)?.tree()?),
+            _ => None,
+        };
+        let before_id = parent_tree.as_ref().and_then(|t| blob_at(t, &current));
+        if before_id == Some(after_id) {
+            continue;
+        }
+        let (old_path, before) = if before_id.is_some() {
+            (Some(current.clone()), content(before_id)?)
+        } else {
+            match parent_tree
+                .as_ref()
+                .map(|parent| rename_source(&repo, parent, &tree, &current))
+                .transpose()?
+                .flatten()
+            {
+                Some((old, old_id)) => (Some(old), content(Some(old_id))?),
+                None => (None, None),
+            }
+        };
+        let author = commit.author_with_mailmap(&mailmap)?;
+        revisions.push(FileRevision {
+            commit: commit.id().to_string(),
+            author: String::from_utf8_lossy(author.name_bytes()).into_owned(),
+            email: String::from_utf8_lossy(author.email_bytes()).into_owned(),
+            time: author.when().seconds(),
+            subject: commit.summary().ok().flatten().unwrap_or("").to_string(),
+            path: current.clone(),
+            old_path: old_path.clone(),
+            before,
+            after: content(Some(after_id))?,
+        });
+        match old_path {
+            Some(old) => current = old,
+            // Created here: nothing older to follow.
+            None => break,
+        }
+    }
+    Ok(FileHistory {
+        revisions,
+        truncated,
+    })
+}
+
+/// The file `path` in `tree` was renamed from, by Git's rename detection.
+fn rename_source(
+    repo: &Repository,
+    parent: &git2::Tree,
+    tree: &git2::Tree,
+    path: &str,
+) -> Result<Option<(String, Oid)>> {
+    let mut diff = repo.diff_tree_to_tree(Some(parent), Some(tree), None)?;
+    let mut find = DiffFindOptions::new();
+    find.renames(true);
+    diff.find_similar(Some(&mut find))?;
+    for delta in diff.deltas() {
+        if delta.status() == Delta::Renamed
+            && delta.new_file().path().and_then(|p| p.to_str()) == Some(path)
+        {
+            if let Some(old) = delta.old_file().path().and_then(|p| p.to_str()) {
+                return Ok(Some((old.to_string(), delta.old_file().id())));
+            }
+        }
+    }
+    Ok(None)
+}
+
 /// Sets a value of the repository's own Git configuration (`user.name`,
 /// `user.email`, `genbeya.branch`); None removes it.
 pub fn set_config_value(dir: &Path, key: &str, value: Option<&str>) -> Result<()> {

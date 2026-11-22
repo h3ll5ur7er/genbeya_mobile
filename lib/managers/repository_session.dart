@@ -10,7 +10,10 @@ import 'package:crypto/crypto.dart';
 
 import '../access/git/git_objects.dart';
 import '../access/kit/kit_host.dart';
+import '../contracts/model.dart';
 import '../engines/content_layout.dart';
+import '../engines/task_activity.dart';
+import '../engines/task_engine.dart';
 import '../engines/wiki_engine.dart';
 import 'repository_model.dart';
 
@@ -110,9 +113,56 @@ class RepositorySession {
   static String _versionOf(Object? value) =>
       sha1.convert(utf8.encode(jsonEncode(value))).toString().substring(0, 16);
 
+  /// A task's activity: the commits that changed it, newest first, and what
+  /// each changed, as the desktop's task activity (at most 100 commits;
+  /// larger versions list their commits without what changed).
+  Future<TaskActivity> taskActivity(Task task) async {
+    final history = await git.fileHistory(
+      commitOf(task.path),
+      task.path,
+      limit: 100,
+      maxBytes: 256 * 1024,
+    );
+    String? text(Uint8List? bytes) =>
+        bytes == null ? null : utf8.decode(bytes, allowMalformed: true);
+    final taskRoot = _state.settings.taskRoot;
+    return (
+      entries: [
+        for (final revision in history.revisions)
+          (
+            commit: revision.commit,
+            author: revision.author,
+            date: DateTime.fromMillisecondsSinceEpoch(revision.time * 1000),
+            subject: revision.subject,
+            changes: _taskEngine.changesBetween(
+              revision.oldPath == null
+                  ? null
+                  : (path: revision.oldPath!, content: text(revision.before)),
+              (path: revision.path, content: text(revision.after)),
+              taskRoot,
+            ),
+          ),
+      ],
+      truncated: history.truncated,
+    );
+  }
+
+  final _taskEngine = TaskEngine();
+
   /// What the kit may read: images, files and files as committed.
   KitFiles kitFiles() => _SessionFiles(this);
 }
+
+/// A commit of a task's activity and what it changed.
+typedef ActivityEntry = ({
+  String commit,
+  String author,
+  DateTime date,
+  String subject,
+  List<TaskChange> changes,
+});
+
+typedef TaskActivity = ({List<ActivityEntry> entries, bool truncated});
 
 class _SessionFiles implements KitFiles {
   _SessionFiles(this.session);

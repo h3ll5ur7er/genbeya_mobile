@@ -916,3 +916,98 @@ fn clone_and_push_over_ssh_with_a_key_made_on_the_device() {
         "{changed:?}"
     );
 }
+
+#[test]
+fn a_files_history_follows_renames_skips_merges_and_knows_a_shallow_end() {
+    let tmp = tempfile::tempdir().unwrap();
+    let dir = tmp.path().join("repo");
+    sh(
+        tmp.path(),
+        &["init", "-q", "-b", "main", dir.to_str().unwrap()],
+    );
+    sh(&dir, &["config", "user.name", "Ada"]);
+    sh(&dir, &["config", "user.email", "ada@example.com"]);
+    let commit = |message: &str| {
+        sh(&dir, &["add", "-A"]);
+        sh(&dir, &["commit", "-q", "-m", message]);
+    };
+    fs::create_dir_all(dir.join("tasks")).unwrap();
+    fs::write(dir.join("tasks/A-1.md"), TASK.replace("GM-1", "A-1")).unwrap();
+    commit("Create A-1");
+    fs::write(
+        dir.join("tasks/A-1.md"),
+        TASK.replace("GM-1", "A-1").replace("todo", "doing"),
+    )
+    .unwrap();
+    commit("A-1: Move to doing");
+    fs::create_dir_all(dir.join("tasks/Epic")).unwrap();
+    sh(&dir, &["mv", "tasks/A-1.md", "tasks/Epic/A-1.md"]);
+    commit("A-1: Move to Epic");
+    sh(&dir, &["switch", "-q", "-c", "side"]);
+    fs::write(dir.join("README.md"), "side\n").unwrap();
+    commit("Side work");
+    sh(&dir, &["switch", "-q", "main"]);
+    fs::write(
+        dir.join("tasks/Epic/A-1.md"),
+        TASK.replace("GM-1", "A-1").replace("todo", "done"),
+    )
+    .unwrap();
+    commit("A-1: Done");
+    sh(
+        &dir,
+        &["merge", "-q", "--no-ff", "-m", "Merge side", "side"],
+    );
+
+    let head = sh(&dir, &["rev-parse", "HEAD"]);
+    let history = git::file_history(&dir, &head, "tasks/Epic/A-1.md", 100, 1 << 20).unwrap();
+    let subjects: Vec<&str> = history
+        .revisions
+        .iter()
+        .map(|r| r.subject.as_str())
+        .collect();
+    assert_eq!(
+        subjects,
+        [
+            "A-1: Done",
+            "A-1: Move to Epic",
+            "A-1: Move to doing",
+            "Create A-1"
+        ]
+    );
+    assert!(!history.truncated);
+    let moved = &history.revisions[1];
+    assert_eq!(moved.path, "tasks/Epic/A-1.md");
+    assert_eq!(moved.old_path.as_deref(), Some("tasks/A-1.md"));
+    assert_eq!(moved.before, moved.after, "a move without edits");
+    let created = &history.revisions[3];
+    assert_eq!(created.old_path, None);
+    assert_eq!(created.before, None);
+    assert_eq!(created.author, "Ada");
+    assert_eq!(
+        git::file_history(&dir, &head, "tasks/Epic/A-1.md", 2, 1 << 20)
+            .unwrap()
+            .revisions
+            .len(),
+        2
+    );
+    let small = git::file_history(&dir, &head, "tasks/Epic/A-1.md", 1, 10).unwrap();
+    assert_eq!(small.revisions[0].after, None, "larger than the limit");
+
+    // A shallow clone stops where its history does, without claiming a creation.
+    let shallow = tmp.path().join("shallow");
+    sh(
+        tmp.path(),
+        &[
+            "clone",
+            "-q",
+            "--depth",
+            "2",
+            &format!("file://{}", dir.display()),
+            shallow.to_str().unwrap(),
+        ],
+    );
+    let head = sh(&shallow, &["rev-parse", "HEAD"]);
+    let cut = git::file_history(&shallow, &head, "tasks/Epic/A-1.md", 100, 1 << 20).unwrap();
+    assert!(cut.truncated);
+    assert!(cut.revisions.iter().all(|r| r.subject != "Create A-1"));
+}

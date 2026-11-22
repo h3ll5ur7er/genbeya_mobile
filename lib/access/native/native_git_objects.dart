@@ -51,6 +51,38 @@ class NativeGitObjects implements GitObjects {
   ];
 
   @override
+  Future<({List<FileRevision> revisions, bool truncated})> fileHistory(
+    String start,
+    String path, {
+    required int limit,
+    required int maxBytes,
+  }) async {
+    final history = await core.fileHistory(
+      dir: dir,
+      start: start,
+      path: path,
+      limit: limit,
+      maxBytes: BigInt.from(maxBytes),
+    );
+    return (
+      revisions: [
+        for (final r in history.revisions)
+          FileRevision(
+            commit: r.commit,
+            author: r.author,
+            time: r.time.toInt(),
+            subject: r.subject,
+            path: r.path,
+            oldPath: r.oldPath,
+            before: r.before,
+            after: r.after,
+          ),
+      ],
+      truncated: history.truncated,
+    );
+  }
+
+  @override
   Future<String?> configValue(String key) =>
       core.configValue(dir: dir, key: key);
 }

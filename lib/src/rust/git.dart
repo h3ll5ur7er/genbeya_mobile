@@ -204,6 +204,86 @@ class FileChange {
           content == other.content;
 }
 
+/// The newest commits that changed a file, as `git log --follow --no-merges`.
+class FileHistory {
+  final List<FileRevision> revisions;
+
+  /// The history goes further back than this shallow clone has.
+  final bool truncated;
+
+  const FileHistory({required this.revisions, required this.truncated});
+
+  @override
+  int get hashCode => revisions.hashCode ^ truncated.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FileHistory &&
+          runtimeType == other.runtimeType &&
+          revisions == other.revisions &&
+          truncated == other.truncated;
+}
+
+/// A commit that changed a file, with the file before and after.
+class FileRevision {
+  final String commit;
+  final String author;
+  final String email;
+  final PlatformInt64 time;
+  final String subject;
+
+  /// The file's path at this commit.
+  final String path;
+
+  /// Its path before: None when this commit created it.
+  final String? oldPath;
+
+  /// The contents before and after; None where there is none, or it is
+  /// larger than the limit.
+  final Uint8List? before;
+  final Uint8List? after;
+
+  const FileRevision({
+    required this.commit,
+    required this.author,
+    required this.email,
+    required this.time,
+    required this.subject,
+    required this.path,
+    this.oldPath,
+    this.before,
+    this.after,
+  });
+
+  @override
+  int get hashCode =>
+      commit.hashCode ^
+      author.hashCode ^
+      email.hashCode ^
+      time.hashCode ^
+      subject.hashCode ^
+      path.hashCode ^
+      oldPath.hashCode ^
+      before.hashCode ^
+      after.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FileRevision &&
+          runtimeType == other.runtimeType &&
+          commit == other.commit &&
+          author == other.author &&
+          email == other.email &&
+          time == other.time &&
+          subject == other.subject &&
+          path == other.path &&
+          oldPath == other.oldPath &&
+          before == other.before &&
+          after == other.after;
+}
+
 class HeadInfo {
   /// The checked-out branch, or None when HEAD is detached.
   final String? branch;

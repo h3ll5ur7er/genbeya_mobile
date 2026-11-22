@@ -12,8 +12,8 @@ use crate::frb_generated::StreamSink;
 use crate::git::{self, Operation};
 pub use crate::git::{
     Auth, AuthorCount, ChangedFile, CommitInfo, Conflict, CoreError, DiffSummary, FileChange,
-    HeadInfo, Identity, Progress, PushOutcome, RebaseOutcome, RemoteBranches, RemoteOptions,
-    SshKeyPair, TreeFile,
+    FileHistory, FileRevision, HeadInfo, Identity, Progress, PushOutcome, RebaseOutcome,
+    RemoteBranches, RemoteOptions, SshKeyPair, TreeFile,
 };
 
 /// The versions inside the core, for the spike screen and bug reports.
@@ -154,6 +154,18 @@ pub fn changed_paths(dir: String, from: String, to: String) -> Result<Vec<String
 /// Sets (or with None removes) a value of the clone's own Git configuration.
 pub fn set_config_value(dir: String, key: String, value: Option<String>) -> Result<(), CoreError> {
     git::set_config_value(Path::new(&dir), &key, value.as_deref())
+}
+
+/// The newest commits from `start` that changed `path`, following renames,
+/// with the file before and after each.
+pub fn file_history(
+    dir: String,
+    start: String,
+    path: String,
+    limit: u32,
+    max_bytes: u64,
+) -> Result<FileHistory, CoreError> {
+    git::file_history(Path::new(&dir), &start, &path, limit as usize, max_bytes)
 }
 
 /// The authors of HEAD's newest commits, as .mailmap names them.

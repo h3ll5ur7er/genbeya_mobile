@@ -130,6 +130,22 @@ Future<void> setConfigValue({
   value: value,
 );
 
+/// The newest commits from `start` that changed `path`, following renames,
+/// with the file before and after each.
+Future<FileHistory> fileHistory({
+  required String dir,
+  required String start,
+  required String path,
+  required int limit,
+  required BigInt maxBytes,
+}) => RustLib.instance.api.crateApiGitFileHistory(
+  dir: dir,
+  start: start,
+  path: path,
+  limit: limit,
+  maxBytes: maxBytes,
+);
+
 /// The authors of HEAD's newest commits, as .mailmap names them.
 Future<List<AuthorCount>> commitAuthors({
   required String dir,

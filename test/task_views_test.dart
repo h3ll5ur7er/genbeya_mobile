@@ -151,4 +151,85 @@ void main() {
     );
     expect(labelHue('ui'), isIn([250, 160, 25, 210, 320, 45, 280, 185]));
   });
+
+  test("activity in the desktop's words", () {
+    expect(describeChange({'kind': 'created'}), 'created the task');
+    expect(
+      describeChange({
+        'kind': 'field',
+        'field': 'status',
+        'from': 'todo',
+        'to': 'in-progress',
+      }),
+      'status Todo → In progress',
+    );
+    expect(
+      describeChange({
+        'kind': 'field',
+        'field': 'assignee',
+        'from': '',
+        'to': 'ada',
+      }),
+      'assignee nobody → ada',
+    );
+    expect(
+      describeChange({
+        'kind': 'field',
+        'field': 'title',
+        'from': 'A',
+        'to': 'B',
+      }),
+      'title “A” → “B”',
+    );
+    expect(
+      describeChange({
+        'kind': 'field',
+        'field': 'epic',
+        'from': '',
+        'to': '1 Plan',
+      }),
+      'epic No epic → 1 Plan',
+    );
+    expect(
+      describeChange({
+        'kind': 'labels',
+        'added': ['a'],
+        'removed': ['b'],
+      }),
+      'labels +a −b',
+    );
+    expect(
+      describeChange({
+        'kind': 'comments',
+        'added': 1,
+        'edited': 2,
+        'removed': 0,
+      }),
+      'added a comment, edited 2 comments',
+    );
+    expect(
+      describeChange({
+        'kind': 'timelog',
+        'added': ['2026-11-21 — Ada — 1h'],
+        'removed': 1,
+      }),
+      'logged 2026-11-21 — Ada — 1h, removed an entry of the time log',
+    );
+    expect(
+      describeChange({
+        'kind': 'custom',
+        'field': 'estimate',
+        'from': '',
+        'to': '2d',
+      }),
+      'estimate none → 2d',
+    );
+    expect(
+      describeChange({
+        'kind': 'other',
+        'fields': ['meta', 'x'],
+      }),
+      'changed meta, x',
+    );
+  });
 }

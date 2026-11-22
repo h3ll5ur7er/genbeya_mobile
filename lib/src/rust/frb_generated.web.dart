@@ -78,6 +78,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   FileChange dco_decode_file_change(dynamic raw);
 
   @protected
+  FileHistory dco_decode_file_history(dynamic raw);
+
+  @protected
+  FileRevision dco_decode_file_revision(dynamic raw);
+
+  @protected
   HeadInfo dco_decode_head_info(dynamic raw);
 
   @protected
@@ -106,6 +112,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<FileChange> dco_decode_list_file_change(dynamic raw);
+
+  @protected
+  List<FileRevision> dco_decode_list_file_revision(dynamic raw);
 
   @protected
   List<Uint8List> dco_decode_list_list_prim_u_8_strict(dynamic raw);
@@ -220,6 +229,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   FileChange sse_decode_file_change(SseDeserializer deserializer);
 
   @protected
+  FileHistory sse_decode_file_history(SseDeserializer deserializer);
+
+  @protected
+  FileRevision sse_decode_file_revision(SseDeserializer deserializer);
+
+  @protected
   HeadInfo sse_decode_head_info(SseDeserializer deserializer);
 
   @protected
@@ -248,6 +263,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<FileChange> sse_decode_list_file_change(SseDeserializer deserializer);
+
+  @protected
+  List<FileRevision> sse_decode_list_file_revision(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<Uint8List> sse_decode_list_list_prim_u_8_strict(
@@ -374,6 +394,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_file_change(FileChange self, SseSerializer serializer);
 
   @protected
+  void sse_encode_file_history(FileHistory self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_file_revision(FileRevision self, SseSerializer serializer);
+
+  @protected
   void sse_encode_head_info(HeadInfo self, SseSerializer serializer);
 
   @protected
@@ -412,6 +438,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_file_change(
     List<FileChange> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_file_revision(
+    List<FileRevision> self,
     SseSerializer serializer,
   );
 

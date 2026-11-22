@@ -308,3 +308,55 @@ List<DueDate> dueDatesOf(Task task, Settings settings, String on) {
         ),
   ];
 }
+
+// ---------- Activity in words ----------
+
+String _valueText(String field, String value) => switch (field) {
+  'status' || 'priority' => titleCase(value),
+  'type' => value.isEmpty ? 'none' : titleCase(value),
+  'epic' => epicName(value),
+  'assignee' => value.isEmpty ? 'nobody' : value,
+  _ => '“$value”',
+};
+
+String _counted(int count, String verb) =>
+    count == 1 ? '$verb a comment' : '$verb $count comments';
+
+/// One change in words, as desktop's `describeChange`: "status Todo → In progress".
+String describeChange(Map<String, Object?> change) {
+  switch (change['kind']) {
+    case 'created':
+      return 'created the task';
+    case 'field':
+      final field = change['field']! as String;
+      return '$field ${_valueText(field, change['from']! as String)} → ${_valueText(field, change['to']! as String)}';
+    case 'labels':
+      return 'labels ${[for (final label in change['added']! as List) '+$label', for (final label in change['removed']! as List) '−$label'].join(' ')}';
+    case 'description':
+      return 'edited the description';
+    case 'comments':
+      final added = change['added']! as int;
+      final edited = change['edited']! as int;
+      final removed = change['removed']! as int;
+      return [
+        if (added > 0) _counted(added, 'added'),
+        if (edited > 0) _counted(edited, 'edited'),
+        if (removed > 0) _counted(removed, 'deleted'),
+      ].join(', ');
+    case 'timelog':
+      final added = (change['added']! as List).cast<String>();
+      final removed = change['removed']! as int;
+      return [
+        if (added.isNotEmpty) 'logged ${added.join('; ')}',
+        if (removed > 0)
+          'removed ${removed == 1 ? 'an entry' : '$removed entries'} of the time log',
+      ].join(', ');
+    case 'custom':
+      final from = change['from']! as String;
+      final to = change['to']! as String;
+      return '${change['field']} ${from.isEmpty ? 'none' : from} → ${to.isEmpty ? 'none' : to}';
+    case 'other':
+      return 'changed ${(change['fields']! as List).join(', ')}';
+  }
+  return '';
+}
