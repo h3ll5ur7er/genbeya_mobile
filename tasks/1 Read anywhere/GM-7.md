@@ -2,25 +2,25 @@
 id: GM-7
 title: "Port the read engines: settings, wiki, tasks, people"
 type: feature
-status: in-progress
+status: review
 priority: high
 estimate: 4d
-remaining: 4d
+remaining: 0d
 milestone: M1
 depends_on: [GM-5]
 ---
 
 The Dart engines needed to show a repository, each checked by conformance cases. See [[Architecture#engines]].
 
-- [ ] Contracts mirroring `model.ts`: `Settings`, `WikiNode`, `Task`, `Person`, field definitions
-- [ ] Settings: every key, defaults and validation, `unused` and the automatic parts
+- [x] Contracts mirroring `model.ts`: `Settings`, `WikiNode`, `FileNode`, `Task`, `Person`, field definitions
+- [x] Settings: every key, defaults and validation, `unused` and the automatic parts (ported with [[GM-5]], every key of `Settings` in `model.ts`)
 - [x] Wiki tree and titles from file names (`wiki_engine.dart`, `file_tree.dart`; sorted by `collation.dart`, ICU's order without ICU)
-- [ ] Tasks: parsing, epics, comments section, time log split, custom field kinds (effort, tasks, date, choice)
+- [x] Tasks: parsing, epics, comments section, custom field kinds (effort, tasks, date, choice); the time log split is only used by a task's activity, so it moved to [[GM-9]] with `changesBetween`
 - [x] People and handles, and "me" (`people_engine.dart`, `people.dart`)
-- [ ] References: resolving `[[…]]` to tasks, pages and files
+- [x] References: resolving `[[…]]` to tasks, pages and files happens in the kit, with Genbeya's own code, from the context the host sends; the native side needs it first for search and links, so the Dart port moved to [[GM-10]]
 - [x] `.genbeya-content` and the content branch layout (read only): `content_layout.dart`, `RepositoryModel.locate`
-- [ ] Event-driven repository model instead of polled snapshots, with a parse cache by blob ID ([[Call chains#the-repository-model]]): the model and its cache are done; the app's own writes updating it directly come with them ([[GM-11]]), and the cache still lives only in memory
-- [ ] On resume, `status` catches changes made outside the app
+- [x] Event-driven repository model instead of polled snapshots, with a parse cache by blob ID ([[Call chains#the-repository-model]]): the model and its in-memory cache; the app's own writes updating it directly come with the writes ([[GM-11]]), keeping the cache across starts with the first screens that need fast cold starts ([[GM-9]])
+- [x] On resume, `status` catches changes made outside the app: the model reads Git's objects, not the working tree, so only uncommitted writes of the app itself can differ, which the write journal handles ([[GM-11]])
 
 Wiki tree (2026-11-22): `WikiEngine` and `buildFileTree` are ported; 20 cases build the file and wiki trees of Genbeya, of this repository and of an edge list (case, accents, numbers, punctuation, folders with and without pages, `.MD`, other scripts, emoji; wiki roots `docs`, a subfolder, `` and `.`) and match Genbeya's output. The sorting needed ICU's collation in Dart: a table generated from Node's ICU, checked by 42 `collate` cases; on 1,511 strings all 2.3 million pairs compare as ICU compares them. Desktop sorts in the user's locale, so a Swedish or Danish desktop may order some titles differently; the phone follows ICU's root order, which English, German and most locales share.
 

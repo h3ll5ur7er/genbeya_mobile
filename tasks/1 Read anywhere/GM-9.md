@@ -15,5 +15,6 @@ The tasks as phones and tablets show them best. See [[Experience#tasks]].
 - [ ] List grouped by state, with the desktop's filters, milestone included
 - [ ] Board: one column per screen with a position strip on phones, the whole board and swimlanes on tablets; hidden columns left out
 - [ ] Cards with type, ID, title, assignee, priority, dates (overdue in red)
-- [ ] Task screen: chips, fields, rendered description, comments, activity from Git history (deepening a shallow clone when needed)
+- [ ] Task screen: chips, fields, rendered description, comments, activity from Git history (deepening a shallow clone when needed): port `changesBetween`, `task-activity.ts` and the time log split (`splitTimeLog` in planning.ts), with conformance cases
+- [ ] Keep the repository model's parse cache across app starts, so the board opens from it
 - [ ] Branches and pull requests of the task, listed
