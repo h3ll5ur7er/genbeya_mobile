@@ -1,0 +1,115 @@
+{
+  "id": "people-collisions",
+  "kind": "people.merge",
+  "input": {
+    "sources": {
+      "configured": [
+        {
+          "handle": "alex",
+          "name": "Alexandra Stone"
+        }
+      ],
+      "authors": [
+        {
+          "name": "Alex Chen",
+          "email": "alex@one.example",
+          "commits": 5
+        },
+        {
+          "name": "Alex Kim",
+          "email": "alex@two.example",
+          "commits": 5
+        },
+        {
+          "name": "Alex Park",
+          "email": "alex@three.example",
+          "commits": 5
+        },
+        {
+          "name": "alex",
+          "email": "x@four.example",
+          "commits": 1
+        },
+        {
+          "name": "Alex",
+          "email": "y@five.example",
+          "commits": 1
+        },
+        {
+          "name": "Zoë O'Brien",
+          "email": "zoe@example.com",
+          "commits": 3
+        },
+        {
+          "name": "Zoe OBrien",
+          "email": "zoe.obrien@example.com",
+          "commits": 2
+        },
+        {
+          "name": "Жанна Иванова",
+          "email": "zhanna@example.ru",
+          "commits": 2
+        },
+        {
+          "name": "李雷",
+          "email": "",
+          "commits": 4
+        },
+        {
+          "name": "🎉 Party",
+          "email": "",
+          "commits": 1
+        },
+        {
+          "name": "Ægir Østergård",
+          "email": "",
+          "commits": 1
+        },
+        {
+          "name": "Straße",
+          "email": "",
+          "commits": 1
+        },
+        {
+          "name": "José Núñez",
+          "email": "jose@example.es",
+          "commits": 2
+        },
+        {
+          "name": "Jose Nunez",
+          "email": "jnunez@example.es",
+          "commits": 2
+        },
+        {
+          "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "email": "",
+          "commits": 1
+        }
+      ],
+      "assignees": [
+        "alex",
+        "Alex Chen",
+        "Unknown Person",
+        "unknown person",
+        "李雷"
+      ],
+      "commenters": [
+        "Ølaf",
+        "Olaf",
+        "olaf",
+        "Émile",
+        "Emile"
+      ]
+    },
+    "identities": [
+      {
+        "name": "Alex Kim",
+        "email": "alex@two.example"
+      },
+      {
+        "name": "李雷",
+        "email": ""
+      }
+    ]
+  }
+}

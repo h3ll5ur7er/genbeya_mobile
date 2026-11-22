@@ -11,6 +11,7 @@
 library;
 
 import 'collation_table.dart';
+import 'unicode.dart';
 
 final _digitLow = collationDigitWeight;
 
@@ -102,6 +103,55 @@ int collate(String a, String b) {
   return (x.length - y.length).sign;
 }
 
+/// Negative, zero or positive as [a] sorts before, with or after [b] by a
+/// plain `a.localeCompare(b)`: ICU's root order at full strength. Base
+/// letters decide first, then accents, then case (lower before upper);
+/// digits are characters, not numbers.
+int collateFull(String a, String b) {
+  if (a == b) return 0;
+  final x = _fullElements(a);
+  final y = _fullElements(b);
+  for (final level in [0, 1, 2]) {
+    final p = x[level];
+    final q = y[level];
+    for (var i = 0; i < p.length && i < q.length; i++) {
+      if (p[i] != q[i]) return p[i] < q[i] ? -1 : 1;
+    }
+    if (p.length != q.length) return p.length < q.length ? -1 : 1;
+  }
+  return 0;
+}
+
+const _ligature = 5000;
+
+/// Primary, secondary and tertiary weights of [text], decomposed.
+List<List<int>> _fullElements(String text) {
+  final primary = <int>[];
+  final secondary = <int>[];
+  final tertiary = <int>[];
+  for (final code in nfd(text).runes) {
+    final markWeight = collationSecondary[code];
+    if (collationIgnorable.contains(code)) {
+      if (markWeight != null) secondary.add(markWeight);
+      continue;
+    }
+    final case_ = collationTertiary[code] ?? 0;
+    final expansion = collationExpansions[code];
+    if (expansion != null) {
+      // ICU weighs æ as a, a secondary weight above every accent, then e.
+      primary.addAll(expansion);
+      secondary.addAll([1, _ligature, 1]);
+      tertiary.addAll([for (final _ in expansion) case_]);
+      continue;
+    }
+    primary.add(_weightOf(code));
+    // A letter like ø weighs as its base letter followed by a mark.
+    secondary.addAll(markWeight == null ? const [1] : [1, 2000 + markWeight]);
+    tertiary.add(case_);
+  }
+  return [primary, secondary, tertiary];
+}
+
 /// Sorts [list] in place, keeping equal elements in their order, as
 /// JavaScript's `Array.prototype.sort` does (Dart's `sort` may not).
 void stableSort<T>(List<T> list, int Function(T a, T b) compare) {
@@ -111,6 +161,10 @@ void stableSort<T>(List<T> list, int Function(T a, T b) compare) {
     list[i] = sorted[i];
   }
 }
+
+/// A sorted copy of [items], keeping equal elements in their order.
+List<T> stableSorted<T>(Iterable<T> items, int Function(T a, T b) compare) =>
+    _mergeSort(items.toList(), compare);
 
 List<T> _mergeSort<T>(List<T> list, int Function(T a, T b) compare) {
   if (list.length < 2) return list;

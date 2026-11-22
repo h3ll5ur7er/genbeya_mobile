@@ -6,6 +6,8 @@ import 'package:genbeya_mobile/contracts/model.dart';
 import 'package:genbeya_mobile/engines/checkbox_engine.dart';
 import 'package:genbeya_mobile/engines/collation.dart';
 import 'package:genbeya_mobile/engines/file_tree.dart';
+import 'package:genbeya_mobile/engines/people.dart';
+import 'package:genbeya_mobile/engines/people_engine.dart';
 import 'package:genbeya_mobile/engines/wiki_engine.dart';
 import 'package:genbeya_mobile/engines/js.dart';
 import 'package:genbeya_mobile/engines/settings_engine.dart';
@@ -53,6 +55,7 @@ void main() {
 final _settings = SettingsEngine();
 final _tasks = TaskEngine();
 final _wiki = WikiEngine();
+final _people = PeopleEngine();
 
 Map<String, Object?> _run(String kind, Map<String, Object?> input) {
   try {
@@ -106,6 +109,10 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
         final strings = (input['strings']! as List).cast<String>().toList();
         stableSort(strings, collate);
         return {'output': strings};
+      case 'collate.full':
+        final strings = (input['strings']! as List).cast<String>().toList();
+        stableSort(strings, collateFull);
+        return {'output': strings};
       case 'file.tree':
         final files = (input['files']! as List).cast<String>();
         return {
@@ -134,6 +141,57 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
                 {'title': page.title, 'path': page.path},
             ],
           },
+        };
+      case 'people.merge':
+        final sources = input['sources']! as Map<String, Object?>;
+        List<String> strings(String key) =>
+            (sources[key]! as List).cast<String>();
+        final merged = _people.merge(
+          PeopleSources(
+            configured: [
+              for (final entry
+                  in (sources['configured']! as List)
+                      .cast<Map<String, Object?>>())
+                PersonEntry(
+                  handle: entry['handle']! as String,
+                  name: entry['name']! as String,
+                  email: entry['email'] as String?,
+                  aliases: (entry['aliases'] as List?)?.cast<String>(),
+                ),
+            ],
+            authors: [
+              for (final author
+                  in (sources['authors']! as List).cast<Map<String, Object?>>())
+                (
+                  name: author['name']! as String,
+                  email: author['email']! as String,
+                  commits: author['commits']! as int,
+                ),
+            ],
+            assignees: strings('assignees'),
+            commenters: strings('commenters'),
+          ),
+        );
+        return {
+          'output': {
+            'people': [for (final person in merged) person.toJson()],
+            'me': [
+              for (final identity
+                  in (input['identities']! as List)
+                      .cast<Map<String, Object?>>())
+                _people.me(merged, (
+                  name: identity['name']! as String,
+                  email: identity['email']! as String,
+                )),
+            ],
+          },
+        };
+      case 'handle.slug':
+        return {
+          'output': [
+            for (final text in (input['texts']! as List).cast<String>())
+              handleSlug(text),
+          ],
         };
       case 'page.toggle':
         // Where an item starts, the app's checked toggle writes Genbeya's

@@ -124,6 +124,45 @@ add("collate-edge", "collate", {
 });
 for (let n = 0; n < 40; n++) add(`collate-random-${n}`, "collate", { strings: Array.from({ length: 40 }, word) });
 
+// People merged from the settings, commit authors (made up: no real emails
+// in the fixtures), assignees and comment authors; and who "me" is.
+const peopleSets = Object.fromEntries(
+  readdirSync(join(here, "fixtures/people")).sort().map((name) => [name.replace(/\.json$/, ""), JSON.parse(read(join(here, "fixtures/people", name)))]),
+);
+{
+  const first = ["Ada", "Alex", "Sam", "Zoë", "José", "Grace", "Lin", "Noor", "Émile", "Ola", "Kai", "Mia"];
+  const last = ["Chen", "Rivera", "Núñez", "O'Brien", "Stone", "Park", "Østergård", "Kim", "Ng", "Smith"];
+  const any = (list) => list[Math.floor(random() * list.length)];
+  const authors = Array.from({ length: 120 }, (_, n) => {
+    const name = `${any(first)} ${any(last)}`;
+    const email = random() < 0.15 ? "" : `${handleLike(name)}${random() < 0.3 ? "+dev" : ""}@${any(["example.com", "example.org", "users.noreply.github.com"])}`;
+    return { name: random() < 0.2 ? name.toLowerCase() : name, email, commits: 1 + Math.floor(random() * 50) + (n % 3) };
+  });
+  const names = authors.map((author) => author.name);
+  peopleSets.random = {
+    configured: [{ handle: "ada", name: "Ada Chen", email: "ada.chen@example.com", aliases: ["Ada C."] }],
+    authors,
+    assignees: Array.from({ length: 20 }, () => (random() < 0.5 ? any(names) : `${any(first)} ${any(last)}`)),
+    commenters: Array.from({ length: 20 }, () => any(names)),
+    identities: authors.slice(0, 5).map(({ name, email }) => ({ name, email })),
+  };
+}
+function handleLike(name) {
+  return name.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/[^a-z]+/g, ".");
+}
+for (const [name, data] of Object.entries(peopleSets)) {
+  const { identities, ...sources } = data;
+  add(`people-${name}`, "people.merge", { sources, identities });
+}
+// A plain localeCompare, as people are sorted: accents and case decide ties.
+const fullPool = [..." -_.'0123456789aAbBeEéÉèêëoOóÓöÖøØsSßzZæÆœŒçÇñÑåÅ", "e\u0301", "E\u0301", "o\u0308", ..."ΩωЖж日🎉", "\u200b"];
+const fullWord = () => Array.from({ length: 1 + Math.floor(random() * 5) }, () => fullPool[Math.floor(random() * fullPool.length)]).join("");
+add("collate-full-names", "collate.full", { strings: ["Ada", "ada", "ADA", "Adá", "adà", "Zoë", "Zoe", "zoe", "Ægir", "aegir", "Aegir", "Straße", "strasse", "Strasse", "o\u0308", "ö", "Ö", "Øystein", "Oystein", "Óscar", "Oscar"] });
+for (let n = 0; n < 20; n++) add(`collate-full-random-${n}`, "collate.full", { strings: Array.from({ length: 40 }, fullWord) });
+add("people-slugs", "handle.slug", {
+  texts: ["Ada Lovelace", "Zoë.O'Brien", "  --Ada--  ", "李雷", "Ægir", "Straße", "José Núñez", "ÅSA", "x".repeat(50), "a-".repeat(30), "Ⅻ", "ﬁle", "İstanbul", "ǅemal"],
+});
+
 function labelsOf(content) {
   const flow = /^labels:\s*\[(.*)\]/m.exec(content);
   if (flow) return flow[1].split(",").map((s) => s.trim()).filter(Boolean);

@@ -1,0 +1,94 @@
+{
+  "configured": [
+    {
+      "handle": "ada",
+      "name": "Ada Lovelace",
+      "email": "ada@example.com",
+      "aliases": [
+        "Ada King",
+        "ada@old.example",
+        "lovelace"
+      ]
+    },
+    {
+      "handle": "grace",
+      "name": "Grace Hopper"
+    }
+  ],
+  "authors": [
+    {
+      "name": "Ada Lovelace",
+      "email": "ada@example.com",
+      "commits": 40
+    },
+    {
+      "name": "ada",
+      "email": "ADA@example.com",
+      "commits": 3
+    },
+    {
+      "name": "Grace Hopper",
+      "email": "grace@navy.example",
+      "commits": 12
+    },
+    {
+      "name": "Sam Rivera",
+      "email": "1234+samr@users.noreply.github.com",
+      "commits": 7
+    },
+    {
+      "name": "Sam R.",
+      "email": "sam+git@example.org",
+      "commits": 2
+    },
+    {
+      "name": "Build Bot",
+      "email": "root@ci.example",
+      "commits": 30
+    },
+    {
+      "name": "Release",
+      "email": "noreply@example.com",
+      "commits": 5
+    },
+    {
+      "name": "Nameless",
+      "email": "",
+      "commits": 1
+    },
+    {
+      "name": "Alex Chen",
+      "email": "alex@example.com",
+      "commits": 7
+    }
+  ],
+  "assignees": [
+    "ada",
+    "Grace Hopper",
+    "alex@example.com",
+    "Taylor Swift-Ng",
+    "@grace",
+    ""
+  ],
+  "commenters": [
+    "Ada Lovelace",
+    "Claude",
+    "Emanuel Knecht",
+    "Sam Rivera",
+    "  "
+  ],
+  "identities": [
+    {
+      "name": "Ada",
+      "email": "ada@example.com"
+    },
+    {
+      "name": "Grace Hopper",
+      "email": "other@example.com"
+    },
+    {
+      "name": "Nobody",
+      "email": "nobody@example.com"
+    }
+  ]
+}

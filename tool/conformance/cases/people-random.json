@@ -1,0 +1,686 @@
+{
+  "id": "people-random",
+  "kind": "people.merge",
+  "input": {
+    "sources": {
+      "configured": [
+        {
+          "handle": "ada",
+          "name": "Ada Chen",
+          "email": "ada.chen@example.com",
+          "aliases": [
+            "Ada C."
+          ]
+        }
+      ],
+      "authors": [
+        {
+          "name": "Lin Rivera",
+          "email": "lin.rivera@example.com",
+          "commits": 28
+        },
+        {
+          "name": "josé o'brien",
+          "email": "jose.o.brien@example.org",
+          "commits": 17
+        },
+        {
+          "name": "sam park",
+          "email": "sam.park@example.com",
+          "commits": 14
+        },
+        {
+          "name": "ada østergård",
+          "email": "",
+          "commits": 5
+        },
+        {
+          "name": "Grace Smith",
+          "email": "grace.smith@example.org",
+          "commits": 23
+        },
+        {
+          "name": "José Rivera",
+          "email": "jose.rivera@users.noreply.github.com",
+          "commits": 17
+        },
+        {
+          "name": "Émile Park",
+          "email": "",
+          "commits": 18
+        },
+        {
+          "name": "Sam Smith",
+          "email": "sam.smith@example.com",
+          "commits": 30
+        },
+        {
+          "name": "Ada Østergård",
+          "email": "",
+          "commits": 27
+        },
+        {
+          "name": "Noor Rivera",
+          "email": "",
+          "commits": 39
+        },
+        {
+          "name": "mia park",
+          "email": "mia.park@example.com",
+          "commits": 24
+        },
+        {
+          "name": "Sam Stone",
+          "email": "sam.stone+dev@example.org",
+          "commits": 14
+        },
+        {
+          "name": "grace o'brien",
+          "email": "",
+          "commits": 4
+        },
+        {
+          "name": "Ada Núñez",
+          "email": "ada.nunez@users.noreply.github.com",
+          "commits": 31
+        },
+        {
+          "name": "José Østergård",
+          "email": "jose.stergard@users.noreply.github.com",
+          "commits": 14
+        },
+        {
+          "name": "Ada Stone",
+          "email": "",
+          "commits": 26
+        },
+        {
+          "name": "Kai Park",
+          "email": "kai.park+dev@users.noreply.github.com",
+          "commits": 42
+        },
+        {
+          "name": "Zoë Park",
+          "email": "zoe.park@users.noreply.github.com",
+          "commits": 11
+        },
+        {
+          "name": "José Østergård",
+          "email": "jose.stergard@example.com",
+          "commits": 4
+        },
+        {
+          "name": "José Núñez",
+          "email": "jose.nunez+dev@users.noreply.github.com",
+          "commits": 12
+        },
+        {
+          "name": "Ola Østergård",
+          "email": "ola.stergard+dev@users.noreply.github.com",
+          "commits": 32
+        },
+        {
+          "name": "lin kim",
+          "email": "lin.kim@example.org",
+          "commits": 18
+        },
+        {
+          "name": "Ola Smith",
+          "email": "ola.smith+dev@example.com",
+          "commits": 30
+        },
+        {
+          "name": "Kai Ng",
+          "email": "kai.ng+dev@example.com",
+          "commits": 35
+        },
+        {
+          "name": "Ola Chen",
+          "email": "ola.chen@example.org",
+          "commits": 22
+        },
+        {
+          "name": "Alex Park",
+          "email": "alex.park@users.noreply.github.com",
+          "commits": 13
+        },
+        {
+          "name": "Sam Núñez",
+          "email": "sam.nunez@example.com",
+          "commits": 23
+        },
+        {
+          "name": "Ola Núñez",
+          "email": "ola.nunez@example.com",
+          "commits": 46
+        },
+        {
+          "name": "Sam Ng",
+          "email": "",
+          "commits": 33
+        },
+        {
+          "name": "Grace Kim",
+          "email": "grace.kim@example.org",
+          "commits": 20
+        },
+        {
+          "name": "José Kim",
+          "email": "jose.kim@example.com",
+          "commits": 35
+        },
+        {
+          "name": "Lin Østergård",
+          "email": "lin.stergard@example.com",
+          "commits": 23
+        },
+        {
+          "name": "Ola Stone",
+          "email": "",
+          "commits": 6
+        },
+        {
+          "name": "Ola Ng",
+          "email": "ola.ng@users.noreply.github.com",
+          "commits": 3
+        },
+        {
+          "name": "Sam Stone",
+          "email": "sam.stone@example.org",
+          "commits": 20
+        },
+        {
+          "name": "José Smith",
+          "email": "jose.smith+dev@users.noreply.github.com",
+          "commits": 28
+        },
+        {
+          "name": "Ola O'Brien",
+          "email": "ola.o.brien@users.noreply.github.com",
+          "commits": 7
+        },
+        {
+          "name": "Noor Rivera",
+          "email": "noor.rivera@example.com",
+          "commits": 27
+        },
+        {
+          "name": "Lin Østergård",
+          "email": "lin.stergard@example.org",
+          "commits": 25
+        },
+        {
+          "name": "Mia Stone",
+          "email": "mia.stone@example.com",
+          "commits": 21
+        },
+        {
+          "name": "noor stone",
+          "email": "noor.stone@example.com",
+          "commits": 26
+        },
+        {
+          "name": "Ola Núñez",
+          "email": "ola.nunez@example.org",
+          "commits": 14
+        },
+        {
+          "name": "Ola Stone",
+          "email": "ola.stone@example.com",
+          "commits": 20
+        },
+        {
+          "name": "Ola Østergård",
+          "email": "ola.stergard+dev@example.com",
+          "commits": 36
+        },
+        {
+          "name": "Noor Park",
+          "email": "noor.park+dev@users.noreply.github.com",
+          "commits": 12
+        },
+        {
+          "name": "Ada Smith",
+          "email": "ada.smith@example.org",
+          "commits": 34
+        },
+        {
+          "name": "José O'Brien",
+          "email": "jose.o.brien@example.org",
+          "commits": 24
+        },
+        {
+          "name": "Émile Ng",
+          "email": "emile.ng@users.noreply.github.com",
+          "commits": 22
+        },
+        {
+          "name": "Mia Østergård",
+          "email": "mia.stergard+dev@users.noreply.github.com",
+          "commits": 4
+        },
+        {
+          "name": "Zoë Park",
+          "email": "zoe.park@example.com",
+          "commits": 32
+        },
+        {
+          "name": "Émile O'Brien",
+          "email": "emile.o.brien@example.org",
+          "commits": 24
+        },
+        {
+          "name": "Lin Kim",
+          "email": "lin.kim@users.noreply.github.com",
+          "commits": 50
+        },
+        {
+          "name": "Lin Rivera",
+          "email": "lin.rivera@users.noreply.github.com",
+          "commits": 9
+        },
+        {
+          "name": "Noor Stone",
+          "email": "noor.stone+dev@users.noreply.github.com",
+          "commits": 52
+        },
+        {
+          "name": "Lin Chen",
+          "email": "lin.chen@users.noreply.github.com",
+          "commits": 18
+        },
+        {
+          "name": "Ada Chen",
+          "email": "",
+          "commits": 10
+        },
+        {
+          "name": "Lin Stone",
+          "email": "lin.stone@example.com",
+          "commits": 19
+        },
+        {
+          "name": "Mia Stone",
+          "email": "mia.stone+dev@users.noreply.github.com",
+          "commits": 48
+        },
+        {
+          "name": "Lin Park",
+          "email": "lin.park@users.noreply.github.com",
+          "commits": 36
+        },
+        {
+          "name": "Ada Stone",
+          "email": "ada.stone+dev@users.noreply.github.com",
+          "commits": 16
+        },
+        {
+          "name": "Noor Rivera",
+          "email": "noor.rivera+dev@example.org",
+          "commits": 30
+        },
+        {
+          "name": "Sam Chen",
+          "email": "sam.chen@example.com",
+          "commits": 15
+        },
+        {
+          "name": "Émile Chen",
+          "email": "emile.chen@users.noreply.github.com",
+          "commits": 40
+        },
+        {
+          "name": "Noor O'Brien",
+          "email": "noor.o.brien@users.noreply.github.com",
+          "commits": 37
+        },
+        {
+          "name": "Noor Park",
+          "email": "noor.park+dev@users.noreply.github.com",
+          "commits": 28
+        },
+        {
+          "name": "Ada O'Brien",
+          "email": "",
+          "commits": 41
+        },
+        {
+          "name": "Zoë Chen",
+          "email": "zoe.chen@example.org",
+          "commits": 40
+        },
+        {
+          "name": "noor kim",
+          "email": "noor.kim+dev@users.noreply.github.com",
+          "commits": 11
+        },
+        {
+          "name": "émile stone",
+          "email": "emile.stone@example.org",
+          "commits": 51
+        },
+        {
+          "name": "Kai Smith",
+          "email": "kai.smith@example.org",
+          "commits": 9
+        },
+        {
+          "name": "Émile Kim",
+          "email": "emile.kim@users.noreply.github.com",
+          "commits": 49
+        },
+        {
+          "name": "Émile Park",
+          "email": "emile.park@example.org",
+          "commits": 14
+        },
+        {
+          "name": "Kai Park",
+          "email": "kai.park@example.com",
+          "commits": 6
+        },
+        {
+          "name": "Ola Kim",
+          "email": "ola.kim@example.org",
+          "commits": 15
+        },
+        {
+          "name": "ola núñez",
+          "email": "ola.nunez@example.com",
+          "commits": 11
+        },
+        {
+          "name": "kai ng",
+          "email": "kai.ng+dev@example.com",
+          "commits": 19
+        },
+        {
+          "name": "Grace Chen",
+          "email": "",
+          "commits": 25
+        },
+        {
+          "name": "Mia Kim",
+          "email": "mia.kim@example.com",
+          "commits": 36
+        },
+        {
+          "name": "Mia Stone",
+          "email": "mia.stone+dev@example.org",
+          "commits": 43
+        },
+        {
+          "name": "José Smith",
+          "email": "jose.smith@example.org",
+          "commits": 35
+        },
+        {
+          "name": "Kai Stone",
+          "email": "kai.stone+dev@users.noreply.github.com",
+          "commits": 49
+        },
+        {
+          "name": "Zoë Stone",
+          "email": "zoe.stone+dev@example.org",
+          "commits": 31
+        },
+        {
+          "name": "Ola Núñez",
+          "email": "ola.nunez+dev@example.com",
+          "commits": 18
+        },
+        {
+          "name": "Sam O'Brien",
+          "email": "sam.o.brien@example.org",
+          "commits": 52
+        },
+        {
+          "name": "Zoë Kim",
+          "email": "zoe.kim@example.com",
+          "commits": 16
+        },
+        {
+          "name": "Grace Núñez",
+          "email": "grace.nunez+dev@users.noreply.github.com",
+          "commits": 43
+        },
+        {
+          "name": "Mia Núñez",
+          "email": "",
+          "commits": 52
+        },
+        {
+          "name": "Noor Kim",
+          "email": "noor.kim@example.com",
+          "commits": 46
+        },
+        {
+          "name": "Lin Smith",
+          "email": "",
+          "commits": 44
+        },
+        {
+          "name": "Noor O'Brien",
+          "email": "noor.o.brien+dev@users.noreply.github.com",
+          "commits": 51
+        },
+        {
+          "name": "José Smith",
+          "email": "jose.smith@example.com",
+          "commits": 10
+        },
+        {
+          "name": "Lin O'Brien",
+          "email": "",
+          "commits": 47
+        },
+        {
+          "name": "Émile Kim",
+          "email": "emile.kim@users.noreply.github.com",
+          "commits": 13
+        },
+        {
+          "name": "Kai O'Brien",
+          "email": "kai.o.brien+dev@users.noreply.github.com",
+          "commits": 33
+        },
+        {
+          "name": "Ola Kim",
+          "email": "ola.kim+dev@users.noreply.github.com",
+          "commits": 13
+        },
+        {
+          "name": "Sam Park",
+          "email": "sam.park@example.com",
+          "commits": 27
+        },
+        {
+          "name": "Sam Chen",
+          "email": "sam.chen+dev@example.com",
+          "commits": 41
+        },
+        {
+          "name": "Ola O'Brien",
+          "email": "ola.o.brien@example.org",
+          "commits": 23
+        },
+        {
+          "name": "José O'Brien",
+          "email": "jose.o.brien+dev@example.org",
+          "commits": 13
+        },
+        {
+          "name": "lin smith",
+          "email": "lin.smith@users.noreply.github.com",
+          "commits": 14
+        },
+        {
+          "name": "Kai Ng",
+          "email": "kai.ng@example.com",
+          "commits": 29
+        },
+        {
+          "name": "sam rivera",
+          "email": "",
+          "commits": 28
+        },
+        {
+          "name": "ada smith",
+          "email": "ada.smith@example.org",
+          "commits": 36
+        },
+        {
+          "name": "Émile Chen",
+          "email": "emile.chen@example.com",
+          "commits": 12
+        },
+        {
+          "name": "lin smith",
+          "email": "lin.smith@example.com",
+          "commits": 18
+        },
+        {
+          "name": "mia park",
+          "email": "",
+          "commits": 50
+        },
+        {
+          "name": "Émile Park",
+          "email": "emile.park@example.com",
+          "commits": 17
+        },
+        {
+          "name": "Ada Kim",
+          "email": "",
+          "commits": 21
+        },
+        {
+          "name": "Alex Rivera",
+          "email": "",
+          "commits": 1
+        },
+        {
+          "name": "Zoë Kim",
+          "email": "zoe.kim@example.com",
+          "commits": 40
+        },
+        {
+          "name": "Mia Núñez",
+          "email": "mia.nunez@users.noreply.github.com",
+          "commits": 3
+        },
+        {
+          "name": "Noor Rivera",
+          "email": "noor.rivera+dev@example.com",
+          "commits": 36
+        },
+        {
+          "name": "Lin Ng",
+          "email": "lin.ng@example.com",
+          "commits": 25
+        },
+        {
+          "name": "émile chen",
+          "email": "emile.chen@example.com",
+          "commits": 49
+        },
+        {
+          "name": "Mia Chen",
+          "email": "mia.chen@example.org",
+          "commits": 13
+        },
+        {
+          "name": "Grace Østergård",
+          "email": "",
+          "commits": 22
+        },
+        {
+          "name": "Grace Smith",
+          "email": "grace.smith@users.noreply.github.com",
+          "commits": 33
+        },
+        {
+          "name": "Alex Rivera",
+          "email": "alex.rivera@example.com",
+          "commits": 8
+        },
+        {
+          "name": "Sam Rivera",
+          "email": "sam.rivera+dev@users.noreply.github.com",
+          "commits": 31
+        },
+        {
+          "name": "Alex Østergård",
+          "email": "",
+          "commits": 34
+        }
+      ],
+      "assignees": [
+        "Sam Chen",
+        "Ola Kim",
+        "Mia Park",
+        "Alex Park",
+        "Ola Stone",
+        "José Rivera",
+        "José O'Brien",
+        "Ada Kim",
+        "Émile O'Brien",
+        "Alex Rivera",
+        "Ada Ng",
+        "Lin Kim",
+        "José Østergård",
+        "José Rivera",
+        "José Smith",
+        "Sam Østergård",
+        "Mia Stone",
+        "Ola Núñez",
+        "Ada Stone",
+        "Noor Park"
+      ],
+      "commenters": [
+        "Kai O'Brien",
+        "Ola Núñez",
+        "Noor Park",
+        "sam rivera",
+        "Ola Kim",
+        "Sam Chen",
+        "lin smith",
+        "Sam O'Brien",
+        "José Rivera",
+        "Kai Ng",
+        "Grace Chen",
+        "Lin Chen",
+        "Noor Rivera",
+        "Ola Núñez",
+        "Ada Stone",
+        "Ola Núñez",
+        "Grace Chen",
+        "émile chen",
+        "noor stone",
+        "Émile Park"
+      ]
+    },
+    "identities": [
+      {
+        "name": "Lin Rivera",
+        "email": "lin.rivera@example.com"
+      },
+      {
+        "name": "josé o'brien",
+        "email": "jose.o.brien@example.org"
+      },
+      {
+        "name": "sam park",
+        "email": "sam.park@example.com"
+      },
+      {
+        "name": "ada østergård",
+        "email": ""
+      },
+      {
+        "name": "Grace Smith",
+        "email": "grace.smith@example.org"
+      }
+    ]
+  }
+}

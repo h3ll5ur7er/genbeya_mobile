@@ -1,0 +1,18 @@
+{
+  "id": "people-empty",
+  "kind": "people.merge",
+  "input": {
+    "sources": {
+      "configured": [],
+      "authors": [],
+      "assignees": [],
+      "commenters": []
+    },
+    "identities": [
+      {
+        "name": "",
+        "email": ""
+      }
+    ]
+  }
+}

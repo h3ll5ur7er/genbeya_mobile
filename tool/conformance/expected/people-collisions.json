@@ -1,0 +1,147 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": {
+    "people": [
+      {
+        "handle": "party",
+        "name": "🎉 Party",
+        "email": null,
+        "aliases": [],
+        "commits": 1
+      },
+      {
+        "handle": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "email": null,
+        "aliases": [],
+        "commits": 1
+      },
+      {
+        "handle": "gir-stergard",
+        "name": "Ægir Østergård",
+        "email": null,
+        "aliases": [],
+        "commits": 1
+      },
+      {
+        "handle": "alex-chen",
+        "name": "Alex Chen",
+        "email": "alex@one.example",
+        "aliases": [],
+        "commits": 5
+      },
+      {
+        "handle": "alex-kim",
+        "name": "Alex Kim",
+        "email": "alex@two.example",
+        "aliases": [],
+        "commits": 5
+      },
+      {
+        "handle": "alex-park",
+        "name": "Alex Park",
+        "email": "alex@three.example",
+        "aliases": [],
+        "commits": 5
+      },
+      {
+        "handle": "alex",
+        "name": "Alexandra Stone",
+        "email": "x@four.example",
+        "aliases": [
+          "alex",
+          "y@five.example"
+        ],
+        "commits": 2
+      },
+      {
+        "handle": "emile",
+        "name": "Emile",
+        "email": null,
+        "aliases": [],
+        "commits": 0
+      },
+      {
+        "handle": "emile-2",
+        "name": "Émile",
+        "email": null,
+        "aliases": [],
+        "commits": 0
+      },
+      {
+        "handle": "jnunez",
+        "name": "Jose Nunez",
+        "email": "jnunez@example.es",
+        "aliases": [],
+        "commits": 2
+      },
+      {
+        "handle": "jose",
+        "name": "José Núñez",
+        "email": "jose@example.es",
+        "aliases": [],
+        "commits": 2
+      },
+      {
+        "handle": "olaf",
+        "name": "Olaf",
+        "email": null,
+        "aliases": [],
+        "commits": 0
+      },
+      {
+        "handle": "laf",
+        "name": "Ølaf",
+        "email": null,
+        "aliases": [],
+        "commits": 0
+      },
+      {
+        "handle": "stra-e",
+        "name": "Straße",
+        "email": null,
+        "aliases": [],
+        "commits": 1
+      },
+      {
+        "handle": "unknown-person",
+        "name": "Unknown Person",
+        "email": null,
+        "aliases": [],
+        "commits": 0
+      },
+      {
+        "handle": "zoe",
+        "name": "Zoë O'Brien",
+        "email": "zoe@example.com",
+        "aliases": [],
+        "commits": 3
+      },
+      {
+        "handle": "zoe-obrien",
+        "name": "Zoe OBrien",
+        "email": "zoe.obrien@example.com",
+        "aliases": [],
+        "commits": 2
+      },
+      {
+        "handle": "zhanna",
+        "name": "Жанна Иванова",
+        "email": "zhanna@example.ru",
+        "aliases": [],
+        "commits": 2
+      },
+      {
+        "handle": "person",
+        "name": "李雷",
+        "email": null,
+        "aliases": [],
+        "commits": 4
+      }
+    ],
+    "me": [
+      "alex-kim",
+      "person"
+    ]
+  }
+}

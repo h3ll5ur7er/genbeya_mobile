@@ -1,0 +1,29 @@
+{
+  "id": "collate-full-names",
+  "kind": "collate.full",
+  "input": {
+    "strings": [
+      "Ada",
+      "ada",
+      "ADA",
+      "Adá",
+      "adà",
+      "Zoë",
+      "Zoe",
+      "zoe",
+      "Ægir",
+      "aegir",
+      "Aegir",
+      "Straße",
+      "strasse",
+      "Strasse",
+      "ö",
+      "ö",
+      "Ö",
+      "Øystein",
+      "Oystein",
+      "Óscar",
+      "Oscar"
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": {
+    "people": [
+      {
+        "handle": "grace-2",
+        "name": "@grace",
+        "email": null,
+        "aliases": [],
+        "commits": 0
+      },
+      {
+        "handle": "ada",
+        "name": "Ada Lovelace",
+        "email": "ada@example.com",
+        "aliases": [
+          "Ada King",
+          "ada@old.example",
+          "lovelace",
+          "ada"
+        ],
+        "commits": 43
+      },
+      {
+        "handle": "alex",
+        "name": "Alex Chen",
+        "email": "alex@example.com",
+        "aliases": [],
+        "commits": 7
+      },
+      {
+        "handle": "build-bot",
+        "name": "Build Bot",
+        "email": "root@ci.example",
+        "aliases": [],
+        "commits": 30
+      },
+      {
+        "handle": "claude",
+        "name": "Claude",
+        "email": null,
+        "aliases": [],
+        "commits": 0
+      },
+      {
+        "handle": "emanuel-knecht",
+        "name": "Emanuel Knecht",
+        "email": null,
+        "aliases": [],
+        "commits": 0
+      },
+      {
+        "handle": "grace",
+        "name": "Grace Hopper",
+        "email": "grace@navy.example",
+        "aliases": [],
+        "commits": 12
+      },
+      {
+        "handle": "nameless",
+        "name": "Nameless",
+        "email": null,
+        "aliases": [],
+        "commits": 1
+      },
+      {
+        "handle": "release",
+        "name": "Release",
+        "email": "noreply@example.com",
+        "aliases": [],
+        "commits": 5
+      },
+      {
+        "handle": "sam",
+        "name": "Sam R.",
+        "email": "sam+git@example.org",
+        "aliases": [],
+        "commits": 2
+      },
+      {
+        "handle": "samr",
+        "name": "Sam Rivera",
+        "email": "1234+samr@users.noreply.github.com",
+        "aliases": [],
+        "commits": 7
+      },
+      {
+        "handle": "taylor-swift-ng",
+        "name": "Taylor Swift-Ng",
+        "email": null,
+        "aliases": [],
+        "commits": 0
+      }
+    ],
+    "me": [
+      "ada",
+      "grace",
+      null
+    ]
+  }
+}

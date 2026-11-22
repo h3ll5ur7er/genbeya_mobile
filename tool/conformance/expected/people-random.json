@@ -1,0 +1,593 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": {
+    "people": [
+      {
+        "handle": "ada",
+        "name": "Ada Chen",
+        "email": "ada.chen@example.com",
+        "aliases": [
+          "Ada C."
+        ],
+        "commits": 10
+      },
+      {
+        "handle": "ada-kim",
+        "name": "Ada Kim",
+        "email": null,
+        "aliases": [],
+        "commits": 21
+      },
+      {
+        "handle": "ada-ng",
+        "name": "Ada Ng",
+        "email": null,
+        "aliases": [],
+        "commits": 0
+      },
+      {
+        "handle": "ada-nunez",
+        "name": "Ada Núñez",
+        "email": "ada.nunez@users.noreply.github.com",
+        "aliases": [],
+        "commits": 31
+      },
+      {
+        "handle": "ada-o-brien",
+        "name": "Ada O'Brien",
+        "email": null,
+        "aliases": [],
+        "commits": 41
+      },
+      {
+        "handle": "ada-stergard",
+        "name": "Ada Østergård",
+        "email": null,
+        "aliases": [],
+        "commits": 32
+      },
+      {
+        "handle": "ada-smith",
+        "name": "ada smith",
+        "email": "ada.smith@example.org",
+        "aliases": [],
+        "commits": 70
+      },
+      {
+        "handle": "dev",
+        "name": "Ada Stone",
+        "email": "ada.stone+dev@users.noreply.github.com",
+        "aliases": [],
+        "commits": 42
+      },
+      {
+        "handle": "alex-stergard",
+        "name": "Alex Østergård",
+        "email": null,
+        "aliases": [],
+        "commits": 34
+      },
+      {
+        "handle": "alex-park",
+        "name": "Alex Park",
+        "email": "alex.park@users.noreply.github.com",
+        "aliases": [],
+        "commits": 13
+      },
+      {
+        "handle": "alex-rivera",
+        "name": "Alex Rivera",
+        "email": "alex.rivera@example.com",
+        "aliases": [],
+        "commits": 9
+      },
+      {
+        "handle": "emile-chen",
+        "name": "émile chen",
+        "email": "emile.chen@example.com",
+        "aliases": [
+          "emile.chen@users.noreply.github.com"
+        ],
+        "commits": 101
+      },
+      {
+        "handle": "emile-kim",
+        "name": "Émile Kim",
+        "email": "emile.kim@users.noreply.github.com",
+        "aliases": [],
+        "commits": 62
+      },
+      {
+        "handle": "emile-ng",
+        "name": "Émile Ng",
+        "email": "emile.ng@users.noreply.github.com",
+        "aliases": [],
+        "commits": 22
+      },
+      {
+        "handle": "emile-o-brien",
+        "name": "Émile O'Brien",
+        "email": "emile.o.brien@example.org",
+        "aliases": [],
+        "commits": 24
+      },
+      {
+        "handle": "emile-park",
+        "name": "Émile Park",
+        "email": "emile.park@example.com",
+        "aliases": [
+          "emile.park@example.org"
+        ],
+        "commits": 49
+      },
+      {
+        "handle": "emile-stone",
+        "name": "émile stone",
+        "email": "emile.stone@example.org",
+        "aliases": [],
+        "commits": 51
+      },
+      {
+        "handle": "grace-chen",
+        "name": "Grace Chen",
+        "email": null,
+        "aliases": [],
+        "commits": 25
+      },
+      {
+        "handle": "grace-kim",
+        "name": "Grace Kim",
+        "email": "grace.kim@example.org",
+        "aliases": [],
+        "commits": 20
+      },
+      {
+        "handle": "grace-nunez",
+        "name": "Grace Núñez",
+        "email": "grace.nunez+dev@users.noreply.github.com",
+        "aliases": [],
+        "commits": 43
+      },
+      {
+        "handle": "grace-o-brien",
+        "name": "grace o'brien",
+        "email": null,
+        "aliases": [],
+        "commits": 4
+      },
+      {
+        "handle": "grace-stergard",
+        "name": "Grace Østergård",
+        "email": null,
+        "aliases": [],
+        "commits": 22
+      },
+      {
+        "handle": "grace-smith",
+        "name": "Grace Smith",
+        "email": "grace.smith@users.noreply.github.com",
+        "aliases": [
+          "grace.smith@example.org"
+        ],
+        "commits": 56
+      },
+      {
+        "handle": "jose-kim",
+        "name": "José Kim",
+        "email": "jose.kim@example.com",
+        "aliases": [],
+        "commits": 35
+      },
+      {
+        "handle": "jose-nunez",
+        "name": "José Núñez",
+        "email": "jose.nunez+dev@users.noreply.github.com",
+        "aliases": [],
+        "commits": 12
+      },
+      {
+        "handle": "jose-o-brien",
+        "name": "José O'Brien",
+        "email": "jose.o.brien@example.org",
+        "aliases": [
+          "jose.o.brien+dev@example.org"
+        ],
+        "commits": 54
+      },
+      {
+        "handle": "jose-stergard",
+        "name": "José Østergård",
+        "email": "jose.stergard@users.noreply.github.com",
+        "aliases": [
+          "jose.stergard@example.com"
+        ],
+        "commits": 18
+      },
+      {
+        "handle": "jose-rivera",
+        "name": "José Rivera",
+        "email": "jose.rivera@users.noreply.github.com",
+        "aliases": [],
+        "commits": 17
+      },
+      {
+        "handle": "jose-smith",
+        "name": "José Smith",
+        "email": "jose.smith@example.org",
+        "aliases": [
+          "jose.smith+dev@users.noreply.github.com",
+          "jose.smith@example.com"
+        ],
+        "commits": 73
+      },
+      {
+        "handle": "kai-ng",
+        "name": "Kai Ng",
+        "email": "kai.ng+dev@example.com",
+        "aliases": [
+          "kai.ng@example.com"
+        ],
+        "commits": 83
+      },
+      {
+        "handle": "kai-o-brien",
+        "name": "Kai O'Brien",
+        "email": "kai.o.brien+dev@users.noreply.github.com",
+        "aliases": [],
+        "commits": 33
+      },
+      {
+        "handle": "kai-park",
+        "name": "Kai Park",
+        "email": "kai.park+dev@users.noreply.github.com",
+        "aliases": [
+          "kai.park@example.com"
+        ],
+        "commits": 48
+      },
+      {
+        "handle": "kai-smith",
+        "name": "Kai Smith",
+        "email": "kai.smith@example.org",
+        "aliases": [],
+        "commits": 9
+      },
+      {
+        "handle": "kai-stone",
+        "name": "Kai Stone",
+        "email": "kai.stone+dev@users.noreply.github.com",
+        "aliases": [],
+        "commits": 49
+      },
+      {
+        "handle": "lin-chen",
+        "name": "Lin Chen",
+        "email": "lin.chen@users.noreply.github.com",
+        "aliases": [],
+        "commits": 18
+      },
+      {
+        "handle": "lin-kim",
+        "name": "Lin Kim",
+        "email": "lin.kim@users.noreply.github.com",
+        "aliases": [
+          "lin.kim@example.org"
+        ],
+        "commits": 68
+      },
+      {
+        "handle": "lin-ng",
+        "name": "Lin Ng",
+        "email": "lin.ng@example.com",
+        "aliases": [],
+        "commits": 25
+      },
+      {
+        "handle": "lin-o-brien",
+        "name": "Lin O'Brien",
+        "email": null,
+        "aliases": [],
+        "commits": 47
+      },
+      {
+        "handle": "lin-stergard",
+        "name": "Lin Østergård",
+        "email": "lin.stergard@example.org",
+        "aliases": [
+          "lin.stergard@example.com"
+        ],
+        "commits": 48
+      },
+      {
+        "handle": "lin-park",
+        "name": "Lin Park",
+        "email": "lin.park@users.noreply.github.com",
+        "aliases": [],
+        "commits": 36
+      },
+      {
+        "handle": "lin-rivera",
+        "name": "Lin Rivera",
+        "email": "lin.rivera@example.com",
+        "aliases": [
+          "lin.rivera@users.noreply.github.com"
+        ],
+        "commits": 37
+      },
+      {
+        "handle": "lin-smith",
+        "name": "Lin Smith",
+        "email": "lin.smith@example.com",
+        "aliases": [
+          "lin.smith@users.noreply.github.com"
+        ],
+        "commits": 76
+      },
+      {
+        "handle": "lin-stone",
+        "name": "Lin Stone",
+        "email": "lin.stone@example.com",
+        "aliases": [],
+        "commits": 19
+      },
+      {
+        "handle": "mia-chen",
+        "name": "Mia Chen",
+        "email": "mia.chen@example.org",
+        "aliases": [],
+        "commits": 13
+      },
+      {
+        "handle": "mia-kim",
+        "name": "Mia Kim",
+        "email": "mia.kim@example.com",
+        "aliases": [],
+        "commits": 36
+      },
+      {
+        "handle": "mia-nunez",
+        "name": "Mia Núñez",
+        "email": "mia.nunez@users.noreply.github.com",
+        "aliases": [],
+        "commits": 55
+      },
+      {
+        "handle": "mia-stergard",
+        "name": "Mia Østergård",
+        "email": "mia.stergard+dev@users.noreply.github.com",
+        "aliases": [],
+        "commits": 4
+      },
+      {
+        "handle": "mia-park",
+        "name": "mia park",
+        "email": "mia.park@example.com",
+        "aliases": [],
+        "commits": 74
+      },
+      {
+        "handle": "mia-stone",
+        "name": "Mia Stone",
+        "email": "mia.stone+dev@users.noreply.github.com",
+        "aliases": [
+          "mia.stone+dev@example.org",
+          "mia.stone@example.com"
+        ],
+        "commits": 112
+      },
+      {
+        "handle": "noor-kim",
+        "name": "Noor Kim",
+        "email": "noor.kim@example.com",
+        "aliases": [
+          "noor.kim+dev@users.noreply.github.com"
+        ],
+        "commits": 57
+      },
+      {
+        "handle": "noor-o-brien",
+        "name": "Noor O'Brien",
+        "email": "noor.o.brien+dev@users.noreply.github.com",
+        "aliases": [
+          "noor.o.brien@users.noreply.github.com"
+        ],
+        "commits": 88
+      },
+      {
+        "handle": "noor-park",
+        "name": "Noor Park",
+        "email": "noor.park+dev@users.noreply.github.com",
+        "aliases": [],
+        "commits": 40
+      },
+      {
+        "handle": "noor-rivera",
+        "name": "Noor Rivera",
+        "email": "noor.rivera+dev@example.com",
+        "aliases": [
+          "noor.rivera+dev@example.org",
+          "noor.rivera@example.com"
+        ],
+        "commits": 132
+      },
+      {
+        "handle": "noor-stone",
+        "name": "Noor Stone",
+        "email": "noor.stone+dev@users.noreply.github.com",
+        "aliases": [
+          "noor.stone@example.com"
+        ],
+        "commits": 78
+      },
+      {
+        "handle": "ola-chen",
+        "name": "Ola Chen",
+        "email": "ola.chen@example.org",
+        "aliases": [],
+        "commits": 22
+      },
+      {
+        "handle": "ola-kim",
+        "name": "Ola Kim",
+        "email": "ola.kim@example.org",
+        "aliases": [
+          "ola.kim+dev@users.noreply.github.com"
+        ],
+        "commits": 28
+      },
+      {
+        "handle": "ola-ng",
+        "name": "Ola Ng",
+        "email": "ola.ng@users.noreply.github.com",
+        "aliases": [],
+        "commits": 3
+      },
+      {
+        "handle": "ola-nunez",
+        "name": "Ola Núñez",
+        "email": "ola.nunez@example.com",
+        "aliases": [
+          "ola.nunez+dev@example.com",
+          "ola.nunez@example.org"
+        ],
+        "commits": 89
+      },
+      {
+        "handle": "ola-o-brien",
+        "name": "Ola O'Brien",
+        "email": "ola.o.brien@example.org",
+        "aliases": [
+          "ola.o.brien@users.noreply.github.com"
+        ],
+        "commits": 30
+      },
+      {
+        "handle": "ola-stergard",
+        "name": "Ola Østergård",
+        "email": "ola.stergard+dev@example.com",
+        "aliases": [
+          "ola.stergard+dev@users.noreply.github.com"
+        ],
+        "commits": 68
+      },
+      {
+        "handle": "ola-smith",
+        "name": "Ola Smith",
+        "email": "ola.smith+dev@example.com",
+        "aliases": [],
+        "commits": 30
+      },
+      {
+        "handle": "ola-stone",
+        "name": "Ola Stone",
+        "email": "ola.stone@example.com",
+        "aliases": [],
+        "commits": 26
+      },
+      {
+        "handle": "sam-chen",
+        "name": "Sam Chen",
+        "email": "sam.chen+dev@example.com",
+        "aliases": [
+          "sam.chen@example.com"
+        ],
+        "commits": 56
+      },
+      {
+        "handle": "sam-ng",
+        "name": "Sam Ng",
+        "email": null,
+        "aliases": [],
+        "commits": 33
+      },
+      {
+        "handle": "sam-nunez",
+        "name": "Sam Núñez",
+        "email": "sam.nunez@example.com",
+        "aliases": [],
+        "commits": 23
+      },
+      {
+        "handle": "sam-o-brien",
+        "name": "Sam O'Brien",
+        "email": "sam.o.brien@example.org",
+        "aliases": [],
+        "commits": 52
+      },
+      {
+        "handle": "sam-stergard",
+        "name": "Sam Østergård",
+        "email": null,
+        "aliases": [],
+        "commits": 0
+      },
+      {
+        "handle": "sam-park",
+        "name": "Sam Park",
+        "email": "sam.park@example.com",
+        "aliases": [],
+        "commits": 41
+      },
+      {
+        "handle": "sam-rivera",
+        "name": "Sam Rivera",
+        "email": "sam.rivera+dev@users.noreply.github.com",
+        "aliases": [],
+        "commits": 59
+      },
+      {
+        "handle": "sam-smith",
+        "name": "Sam Smith",
+        "email": "sam.smith@example.com",
+        "aliases": [],
+        "commits": 30
+      },
+      {
+        "handle": "sam-stone",
+        "name": "Sam Stone",
+        "email": "sam.stone@example.org",
+        "aliases": [
+          "sam.stone+dev@example.org"
+        ],
+        "commits": 34
+      },
+      {
+        "handle": "zoe-chen",
+        "name": "Zoë Chen",
+        "email": "zoe.chen@example.org",
+        "aliases": [],
+        "commits": 40
+      },
+      {
+        "handle": "zoe-kim",
+        "name": "Zoë Kim",
+        "email": "zoe.kim@example.com",
+        "aliases": [],
+        "commits": 56
+      },
+      {
+        "handle": "zoe-park",
+        "name": "Zoë Park",
+        "email": "zoe.park@example.com",
+        "aliases": [
+          "zoe.park@users.noreply.github.com"
+        ],
+        "commits": 43
+      },
+      {
+        "handle": "zoe-stone",
+        "name": "Zoë Stone",
+        "email": "zoe.stone+dev@example.org",
+        "aliases": [],
+        "commits": 31
+      }
+    ],
+    "me": [
+      "lin-rivera",
+      "jose-o-brien",
+      "sam-park",
+      "ada-stergard",
+      "grace-smith"
+    ]
+  }
+}

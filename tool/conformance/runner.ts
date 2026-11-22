@@ -10,16 +10,19 @@ import { toggleCheckboxAt } from "genbeya/src/client/app/markdown/task-checkbox"
 import { stripFrontmatter } from "genbeya/src/client/app/core/file-resource";
 import { buildFileTree } from "genbeya/src/utilities/file-tree";
 import { WikiEngine } from "genbeya/src/engines/wiki-engine";
+import { PeopleEngine } from "genbeya/src/engines/people-engine";
+import { handleSlug } from "genbeya/src/utilities/people";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full";
   readonly input: Record<string, any>;
 }
 
 const settings = new SettingsEngine();
 const tasks = new TaskEngine();
 const wiki = new WikiEngine();
+const people = new PeopleEngine();
 
 /** What the desktop client sends to update a task: the whole task (task-model.ts inputOf) with the change applied. */
 function inputOf(task: ReturnType<TaskEngine["parse"]>, change: Record<string, any>): TaskInput {
@@ -56,12 +59,21 @@ function run(c: Case): unknown {
     case "collate":
       // The comparison Genbeya sorts names and titles with (file-tree.ts, wiki-engine.ts).
       return { output: [...i.strings].sort((a: string, b: string) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" })) };
+    case "collate.full":
+      // The comparison Genbeya sorts people with (people-engine.ts).
+      return { output: [...i.strings].sort((a: string, b: string) => a.localeCompare(b)) };
     case "file.tree":
       return { output: buildFileTree(i.files) };
     case "wiki.tree": {
       const settings = { wikiRoot: i.wikiRoot, wikiHome: i.wikiHome };
       return { output: { tree: wiki.tree(i.files, settings), pages: wiki.pages(i.files, settings) } };
     }
+    case "people.merge": {
+      const merged = people.merge(i.sources);
+      return { output: { people: merged, me: i.identities.map((identity: any) => people.me(merged, identity)) } };
+    }
+    case "handle.slug":
+      return { output: i.texts.map(handleSlug) };
     case "task.toggle": {
       // task-panel.ts toggleCheckbox: the description with the checkbox flipped.
       const task = tasks.parse(i.path, i.content, "hash", i.taskRoot);

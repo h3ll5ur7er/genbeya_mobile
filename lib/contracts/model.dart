@@ -104,6 +104,37 @@ class PersonEntry {
   };
 }
 
+/// Someone who works on the repository: a commit author, assignee or comment
+/// author, or a person the settings list. As Genbeya's `Person`.
+class Person {
+  const Person({
+    required this.handle,
+    required this.name,
+    required this.email,
+    required this.aliases,
+    required this.commits,
+  });
+
+  /// Unique, ignoring case: `@handle` mentions this person.
+  final String handle;
+  final String name;
+  final String? email;
+
+  /// Other names and emails that mean this person.
+  final List<String> aliases;
+
+  /// Commits among the recent ones that the person authored.
+  final int commits;
+
+  Map<String, Object?> toJson() => {
+    'handle': handle,
+    'name': name,
+    'email': email,
+    'aliases': aliases,
+    'commits': commits,
+  };
+}
+
 class Milestone {
   const Milestone({required this.name, required this.due});
 

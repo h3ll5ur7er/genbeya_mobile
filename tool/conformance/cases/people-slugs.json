@@ -1,0 +1,22 @@
+{
+  "id": "people-slugs",
+  "kind": "handle.slug",
+  "input": {
+    "texts": [
+      "Ada Lovelace",
+      "Zoë.O'Brien",
+      "  --Ada--  ",
+      "李雷",
+      "Ægir",
+      "Straße",
+      "José Núñez",
+      "ÅSA",
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-",
+      "Ⅻ",
+      "ﬁle",
+      "İstanbul",
+      "ǅemal"
+    ]
+  }
+}
