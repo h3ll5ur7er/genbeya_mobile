@@ -43,6 +43,14 @@ class NativeGitObjects implements GitObjects {
       core.changedPaths(dir: dir, from: from, to: to);
 
   @override
+  Future<List<({String name, String email, int commits})>> commitAuthors(
+    int limit,
+  ) async => [
+    for (final author in await core.commitAuthors(dir: dir, limit: limit))
+      (name: author.name, email: author.email, commits: author.commits),
+  ];
+
+  @override
   Future<String?> configValue(String key) =>
       core.configValue(dir: dir, key: key);
 }

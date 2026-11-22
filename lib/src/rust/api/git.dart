@@ -107,6 +107,12 @@ Future<List<String>> changedPaths({
 }) =>
     RustLib.instance.api.crateApiGitChangedPaths(dir: dir, from: from, to: to);
 
+/// The authors of HEAD's newest commits, as .mailmap names them.
+Future<List<AuthorCount>> commitAuthors({
+  required String dir,
+  required int limit,
+}) => RustLib.instance.api.crateApiGitCommitAuthors(dir: dir, limit: limit);
+
 /// A value of the repository's Git configuration.
 Future<String?> configValue({required String dir, required String key}) =>
     RustLib.instance.api.crateApiGitConfigValue(dir: dir, key: key);

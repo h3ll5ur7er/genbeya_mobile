@@ -19,6 +19,10 @@ import '../engines/settings_engine.dart';
 import '../engines/task_engine.dart';
 import '../engines/wiki_engine.dart';
 
+/// Recent commits whose authors count as the repository's people
+/// (`AUTHOR_COMMITS` in content-manager.ts).
+const authorCommits = 5000;
+
 /// Genbeya's read limit for text (`TEXT_LIMIT` in file-store.ts).
 const textLimit = 2 * 1024 * 1024;
 const _settingsFile = '.genbeya.yml';
@@ -63,6 +67,7 @@ class RepositoryState {
     required this.tasks,
     required this.problems,
     required this.people,
+    required this.me,
   });
 
   final ContentPlace place;
@@ -79,6 +84,10 @@ class RepositoryState {
   /// Task files that couldn't be read or parsed.
   final List<FileProblem> problems;
   final List<Person> people;
+
+  /// The user's handle among [people], by the identity Git signs commits
+  /// with (`user.name`, `user.email`), if they are among them.
+  final String? me;
 }
 
 /// One open repository's model.
@@ -100,6 +109,9 @@ class RepositoryModel {
 
   /// How many files were parsed; tests check the cache with it.
   int parses = 0;
+
+  /// Commit authors, read again only when HEAD moves.
+  ({String head, List<CommitAuthor> authors})? _authors;
 
   RepositoryState? _state;
   RepositoryState? get state => _state;
@@ -151,9 +163,16 @@ class RepositoryModel {
       }
     }
 
+    final authors = _authors?.head == place.head
+        ? _authors!.authors
+        : (_authors = (
+            head: place.head,
+            authors: await git.commitAuthors(authorCommits),
+          )).authors;
     final people = _people.merge(
       PeopleSources(
         configured: settings.people,
+        authors: authors,
         assignees: [
           for (final task in tasks)
             if (task.assignee.isNotEmpty) task.assignee,
@@ -174,7 +193,16 @@ class RepositoryModel {
       tasks: tasks,
       problems: problems,
       people: people,
+      me: _people.me(people, await _identity()),
     );
+  }
+
+  /// Who Git signs commits as in this clone; the app sets it per repository.
+  Future<({String name, String email})?> _identity() async {
+    final name = await git.configValue('user.name');
+    final email = await git.configValue('user.email');
+    if (name == null && email == null) return null;
+    return (name: name?.trim() ?? '', email: email?.trim() ?? '');
   }
 
   /// Where each area lives, as `ContentStore.layout` decides: the content

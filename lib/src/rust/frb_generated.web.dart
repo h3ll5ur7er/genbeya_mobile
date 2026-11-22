@@ -39,6 +39,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Auth dco_decode_auth(dynamic raw);
 
   @protected
+  AuthorCount dco_decode_author_count(dynamic raw);
+
+  @protected
   bool dco_decode_bool(dynamic raw);
 
   @protected
@@ -88,6 +91,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String> dco_decode_list_String(dynamic raw);
+
+  @protected
+  List<AuthorCount> dco_decode_list_author_count(dynamic raw);
 
   @protected
   List<ChangedFile> dco_decode_list_changed_file(dynamic raw);
@@ -167,6 +173,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Auth sse_decode_auth(SseDeserializer deserializer);
 
   @protected
+  AuthorCount sse_decode_author_count(SseDeserializer deserializer);
+
+  @protected
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
@@ -218,6 +227,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
+
+  @protected
+  List<AuthorCount> sse_decode_list_author_count(SseDeserializer deserializer);
 
   @protected
   List<ChangedFile> sse_decode_list_changed_file(SseDeserializer deserializer);
@@ -305,6 +317,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_auth(Auth self, SseSerializer serializer);
 
   @protected
+  void sse_encode_author_count(AuthorCount self, SseSerializer serializer);
+
+  @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
@@ -360,6 +375,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_author_count(
+    List<AuthorCount> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_list_changed_file(

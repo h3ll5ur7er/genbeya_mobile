@@ -41,4 +41,10 @@ abstract interface class GitObjects {
 
   /// A value of the repository's Git configuration.
   Future<String?> configValue(String key);
+
+  /// The authors of HEAD's newest [limit] commits as .mailmap names them,
+  /// with how many each wrote.
+  Future<List<({String name, String email, int commits})>> commitAuthors(
+    int limit,
+  );
 }

@@ -28,6 +28,31 @@ sealed class Auth with _$Auth {
   }) = Auth_SshKey;
 }
 
+/// Commits by one name and email.
+class AuthorCount {
+  final String name;
+  final String email;
+  final int commits;
+
+  const AuthorCount({
+    required this.name,
+    required this.email,
+    required this.commits,
+  });
+
+  @override
+  int get hashCode => name.hashCode ^ email.hashCode ^ commits.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AuthorCount &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          email == other.email &&
+          commits == other.commits;
+}
+
 class ChangedFile {
   /// A, M, D, R, C or T, as `git diff --name-status`.
   final String status;

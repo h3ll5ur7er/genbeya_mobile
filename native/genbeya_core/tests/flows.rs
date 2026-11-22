@@ -613,6 +613,41 @@ fn reads_files_from_objects_for_the_repository_model() {
         .unwrap()
         .is_empty());
 
+    // Authors of the checked-out history, renamed by .mailmap.
+    let authors = git::commit_authors(&phone, 100).unwrap();
+    assert!(!authors.is_empty());
+    assert_eq!(authors.iter().map(|a| a.commits).sum::<u32>() as usize, {
+        sh(&phone, &["rev-list", "--count", "HEAD"])
+            .parse::<usize>()
+            .unwrap()
+    });
+    let first = &authors[0];
+    fs::write(
+        phone.join(".mailmap"),
+        format!("Renamed Person <renamed@example.com> <{}>\n", first.email),
+    )
+    .unwrap();
+    sh(&phone, &["add", ".mailmap"]);
+    sh(
+        &phone,
+        &[
+            "-c",
+            "user.name=Mapper",
+            "-c",
+            "user.email=mapper@example.com",
+            "commit",
+            "-q",
+            "-m",
+            "mailmap",
+        ],
+    );
+    let mapped = git::commit_authors(&phone, 100).unwrap();
+    assert!(mapped
+        .iter()
+        .any(|a| a.name == "Renamed Person" && a.email == "renamed@example.com"));
+    assert_eq!(mapped[0].name, "Mapper", "the newest commit first");
+    assert_eq!(git::commit_authors(&phone, 1).unwrap().len(), 1);
+
     assert_eq!(git::config_value(&phone, "genbeya.branch").unwrap(), None);
     sh(&phone, &["config", "genbeya.branch", "content"]);
     assert_eq!(

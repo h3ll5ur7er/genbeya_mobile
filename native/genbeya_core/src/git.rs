@@ -838,6 +838,53 @@ pub fn changed_paths(dir: &Path, from: &str, to: &str) -> Result<Vec<String>> {
     Ok(paths.into_iter().collect())
 }
 
+/// Commits by one name and email.
+#[derive(Debug, Clone, PartialEq)]
+pub struct AuthorCount {
+    pub name: String,
+    pub email: String,
+    pub commits: u32,
+}
+
+/// The authors of the newest `limit` commits of HEAD, with their number of
+/// commits, as .mailmap names them (`git log --format=%aN%x00%aE`), in the
+/// order they first appear; empty on an unborn branch.
+pub fn commit_authors(dir: &Path, limit: usize) -> Result<Vec<AuthorCount>> {
+    let repo = Repository::open(dir)?;
+    let mut walk = repo.revwalk()?;
+    if let Err(e) = walk.push_head() {
+        if e.code() == ErrorCode::UnbornBranch || e.code() == ErrorCode::NotFound {
+            return Ok(Vec::new());
+        }
+        return Err(e.into());
+    }
+    walk.set_sorting(Sort::TIME)?;
+    let mailmap = repo.mailmap()?;
+    let mut counts: Vec<AuthorCount> = Vec::new();
+    let mut index: HashMap<(String, String), usize> = HashMap::new();
+    for id in walk.take(limit) {
+        let commit = repo.find_commit(id?)?;
+        let author = commit.author_with_mailmap(&mailmap)?;
+        let name = String::from_utf8_lossy(author.name_bytes()).into_owned();
+        let email = String::from_utf8_lossy(author.email_bytes()).into_owned();
+        if name.trim().is_empty() && email.trim().is_empty() {
+            continue;
+        }
+        match index.get(&(name.clone(), email.clone())) {
+            Some(&at) => counts[at].commits += 1,
+            None => {
+                index.insert((name.clone(), email.clone()), counts.len());
+                counts.push(AuthorCount {
+                    name,
+                    email,
+                    commits: 1,
+                });
+            }
+        }
+    }
+    Ok(counts)
+}
+
 /// A value of the repository's Git configuration, such as `genbeya.branch`.
 pub fn config_value(dir: &Path, key: &str) -> Result<Option<String>> {
     let config = Repository::open(dir)?.config()?;

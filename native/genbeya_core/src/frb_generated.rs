@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 2029254163;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1611030931;
 
 // Section: executor
 
@@ -226,6 +226,40 @@ fn wire__crate__api__git__clone_repository_impl(
                         api_operation_id,
                         api_events,
                     )?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__git__commit_authors_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "commit_authors",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_dir = <String>::sse_decode(&mut deserializer);
+            let api_limit = <u32>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, crate::git::CoreError>((move || {
+                    let output_ok = crate::api::git::commit_authors(api_dir, api_limit)?;
                     std::result::Result::Ok(output_ok)
                 })())
             }
@@ -916,6 +950,20 @@ impl SseDecode for crate::git::Auth {
     }
 }
 
+impl SseDecode for crate::git::AuthorCount {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_name = <String>::sse_decode(deserializer);
+        let mut var_email = <String>::sse_decode(deserializer);
+        let mut var_commits = <u32>::sse_decode(deserializer);
+        return crate::git::AuthorCount {
+            name: var_name,
+            email: var_email,
+            commits: var_commits,
+        };
+    }
+}
+
 impl SseDecode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1109,6 +1157,18 @@ impl SseDecode for Vec<String> {
         let mut ans_ = Vec::with_capacity(len_ as usize);
         for idx_ in 0..len_ {
             ans_.push(<String>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::git::AuthorCount> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::git::AuthorCount>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -1408,22 +1468,23 @@ fn pde_ffi_dispatcher_primary_impl(
         3 => wire__crate__api__git__changed_paths_impl(port, ptr, rust_vec_len, data_len),
         4 => wire__crate__api__git__clear_stale_locks_impl(port, ptr, rust_vec_len, data_len),
         5 => wire__crate__api__git__clone_repository_impl(port, ptr, rust_vec_len, data_len),
-        6 => wire__crate__api__git__commit_files_impl(port, ptr, rust_vec_len, data_len),
-        7 => wire__crate__api__git__commit_onto_branch_impl(port, ptr, rust_vec_len, data_len),
-        8 => wire__crate__api__git__config_value_impl(port, ptr, rust_vec_len, data_len),
-        10 => wire__crate__api__git__diff_from_merge_base_impl(port, ptr, rust_vec_len, data_len),
-        11 => wire__crate__api__git__fetch_impl(port, ptr, rust_vec_len, data_len),
-        12 => wire__crate__api__git__head_impl(port, ptr, rust_vec_len, data_len),
-        13 => wire__crate__api__git__list_files_impl(port, ptr, rust_vec_len, data_len),
-        14 => wire__crate__api__git__log_path_impl(port, ptr, rust_vec_len, data_len),
-        15 => wire__crate__api__git__merge_conflicts_impl(port, ptr, rust_vec_len, data_len),
-        16 => wire__crate__api__git__push_impl(port, ptr, rust_vec_len, data_len),
-        17 => wire__crate__api__git__read_blob_impl(port, ptr, rust_vec_len, data_len),
-        18 => wire__crate__api__git__read_blobs_impl(port, ptr, rust_vec_len, data_len),
-        19 => wire__crate__api__git__read_file_at_impl(port, ptr, rust_vec_len, data_len),
-        20 => wire__crate__api__git__rebase_onto_upstream_impl(port, ptr, rust_vec_len, data_len),
-        21 => wire__crate__api__git__resolve_commit_impl(port, ptr, rust_vec_len, data_len),
-        22 => wire__crate__api__git__set_ca_locations_impl(port, ptr, rust_vec_len, data_len),
+        6 => wire__crate__api__git__commit_authors_impl(port, ptr, rust_vec_len, data_len),
+        7 => wire__crate__api__git__commit_files_impl(port, ptr, rust_vec_len, data_len),
+        8 => wire__crate__api__git__commit_onto_branch_impl(port, ptr, rust_vec_len, data_len),
+        9 => wire__crate__api__git__config_value_impl(port, ptr, rust_vec_len, data_len),
+        11 => wire__crate__api__git__diff_from_merge_base_impl(port, ptr, rust_vec_len, data_len),
+        12 => wire__crate__api__git__fetch_impl(port, ptr, rust_vec_len, data_len),
+        13 => wire__crate__api__git__head_impl(port, ptr, rust_vec_len, data_len),
+        14 => wire__crate__api__git__list_files_impl(port, ptr, rust_vec_len, data_len),
+        15 => wire__crate__api__git__log_path_impl(port, ptr, rust_vec_len, data_len),
+        16 => wire__crate__api__git__merge_conflicts_impl(port, ptr, rust_vec_len, data_len),
+        17 => wire__crate__api__git__push_impl(port, ptr, rust_vec_len, data_len),
+        18 => wire__crate__api__git__read_blob_impl(port, ptr, rust_vec_len, data_len),
+        19 => wire__crate__api__git__read_blobs_impl(port, ptr, rust_vec_len, data_len),
+        20 => wire__crate__api__git__read_file_at_impl(port, ptr, rust_vec_len, data_len),
+        21 => wire__crate__api__git__rebase_onto_upstream_impl(port, ptr, rust_vec_len, data_len),
+        22 => wire__crate__api__git__resolve_commit_impl(port, ptr, rust_vec_len, data_len),
+        23 => wire__crate__api__git__set_ca_locations_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -1437,7 +1498,7 @@ fn pde_ffi_dispatcher_sync_impl(
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
         2 => wire__crate__api__git__cancel_operation_impl(ptr, rust_vec_len, data_len),
-        9 => wire__crate__api__git__core_version_impl(ptr, rust_vec_len, data_len),
+        10 => wire__crate__api__git__core_version_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -1477,6 +1538,23 @@ impl flutter_rust_bridge::IntoDart for crate::git::Auth {
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::git::Auth {}
 impl flutter_rust_bridge::IntoIntoDart<crate::git::Auth> for crate::git::Auth {
     fn into_into_dart(self) -> crate::git::Auth {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::git::AuthorCount {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.name.into_into_dart().into_dart(),
+            self.email.into_into_dart().into_dart(),
+            self.commits.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::git::AuthorCount {}
+impl flutter_rust_bridge::IntoIntoDart<crate::git::AuthorCount> for crate::git::AuthorCount {
+    fn into_into_dart(self) -> crate::git::AuthorCount {
         self
     }
 }
@@ -1840,6 +1918,15 @@ impl SseEncode for crate::git::Auth {
     }
 }
 
+impl SseEncode for crate::git::AuthorCount {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.name, serializer);
+        <String>::sse_encode(self.email, serializer);
+        <u32>::sse_encode(self.commits, serializer);
+    }
+}
+
 impl SseEncode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1981,6 +2068,16 @@ impl SseEncode for Vec<String> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <String>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::git::AuthorCount> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::git::AuthorCount>::sse_encode(item, serializer);
         }
     }
 }

@@ -11,8 +11,8 @@ use flutter_rust_bridge::frb;
 use crate::frb_generated::StreamSink;
 use crate::git::{self, Operation};
 pub use crate::git::{
-    Auth, ChangedFile, CommitInfo, Conflict, CoreError, DiffSummary, FileChange, HeadInfo,
-    Identity, Progress, PushOutcome, RebaseOutcome, RemoteOptions, TreeFile,
+    Auth, AuthorCount, ChangedFile, CommitInfo, Conflict, CoreError, DiffSummary, FileChange,
+    HeadInfo, Identity, Progress, PushOutcome, RebaseOutcome, RemoteOptions, TreeFile,
 };
 
 /// The versions inside the core, for the spike screen and bug reports.
@@ -135,6 +135,11 @@ pub fn read_file_at(
 /// The paths that differ between two commits.
 pub fn changed_paths(dir: String, from: String, to: String) -> Result<Vec<String>, CoreError> {
     git::changed_paths(Path::new(&dir), &from, &to)
+}
+
+/// The authors of HEAD's newest commits, as .mailmap names them.
+pub fn commit_authors(dir: String, limit: u32) -> Result<Vec<AuthorCount>, CoreError> {
+    git::commit_authors(Path::new(&dir), limit as usize)
 }
 
 /// A value of the repository's Git configuration.

@@ -63,6 +63,17 @@ class FakeGit implements GitObjects {
 
   @override
   Future<String?> configValue(String key) async => config[key];
+
+  final authors = <({String name, String email, int commits})>[];
+  int authorReads = 0;
+
+  @override
+  Future<List<({String name, String email, int commits})>> commitAuthors(
+    int limit,
+  ) async {
+    authorReads++;
+    return authors;
+  }
 }
 
 String task(String id, {String status = 'todo', String extra = ''}) =>
@@ -102,6 +113,27 @@ void main() {
       ['Ada Lovelace', 'Sam Rivera'],
     );
     expect(state.codeFiles, hasLength(8));
+  });
+
+  test('people include commit authors, and me is who Git signs as', () async {
+    final git = FakeGit()
+      ..refs['HEAD'] = 'c1'
+      ..config['user.name'] = 'Ada'
+      ..config['user.email'] = 'ada@example.com'
+      ..commit('c1', {'tasks/DM-1.md': task('DM-1')});
+    git.authors.addAll([
+      (name: 'Ada Lovelace', email: 'ada@example.com', commits: 10),
+      (name: 'Grace Hopper', email: 'grace@example.com', commits: 3),
+    ]);
+    final model = RepositoryModel(git, folderName: 'demo');
+    final state = await model.load();
+    expect([for (final p in state.people) p.handle], ['ada', 'grace']);
+    expect(state.me, 'ada');
+    await model.load();
+    expect(git.authorReads, 1, reason: 'read again only when HEAD moves');
+    git.config.remove('user.email');
+    git.config['user.name'] = 'Someone Else';
+    expect((await model.load()).me, isNull);
   });
 
   test('a content branch without .genbeya-content holds every area', () async {
