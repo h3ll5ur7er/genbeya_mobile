@@ -159,6 +159,8 @@ const fullPool = [..." -_.'0123456789aAbBeEéÉèêëoOóÓöÖøØsSßzZæÆœ�
 const fullWord = () => Array.from({ length: 1 + Math.floor(random() * 5) }, () => fullPool[Math.floor(random() * fullPool.length)]).join("");
 add("collate-full-names", "collate.full", { strings: ["Ada", "ada", "ADA", "Adá", "adà", "Zoë", "Zoe", "zoe", "Ægir", "aegir", "Aegir", "Straße", "strasse", "Strasse", "o\u0308", "ö", "Ö", "Øystein", "Oystein", "Óscar", "Oscar"] });
 for (let n = 0; n < 20; n++) add(`collate-full-random-${n}`, "collate.full", { strings: Array.from({ length: 40 }, fullWord) });
+add("collate-base-epics", "collate.base", { strings: ["10 Launch", "2 Build", "1 Plan", "Spikes", "spikes", "Épics", "epics", "0 Spikes", "02 Two", "2a", "2 b", "Ünder", "under", "_misc", "Misc"] });
+for (let n = 0; n < 10; n++) add(`collate-base-random-${n}`, "collate.base", { strings: Array.from({ length: 40 }, word) });
 add("people-slugs", "handle.slug", {
   texts: ["Ada Lovelace", "Zoë.O'Brien", "  --Ada--  ", "李雷", "Ægir", "Straße", "José Núñez", "ÅSA", "x".repeat(50), "a-".repeat(30), "Ⅻ", "ﬁle", "İstanbul", "ǅemal"],
 });

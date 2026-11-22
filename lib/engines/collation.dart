@@ -49,7 +49,7 @@ int _weightOf(int code) {
   return collationMaxWeight + 1 + group * block + code;
 }
 
-List<_Element> _elements(String text) {
+List<_Element> _elements(String text, {bool numeric = true}) {
   final elements = <_Element>[];
   final digits = StringBuffer();
   void endNumber() {
@@ -67,7 +67,7 @@ List<_Element> _elements(String text) {
       elements.addAll(expansion.map(_Weight.new));
       continue;
     }
-    final digit = collationDigits[code];
+    final digit = numeric ? collationDigits[code] : null;
     if (digit != null) {
       digits.write(digit);
       continue;
@@ -92,10 +92,16 @@ int _compareElements(_Element a, _Element b) => switch ((a, b)) {
 };
 
 /// Negative, zero or positive as [a] sorts before, with or after [b].
-int collate(String a, String b) {
+int collate(String a, String b) => _collatePrimary(a, b, numeric: true);
+
+/// As [collate], but digits are characters, not numbers:
+/// `a.localeCompare(b, undefined, { sensitivity: "base" })`.
+int collateBase(String a, String b) => _collatePrimary(a, b, numeric: false);
+
+int _collatePrimary(String a, String b, {required bool numeric}) {
   if (a == b) return 0;
-  final x = _elements(a);
-  final y = _elements(b);
+  final x = _elements(a, numeric: numeric);
+  final y = _elements(b, numeric: numeric);
   for (var i = 0; i < x.length && i < y.length; i++) {
     final order = _compareElements(x[i], y[i]);
     if (order != 0) return order;

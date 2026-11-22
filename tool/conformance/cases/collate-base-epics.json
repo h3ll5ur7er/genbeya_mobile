@@ -1,0 +1,23 @@
+{
+  "id": "collate-base-epics",
+  "kind": "collate.base",
+  "input": {
+    "strings": [
+      "10 Launch",
+      "2 Build",
+      "1 Plan",
+      "Spikes",
+      "spikes",
+      "Épics",
+      "epics",
+      "0 Spikes",
+      "02 Two",
+      "2a",
+      "2 b",
+      "Ünder",
+      "under",
+      "_misc",
+      "Misc"
+    ]
+  }
+}

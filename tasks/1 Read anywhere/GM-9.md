@@ -2,7 +2,7 @@
 id: GM-9
 title: Task list, board and task screen (reading)
 type: feature
-status: backlog
+status: in-progress
 priority: high
 estimate: 4d
 remaining: 4d

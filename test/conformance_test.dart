@@ -153,6 +153,10 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
               e.key: e.value.name,
           },
         };
+      case 'collate.base':
+        final strings = (input['strings']! as List).cast<String>().toList();
+        stableSort(strings, collateBase);
+        return {'output': strings};
       case 'collate.full':
         final strings = (input['strings']! as List).cast<String>().toList();
         stableSort(strings, collateFull);

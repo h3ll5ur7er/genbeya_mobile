@@ -77,10 +77,6 @@ class RepositoryScreen extends ConsumerWidget {
               ),
               _Row('Files', '${state.codeFiles.length} in ${record.branch}'),
               _Row('Read in', '${_loadTimes[record.id] ?? '?'} ms'),
-              const Padding(
-                padding: EdgeInsets.all(16),
-                child: Text('The wiki and the board come next (GM-8, GM-9).'),
-              ),
             ],
           ),
         ),

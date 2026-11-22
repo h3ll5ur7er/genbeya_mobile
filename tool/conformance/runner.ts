@@ -22,7 +22,7 @@ import { join } from "node:path";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base";
   readonly input: Record<string, any>;
 }
 
@@ -98,6 +98,9 @@ function run(c: Case): unknown {
       return { output: i.pairs.map(([a, b]: [string, string]) => sameRepository(a, b)) };
     case "areas.parse":
       return { output: areasOf(i.file) };
+    case "collate.base":
+      // The comparison Genbeya sorts epics with (task-model.ts compareEpics).
+      return { output: [...i.strings].sort((a: string, b: string) => a.localeCompare(b, undefined, { sensitivity: "base" })) };
     case "collate.full":
       // The comparison Genbeya sorts people with (people-engine.ts).
       return { output: [...i.strings].sort((a: string, b: string) => a.localeCompare(b)) };
