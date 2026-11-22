@@ -337,3 +337,36 @@ class RemoteOptions {
           auth == other.auth &&
           trustedHostKeys == other.trustedHostKeys;
 }
+
+/// A file of a commit's tree.
+class TreeFile {
+  final String path;
+
+  /// The blob's ID: the same content always has the same ID.
+  final String blob;
+  final BigInt size;
+
+  /// A symbolic link, whose blob is the link's target.
+  final bool link;
+
+  const TreeFile({
+    required this.path,
+    required this.blob,
+    required this.size,
+    required this.link,
+  });
+
+  @override
+  int get hashCode =>
+      path.hashCode ^ blob.hashCode ^ size.hashCode ^ link.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TreeFile &&
+          runtimeType == other.runtimeType &&
+          path == other.path &&
+          blob == other.blob &&
+          size == other.size &&
+          link == other.link;
+}

@@ -544,3 +544,72 @@ fn https_shallow_clone_of_a_real_repository() {
     );
     assert!(head.shallow);
 }
+
+#[test]
+fn reads_files_from_objects_for_the_repository_model() {
+    let f = Fixture::new();
+    let phone = f.clone("phone");
+    let head = git::resolve_commit(&phone, "HEAD").unwrap().unwrap();
+    assert_eq!(head, git::head(&phone).unwrap().commit);
+    assert_eq!(
+        git::resolve_commit(&phone, "refs/heads/nope").unwrap(),
+        None
+    );
+
+    let files = git::list_files(&phone, &head).unwrap();
+    let task = files
+        .iter()
+        .find(|file| file.path == "tasks/GM-1.md")
+        .expect("the task is listed with its folder");
+    assert_eq!(task.size, TASK.len() as u64);
+    assert!(!task.link);
+    assert!(
+        files.iter().any(|file| file.link),
+        "the symbolic link is marked"
+    );
+    assert_eq!(
+        git::read_blob(&phone, &task.blob, 1 << 20).unwrap(),
+        TASK.as_bytes()
+    );
+    assert!(matches!(
+        git::read_blob(&phone, &task.blob, 4),
+        Err(CoreError::InvalidArgument { .. })
+    ));
+    assert_eq!(
+        git::read_file_at(&phone, &head, "tasks/GM-1.md", 1 << 20).unwrap(),
+        Some(TASK.as_bytes().to_vec())
+    );
+    assert_eq!(
+        git::read_file_at(&phone, &head, "tasks/none.md", 1 << 20).unwrap(),
+        None
+    );
+    assert!(git::read_file_at(&phone, &head, "../x", 10).is_err());
+
+    // The content branch, read without a checkout; a commit onto it changes one path.
+    git::fetch(&phone, &["genbeya".into()], &none(), None, None).unwrap();
+    let before = git::resolve_commit(&phone, "refs/remotes/origin/genbeya")
+        .unwrap()
+        .expect("the remote's content branch");
+    let changes = [FileChange {
+        path: "tasks/GM-11.md".into(),
+        content: Some(TASK.replace("GM-1", "GM-11").into_bytes()),
+    }];
+    let after =
+        git::commit_onto_branch(&phone, "genbeya", &changes, "Create GM-11", &me("Alice")).unwrap();
+    assert_eq!(
+        git::changed_paths(&phone, &before, &after).unwrap(),
+        vec!["tasks/GM-11.md".to_string()]
+    );
+    assert!(git::changed_paths(&phone, &after, &after)
+        .unwrap()
+        .is_empty());
+
+    assert_eq!(git::config_value(&phone, "genbeya.branch").unwrap(), None);
+    sh(&phone, &["config", "genbeya.branch", "content"]);
+    assert_eq!(
+        git::config_value(&phone, "genbeya.branch")
+            .unwrap()
+            .as_deref(),
+        Some("content")
+    );
+}

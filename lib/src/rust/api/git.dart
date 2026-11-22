@@ -51,6 +51,55 @@ Stream<TransferEvent> cloneRepository({
 Future<HeadInfo> head({required String dir}) =>
     RustLib.instance.api.crateApiGitHead(dir: dir);
 
+/// The commit a revision names, or None.
+Future<String?> resolveCommit({
+  required String dir,
+  required String revision,
+}) =>
+    RustLib.instance.api.crateApiGitResolveCommit(dir: dir, revision: revision);
+
+/// Every file of a commit's tree, with blob IDs and sizes.
+Future<List<TreeFile>> listFiles({
+  required String dir,
+  required String commit,
+}) => RustLib.instance.api.crateApiGitListFiles(dir: dir, commit: commit);
+
+/// A blob's bytes, refused when larger than `max_bytes`.
+Future<Uint8List> readBlob({
+  required String dir,
+  required String blob,
+  required BigInt maxBytes,
+}) => RustLib.instance.api.crateApiGitReadBlob(
+  dir: dir,
+  blob: blob,
+  maxBytes: maxBytes,
+);
+
+/// A file as committed, or None.
+Future<Uint8List?> readFileAt({
+  required String dir,
+  required String commit,
+  required String path,
+  required BigInt maxBytes,
+}) => RustLib.instance.api.crateApiGitReadFileAt(
+  dir: dir,
+  commit: commit,
+  path: path,
+  maxBytes: maxBytes,
+);
+
+/// The paths that differ between two commits.
+Future<List<String>> changedPaths({
+  required String dir,
+  required String from,
+  required String to,
+}) =>
+    RustLib.instance.api.crateApiGitChangedPaths(dir: dir, from: from, to: to);
+
+/// A value of the repository's Git configuration.
+Future<String?> configValue({required String dir, required String key}) =>
+    RustLib.instance.api.crateApiGitConfigValue(dir: dir, key: key);
+
 Future<String> commitFiles({
   required String dir,
   required List<String> paths,

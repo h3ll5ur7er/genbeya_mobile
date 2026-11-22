@@ -108,6 +108,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
 
   @protected
+  List<TreeFile> dco_decode_list_tree_file(dynamic raw);
+
+  @protected
   String? dco_decode_opt_String(dynamic raw);
 
   @protected
@@ -130,6 +133,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   TransferEvent dco_decode_transfer_event(dynamic raw);
+
+  @protected
+  TreeFile dco_decode_tree_file(dynamic raw);
 
   @protected
   int dco_decode_u_32(dynamic raw);
@@ -231,6 +237,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
+  List<TreeFile> sse_decode_list_tree_file(SseDeserializer deserializer);
+
+  @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
 
   @protected
@@ -253,6 +262,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   TransferEvent sse_decode_transfer_event(SseDeserializer deserializer);
+
+  @protected
+  TreeFile sse_decode_tree_file(SseDeserializer deserializer);
 
   @protected
   int sse_decode_u_32(SseDeserializer deserializer);
@@ -375,6 +387,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_list_tree_file(List<TreeFile> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer);
 
   @protected
@@ -400,6 +415,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_transfer_event(TransferEvent self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_tree_file(TreeFile self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_32(int self, SseSerializer serializer);

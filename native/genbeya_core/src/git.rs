@@ -702,6 +702,134 @@ fn signature(identity: &Identity) -> Result<Signature<'static>> {
     Ok(Signature::now(&identity.name, &identity.email)?)
 }
 
+// ---------- Objects ----------
+//
+// The repository model reads every area from Git's objects: the checked-out
+// commit and the content branch alike, parsed files cached by blob ID.
+
+/// A file of a commit's tree.
+#[derive(Debug, Clone, PartialEq)]
+pub struct TreeFile {
+    pub path: String,
+    /// The blob's ID: the same content always has the same ID.
+    pub blob: String,
+    pub size: u64,
+    /// A symbolic link, whose blob is the link's target.
+    pub link: bool,
+}
+
+/// The commit `revision` names (a branch, a remote-tracking branch, `HEAD`,
+/// an ID), or None when it names none.
+pub fn resolve_commit(dir: &Path, revision: &str) -> Result<Option<String>> {
+    let repo = Repository::open(dir)?;
+    let found = repo.revparse_single(revision);
+    match found {
+        Ok(object) => Ok(object.peel_to_commit().ok().map(|c| c.id().to_string())),
+        Err(e) if e.code() == ErrorCode::NotFound || e.code() == ErrorCode::InvalidSpec => Ok(None),
+        Err(e) => Err(e.into()),
+    }
+}
+
+/// Every file in `commit`'s tree, depth first; submodules are left out.
+pub fn list_files(dir: &Path, commit: &str) -> Result<Vec<TreeFile>> {
+    let repo = Repository::open(dir)?;
+    let tree = repo.find_commit(git2::Oid::from_str(commit)?)?.tree()?;
+    let odb = repo.odb()?;
+    let mut files = Vec::new();
+    let mut failure = None;
+    tree.walk(git2::TreeWalkMode::PreOrder, |folder, entry| {
+        if entry.kind() != Some(git2::ObjectType::Blob) {
+            return git2::TreeWalkResult::Ok;
+        }
+        let Ok(name) = std::str::from_utf8(entry.name_bytes()) else {
+            return git2::TreeWalkResult::Ok;
+        };
+        match odb.read_header(entry.id()) {
+            Ok((size, _)) => files.push(TreeFile {
+                path: format!("{folder}{name}"),
+                blob: entry.id().to_string(),
+                size: size as u64,
+                link: entry.filemode() == 0o120000,
+            }),
+            Err(e) => {
+                failure = Some(e);
+                return git2::TreeWalkResult::Abort;
+            }
+        }
+        git2::TreeWalkResult::Ok
+    })?;
+    if let Some(e) = failure {
+        return Err(e.into());
+    }
+    Ok(files)
+}
+
+/// A blob's bytes, refused when larger than `max_bytes`.
+pub fn read_blob(dir: &Path, blob: &str, max_bytes: u64) -> Result<Vec<u8>> {
+    let repo = Repository::open(dir)?;
+    let id = git2::Oid::from_str(blob)?;
+    let (size, _) = repo.odb()?.read_header(id)?;
+    if size as u64 > max_bytes {
+        return Err(CoreError::InvalidArgument {
+            message: format!("The file is larger than {max_bytes} bytes."),
+        });
+    }
+    let bytes = repo.find_blob(id)?.content().to_vec();
+    Ok(bytes)
+}
+
+/// The bytes of `path` in `commit`, None when it has no such file.
+pub fn read_file_at(
+    dir: &Path,
+    commit: &str,
+    path: &str,
+    max_bytes: u64,
+) -> Result<Option<Vec<u8>>> {
+    check_path(path)?;
+    let repo = Repository::open(dir)?;
+    let tree = repo.find_commit(git2::Oid::from_str(commit)?)?.tree()?;
+    let entry = match tree.get_path(Path::new(path)) {
+        Ok(entry) => entry,
+        Err(e) if e.code() == ErrorCode::NotFound => return Ok(None),
+        Err(e) => return Err(e.into()),
+    };
+    if entry.kind() != Some(git2::ObjectType::Blob) {
+        return Ok(None);
+    }
+    drop(tree);
+    read_blob(dir, &entry.id().to_string(), max_bytes).map(Some)
+}
+
+/// The paths that differ between two commits: added, changed or removed (a
+/// rename is both of its paths). What a sync must parse again.
+pub fn changed_paths(dir: &Path, from: &str, to: &str) -> Result<Vec<String>> {
+    let repo = Repository::open(dir)?;
+    let tree = |id: &str| -> Result<git2::Tree<'_>> {
+        Ok(repo.find_commit(git2::Oid::from_str(id)?)?.tree()?)
+    };
+    let (old, new) = (tree(from)?, tree(to)?);
+    let diff = repo.diff_tree_to_tree(Some(&old), Some(&new), None)?;
+    let mut paths = std::collections::BTreeSet::new();
+    for delta in diff.deltas() {
+        for file in [delta.old_file(), delta.new_file()] {
+            if let Some(path) = file.path().and_then(|p| p.to_str()) {
+                paths.insert(path.to_string());
+            }
+        }
+    }
+    Ok(paths.into_iter().collect())
+}
+
+/// A value of the repository's Git configuration, such as `genbeya.branch`.
+pub fn config_value(dir: &Path, key: &str) -> Result<Option<String>> {
+    let config = Repository::open(dir)?.config()?;
+    match config.get_string(key) {
+        Ok(value) => Ok(Some(value)),
+        Err(e) if e.code() == ErrorCode::NotFound => Ok(None),
+        Err(e) => Err(e.into()),
+    }
+}
+
 // ---------- Commits ----------
 
 /// Commits the working tree's state of `paths` on the checked-out branch:

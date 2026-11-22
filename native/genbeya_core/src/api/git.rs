@@ -12,7 +12,7 @@ use crate::frb_generated::StreamSink;
 use crate::git::{self, Operation};
 pub use crate::git::{
     Auth, ChangedFile, CommitInfo, Conflict, CoreError, DiffSummary, FileChange, HeadInfo,
-    Identity, Progress, PushOutcome, RebaseOutcome, RemoteOptions,
+    Identity, Progress, PushOutcome, RebaseOutcome, RemoteOptions, TreeFile,
 };
 
 /// The versions inside the core, for the spike screen and bug reports.
@@ -96,6 +96,41 @@ pub fn clone_repository(
 
 pub fn head(dir: String) -> Result<HeadInfo, CoreError> {
     git::head(Path::new(&dir))
+}
+
+/// The commit a revision names, or None.
+pub fn resolve_commit(dir: String, revision: String) -> Result<Option<String>, CoreError> {
+    git::resolve_commit(Path::new(&dir), &revision)
+}
+
+/// Every file of a commit's tree, with blob IDs and sizes.
+pub fn list_files(dir: String, commit: String) -> Result<Vec<TreeFile>, CoreError> {
+    git::list_files(Path::new(&dir), &commit)
+}
+
+/// A blob's bytes, refused when larger than `max_bytes`.
+pub fn read_blob(dir: String, blob: String, max_bytes: u64) -> Result<Vec<u8>, CoreError> {
+    git::read_blob(Path::new(&dir), &blob, max_bytes)
+}
+
+/// A file as committed, or None.
+pub fn read_file_at(
+    dir: String,
+    commit: String,
+    path: String,
+    max_bytes: u64,
+) -> Result<Option<Vec<u8>>, CoreError> {
+    git::read_file_at(Path::new(&dir), &commit, &path, max_bytes)
+}
+
+/// The paths that differ between two commits.
+pub fn changed_paths(dir: String, from: String, to: String) -> Result<Vec<String>, CoreError> {
+    git::changed_paths(Path::new(&dir), &from, &to)
+}
+
+/// A value of the repository's Git configuration.
+pub fn config_value(dir: String, key: String) -> Result<Option<String>, CoreError> {
+    git::config_value(Path::new(&dir), &key)
 }
 
 pub fn commit_files(
