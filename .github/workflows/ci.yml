@@ -26,6 +26,14 @@ jobs:
         run: flutter analyze
       - name: Test
         run: flutter test
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: The collation table is ICU's (tool/conformance/make-collation.mjs)
+        run: |
+          (cd tool/conformance && node make-collation.mjs)
+          dart format lib/engines/collation_table.dart
+          git diff --exit-code lib/engines/collation_table.dart
 
   conformance:
     # The expected outputs must be what Genbeya, at the commit in kit/GENBEYA_REF,
@@ -49,11 +57,8 @@ jobs:
         run: |
           npm ci
           GENBEYA_SRC="$GITHUB_WORKSPACE/.genbeya" node generate.mjs
-      - name: The collation table is ICU's
-        working-directory: tool/conformance
-        run: node make-collation.mjs
       - name: They match what is committed
-        run: git diff --exit-code tool/conformance/expected lib/engines/collation_table.dart
+        run: git diff --exit-code tool/conformance/expected
 
   kit:
     # Builds the kit from Genbeya's sources at kit/GENBEYA_REF and checks it in
