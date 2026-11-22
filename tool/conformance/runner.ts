@@ -4,6 +4,7 @@
  */
 import { SettingsEngine } from "genbeya/src/engines/settings-engine";
 import { TaskEngine } from "genbeya/src/engines/task-engine";
+import { contentAreaOf } from "genbeya/src/engines/settings-engine";
 import type { TaskInput } from "genbeya/src/contracts/model";
 import { toggleCheckboxAt } from "genbeya/src/client/app/markdown/task-checkbox";
 // Imports Angular, which generate.mjs stubs: only this plain function is used.
@@ -21,7 +22,7 @@ import { join } from "node:path";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of";
   readonly input: Record<string, any>;
 }
 
@@ -87,6 +88,8 @@ function run(c: Case): unknown {
     case "collate":
       // The comparison Genbeya sorts names and titles with (file-tree.ts, wiki-engine.ts).
       return { output: [...i.strings].sort((a: string, b: string) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" })) };
+    case "area.of":
+      return { output: i.settings.map((settings: any) => i.paths.map((path: string) => contentAreaOf(path, settings))) };
     case "remote.parse":
       return {
         output: i.urls.map((url: string) => ({ remote: parseRemote(url), helper: namesRemoteHelper(url), safe: withoutCredentials(url) })),

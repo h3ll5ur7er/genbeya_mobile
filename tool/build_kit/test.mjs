@@ -236,6 +236,17 @@ try {
     `${refs.tasks.length} task references, e.g. "${refs.tasks[0]}"`,
   );
   check("page, file and pinned references render; a missing page is marked", refs.pages > 0 && refs.files > 0 && refs.pinned > 0 && refs.missing > 0, JSON.stringify(refs));
+  // ---- Outline ----
+  const outline = kit.messages.filter((m) => m.type === "outline").at(-1);
+  check("the headings of a rendered page arrive as its outline, with their ids", outline?.headings?.length > 3 && outline.headings.every((h) => h.id && h.level >= 1 && h.level <= 6), JSON.stringify(outline?.headings?.slice(0, 3)));
+  const last = outline?.headings?.[Math.floor((outline?.headings?.length ?? 0) / 2)];
+  if (last) {
+    await kit.send({ type: "reveal", id: last.id });
+    await kit.page.waitForTimeout(300);
+  }
+  const revealed = last ? await kit.page.evaluate((id) => Math.abs(document.getElementById(id)?.getBoundingClientRect().top ?? 9999) < 50, last.id) : false;
+  check("reveal scrolls to a heading", revealed);
+
   await until(() => kit.messages.some((message) => message.type === "fileAt"));
   await kit.page.waitForSelector(".md-embed pre, .md-embed code", { timeout: 10000 }).catch(() => null);
   const embeds = await kit.page.evaluate(() => [...document.querySelectorAll(".md-embed")].map((element) => element.textContent.slice(0, 40)));

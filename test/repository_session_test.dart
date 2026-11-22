@@ -1,0 +1,105 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:genbeya_mobile/access/kit/kit_host.dart';
+import 'package:genbeya_mobile/managers/repository_model.dart';
+import 'package:genbeya_mobile/managers/repository_session.dart';
+
+import 'support/fake_git.dart';
+
+void main() {
+  FakeGit repository() => FakeGit()
+    ..refs['HEAD'] = 'code'
+    ..refs['refs/remotes/origin/genbeya'] = 'content'
+    ..refs['v1.0'] = 'code'
+    ..commit('code', {
+      '.genbeya.yml': 'name: Demo\n',
+      'src/app.dart': 'void main() {}\n',
+      'docs/Old.md': '# Old\n',
+    })
+    ..commit('content', {
+      '.genbeya-content': '[areas]\n\twiki = branch\n\ttasks = branch\n',
+      'docs/Home.md': '---\ntitle: x\n---\n# Home\n\nSee [[DM-1]].\n',
+      'docs/images/a.png': [137, 80, 78, 71],
+      'tasks/DM-1.md':
+          '---\nid: DM-1\ntitle: First\nstatus: todo\n---\n\nDo it.\n',
+    });
+
+  test('reads each path from where its area lives', () async {
+    final session = RepositorySession(
+      repository(),
+      folderName: 'demo',
+      author: 'Ada',
+    );
+    await session.load();
+    expect(session.commitOf('docs/Home.md'), 'content');
+    expect(session.commitOf('tasks/DM-1.md'), 'content');
+    expect(session.commitOf('.genbeya.yml'), 'code');
+    expect(session.commitOf('src/app.dart'), 'code');
+    final page = await session.page('docs/Home.md');
+    expect(page.title, 'Home');
+    expect(page.hash, fileHash(page.content));
+    await expectLater(
+      session.page('docs/Old.md'),
+      throwsA(isA<KitReadException>()),
+    );
+  });
+
+  test('the kit context: parts versioned by their content', () async {
+    final git = repository();
+    final session = RepositorySession(git, folderName: 'demo', author: 'Ada');
+    await session.load();
+    final first = session.kitContext();
+    expect(first.keys, [
+      'wiki',
+      'tasks',
+      'plan',
+      'files',
+      'people',
+      'settings',
+      'author',
+    ]);
+    expect((first['tasks']!.value! as List).single, {
+      'id': 'DM-1',
+      'path': 'tasks/DM-1.md',
+      'title': 'First',
+      'status': 'todo',
+    });
+    expect(first['files']!.value, [
+      '.genbeya.yml',
+      'src/app.dart',
+      'docs/Old.md',
+    ]);
+    expect(first['author']!.value, 'Ada');
+
+    git
+      ..commit('content2', {
+        ...{for (final e in git.commits['content']!.entries) e.key: e.value},
+        'tasks/DM-1.md': '---\nid: DM-1\ntitle: First\nstatus: done\n---\n',
+      })
+      ..refs['refs/remotes/origin/genbeya'] = 'content2';
+    await session.load();
+    final second = session.kitContext();
+    expect(second['tasks']!.version, isNot(first['tasks']!.version));
+    expect(second['wiki']!.version, first['wiki']!.version);
+    expect(second['files']!.version, first['files']!.version);
+  });
+
+  test(
+    'files for the kit: images, embeds and pinned revisions, read-only',
+    () async {
+      final session = RepositorySession(repository(), folderName: 'demo');
+      await session.load();
+      final files = session.kitFiles();
+      expect(await files.image('docs/images/a.png'), [137, 80, 78, 71]);
+      expect(await files.file('src/app.dart'), 'void main() {}\n');
+      expect(await files.fileAt('src/app.dart', 'v1.0'), 'void main() {}\n');
+      await expectLater(
+        files.fileAt('src/app.dart', 'v9'),
+        throwsA(isA<KitReadException>()),
+      );
+      await expectLater(
+        files.planHistory(null),
+        throwsA(isA<KitReadException>()),
+      );
+    },
+  );
+}

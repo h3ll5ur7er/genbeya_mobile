@@ -111,6 +111,23 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
         final strings = (input['strings']! as List).cast<String>().toList();
         stableSort(strings, collate);
         return {'output': strings};
+      case 'area.of':
+        final paths = (input['paths']! as List).cast<String>();
+        return {
+          'output': [
+            for (final settings
+                in (input['settings']! as List).cast<Map<String, Object?>>())
+              [
+                for (final path in paths)
+                  contentAreaOf(
+                    path,
+                    wikiRoot: settings['wikiRoot']! as String,
+                    taskRoot: settings['taskRoot']! as String,
+                    pullRoot: settings['pullRoot']! as String,
+                  ),
+              ],
+          ],
+        };
       case 'remote.parse':
         return {
           'output': [

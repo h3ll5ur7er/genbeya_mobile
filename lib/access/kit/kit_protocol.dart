@@ -136,6 +136,16 @@ class KitEditorState extends FromKit {
   final bool completing;
 }
 
+/// A heading of the rendered document.
+typedef OutlineHeading = ({int level, String text, String id});
+
+/// The headings of the document just rendered.
+class KitOutline extends FromKit {
+  const KitOutline(this.path, this.headings);
+  final String path;
+  final List<OutlineHeading> headings;
+}
+
 class KitError extends FromKit {
   const KitError(this.message);
   final String message;
@@ -278,6 +288,22 @@ FromKit parseFromKit(String text) {
         _int(selection, 'to', max: _maxText),
         _field<bool>(m, 'completing'),
       );
+    case 'outline':
+      final headings = m['headings'];
+      if (headings is! List || headings.length > 500) {
+        _refuse('outline: invalid headings.');
+      }
+      return KitOutline(_path(m, 'path'), [
+        for (final heading in headings)
+          if (heading is Map<String, Object?>)
+            (
+              level: _int(heading..['type'] = 'outline', 'level', max: 6),
+              text: _text(heading, 'text', max: 300),
+              id: _text(heading, 'id', max: 300),
+            )
+          else
+            _refuse('outline: invalid heading.'),
+      ]);
     case 'error':
       return KitError(_text(m, 'message', max: 2000));
   }
@@ -364,6 +390,9 @@ String editMessage({
 
 String editorCommandMessage(String command, {String? text}) =>
     jsonEncode({'type': 'editorCommand', 'command': command, 'text': ?text});
+
+/// Scrolls the document shown to the heading with [id] (from [KitOutline]).
+String revealMessage(String id) => jsonEncode({'type': 'reveal', 'id': id});
 
 String replyTo(KitRequest request, {String? value, String? error}) =>
     jsonEncode({

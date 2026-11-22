@@ -6,6 +6,8 @@
 /// with `git config --blob <commit>:.genbeya-content --list`.
 library;
 
+import 'repository_path.dart';
+
 /// The content areas, as Genbeya's `CONTENT_AREAS`.
 const contentAreas = ['wiki', 'tasks', 'settings', 'pulls'];
 
@@ -13,6 +15,22 @@ const defaultContentBranch = 'genbeya';
 const areasFile = '.genbeya-content';
 
 enum StorageMode { checkout, branch }
+
+/// The content area [path] belongs to: the settings file, the task folder
+/// with its templates, the pull request folder, or the wiki folder with
+/// everything pages link to there, such as images; null for code. As
+/// `contentAreaOf` in Genbeya's settings-engine.ts.
+String? contentAreaOf(
+  String path, {
+  required String wikiRoot,
+  required String taskRoot,
+  required String pullRoot,
+}) {
+  if (path == '.genbeya.yml') return 'settings';
+  if (within(path, taskRoot)) return 'tasks';
+  if (within(path, pullRoot)) return 'pulls';
+  return within(path, wikiRoot) ? 'wiki' : null;
+}
 
 typedef AreaModes = Map<String, StorageMode>;
 

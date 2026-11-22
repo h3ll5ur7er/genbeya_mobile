@@ -1,0 +1,53 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": [
+    [
+      "settings",
+      "wiki",
+      "wiki",
+      "wiki",
+      null,
+      "tasks",
+      "tasks",
+      null,
+      "pulls",
+      "pulls",
+      null,
+      "wiki",
+      null,
+      null
+    ],
+    [
+      "settings",
+      "wiki",
+      "wiki",
+      "wiki",
+      "wiki",
+      "wiki",
+      "wiki",
+      "wiki",
+      "pulls",
+      "pulls",
+      "tasks",
+      "wiki",
+      "wiki",
+      "wiki"
+    ],
+    [
+      "settings",
+      "wiki",
+      "wiki",
+      "wiki",
+      "wiki",
+      "tasks",
+      "tasks",
+      "wiki",
+      "wiki",
+      "wiki",
+      "wiki",
+      "pulls",
+      "wiki",
+      "wiki"
+    ]
+  ]
+}

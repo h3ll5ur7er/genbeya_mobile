@@ -65,6 +65,10 @@ function receive(message: Exclude<ToKit, { type: "reply" }>) {
     case "editorCommand":
       void editor?.then((open) => open.command(message));
       return;
+    case "reveal":
+      if (mode !== "preview") return;
+      preview.querySelector(`[id="${CSS.escape(message.id)}"]`)?.scrollIntoView({ block: "start" });
+      return;
   }
 }
 
@@ -83,9 +87,20 @@ function show(document: PreviewDocument) {
     const area = document.kind === "page" ? "wiki" : document.area;
     const checkboxes = document.kind === "page" ? true : (document.checkboxes ?? false);
     renderer.render(page, document.source, { path: document.path, area, hash: document.hash, checkboxes }, context);
+    postOutline(page, document.path);
   } catch (error) {
     bridge.post({ type: "error", message: `Couldn't render ${documentPath(document)}: ${error instanceof Error ? error.message : String(error)}` });
   }
+}
+
+/** The rendered headings with their ids, at most 500, for the host's "On this page". */
+function postOutline(root: HTMLElement, path: string) {
+  const headings = [...root.querySelectorAll<HTMLElement>("h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]")].slice(0, 500).map((heading) => ({
+    level: Number(heading.tagName.slice(1)),
+    text: (heading.textContent ?? "").trim().slice(0, 300),
+    id: heading.id.slice(0, 300),
+  }));
+  bridge.post({ type: "outline", path, headings });
 }
 
 const documentPath = (document: PreviewDocument) => (document.kind === "task" ? document.task.path : document.path);

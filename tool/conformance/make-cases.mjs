@@ -217,6 +217,12 @@ add("remote-same", "remote.same", {
     ["/local", "/local"], ["https://github.com/a/b", "https://github.com/a/c"]],
 });
 
+// Which content area a path belongs to (settings-engine.ts contentAreaOf).
+add("areas-of-paths", "area.of", {
+  settings: [{ wikiRoot: "docs", taskRoot: "tasks", pullRoot: "pulls" }, { wikiRoot: "", taskRoot: "work/tasks", pullRoot: "pulls" }, { wikiRoot: ".", taskRoot: "tasks", pullRoot: "docs/pulls" }],
+  paths: [".genbeya.yml", "docs/.genbeya.yml", "docs/Home.md", "docs/images/a.png", "docsx/Home.md", "tasks/GM-1.md", "tasks/.templates/bug.md", "tasks", "pulls/PR-1.md", "pulls/.images/PR-1/a.png", "work/tasks/X-1.md", "docs/pulls/PR-2.md", "src/main.dart", "README.md"],
+});
+
 function labelsOf(content) {
   const flow = /^labels:\s*\[(.*)\]/m.exec(content);
   if (flow) return flow[1].split(",").map((s) => s.trim()).filter(Boolean);

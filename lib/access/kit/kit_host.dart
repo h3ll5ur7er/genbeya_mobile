@@ -148,6 +148,7 @@ class KitHost {
     this.onSave,
     this.onEditorState,
     this.onReady,
+    this.onOutline,
     this.onLog,
   });
 
@@ -163,6 +164,9 @@ class KitHost {
   final void Function(KitEdit edit, String text)? onSave;
   final void Function(KitEditorState state)? onEditorState;
   final void Function(String genbeya)? onReady;
+
+  /// The headings of the document shown, after each render.
+  final void Function(List<OutlineHeading> headings)? onOutline;
 
   /// What the host refused or the kit reported, for the log.
   final void Function(String line)? onLog;
@@ -216,6 +220,9 @@ class KitHost {
     );
   }
 
+  /// Scrolls the document shown to a heading of its outline.
+  void reveal(String id) => _post(revealMessage(id));
+
   void command(String command, {String? text}) =>
       _post(editorCommandMessage(command, text: text));
 
@@ -253,6 +260,8 @@ class KitHost {
         if (edit != null && !edit.readOnly) onSave?.call(edit, text);
       case KitEditorState():
         if (_edit?.path == message.path) onEditorState?.call(message);
+      case KitOutline(:final path, :final headings):
+        if (document?.path == path) onOutline?.call(headings);
       case KitError(:final message):
         onLog?.call('Kit: $message');
     }

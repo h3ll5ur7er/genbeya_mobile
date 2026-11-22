@@ -207,4 +207,31 @@ void main() {
     ) as Map;
     expect(reply, {'type': 'reply', 'id': 7, 'error': 'No.'});
   });
+
+  test('outline: headings with level, text and id, bounded', () {
+    final outline = parseFromKit(
+      jsonEncode({
+        'type': 'outline',
+        'path': 'docs/Home.md',
+        'headings': [
+          {'level': 1, 'text': 'Home', 'id': 'home'},
+          {'level': 2, 'text': 'Next', 'id': 'next'},
+        ],
+      }),
+    ) as KitOutline;
+    expect(outline.headings.map((h) => h.id), ['home', 'next']);
+    expect(
+      () => parseFromKit(
+        jsonEncode({
+          'type': 'outline',
+          'path': 'docs/Home.md',
+          'headings': [
+            {'level': 7, 'text': 'x', 'id': 'x'},
+          ],
+        }),
+      ),
+      throwsA(isA<KitProtocolException>()),
+    );
+    expect(jsonDecode(revealMessage('next')), {'type': 'reveal', 'id': 'next'});
+  });
 }

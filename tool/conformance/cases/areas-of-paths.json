@@ -1,0 +1,39 @@
+{
+  "id": "areas-of-paths",
+  "kind": "area.of",
+  "input": {
+    "settings": [
+      {
+        "wikiRoot": "docs",
+        "taskRoot": "tasks",
+        "pullRoot": "pulls"
+      },
+      {
+        "wikiRoot": "",
+        "taskRoot": "work/tasks",
+        "pullRoot": "pulls"
+      },
+      {
+        "wikiRoot": ".",
+        "taskRoot": "tasks",
+        "pullRoot": "docs/pulls"
+      }
+    ],
+    "paths": [
+      ".genbeya.yml",
+      "docs/.genbeya.yml",
+      "docs/Home.md",
+      "docs/images/a.png",
+      "docsx/Home.md",
+      "tasks/GM-1.md",
+      "tasks/.templates/bug.md",
+      "tasks",
+      "pulls/PR-1.md",
+      "pulls/.images/PR-1/a.png",
+      "work/tasks/X-1.md",
+      "docs/pulls/PR-2.md",
+      "src/main.dart",
+      "README.md"
+    ]
+  }
+}

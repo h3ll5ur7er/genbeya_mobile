@@ -66,6 +66,8 @@ export type ToKit =
       readonly readOnly?: boolean;
     }
   | ({ readonly type: "editorCommand" } & EditorCommand)
+  /** Scrolls the document shown to the heading with this id (from `outline`). */
+  | { readonly type: "reveal"; readonly id: string }
   | { readonly type: "reply"; readonly id: number; readonly value?: string; readonly error?: string };
 
 /** A link the user followed, resolved against the document it is in. */
@@ -86,6 +88,12 @@ export type KitRequest =
   /** The tasks' history as `content.planHistory` answers it, as JSON, for `[BURNDOWN]` and `[BASELINE]`. */
   | { readonly type: "planHistory"; readonly id: number; readonly baseline: string | null };
 
+export interface OutlineHeading {
+  readonly level: number;
+  readonly text: string;
+  readonly id: string;
+}
+
 /** Kit → host. */
 export type FromKit =
   | { readonly type: "ready"; readonly protocol: number; readonly genbeya: string }
@@ -103,6 +111,8 @@ export type FromKit =
       readonly selection: { readonly from: number; readonly to: number };
       readonly completing: boolean;
     }
+  /** The headings of the document just rendered, for the host's "On this page". */
+  | { readonly type: "outline"; readonly path: string; readonly headings: readonly OutlineHeading[] }
   /** Something the kit couldn't do: an invalid message, a failed render. For the host's log. */
   | { readonly type: "error"; readonly message: string };
 
@@ -231,6 +241,8 @@ export function parseToKit(text: string): ToKit {
     case "editorCommand":
       if (message["command"] === "insert") return isString(message["text"]) ? (message as ToKit) : fail();
       return isString(message["command"]) && COMMANDS.includes(message["command"]) ? (message as ToKit) : fail();
+    case "reveal":
+      return isString(message["id"]) && message["id"].length <= 300 ? (message as ToKit) : fail();
     case "reply":
       return Number.isInteger(message["id"]) &&
         (message["value"] === undefined || isString(message["value"])) &&

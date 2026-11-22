@@ -8,7 +8,7 @@ import 'add_repository_screen.dart';
 import 'format.dart';
 import 'identity_dialog.dart';
 import 'providers.dart';
-import 'repository_screen.dart';
+import '../repository/repository_shell.dart';
 import 'ssh_key_screen.dart';
 
 /// The start screen: the clones on this phone ([[Experience#navigation]]).
@@ -64,7 +64,7 @@ class RepositoriesScreen extends ConsumerWidget {
                         onOpen: () => Navigator.of(context).push(
                           MaterialPageRoute<void>(
                             builder: (_) =>
-                                RepositoryScreen(record: status.record),
+                                RepositoryShell(record: status.record),
                           ),
                         ),
                         onRemove: () => _remove(context, ref, status),
