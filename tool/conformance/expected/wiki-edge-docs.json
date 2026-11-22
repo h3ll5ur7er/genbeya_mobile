@@ -1,0 +1,364 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": {
+    "tree": [
+      {
+        "title": "Home",
+        "path": "docs/Home.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": " dash",
+        "path": "docs/-dash.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "_draft",
+        "path": "docs/_draft.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "(draft) idea",
+        "path": "docs/(draft) idea.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "[old] plan",
+        "path": "docs/[old] plan.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "🎉 party",
+        "path": "docs/🎉-party.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "2026 11 21 Meeting",
+        "path": "docs/2026-11-21 Meeting.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "a b",
+        "path": "docs/a b.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "a b",
+        "path": "docs/a-b.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Ab",
+        "path": "docs/Ab.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "ab",
+        "path": "docs/ab.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "apple",
+        "path": "docs/apple.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Banana",
+        "path": "docs/Banana.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Éclair",
+        "path": "docs/Éclair.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "eclair",
+        "path": "docs/eclair.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Folder only",
+        "path": null,
+        "folder": "docs/Folder-only",
+        "children": [
+          {
+            "title": "Child",
+            "path": "docs/Folder-only/Child.md",
+            "folder": null,
+            "children": []
+          }
+        ]
+      },
+      {
+        "title": "Guide",
+        "path": "docs/Guide.md",
+        "folder": "docs/Guide",
+        "children": [
+          {
+            "title": "Deep",
+            "path": null,
+            "folder": "docs/Guide/Deep",
+            "children": [
+              {
+                "title": "Under",
+                "path": "docs/Guide/Deep/Under.md",
+                "folder": null,
+                "children": []
+              }
+            ]
+          },
+          {
+            "title": "Install",
+            "path": "docs/Guide/Install.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Use",
+            "path": "docs/Guide/Use.md",
+            "folder": null,
+            "children": []
+          }
+        ]
+      },
+      {
+        "title": "README",
+        "path": "docs/README.MD",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Step 1",
+        "path": "docs/Step-1.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Step 01",
+        "path": "docs/Step-01.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Step 2",
+        "path": "docs/Step-2.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Step 10",
+        "path": "docs/Step-10.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Strasse",
+        "path": "docs/Strasse.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Straße",
+        "path": "docs/Straße.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Über",
+        "path": "docs/Über.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "v1.2",
+        "path": "docs/v1.2.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "v1.10",
+        "path": "docs/v1.10.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Zebra",
+        "path": "docs/Zebra.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Ωmega",
+        "path": "docs/Ωmega.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Жук",
+        "path": "docs/Жук.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "日本",
+        "path": "docs/日本.md",
+        "folder": null,
+        "children": []
+      }
+    ],
+    "pages": [
+      {
+        "title": "Home",
+        "path": "docs/Home.md"
+      },
+      {
+        "title": " dash",
+        "path": "docs/-dash.md"
+      },
+      {
+        "title": "_draft",
+        "path": "docs/_draft.md"
+      },
+      {
+        "title": "(draft) idea",
+        "path": "docs/(draft) idea.md"
+      },
+      {
+        "title": "[old] plan",
+        "path": "docs/[old] plan.md"
+      },
+      {
+        "title": "🎉 party",
+        "path": "docs/🎉-party.md"
+      },
+      {
+        "title": "2026 11 21 Meeting",
+        "path": "docs/2026-11-21 Meeting.md"
+      },
+      {
+        "title": "a b",
+        "path": "docs/a b.md"
+      },
+      {
+        "title": "a b",
+        "path": "docs/a-b.md"
+      },
+      {
+        "title": "Ab",
+        "path": "docs/Ab.md"
+      },
+      {
+        "title": "ab",
+        "path": "docs/ab.md"
+      },
+      {
+        "title": "apple",
+        "path": "docs/apple.md"
+      },
+      {
+        "title": "Banana",
+        "path": "docs/Banana.md"
+      },
+      {
+        "title": "Éclair",
+        "path": "docs/Éclair.md"
+      },
+      {
+        "title": "eclair",
+        "path": "docs/eclair.md"
+      },
+      {
+        "title": "Child",
+        "path": "docs/Folder-only/Child.md"
+      },
+      {
+        "title": "Guide",
+        "path": "docs/Guide.md"
+      },
+      {
+        "title": "Under",
+        "path": "docs/Guide/Deep/Under.md"
+      },
+      {
+        "title": "Install",
+        "path": "docs/Guide/Install.md"
+      },
+      {
+        "title": "Use",
+        "path": "docs/Guide/Use.md"
+      },
+      {
+        "title": "README",
+        "path": "docs/README.MD"
+      },
+      {
+        "title": "Step 1",
+        "path": "docs/Step-1.md"
+      },
+      {
+        "title": "Step 01",
+        "path": "docs/Step-01.md"
+      },
+      {
+        "title": "Step 2",
+        "path": "docs/Step-2.md"
+      },
+      {
+        "title": "Step 10",
+        "path": "docs/Step-10.md"
+      },
+      {
+        "title": "Strasse",
+        "path": "docs/Strasse.md"
+      },
+      {
+        "title": "Straße",
+        "path": "docs/Straße.md"
+      },
+      {
+        "title": "Über",
+        "path": "docs/Über.md"
+      },
+      {
+        "title": "v1.2",
+        "path": "docs/v1.2.md"
+      },
+      {
+        "title": "v1.10",
+        "path": "docs/v1.10.md"
+      },
+      {
+        "title": "Zebra",
+        "path": "docs/Zebra.md"
+      },
+      {
+        "title": "Ωmega",
+        "path": "docs/Ωmega.md"
+      },
+      {
+        "title": "Жук",
+        "path": "docs/Жук.md"
+      },
+      {
+        "title": "日本",
+        "path": "docs/日本.md"
+      }
+    ]
+  }
+}

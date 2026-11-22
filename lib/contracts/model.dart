@@ -183,6 +183,49 @@ class Settings {
 }
 
 /// A comment below a task's description.
+/// A file or folder of the repository, as Genbeya's `FileNode`.
+class FileNode {
+  const FileNode({required this.name, required this.path, this.children});
+
+  final String name;
+  final String path;
+
+  /// The folder's entries; null for a file.
+  final List<FileNode>? children;
+
+  Map<String, Object?> toJson() => {
+    'name': name,
+    'path': path,
+    if (children != null) 'children': [for (final c in children!) c.toJson()],
+  };
+}
+
+/// A page of the wiki tree, as Genbeya's `WikiNode`.
+class WikiNode {
+  const WikiNode({
+    required this.title,
+    required this.path,
+    required this.folder,
+    required this.children,
+  });
+
+  final String title;
+
+  /// The page file, or null for a folder without a matching page.
+  final String? path;
+
+  /// The folder holding subpages, if any.
+  final String? folder;
+  final List<WikiNode> children;
+
+  Map<String, Object?> toJson() => {
+    'title': title,
+    'path': path,
+    'folder': folder,
+    'children': [for (final c in children) c.toJson()],
+  };
+}
+
 class TaskComment {
   const TaskComment({
     required this.author,

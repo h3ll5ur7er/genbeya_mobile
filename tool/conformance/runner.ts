@@ -8,15 +8,18 @@ import type { TaskInput } from "genbeya/src/contracts/model";
 import { toggleCheckboxAt } from "genbeya/src/client/app/markdown/task-checkbox";
 // Imports Angular, which generate.mjs stubs: only this plain function is used.
 import { stripFrontmatter } from "genbeya/src/client/app/core/file-resource";
+import { buildFileTree } from "genbeya/src/utilities/file-tree";
+import { WikiEngine } from "genbeya/src/engines/wiki-engine";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree";
   readonly input: Record<string, any>;
 }
 
 const settings = new SettingsEngine();
 const tasks = new TaskEngine();
+const wiki = new WikiEngine();
 
 /** What the desktop client sends to update a task: the whole task (task-model.ts inputOf) with the change applied. */
 function inputOf(task: ReturnType<TaskEngine["parse"]>, change: Record<string, any>): TaskInput {
@@ -49,6 +52,15 @@ function run(c: Case): unknown {
       // wiki-page.ts toggleCheckbox: offsets count from the end of the frontmatter.
       const at = i.content.length - stripFrontmatter(i.content).length + i.offset;
       return { output: toggleCheckboxAt(i.content, at) };
+    }
+    case "collate":
+      // The comparison Genbeya sorts names and titles with (file-tree.ts, wiki-engine.ts).
+      return { output: [...i.strings].sort((a: string, b: string) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" })) };
+    case "file.tree":
+      return { output: buildFileTree(i.files) };
+    case "wiki.tree": {
+      const settings = { wikiRoot: i.wikiRoot, wikiHome: i.wikiHome };
+      return { output: { tree: wiki.tree(i.files, settings), pages: wiki.pages(i.files, settings) } };
     }
     case "task.toggle": {
       // task-panel.ts toggleCheckbox: the description with the checkbox flipped.

@@ -1,0 +1,2297 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": [
+    {
+      "name": ".github",
+      "path": ".github",
+      "children": [
+        {
+          "name": "workflows",
+          "path": ".github/workflows",
+          "children": [
+            {
+              "name": "ci.yml",
+              "path": ".github/workflows/ci.yml"
+            },
+            {
+              "name": "drift.yml",
+              "path": ".github/workflows/drift.yml"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "android",
+      "path": "android",
+      "children": [
+        {
+          "name": "app",
+          "path": "android/app",
+          "children": [
+            {
+              "name": "src",
+              "path": "android/app/src",
+              "children": [
+                {
+                  "name": "debug",
+                  "path": "android/app/src/debug",
+                  "children": [
+                    {
+                      "name": "AndroidManifest.xml",
+                      "path": "android/app/src/debug/AndroidManifest.xml"
+                    }
+                  ]
+                },
+                {
+                  "name": "main",
+                  "path": "android/app/src/main",
+                  "children": [
+                    {
+                      "name": "kotlin",
+                      "path": "android/app/src/main/kotlin",
+                      "children": [
+                        {
+                          "name": "fyi",
+                          "path": "android/app/src/main/kotlin/fyi",
+                          "children": [
+                            {
+                              "name": "genbeya",
+                              "path": "android/app/src/main/kotlin/fyi/genbeya",
+                              "children": [
+                                {
+                                  "name": "genbeya_mobile",
+                                  "path": "android/app/src/main/kotlin/fyi/genbeya/genbeya_mobile",
+                                  "children": [
+                                    {
+                                      "name": "MainActivity.kt",
+                                      "path": "android/app/src/main/kotlin/fyi/genbeya/genbeya_mobile/MainActivity.kt"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "res",
+                      "path": "android/app/src/main/res",
+                      "children": [
+                        {
+                          "name": "drawable",
+                          "path": "android/app/src/main/res/drawable",
+                          "children": [
+                            {
+                              "name": "launch_background.xml",
+                              "path": "android/app/src/main/res/drawable/launch_background.xml"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "drawable-hdpi",
+                          "path": "android/app/src/main/res/drawable-hdpi",
+                          "children": [
+                            {
+                              "name": "ic_launcher_foreground.png",
+                              "path": "android/app/src/main/res/drawable-hdpi/ic_launcher_foreground.png"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "drawable-mdpi",
+                          "path": "android/app/src/main/res/drawable-mdpi",
+                          "children": [
+                            {
+                              "name": "ic_launcher_foreground.png",
+                              "path": "android/app/src/main/res/drawable-mdpi/ic_launcher_foreground.png"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "drawable-v21",
+                          "path": "android/app/src/main/res/drawable-v21",
+                          "children": [
+                            {
+                              "name": "launch_background.xml",
+                              "path": "android/app/src/main/res/drawable-v21/launch_background.xml"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "drawable-xhdpi",
+                          "path": "android/app/src/main/res/drawable-xhdpi",
+                          "children": [
+                            {
+                              "name": "ic_launcher_foreground.png",
+                              "path": "android/app/src/main/res/drawable-xhdpi/ic_launcher_foreground.png"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "drawable-xxhdpi",
+                          "path": "android/app/src/main/res/drawable-xxhdpi",
+                          "children": [
+                            {
+                              "name": "ic_launcher_foreground.png",
+                              "path": "android/app/src/main/res/drawable-xxhdpi/ic_launcher_foreground.png"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "drawable-xxxhdpi",
+                          "path": "android/app/src/main/res/drawable-xxxhdpi",
+                          "children": [
+                            {
+                              "name": "ic_launcher_foreground.png",
+                              "path": "android/app/src/main/res/drawable-xxxhdpi/ic_launcher_foreground.png"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "mipmap-anydpi-v26",
+                          "path": "android/app/src/main/res/mipmap-anydpi-v26",
+                          "children": [
+                            {
+                              "name": "ic_launcher.xml",
+                              "path": "android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "mipmap-hdpi",
+                          "path": "android/app/src/main/res/mipmap-hdpi",
+                          "children": [
+                            {
+                              "name": "ic_launcher.png",
+                              "path": "android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "mipmap-mdpi",
+                          "path": "android/app/src/main/res/mipmap-mdpi",
+                          "children": [
+                            {
+                              "name": "ic_launcher.png",
+                              "path": "android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "mipmap-xhdpi",
+                          "path": "android/app/src/main/res/mipmap-xhdpi",
+                          "children": [
+                            {
+                              "name": "ic_launcher.png",
+                              "path": "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "mipmap-xxhdpi",
+                          "path": "android/app/src/main/res/mipmap-xxhdpi",
+                          "children": [
+                            {
+                              "name": "ic_launcher.png",
+                              "path": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "mipmap-xxxhdpi",
+                          "path": "android/app/src/main/res/mipmap-xxxhdpi",
+                          "children": [
+                            {
+                              "name": "ic_launcher.png",
+                              "path": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "values",
+                          "path": "android/app/src/main/res/values",
+                          "children": [
+                            {
+                              "name": "colors.xml",
+                              "path": "android/app/src/main/res/values/colors.xml"
+                            },
+                            {
+                              "name": "styles.xml",
+                              "path": "android/app/src/main/res/values/styles.xml"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "values-night",
+                          "path": "android/app/src/main/res/values-night",
+                          "children": [
+                            {
+                              "name": "styles.xml",
+                              "path": "android/app/src/main/res/values-night/styles.xml"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "xml",
+                          "path": "android/app/src/main/res/xml",
+                          "children": [
+                            {
+                              "name": "network_security_config.xml",
+                              "path": "android/app/src/main/res/xml/network_security_config.xml"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "AndroidManifest.xml",
+                      "path": "android/app/src/main/AndroidManifest.xml"
+                    }
+                  ]
+                },
+                {
+                  "name": "profile",
+                  "path": "android/app/src/profile",
+                  "children": [
+                    {
+                      "name": "AndroidManifest.xml",
+                      "path": "android/app/src/profile/AndroidManifest.xml"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "build.gradle.kts",
+              "path": "android/app/build.gradle.kts"
+            }
+          ]
+        },
+        {
+          "name": "build",
+          "path": "android/build",
+          "children": [
+            {
+              "name": "reports",
+              "path": "android/build/reports",
+              "children": [
+                {
+                  "name": "problems",
+                  "path": "android/build/reports/problems",
+                  "children": [
+                    {
+                      "name": "problems-report.html",
+                      "path": "android/build/reports/problems/problems-report.html"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "gradle",
+          "path": "android/gradle",
+          "children": [
+            {
+              "name": "wrapper",
+              "path": "android/gradle/wrapper",
+              "children": [
+                {
+                  "name": "gradle-wrapper.properties",
+                  "path": "android/gradle/wrapper/gradle-wrapper.properties"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": ".gitignore",
+          "path": "android/.gitignore"
+        },
+        {
+          "name": "build.gradle.kts",
+          "path": "android/build.gradle.kts"
+        },
+        {
+          "name": "gradle.properties",
+          "path": "android/gradle.properties"
+        },
+        {
+          "name": "settings.gradle.kts",
+          "path": "android/settings.gradle.kts"
+        }
+      ]
+    },
+    {
+      "name": "assets",
+      "path": "assets",
+      "children": [
+        {
+          "name": "branding",
+          "path": "assets/branding",
+          "children": [
+            {
+              "name": "genbeya.svg",
+              "path": "assets/branding/genbeya.svg"
+            },
+            {
+              "name": "icon-1024.png",
+              "path": "assets/branding/icon-1024.png"
+            },
+            {
+              "name": "icon-foreground.png",
+              "path": "assets/branding/icon-foreground.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "path": "docs",
+      "children": [
+        {
+          "name": "Architecture",
+          "path": "docs/Architecture",
+          "children": [
+            {
+              "name": "Call-chains.md",
+              "path": "docs/Architecture/Call-chains.md"
+            }
+          ]
+        },
+        {
+          "name": "Experience",
+          "path": "docs/Experience",
+          "children": [
+            {
+              "name": "User-stories.md",
+              "path": "docs/Experience/User-stories.md"
+            }
+          ]
+        },
+        {
+          "name": "Roadmap",
+          "path": "docs/Roadmap",
+          "children": [
+            {
+              "name": "Decisions.md",
+              "path": "docs/Roadmap/Decisions.md"
+            }
+          ]
+        },
+        {
+          "name": "Upstream",
+          "path": "docs/Upstream",
+          "children": [
+            {
+              "name": "Attached-images.md",
+              "path": "docs/Upstream/Attached-images.md"
+            },
+            {
+              "name": "Kit-build.md",
+              "path": "docs/Upstream/Kit-build.md"
+            }
+          ]
+        },
+        {
+          "name": "Architecture.md",
+          "path": "docs/Architecture.md"
+        },
+        {
+          "name": "Development.md",
+          "path": "docs/Development.md"
+        },
+        {
+          "name": "Experience.md",
+          "path": "docs/Experience.md"
+        },
+        {
+          "name": "Home.md",
+          "path": "docs/Home.md"
+        },
+        {
+          "name": "Roadmap.md",
+          "path": "docs/Roadmap.md"
+        },
+        {
+          "name": "Upstream.md",
+          "path": "docs/Upstream.md"
+        }
+      ]
+    },
+    {
+      "name": "ios",
+      "path": "ios",
+      "children": [
+        {
+          "name": "Flutter",
+          "path": "ios/Flutter",
+          "children": [
+            {
+              "name": "AppFrameworkInfo.plist",
+              "path": "ios/Flutter/AppFrameworkInfo.plist"
+            },
+            {
+              "name": "Debug.xcconfig",
+              "path": "ios/Flutter/Debug.xcconfig"
+            },
+            {
+              "name": "Release.xcconfig",
+              "path": "ios/Flutter/Release.xcconfig"
+            }
+          ]
+        },
+        {
+          "name": "Runner",
+          "path": "ios/Runner",
+          "children": [
+            {
+              "name": "Assets.xcassets",
+              "path": "ios/Runner/Assets.xcassets",
+              "children": [
+                {
+                  "name": "AppIcon.appiconset",
+                  "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset",
+                  "children": [
+                    {
+                      "name": "Contents.json",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json"
+                    },
+                    {
+                      "name": "Icon-App-20x20@1x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png"
+                    },
+                    {
+                      "name": "Icon-App-20x20@2x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png"
+                    },
+                    {
+                      "name": "Icon-App-20x20@3x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png"
+                    },
+                    {
+                      "name": "Icon-App-29x29@1x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png"
+                    },
+                    {
+                      "name": "Icon-App-29x29@2x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png"
+                    },
+                    {
+                      "name": "Icon-App-29x29@3x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png"
+                    },
+                    {
+                      "name": "Icon-App-40x40@1x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png"
+                    },
+                    {
+                      "name": "Icon-App-40x40@2x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png"
+                    },
+                    {
+                      "name": "Icon-App-40x40@3x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png"
+                    },
+                    {
+                      "name": "Icon-App-50x50@1x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png"
+                    },
+                    {
+                      "name": "Icon-App-50x50@2x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png"
+                    },
+                    {
+                      "name": "Icon-App-57x57@1x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png"
+                    },
+                    {
+                      "name": "Icon-App-57x57@2x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png"
+                    },
+                    {
+                      "name": "Icon-App-60x60@2x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png"
+                    },
+                    {
+                      "name": "Icon-App-60x60@3x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png"
+                    },
+                    {
+                      "name": "Icon-App-72x72@1x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png"
+                    },
+                    {
+                      "name": "Icon-App-72x72@2x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png"
+                    },
+                    {
+                      "name": "Icon-App-76x76@1x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png"
+                    },
+                    {
+                      "name": "Icon-App-76x76@2x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png"
+                    },
+                    {
+                      "name": "Icon-App-83.5x83.5@2x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png"
+                    },
+                    {
+                      "name": "Icon-App-1024x1024@1x.png",
+                      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png"
+                    }
+                  ]
+                },
+                {
+                  "name": "LaunchImage.imageset",
+                  "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset",
+                  "children": [
+                    {
+                      "name": "Contents.json",
+                      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json"
+                    },
+                    {
+                      "name": "LaunchImage.png",
+                      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png"
+                    },
+                    {
+                      "name": "LaunchImage@2x.png",
+                      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png"
+                    },
+                    {
+                      "name": "LaunchImage@3x.png",
+                      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png"
+                    },
+                    {
+                      "name": "README.md",
+                      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Base.lproj",
+              "path": "ios/Runner/Base.lproj",
+              "children": [
+                {
+                  "name": "LaunchScreen.storyboard",
+                  "path": "ios/Runner/Base.lproj/LaunchScreen.storyboard"
+                },
+                {
+                  "name": "Main.storyboard",
+                  "path": "ios/Runner/Base.lproj/Main.storyboard"
+                }
+              ]
+            },
+            {
+              "name": "AppDelegate.swift",
+              "path": "ios/Runner/AppDelegate.swift"
+            },
+            {
+              "name": "Info.plist",
+              "path": "ios/Runner/Info.plist"
+            },
+            {
+              "name": "Runner-Bridging-Header.h",
+              "path": "ios/Runner/Runner-Bridging-Header.h"
+            },
+            {
+              "name": "SceneDelegate.swift",
+              "path": "ios/Runner/SceneDelegate.swift"
+            }
+          ]
+        },
+        {
+          "name": "Runner.xcodeproj",
+          "path": "ios/Runner.xcodeproj",
+          "children": [
+            {
+              "name": "project.xcworkspace",
+              "path": "ios/Runner.xcodeproj/project.xcworkspace",
+              "children": [
+                {
+                  "name": "xcshareddata",
+                  "path": "ios/Runner.xcodeproj/project.xcworkspace/xcshareddata",
+                  "children": [
+                    {
+                      "name": "IDEWorkspaceChecks.plist",
+                      "path": "ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist"
+                    },
+                    {
+                      "name": "WorkspaceSettings.xcsettings",
+                      "path": "ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings"
+                    }
+                  ]
+                },
+                {
+                  "name": "contents.xcworkspacedata",
+                  "path": "ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata"
+                }
+              ]
+            },
+            {
+              "name": "xcshareddata",
+              "path": "ios/Runner.xcodeproj/xcshareddata",
+              "children": [
+                {
+                  "name": "xcschemes",
+                  "path": "ios/Runner.xcodeproj/xcshareddata/xcschemes",
+                  "children": [
+                    {
+                      "name": "Runner.xcscheme",
+                      "path": "ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "project.pbxproj",
+              "path": "ios/Runner.xcodeproj/project.pbxproj"
+            }
+          ]
+        },
+        {
+          "name": "Runner.xcworkspace",
+          "path": "ios/Runner.xcworkspace",
+          "children": [
+            {
+              "name": "xcshareddata",
+              "path": "ios/Runner.xcworkspace/xcshareddata",
+              "children": [
+                {
+                  "name": "IDEWorkspaceChecks.plist",
+                  "path": "ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist"
+                },
+                {
+                  "name": "WorkspaceSettings.xcsettings",
+                  "path": "ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings"
+                }
+              ]
+            },
+            {
+              "name": "contents.xcworkspacedata",
+              "path": "ios/Runner.xcworkspace/contents.xcworkspacedata"
+            }
+          ]
+        },
+        {
+          "name": "RunnerTests",
+          "path": "ios/RunnerTests",
+          "children": [
+            {
+              "name": "RunnerTests.swift",
+              "path": "ios/RunnerTests/RunnerTests.swift"
+            }
+          ]
+        },
+        {
+          "name": ".gitignore",
+          "path": "ios/.gitignore"
+        }
+      ]
+    },
+    {
+      "name": "kit",
+      "path": "kit",
+      "children": [
+        {
+          "name": "dist",
+          "path": "kit/dist",
+          "children": [
+            {
+              "name": "chunks",
+              "path": "kit/dist/chunks",
+              "children": [
+                {
+                  "name": ".gitkeep",
+                  "path": "kit/dist/chunks/.gitkeep"
+                }
+              ]
+            },
+            {
+              "name": "fonts",
+              "path": "kit/dist/fonts",
+              "children": [
+                {
+                  "name": ".gitkeep",
+                  "path": "kit/dist/fonts/.gitkeep"
+                }
+              ]
+            },
+            {
+              "name": ".gitkeep",
+              "path": "kit/dist/.gitkeep"
+            }
+          ]
+        },
+        {
+          "name": "src",
+          "path": "kit/src",
+          "children": [
+            {
+              "name": "shims",
+              "path": "kit/src/shims",
+              "children": [
+                {
+                  "name": "hotkeys.ts",
+                  "path": "kit/src/shims/hotkeys.ts"
+                },
+                {
+                  "name": "icon.ts",
+                  "path": "kit/src/shims/icon.ts"
+                }
+              ]
+            },
+            {
+              "name": "bridge.ts",
+              "path": "kit/src/bridge.ts"
+            },
+            {
+              "name": "editor.ts",
+              "path": "kit/src/editor.ts"
+            },
+            {
+              "name": "kit.css",
+              "path": "kit/src/kit.css"
+            },
+            {
+              "name": "kit.ts",
+              "path": "kit/src/kit.ts"
+            },
+            {
+              "name": "protocol.ts",
+              "path": "kit/src/protocol.ts"
+            },
+            {
+              "name": "renderer.ts",
+              "path": "kit/src/renderer.ts"
+            }
+          ]
+        },
+        {
+          "name": "test",
+          "path": "kit/test",
+          "children": [
+            {
+              "name": "screenshots",
+              "path": "kit/test/screenshots",
+              "children": [
+                {
+                  "name": "editor-dark.png",
+                  "path": "kit/test/screenshots/editor-dark.png"
+                },
+                {
+                  "name": "page-dark.png",
+                  "path": "kit/test/screenshots/page-dark.png"
+                },
+                {
+                  "name": "page-light.png",
+                  "path": "kit/test/screenshots/page-light.png"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": ".gitignore",
+          "path": "kit/.gitignore"
+        },
+        {
+          "name": "GENBEYA_REF",
+          "path": "kit/GENBEYA_REF"
+        },
+        {
+          "name": "README.md",
+          "path": "kit/README.md"
+        }
+      ]
+    },
+    {
+      "name": "lib",
+      "path": "lib",
+      "children": [
+        {
+          "name": "access",
+          "path": "lib/access",
+          "children": [
+            {
+              "name": "kit",
+              "path": "lib/access/kit",
+              "children": [
+                {
+                  "name": "kit_host.dart",
+                  "path": "lib/access/kit/kit_host.dart"
+                },
+                {
+                  "name": "kit_protocol.dart",
+                  "path": "lib/access/kit/kit_protocol.dart"
+                },
+                {
+                  "name": "kit_server.dart",
+                  "path": "lib/access/kit/kit_server.dart"
+                }
+              ]
+            },
+            {
+              "name": "native",
+              "path": "lib/access/native",
+              "children": [
+                {
+                  "name": "ca_bundle.dart",
+                  "path": "lib/access/native/ca_bundle.dart"
+                },
+                {
+                  "name": "transfers.dart",
+                  "path": "lib/access/native/transfers.dart"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "contracts",
+          "path": "lib/contracts",
+          "children": [
+            {
+              "name": "model.dart",
+              "path": "lib/contracts/model.dart"
+            }
+          ]
+        },
+        {
+          "name": "engines",
+          "path": "lib/engines",
+          "children": [
+            {
+              "name": "yaml",
+              "path": "lib/engines/yaml",
+              "children": [
+                {
+                  "name": "yaml_document.dart",
+                  "path": "lib/engines/yaml/yaml_document.dart"
+                }
+              ]
+            },
+            {
+              "name": "checkbox_engine.dart",
+              "path": "lib/engines/checkbox_engine.dart"
+            },
+            {
+              "name": "js.dart",
+              "path": "lib/engines/js.dart"
+            },
+            {
+              "name": "repository_path.dart",
+              "path": "lib/engines/repository_path.dart"
+            },
+            {
+              "name": "settings_engine.dart",
+              "path": "lib/engines/settings_engine.dart"
+            },
+            {
+              "name": "task_comments.dart",
+              "path": "lib/engines/task_comments.dart"
+            },
+            {
+              "name": "task_engine.dart",
+              "path": "lib/engines/task_engine.dart"
+            },
+            {
+              "name": "text_style.dart",
+              "path": "lib/engines/text_style.dart"
+            }
+          ]
+        },
+        {
+          "name": "features",
+          "path": "lib/features",
+          "children": [
+            {
+              "name": "kit",
+              "path": "lib/features/kit",
+              "children": [
+                {
+                  "name": "kit_view.dart",
+                  "path": "lib/features/kit/kit_view.dart"
+                }
+              ]
+            },
+            {
+              "name": "repositories",
+              "path": "lib/features/repositories",
+              "children": [
+                {
+                  "name": "repositories_screen.dart",
+                  "path": "lib/features/repositories/repositories_screen.dart"
+                }
+              ]
+            },
+            {
+              "name": "spikes",
+              "path": "lib/features/spikes",
+              "children": [
+                {
+                  "name": "editor_samples.dart",
+                  "path": "lib/features/spikes/editor_samples.dart"
+                },
+                {
+                  "name": "editor_toolbar.dart",
+                  "path": "lib/features/spikes/editor_toolbar.dart"
+                },
+                {
+                  "name": "git_spike_screen.dart",
+                  "path": "lib/features/spikes/git_spike_screen.dart"
+                },
+                {
+                  "name": "kit_editor_spike_screen.dart",
+                  "path": "lib/features/spikes/kit_editor_spike_screen.dart"
+                },
+                {
+                  "name": "kit_spike_screen.dart",
+                  "path": "lib/features/spikes/kit_spike_screen.dart"
+                },
+                {
+                  "name": "native_editor_spike_screen.dart",
+                  "path": "lib/features/spikes/native_editor_spike_screen.dart"
+                },
+                {
+                  "name": "spikes_screen.dart",
+                  "path": "lib/features/spikes/spikes_screen.dart"
+                }
+              ]
+            },
+            {
+              "name": "theme",
+              "path": "lib/features/theme",
+              "children": [
+                {
+                  "name": "genbeya_theme.dart",
+                  "path": "lib/features/theme/genbeya_theme.dart"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "src",
+          "path": "lib/src",
+          "children": [
+            {
+              "name": "rust",
+              "path": "lib/src/rust",
+              "children": [
+                {
+                  "name": "api",
+                  "path": "lib/src/rust/api",
+                  "children": [
+                    {
+                      "name": "git.dart",
+                      "path": "lib/src/rust/api/git.dart"
+                    },
+                    {
+                      "name": "git.freezed.dart",
+                      "path": "lib/src/rust/api/git.freezed.dart"
+                    }
+                  ]
+                },
+                {
+                  "name": "frb_generated.dart",
+                  "path": "lib/src/rust/frb_generated.dart"
+                },
+                {
+                  "name": "frb_generated.io.dart",
+                  "path": "lib/src/rust/frb_generated.io.dart"
+                },
+                {
+                  "name": "frb_generated.web.dart",
+                  "path": "lib/src/rust/frb_generated.web.dart"
+                },
+                {
+                  "name": "git.dart",
+                  "path": "lib/src/rust/git.dart"
+                },
+                {
+                  "name": "git.freezed.dart",
+                  "path": "lib/src/rust/git.freezed.dart"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "app.dart",
+          "path": "lib/app.dart"
+        },
+        {
+          "name": "main.dart",
+          "path": "lib/main.dart"
+        }
+      ]
+    },
+    {
+      "name": "native",
+      "path": "native",
+      "children": [
+        {
+          "name": "genbeya_core",
+          "path": "native/genbeya_core",
+          "children": [
+            {
+              "name": "src",
+              "path": "native/genbeya_core/src",
+              "children": [
+                {
+                  "name": "api",
+                  "path": "native/genbeya_core/src/api",
+                  "children": [
+                    {
+                      "name": "git.rs",
+                      "path": "native/genbeya_core/src/api/git.rs"
+                    },
+                    {
+                      "name": "mod.rs",
+                      "path": "native/genbeya_core/src/api/mod.rs"
+                    }
+                  ]
+                },
+                {
+                  "name": "frb_generated.rs",
+                  "path": "native/genbeya_core/src/frb_generated.rs"
+                },
+                {
+                  "name": "git.rs",
+                  "path": "native/genbeya_core/src/git.rs"
+                },
+                {
+                  "name": "lib.rs",
+                  "path": "native/genbeya_core/src/lib.rs"
+                }
+              ]
+            },
+            {
+              "name": "tests",
+              "path": "native/genbeya_core/tests",
+              "children": [
+                {
+                  "name": "certificates.rs",
+                  "path": "native/genbeya_core/tests/certificates.rs"
+                },
+                {
+                  "name": "flows.rs",
+                  "path": "native/genbeya_core/tests/flows.rs"
+                }
+              ]
+            },
+            {
+              "name": ".gitignore",
+              "path": "native/genbeya_core/.gitignore"
+            },
+            {
+              "name": "Cargo.lock",
+              "path": "native/genbeya_core/Cargo.lock"
+            },
+            {
+              "name": "Cargo.toml",
+              "path": "native/genbeya_core/Cargo.toml"
+            },
+            {
+              "name": "README.md",
+              "path": "native/genbeya_core/README.md"
+            }
+          ]
+        },
+        {
+          "name": "rust_builder",
+          "path": "native/rust_builder",
+          "children": [
+            {
+              "name": "android",
+              "path": "native/rust_builder/android",
+              "children": [
+                {
+                  "name": "src",
+                  "path": "native/rust_builder/android/src",
+                  "children": [
+                    {
+                      "name": "main",
+                      "path": "native/rust_builder/android/src/main",
+                      "children": [
+                        {
+                          "name": "AndroidManifest.xml",
+                          "path": "native/rust_builder/android/src/main/AndroidManifest.xml"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": ".gitignore",
+                  "path": "native/rust_builder/android/.gitignore"
+                },
+                {
+                  "name": "build.gradle",
+                  "path": "native/rust_builder/android/build.gradle"
+                },
+                {
+                  "name": "settings.gradle",
+                  "path": "native/rust_builder/android/settings.gradle"
+                }
+              ]
+            },
+            {
+              "name": "cargokit",
+              "path": "native/rust_builder/cargokit",
+              "children": [
+                {
+                  "name": "build_tool",
+                  "path": "native/rust_builder/cargokit/build_tool",
+                  "children": [
+                    {
+                      "name": "bin",
+                      "path": "native/rust_builder/cargokit/build_tool/bin",
+                      "children": [
+                        {
+                          "name": "build_tool.dart",
+                          "path": "native/rust_builder/cargokit/build_tool/bin/build_tool.dart"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "lib",
+                      "path": "native/rust_builder/cargokit/build_tool/lib",
+                      "children": [
+                        {
+                          "name": "src",
+                          "path": "native/rust_builder/cargokit/build_tool/lib/src",
+                          "children": [
+                            {
+                              "name": "android_environment.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/android_environment.dart"
+                            },
+                            {
+                              "name": "artifacts_provider.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/artifacts_provider.dart"
+                            },
+                            {
+                              "name": "build_cmake.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/build_cmake.dart"
+                            },
+                            {
+                              "name": "build_gradle.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/build_gradle.dart"
+                            },
+                            {
+                              "name": "build_pod.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/build_pod.dart"
+                            },
+                            {
+                              "name": "build_tool.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/build_tool.dart"
+                            },
+                            {
+                              "name": "builder.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/builder.dart"
+                            },
+                            {
+                              "name": "cargo.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/cargo.dart"
+                            },
+                            {
+                              "name": "crate_hash.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/crate_hash.dart"
+                            },
+                            {
+                              "name": "environment.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/environment.dart"
+                            },
+                            {
+                              "name": "logging.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/logging.dart"
+                            },
+                            {
+                              "name": "options.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/options.dart"
+                            },
+                            {
+                              "name": "precompile_binaries.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/precompile_binaries.dart"
+                            },
+                            {
+                              "name": "rustup.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/rustup.dart"
+                            },
+                            {
+                              "name": "target.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/target.dart"
+                            },
+                            {
+                              "name": "util.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/util.dart"
+                            },
+                            {
+                              "name": "verify_binaries.dart",
+                              "path": "native/rust_builder/cargokit/build_tool/lib/src/verify_binaries.dart"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "build_tool.dart",
+                          "path": "native/rust_builder/cargokit/build_tool/lib/build_tool.dart"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "analysis_options.yaml",
+                      "path": "native/rust_builder/cargokit/build_tool/analysis_options.yaml"
+                    },
+                    {
+                      "name": "pubspec.yaml",
+                      "path": "native/rust_builder/cargokit/build_tool/pubspec.yaml"
+                    },
+                    {
+                      "name": "README.md",
+                      "path": "native/rust_builder/cargokit/build_tool/README.md"
+                    }
+                  ]
+                },
+                {
+                  "name": "cmake",
+                  "path": "native/rust_builder/cargokit/cmake",
+                  "children": [
+                    {
+                      "name": "cargokit.cmake",
+                      "path": "native/rust_builder/cargokit/cmake/cargokit.cmake"
+                    },
+                    {
+                      "name": "resolve_symlinks.ps1",
+                      "path": "native/rust_builder/cargokit/cmake/resolve_symlinks.ps1"
+                    }
+                  ]
+                },
+                {
+                  "name": "gradle",
+                  "path": "native/rust_builder/cargokit/gradle",
+                  "children": [
+                    {
+                      "name": "plugin.gradle",
+                      "path": "native/rust_builder/cargokit/gradle/plugin.gradle"
+                    }
+                  ]
+                },
+                {
+                  "name": ".gitignore",
+                  "path": "native/rust_builder/cargokit/.gitignore"
+                },
+                {
+                  "name": "build_pod.sh",
+                  "path": "native/rust_builder/cargokit/build_pod.sh"
+                },
+                {
+                  "name": "LICENSE",
+                  "path": "native/rust_builder/cargokit/LICENSE"
+                },
+                {
+                  "name": "README",
+                  "path": "native/rust_builder/cargokit/README"
+                },
+                {
+                  "name": "run_build_tool.cmd",
+                  "path": "native/rust_builder/cargokit/run_build_tool.cmd"
+                },
+                {
+                  "name": "run_build_tool.sh",
+                  "path": "native/rust_builder/cargokit/run_build_tool.sh"
+                }
+              ]
+            },
+            {
+              "name": "ios",
+              "path": "native/rust_builder/ios",
+              "children": [
+                {
+                  "name": "Classes",
+                  "path": "native/rust_builder/ios/Classes",
+                  "children": [
+                    {
+                      "name": "dummy_file.c",
+                      "path": "native/rust_builder/ios/Classes/dummy_file.c"
+                    }
+                  ]
+                },
+                {
+                  "name": "genbeya_core_native.podspec",
+                  "path": "native/rust_builder/ios/genbeya_core_native.podspec"
+                }
+              ]
+            },
+            {
+              "name": ".gitignore",
+              "path": "native/rust_builder/.gitignore"
+            },
+            {
+              "name": "pubspec.yaml",
+              "path": "native/rust_builder/pubspec.yaml"
+            },
+            {
+              "name": "README.md",
+              "path": "native/rust_builder/README.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tasks",
+      "path": "tasks",
+      "children": [
+        {
+          "name": "0 Spikes",
+          "path": "tasks/0 Spikes",
+          "children": [
+            {
+              "name": "GM-1.md",
+              "path": "tasks/0 Spikes/GM-1.md"
+            },
+            {
+              "name": "GM-2.md",
+              "path": "tasks/0 Spikes/GM-2.md"
+            },
+            {
+              "name": "GM-3.md",
+              "path": "tasks/0 Spikes/GM-3.md"
+            },
+            {
+              "name": "GM-4.md",
+              "path": "tasks/0 Spikes/GM-4.md"
+            },
+            {
+              "name": "GM-5.md",
+              "path": "tasks/0 Spikes/GM-5.md"
+            },
+            {
+              "name": "GM-28.md",
+              "path": "tasks/0 Spikes/GM-28.md"
+            }
+          ]
+        },
+        {
+          "name": "1 Read anywhere",
+          "path": "tasks/1 Read anywhere",
+          "children": [
+            {
+              "name": "GM-6.md",
+              "path": "tasks/1 Read anywhere/GM-6.md"
+            },
+            {
+              "name": "GM-7.md",
+              "path": "tasks/1 Read anywhere/GM-7.md"
+            },
+            {
+              "name": "GM-8.md",
+              "path": "tasks/1 Read anywhere/GM-8.md"
+            },
+            {
+              "name": "GM-9.md",
+              "path": "tasks/1 Read anywhere/GM-9.md"
+            },
+            {
+              "name": "GM-10.md",
+              "path": "tasks/1 Read anywhere/GM-10.md"
+            }
+          ]
+        },
+        {
+          "name": "2 Work on tasks",
+          "path": "tasks/2 Work on tasks",
+          "children": [
+            {
+              "name": "GM-11.md",
+              "path": "tasks/2 Work on tasks/GM-11.md"
+            },
+            {
+              "name": "GM-12.md",
+              "path": "tasks/2 Work on tasks/GM-12.md"
+            },
+            {
+              "name": "GM-13.md",
+              "path": "tasks/2 Work on tasks/GM-13.md"
+            },
+            {
+              "name": "GM-14.md",
+              "path": "tasks/2 Work on tasks/GM-14.md"
+            },
+            {
+              "name": "GM-15.md",
+              "path": "tasks/2 Work on tasks/GM-15.md"
+            }
+          ]
+        },
+        {
+          "name": "3 Write",
+          "path": "tasks/3 Write",
+          "children": [
+            {
+              "name": "GM-16.md",
+              "path": "tasks/3 Write/GM-16.md"
+            },
+            {
+              "name": "GM-17.md",
+              "path": "tasks/3 Write/GM-17.md"
+            }
+          ]
+        },
+        {
+          "name": "4 Plan and review",
+          "path": "tasks/4 Plan and review",
+          "children": [
+            {
+              "name": "GM-18.md",
+              "path": "tasks/4 Plan and review/GM-18.md"
+            },
+            {
+              "name": "GM-19.md",
+              "path": "tasks/4 Plan and review/GM-19.md"
+            },
+            {
+              "name": "GM-20.md",
+              "path": "tasks/4 Plan and review/GM-20.md"
+            },
+            {
+              "name": "GM-21.md",
+              "path": "tasks/4 Plan and review/GM-21.md"
+            }
+          ]
+        },
+        {
+          "name": "5 Trial",
+          "path": "tasks/5 Trial",
+          "children": [
+            {
+              "name": "GM-22.md",
+              "path": "tasks/5 Trial/GM-22.md"
+            },
+            {
+              "name": "GM-23.md",
+              "path": "tasks/5 Trial/GM-23.md"
+            },
+            {
+              "name": "GM-24.md",
+              "path": "tasks/5 Trial/GM-24.md"
+            },
+            {
+              "name": "GM-27.md",
+              "path": "tasks/5 Trial/GM-27.md"
+            }
+          ]
+        },
+        {
+          "name": "6 Upstream",
+          "path": "tasks/6 Upstream",
+          "children": [
+            {
+              "name": "GM-25.md",
+              "path": "tasks/6 Upstream/GM-25.md"
+            },
+            {
+              "name": "GM-26.md",
+              "path": "tasks/6 Upstream/GM-26.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "path": "test",
+      "children": [
+        {
+          "name": "ca_bundle_test.dart",
+          "path": "test/ca_bundle_test.dart"
+        },
+        {
+          "name": "checkbox_engine_test.dart",
+          "path": "test/checkbox_engine_test.dart"
+        },
+        {
+          "name": "conformance_test.dart",
+          "path": "test/conformance_test.dart"
+        },
+        {
+          "name": "kit_host_test.dart",
+          "path": "test/kit_host_test.dart"
+        },
+        {
+          "name": "kit_protocol_test.dart",
+          "path": "test/kit_protocol_test.dart"
+        },
+        {
+          "name": "kit_server_test.dart",
+          "path": "test/kit_server_test.dart"
+        },
+        {
+          "name": "layers_test.dart",
+          "path": "test/layers_test.dart"
+        },
+        {
+          "name": "native_bridge_test.dart",
+          "path": "test/native_bridge_test.dart"
+        },
+        {
+          "name": "widget_test.dart",
+          "path": "test/widget_test.dart"
+        }
+      ]
+    },
+    {
+      "name": "tool",
+      "path": "tool",
+      "children": [
+        {
+          "name": "build_kit",
+          "path": "tool/build_kit",
+          "children": [
+            {
+              "name": ".gitignore",
+              "path": "tool/build_kit/.gitignore"
+            },
+            {
+              "name": "build.mjs",
+              "path": "tool/build_kit/build.mjs"
+            },
+            {
+              "name": "package-lock.json",
+              "path": "tool/build_kit/package-lock.json"
+            },
+            {
+              "name": "package.json",
+              "path": "tool/build_kit/package.json"
+            },
+            {
+              "name": "test.mjs",
+              "path": "tool/build_kit/test.mjs"
+            }
+          ]
+        },
+        {
+          "name": "conformance",
+          "path": "tool/conformance",
+          "children": [
+            {
+              "name": "fixtures",
+              "path": "tool/conformance/fixtures",
+              "children": [
+                {
+                  "name": "pages",
+                  "path": "tool/conformance/fixtures/pages",
+                  "children": [
+                    {
+                      "name": "edge",
+                      "path": "tool/conformance/fixtures/pages/edge",
+                      "children": [
+                        {
+                          "name": "astral.md",
+                          "path": "tool/conformance/fixtures/pages/edge/astral.md"
+                        },
+                        {
+                          "name": "bom-frontmatter.md",
+                          "path": "tool/conformance/fixtures/pages/edge/bom-frontmatter.md"
+                        },
+                        {
+                          "name": "code-before.md",
+                          "path": "tool/conformance/fixtures/pages/edge/code-before.md"
+                        },
+                        {
+                          "name": "dashes.md",
+                          "path": "tool/conformance/fixtures/pages/edge/dashes.md"
+                        },
+                        {
+                          "name": "empty-frontmatter.md",
+                          "path": "tool/conformance/fixtures/pages/edge/empty-frontmatter.md"
+                        },
+                        {
+                          "name": "frontmatter-crlf.md",
+                          "path": "tool/conformance/fixtures/pages/edge/frontmatter-crlf.md"
+                        },
+                        {
+                          "name": "frontmatter.md",
+                          "path": "tool/conformance/fixtures/pages/edge/frontmatter.md"
+                        },
+                        {
+                          "name": "nested-ordered-quoted.md",
+                          "path": "tool/conformance/fixtures/pages/edge/nested-ordered-quoted.md"
+                        },
+                        {
+                          "name": "no-frontmatter.md",
+                          "path": "tool/conformance/fixtures/pages/edge/no-frontmatter.md"
+                        },
+                        {
+                          "name": "text-before.md",
+                          "path": "tool/conformance/fixtures/pages/edge/text-before.md"
+                        },
+                        {
+                          "name": "trailing-spaces.md",
+                          "path": "tool/conformance/fixtures/pages/edge/trailing-spaces.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "genbeya",
+                      "path": "tool/conformance/fixtures/pages/genbeya",
+                      "children": [
+                        {
+                          "name": "Design-Pull-requests.md",
+                          "path": "tool/conformance/fixtures/pages/genbeya/Design-Pull-requests.md"
+                        },
+                        {
+                          "name": "Guide-Pull-requests.md",
+                          "path": "tool/conformance/fixtures/pages/genbeya/Guide-Pull-requests.md"
+                        },
+                        {
+                          "name": "Guide-Tasks.md",
+                          "path": "tool/conformance/fixtures/pages/genbeya/Guide-Tasks.md"
+                        },
+                        {
+                          "name": "Guide-Writing.md",
+                          "path": "tool/conformance/fixtures/pages/genbeya/Guide-Writing.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "mobile",
+                      "path": "tool/conformance/fixtures/pages/mobile",
+                      "children": [
+                        {
+                          "name": "Attached-images.md",
+                          "path": "tool/conformance/fixtures/pages/mobile/Attached-images.md"
+                        },
+                        {
+                          "name": "Kit-build.md",
+                          "path": "tool/conformance/fixtures/pages/mobile/Kit-build.md"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "settings",
+                  "path": "tool/conformance/fixtures/settings",
+                  "children": [
+                    {
+                      "name": "bom-crlf.yml",
+                      "path": "tool/conformance/fixtures/settings/bom-crlf.yml"
+                    },
+                    {
+                      "name": "empty.yml",
+                      "path": "tool/conformance/fixtures/settings/empty.yml"
+                    },
+                    {
+                      "name": "genbeya.yml",
+                      "path": "tool/conformance/fixtures/settings/genbeya.yml"
+                    },
+                    {
+                      "name": "icons-types-people.yml",
+                      "path": "tool/conformance/fixtures/settings/icons-types-people.yml"
+                    },
+                    {
+                      "name": "invalid-prefix.yml",
+                      "path": "tool/conformance/fixtures/settings/invalid-prefix.yml"
+                    },
+                    {
+                      "name": "mobile.yml",
+                      "path": "tool/conformance/fixtures/settings/mobile.yml"
+                    },
+                    {
+                      "name": "not-a-map.yml",
+                      "path": "tool/conformance/fixtures/settings/not-a-map.yml"
+                    }
+                  ]
+                },
+                {
+                  "name": "tasks",
+                  "path": "tool/conformance/fixtures/tasks",
+                  "children": [
+                    {
+                      "name": "edge",
+                      "path": "tool/conformance/fixtures/tasks/edge",
+                      "children": [
+                        {
+                          "name": "block-lists.md",
+                          "path": "tool/conformance/fixtures/tasks/edge/block-lists.md"
+                        },
+                        {
+                          "name": "crlf-bom.md",
+                          "path": "tool/conformance/fixtures/tasks/edge/crlf-bom.md"
+                        },
+                        {
+                          "name": "empty-body.md",
+                          "path": "tool/conformance/fixtures/tasks/edge/empty-body.md"
+                        },
+                        {
+                          "name": "long-quoted.md",
+                          "path": "tool/conformance/fixtures/tasks/edge/long-quoted.md"
+                        },
+                        {
+                          "name": "long-title.md",
+                          "path": "tool/conformance/fixtures/tasks/edge/long-title.md"
+                        },
+                        {
+                          "name": "no-frontmatter.md",
+                          "path": "tool/conformance/fixtures/tasks/edge/no-frontmatter.md"
+                        },
+                        {
+                          "name": "plain-to-quoted.md",
+                          "path": "tool/conformance/fixtures/tasks/edge/plain-to-quoted.md"
+                        },
+                        {
+                          "name": "quoted-title.md",
+                          "path": "tool/conformance/fixtures/tasks/edge/quoted-title.md"
+                        },
+                        {
+                          "name": "spacing.md",
+                          "path": "tool/conformance/fixtures/tasks/edge/spacing.md"
+                        },
+                        {
+                          "name": "time-log.md",
+                          "path": "tool/conformance/fixtures/tasks/edge/time-log.md"
+                        },
+                        {
+                          "name": "unknown-keys.md",
+                          "path": "tool/conformance/fixtures/tasks/edge/unknown-keys.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "genbeya",
+                      "path": "tool/conformance/fixtures/tasks/genbeya",
+                      "children": [
+                        {
+                          "name": "1 Optional parts",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/1 Optional parts",
+                          "children": [
+                            {
+                              "name": "GENBEYA-39.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/1 Optional parts/GENBEYA-39.md"
+                            },
+                            {
+                              "name": "GENBEYA-40.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/1 Optional parts/GENBEYA-40.md"
+                            },
+                            {
+                              "name": "GENBEYA-41.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/1 Optional parts/GENBEYA-41.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "2 Planning",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/2 Planning",
+                          "children": [
+                            {
+                              "name": "GENBEYA-43.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/2 Planning/GENBEYA-43.md"
+                            },
+                            {
+                              "name": "GENBEYA-44.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/2 Planning/GENBEYA-44.md"
+                            },
+                            {
+                              "name": "GENBEYA-45.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/2 Planning/GENBEYA-45.md"
+                            },
+                            {
+                              "name": "GENBEYA-46.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/2 Planning/GENBEYA-46.md"
+                            },
+                            {
+                              "name": "GENBEYA-47.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/2 Planning/GENBEYA-47.md"
+                            },
+                            {
+                              "name": "GENBEYA-48.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/2 Planning/GENBEYA-48.md"
+                            },
+                            {
+                              "name": "GENBEYA-49.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/2 Planning/GENBEYA-49.md"
+                            },
+                            {
+                              "name": "GENBEYA-65.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/2 Planning/GENBEYA-65.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "3 Pull requests",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/3 Pull requests",
+                          "children": [
+                            {
+                              "name": "GENBEYA-50.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/3 Pull requests/GENBEYA-50.md"
+                            },
+                            {
+                              "name": "GENBEYA-51.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/3 Pull requests/GENBEYA-51.md"
+                            },
+                            {
+                              "name": "GENBEYA-52.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/3 Pull requests/GENBEYA-52.md"
+                            },
+                            {
+                              "name": "GENBEYA-53.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/3 Pull requests/GENBEYA-53.md"
+                            },
+                            {
+                              "name": "GENBEYA-54.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/3 Pull requests/GENBEYA-54.md"
+                            },
+                            {
+                              "name": "GENBEYA-55.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/3 Pull requests/GENBEYA-55.md"
+                            },
+                            {
+                              "name": "GENBEYA-56.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/3 Pull requests/GENBEYA-56.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Planning demo",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/Planning demo",
+                          "children": [
+                            {
+                              "name": "GENBEYA-57.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/Planning demo/GENBEYA-57.md"
+                            },
+                            {
+                              "name": "GENBEYA-58.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/Planning demo/GENBEYA-58.md"
+                            },
+                            {
+                              "name": "GENBEYA-59.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/Planning demo/GENBEYA-59.md"
+                            },
+                            {
+                              "name": "GENBEYA-60.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/Planning demo/GENBEYA-60.md"
+                            },
+                            {
+                              "name": "GENBEYA-61.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/Planning demo/GENBEYA-61.md"
+                            },
+                            {
+                              "name": "GENBEYA-62.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/Planning demo/GENBEYA-62.md"
+                            },
+                            {
+                              "name": "GENBEYA-63.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/Planning demo/GENBEYA-63.md"
+                            },
+                            {
+                              "name": "GENBEYA-64.md",
+                              "path": "tool/conformance/fixtures/tasks/genbeya/Planning demo/GENBEYA-64.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "GENBEYA-1.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-1.md"
+                        },
+                        {
+                          "name": "GENBEYA-2.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-2.md"
+                        },
+                        {
+                          "name": "GENBEYA-3.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-3.md"
+                        },
+                        {
+                          "name": "GENBEYA-4.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-4.md"
+                        },
+                        {
+                          "name": "GENBEYA-5.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-5.md"
+                        },
+                        {
+                          "name": "GENBEYA-6.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-6.md"
+                        },
+                        {
+                          "name": "GENBEYA-7.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-7.md"
+                        },
+                        {
+                          "name": "GENBEYA-8.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-8.md"
+                        },
+                        {
+                          "name": "GENBEYA-9.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-9.md"
+                        },
+                        {
+                          "name": "GENBEYA-10.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-10.md"
+                        },
+                        {
+                          "name": "GENBEYA-11.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-11.md"
+                        },
+                        {
+                          "name": "GENBEYA-12.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-12.md"
+                        },
+                        {
+                          "name": "GENBEYA-13.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-13.md"
+                        },
+                        {
+                          "name": "GENBEYA-14.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-14.md"
+                        },
+                        {
+                          "name": "GENBEYA-15.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-15.md"
+                        },
+                        {
+                          "name": "GENBEYA-16.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-16.md"
+                        },
+                        {
+                          "name": "GENBEYA-17.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-17.md"
+                        },
+                        {
+                          "name": "GENBEYA-18.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-18.md"
+                        },
+                        {
+                          "name": "GENBEYA-19.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-19.md"
+                        },
+                        {
+                          "name": "GENBEYA-20.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-20.md"
+                        },
+                        {
+                          "name": "GENBEYA-21.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-21.md"
+                        },
+                        {
+                          "name": "GENBEYA-22.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-22.md"
+                        },
+                        {
+                          "name": "GENBEYA-23.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-23.md"
+                        },
+                        {
+                          "name": "GENBEYA-24.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-24.md"
+                        },
+                        {
+                          "name": "GENBEYA-25.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-25.md"
+                        },
+                        {
+                          "name": "GENBEYA-27.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-27.md"
+                        },
+                        {
+                          "name": "GENBEYA-28.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-28.md"
+                        },
+                        {
+                          "name": "GENBEYA-29.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-29.md"
+                        },
+                        {
+                          "name": "GENBEYA-30.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-30.md"
+                        },
+                        {
+                          "name": "GENBEYA-31.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-31.md"
+                        },
+                        {
+                          "name": "GENBEYA-32.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-32.md"
+                        },
+                        {
+                          "name": "GENBEYA-33.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-33.md"
+                        },
+                        {
+                          "name": "GENBEYA-34.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-34.md"
+                        },
+                        {
+                          "name": "GENBEYA-35.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-35.md"
+                        },
+                        {
+                          "name": "GENBEYA-36.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-36.md"
+                        },
+                        {
+                          "name": "GENBEYA-37.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-37.md"
+                        },
+                        {
+                          "name": "GENBEYA-38.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-38.md"
+                        },
+                        {
+                          "name": "GENBEYA-42.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-42.md"
+                        },
+                        {
+                          "name": "GENBEYA-66.md",
+                          "path": "tool/conformance/fixtures/tasks/genbeya/GENBEYA-66.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "mobile",
+                      "path": "tool/conformance/fixtures/tasks/mobile",
+                      "children": [
+                        {
+                          "name": "0 Spikes",
+                          "path": "tool/conformance/fixtures/tasks/mobile/0 Spikes",
+                          "children": [
+                            {
+                              "name": "GM-1.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/0 Spikes/GM-1.md"
+                            },
+                            {
+                              "name": "GM-2.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/0 Spikes/GM-2.md"
+                            },
+                            {
+                              "name": "GM-3.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/0 Spikes/GM-3.md"
+                            },
+                            {
+                              "name": "GM-4.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/0 Spikes/GM-4.md"
+                            },
+                            {
+                              "name": "GM-5.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/0 Spikes/GM-5.md"
+                            },
+                            {
+                              "name": "GM-28.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/0 Spikes/GM-28.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "1 Read anywhere",
+                          "path": "tool/conformance/fixtures/tasks/mobile/1 Read anywhere",
+                          "children": [
+                            {
+                              "name": "GM-6.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/1 Read anywhere/GM-6.md"
+                            },
+                            {
+                              "name": "GM-7.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/1 Read anywhere/GM-7.md"
+                            },
+                            {
+                              "name": "GM-8.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/1 Read anywhere/GM-8.md"
+                            },
+                            {
+                              "name": "GM-9.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/1 Read anywhere/GM-9.md"
+                            },
+                            {
+                              "name": "GM-10.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/1 Read anywhere/GM-10.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "2 Work on tasks",
+                          "path": "tool/conformance/fixtures/tasks/mobile/2 Work on tasks",
+                          "children": [
+                            {
+                              "name": "GM-11.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/2 Work on tasks/GM-11.md"
+                            },
+                            {
+                              "name": "GM-12.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/2 Work on tasks/GM-12.md"
+                            },
+                            {
+                              "name": "GM-13.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/2 Work on tasks/GM-13.md"
+                            },
+                            {
+                              "name": "GM-14.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/2 Work on tasks/GM-14.md"
+                            },
+                            {
+                              "name": "GM-15.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/2 Work on tasks/GM-15.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "3 Write",
+                          "path": "tool/conformance/fixtures/tasks/mobile/3 Write",
+                          "children": [
+                            {
+                              "name": "GM-16.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/3 Write/GM-16.md"
+                            },
+                            {
+                              "name": "GM-17.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/3 Write/GM-17.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "4 Plan and review",
+                          "path": "tool/conformance/fixtures/tasks/mobile/4 Plan and review",
+                          "children": [
+                            {
+                              "name": "GM-18.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/4 Plan and review/GM-18.md"
+                            },
+                            {
+                              "name": "GM-19.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/4 Plan and review/GM-19.md"
+                            },
+                            {
+                              "name": "GM-20.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/4 Plan and review/GM-20.md"
+                            },
+                            {
+                              "name": "GM-21.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/4 Plan and review/GM-21.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "5 Trial",
+                          "path": "tool/conformance/fixtures/tasks/mobile/5 Trial",
+                          "children": [
+                            {
+                              "name": "GM-22.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/5 Trial/GM-22.md"
+                            },
+                            {
+                              "name": "GM-23.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/5 Trial/GM-23.md"
+                            },
+                            {
+                              "name": "GM-24.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/5 Trial/GM-24.md"
+                            },
+                            {
+                              "name": "GM-27.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/5 Trial/GM-27.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "6 Upstream",
+                          "path": "tool/conformance/fixtures/tasks/mobile/6 Upstream",
+                          "children": [
+                            {
+                              "name": "GM-25.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/6 Upstream/GM-25.md"
+                            },
+                            {
+                              "name": "GM-26.md",
+                              "path": "tool/conformance/fixtures/tasks/mobile/6 Upstream/GM-26.md"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": ".gitignore",
+              "path": "tool/conformance/.gitignore"
+            },
+            {
+              "name": "generate.mjs",
+              "path": "tool/conformance/generate.mjs"
+            },
+            {
+              "name": "make-cases.mjs",
+              "path": "tool/conformance/make-cases.mjs"
+            },
+            {
+              "name": "package-lock.json",
+              "path": "tool/conformance/package-lock.json"
+            },
+            {
+              "name": "package.json",
+              "path": "tool/conformance/package.json"
+            },
+            {
+              "name": "runner.ts",
+              "path": "tool/conformance/runner.ts"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": ".genbeya.yml",
+      "path": ".genbeya.yml"
+    },
+    {
+      "name": ".gitignore",
+      "path": ".gitignore"
+    },
+    {
+      "name": ".metadata",
+      "path": ".metadata"
+    },
+    {
+      "name": "AGENTS.md",
+      "path": "AGENTS.md"
+    },
+    {
+      "name": "analysis_options.yaml",
+      "path": "analysis_options.yaml"
+    },
+    {
+      "name": "CLAUDE.md",
+      "path": "CLAUDE.md"
+    },
+    {
+      "name": "flutter_rust_bridge.yaml",
+      "path": "flutter_rust_bridge.yaml"
+    },
+    {
+      "name": "LICENSE.md",
+      "path": "LICENSE.md"
+    },
+    {
+      "name": "pubspec.lock",
+      "path": "pubspec.lock"
+    },
+    {
+      "name": "pubspec.yaml",
+      "path": "pubspec.yaml"
+    },
+    {
+      "name": "README.md",
+      "path": "README.md"
+    }
+  ]
+}

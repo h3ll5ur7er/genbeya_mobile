@@ -94,6 +94,36 @@ for (const set of readdirSync(join(here, "fixtures/tasks")).sort()) {
   }
 }
 
+// Names and titles sorted as Genbeya sorts them (localeCompare, numeric,
+// base strength): the file and wiki trees of real repositories and edge
+// cases, and lists of strings that probe the collation table.
+const lines = (name) => read(join(here, "fixtures/files", name)).split("\n").filter(Boolean);
+for (const name of readdirSync(join(here, "fixtures/files")).sort()) {
+  const files = lines(name);
+  const set = name.replace(/\.txt$/, "");
+  add(`files-${set}-tree`, "file.tree", { files });
+  for (const [wikiRoot, wikiHome] of [["docs", "Home.md"], ["docs/Guide", "Install.md"], ["", "README.md"], [".", "README.md"]]) {
+    add(`wiki-${set}-${wikiRoot.replace(/\W/g, "_") || "root"}`, "wiki.tree", { files, wikiRoot, wikiHome });
+  }
+}
+let seed = 20261122;
+const random = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+const pool = [
+  ..." _-,;:!?.'\"()[]{}@*/\\&#%`^+<=>|~$0123456789",
+  ..."aAbBcCeEoOsSzZ", ..."éèêëÉàäÄöÖüÜçñÑøØåÅ", ..."ßæÆœŒĳﬁ", ..."ΩωαΑЖжЯя", ..."日本語한국",
+  ..."０１２²①", "\u0301", "\u200b", "\u00ad", "🎉", "😀", "\t",
+];
+const pick = () => pool[Math.floor(random() * pool.length)];
+const word = () => Array.from({ length: 1 + Math.floor(random() * 6) }, pick).join("");
+const titles = [...lines("genbeya.txt"), ...lines("mobile.txt")].filter((f) => f.startsWith("docs/")).map((f) => f.slice(f.lastIndexOf("/") + 1));
+add("collate-titles", "collate", { strings: titles });
+add("collate-edge", "collate", {
+  strings: ["Step 10", "Step 2", "Step 02", "step 1", "v1.10", "v1.2", "a", "A", "á", "b", "_a", "-a", " a", "a b", "a-b", "ab", "Ab",
+    "Straße", "Strasse", "strasse", "Æther", "aether", "ﬁle", "file", "Ωmega", "omega", "Жук", "日本", "🎉", "", "0", "00", "007", "7",
+    "x\u0301", "x", "\u200bx", "co\u00adop", "coop", "１２", "12", "①", "1", "²", "2"],
+});
+for (let n = 0; n < 40; n++) add(`collate-random-${n}`, "collate", { strings: Array.from({ length: 40 }, word) });
+
 function labelsOf(content) {
   const flow = /^labels:\s*\[(.*)\]/m.exec(content);
   if (flow) return flow[1].split(",").map((s) => s.trim()).filter(Boolean);

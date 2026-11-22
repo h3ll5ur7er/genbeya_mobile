@@ -1,0 +1,322 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": {
+    "tree": [
+      {
+        "title": "Home",
+        "path": "docs/Home.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Architecture",
+        "path": "docs/Architecture.md",
+        "folder": "docs/Architecture",
+        "children": [
+          {
+            "title": "Content branch",
+            "path": "docs/Architecture/Content-branch.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Demo",
+            "path": "docs/Architecture/Demo.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Hosts",
+            "path": "docs/Architecture/Hosts.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Managers",
+            "path": "docs/Architecture/Managers.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Runtimes",
+            "path": "docs/Architecture/Runtimes.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Security",
+            "path": "docs/Architecture/Security.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "VS Code",
+            "path": "docs/Architecture/VS-Code.md",
+            "folder": null,
+            "children": []
+          }
+        ]
+      },
+      {
+        "title": "Design",
+        "path": "docs/Design.md",
+        "folder": "docs/Design",
+        "children": [
+          {
+            "title": "Optional parts",
+            "path": "docs/Design/Optional-parts.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Planning",
+            "path": "docs/Design/Planning.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Planning demo",
+            "path": "docs/Design/Planning-demo.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Pull requests",
+            "path": "docs/Design/Pull-requests.md",
+            "folder": null,
+            "children": []
+          }
+        ]
+      },
+      {
+        "title": "Development",
+        "path": "docs/Development.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Getting started",
+        "path": "docs/Getting-started.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Guide",
+        "path": "docs/Guide.md",
+        "folder": "docs/Guide",
+        "children": [
+          {
+            "title": "AI agents",
+            "path": "docs/Guide/AI-agents.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Code",
+            "path": "docs/Guide/Code.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Keyboard shortcuts",
+            "path": "docs/Guide/Keyboard-shortcuts.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Pull requests",
+            "path": "docs/Guide/Pull-requests.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "References",
+            "path": "docs/Guide/References.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Search",
+            "path": "docs/Guide/Search.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Settings",
+            "path": "docs/Guide/Settings.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Sharing",
+            "path": "docs/Guide/Sharing.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Tasks",
+            "path": "docs/Guide/Tasks.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Terminal",
+            "path": "docs/Guide/Terminal.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Version control",
+            "path": "docs/Guide/Version-control.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "VS Code",
+            "path": "docs/Guide/VS-Code.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Wiki",
+            "path": "docs/Guide/Wiki.md",
+            "folder": null,
+            "children": []
+          },
+          {
+            "title": "Writing",
+            "path": "docs/Guide/Writing.md",
+            "folder": null,
+            "children": []
+          }
+        ]
+      }
+    ],
+    "pages": [
+      {
+        "title": "Home",
+        "path": "docs/Home.md"
+      },
+      {
+        "title": "Architecture",
+        "path": "docs/Architecture.md"
+      },
+      {
+        "title": "Content branch",
+        "path": "docs/Architecture/Content-branch.md"
+      },
+      {
+        "title": "Demo",
+        "path": "docs/Architecture/Demo.md"
+      },
+      {
+        "title": "Hosts",
+        "path": "docs/Architecture/Hosts.md"
+      },
+      {
+        "title": "Managers",
+        "path": "docs/Architecture/Managers.md"
+      },
+      {
+        "title": "Runtimes",
+        "path": "docs/Architecture/Runtimes.md"
+      },
+      {
+        "title": "Security",
+        "path": "docs/Architecture/Security.md"
+      },
+      {
+        "title": "VS Code",
+        "path": "docs/Architecture/VS-Code.md"
+      },
+      {
+        "title": "Design",
+        "path": "docs/Design.md"
+      },
+      {
+        "title": "Optional parts",
+        "path": "docs/Design/Optional-parts.md"
+      },
+      {
+        "title": "Planning",
+        "path": "docs/Design/Planning.md"
+      },
+      {
+        "title": "Planning demo",
+        "path": "docs/Design/Planning-demo.md"
+      },
+      {
+        "title": "Pull requests",
+        "path": "docs/Design/Pull-requests.md"
+      },
+      {
+        "title": "Development",
+        "path": "docs/Development.md"
+      },
+      {
+        "title": "Getting started",
+        "path": "docs/Getting-started.md"
+      },
+      {
+        "title": "Guide",
+        "path": "docs/Guide.md"
+      },
+      {
+        "title": "AI agents",
+        "path": "docs/Guide/AI-agents.md"
+      },
+      {
+        "title": "Code",
+        "path": "docs/Guide/Code.md"
+      },
+      {
+        "title": "Keyboard shortcuts",
+        "path": "docs/Guide/Keyboard-shortcuts.md"
+      },
+      {
+        "title": "Pull requests",
+        "path": "docs/Guide/Pull-requests.md"
+      },
+      {
+        "title": "References",
+        "path": "docs/Guide/References.md"
+      },
+      {
+        "title": "Search",
+        "path": "docs/Guide/Search.md"
+      },
+      {
+        "title": "Settings",
+        "path": "docs/Guide/Settings.md"
+      },
+      {
+        "title": "Sharing",
+        "path": "docs/Guide/Sharing.md"
+      },
+      {
+        "title": "Tasks",
+        "path": "docs/Guide/Tasks.md"
+      },
+      {
+        "title": "Terminal",
+        "path": "docs/Guide/Terminal.md"
+      },
+      {
+        "title": "Version control",
+        "path": "docs/Guide/Version-control.md"
+      },
+      {
+        "title": "VS Code",
+        "path": "docs/Guide/VS-Code.md"
+      },
+      {
+        "title": "Wiki",
+        "path": "docs/Guide/Wiki.md"
+      },
+      {
+        "title": "Writing",
+        "path": "docs/Guide/Writing.md"
+      }
+    ]
+  }
+}

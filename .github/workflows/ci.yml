@@ -49,8 +49,11 @@ jobs:
         run: |
           npm ci
           GENBEYA_SRC="$GITHUB_WORKSPACE/.genbeya" node generate.mjs
+      - name: The collation table is ICU's
+        working-directory: tool/conformance
+        run: node make-collation.mjs
       - name: They match what is committed
-        run: git diff --exit-code tool/conformance/expected
+        run: git diff --exit-code tool/conformance/expected lib/engines/collation_table.dart
 
   kit:
     # Builds the kit from Genbeya's sources at kit/GENBEYA_REF and checks it in

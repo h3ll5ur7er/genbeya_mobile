@@ -53,6 +53,8 @@ GENBEYA_SRC=/path/to/genbeya-at-that-commit node generate.mjs   # or let it clon
 cd ../.. && flutter test test/conformance_test.dart
 ```
 
+**Sorting.** Genbeya sorts names and titles with ICU (`localeCompare` with numeric, base-strength comparison), and Dart has no ICU. `lib/engines/collation.dart` sorts the same way with a table of ICU's root weights that `make-collation.mjs` writes from Node's ICU into `lib/engines/collation_table.dart`: the scripts and symbols names use, with expansions (`ß` is `ss`), decimal digits of every script compared by value, a block for Hangul, and Han after everything in ICU's implicit order. The `collate` cases, among them 40 lists of random strings, check it against ICU; CI regenerates the table and fails if it differs. Run `node make-collation.mjs` after updating Node.
+
 Add a case before changing an engine, and never change `expected/` by hand. To follow a newer Genbeya, bump `kit/GENBEYA_REF`, regenerate, and make the Dart side pass.
 
 ## CI

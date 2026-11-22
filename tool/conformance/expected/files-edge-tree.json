@@ -1,0 +1,203 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": [
+    {
+      "name": "docs",
+      "path": "docs",
+      "children": [
+        {
+          "name": "Folder-only",
+          "path": "docs/Folder-only",
+          "children": [
+            {
+              "name": "assets",
+              "path": "docs/Folder-only/assets",
+              "children": [
+                {
+                  "name": "x.png",
+                  "path": "docs/Folder-only/assets/x.png"
+                }
+              ]
+            },
+            {
+              "name": "Child.md",
+              "path": "docs/Folder-only/Child.md"
+            }
+          ]
+        },
+        {
+          "name": "Guide",
+          "path": "docs/Guide",
+          "children": [
+            {
+              "name": "Deep",
+              "path": "docs/Guide/Deep",
+              "children": [
+                {
+                  "name": "Under.md",
+                  "path": "docs/Guide/Deep/Under.md"
+                }
+              ]
+            },
+            {
+              "name": "Install.md",
+              "path": "docs/Guide/Install.md"
+            },
+            {
+              "name": "Use.md",
+              "path": "docs/Guide/Use.md"
+            }
+          ]
+        },
+        {
+          "name": "images",
+          "path": "docs/images",
+          "children": [
+            {
+              "name": "board.png",
+              "path": "docs/images/board.png"
+            }
+          ]
+        },
+        {
+          "name": "_draft.md",
+          "path": "docs/_draft.md"
+        },
+        {
+          "name": "-dash.md",
+          "path": "docs/-dash.md"
+        },
+        {
+          "name": "(draft) idea.md",
+          "path": "docs/(draft) idea.md"
+        },
+        {
+          "name": "[old] plan.md",
+          "path": "docs/[old] plan.md"
+        },
+        {
+          "name": "🎉-party.md",
+          "path": "docs/🎉-party.md"
+        },
+        {
+          "name": "2026-11-21 Meeting.md",
+          "path": "docs/2026-11-21 Meeting.md"
+        },
+        {
+          "name": "a b.md",
+          "path": "docs/a b.md"
+        },
+        {
+          "name": "a-b.md",
+          "path": "docs/a-b.md"
+        },
+        {
+          "name": "Ab.md",
+          "path": "docs/Ab.md"
+        },
+        {
+          "name": "ab.md",
+          "path": "docs/ab.md"
+        },
+        {
+          "name": "apple.md",
+          "path": "docs/apple.md"
+        },
+        {
+          "name": "Banana.md",
+          "path": "docs/Banana.md"
+        },
+        {
+          "name": "Éclair.md",
+          "path": "docs/Éclair.md"
+        },
+        {
+          "name": "eclair.md",
+          "path": "docs/eclair.md"
+        },
+        {
+          "name": "Guide.md",
+          "path": "docs/Guide.md"
+        },
+        {
+          "name": "Home.md",
+          "path": "docs/Home.md"
+        },
+        {
+          "name": "notes.txt",
+          "path": "docs/notes.txt"
+        },
+        {
+          "name": "README.MD",
+          "path": "docs/README.MD"
+        },
+        {
+          "name": "Step-1.md",
+          "path": "docs/Step-1.md"
+        },
+        {
+          "name": "Step-01.md",
+          "path": "docs/Step-01.md"
+        },
+        {
+          "name": "Step-2.md",
+          "path": "docs/Step-2.md"
+        },
+        {
+          "name": "Step-10.md",
+          "path": "docs/Step-10.md"
+        },
+        {
+          "name": "Strasse.md",
+          "path": "docs/Strasse.md"
+        },
+        {
+          "name": "Straße.md",
+          "path": "docs/Straße.md"
+        },
+        {
+          "name": "Über.md",
+          "path": "docs/Über.md"
+        },
+        {
+          "name": "v1.2.md",
+          "path": "docs/v1.2.md"
+        },
+        {
+          "name": "v1.10.md",
+          "path": "docs/v1.10.md"
+        },
+        {
+          "name": "Zebra.md",
+          "path": "docs/Zebra.md"
+        },
+        {
+          "name": "Ωmega.md",
+          "path": "docs/Ωmega.md"
+        },
+        {
+          "name": "Жук.md",
+          "path": "docs/Жук.md"
+        },
+        {
+          "name": "日本.md",
+          "path": "docs/日本.md"
+        }
+      ]
+    },
+    {
+      "name": "src",
+      "path": "src",
+      "children": [
+        {
+          "name": "a.dart",
+          "path": "src/a.dart"
+        }
+      ]
+    },
+    {
+      "name": "README.md",
+      "path": "README.md"
+    }
+  ]
+}

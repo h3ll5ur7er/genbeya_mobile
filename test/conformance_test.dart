@@ -4,6 +4,9 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:genbeya_mobile/contracts/model.dart';
 import 'package:genbeya_mobile/engines/checkbox_engine.dart';
+import 'package:genbeya_mobile/engines/collation.dart';
+import 'package:genbeya_mobile/engines/file_tree.dart';
+import 'package:genbeya_mobile/engines/wiki_engine.dart';
 import 'package:genbeya_mobile/engines/js.dart';
 import 'package:genbeya_mobile/engines/settings_engine.dart';
 import 'package:genbeya_mobile/engines/task_engine.dart';
@@ -49,6 +52,7 @@ void main() {
 
 final _settings = SettingsEngine();
 final _tasks = TaskEngine();
+final _wiki = WikiEngine();
 
 Map<String, Object?> _run(String kind, Map<String, Object?> input) {
   try {
@@ -97,6 +101,39 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
             content,
             _tasks.validate(taskInput, statuses),
           ),
+        };
+      case 'collate':
+        final strings = (input['strings']! as List).cast<String>().toList();
+        stableSort(strings, collate);
+        return {'output': strings};
+      case 'file.tree':
+        final files = (input['files']! as List).cast<String>();
+        return {
+          'output': [for (final node in buildFileTree(files)) node.toJson()],
+        };
+      case 'wiki.tree':
+        final files = (input['files']! as List).cast<String>();
+        final wikiRoot = input['wikiRoot']! as String;
+        final wikiHome = input['wikiHome']! as String;
+        return {
+          'output': {
+            'tree': [
+              for (final node in _wiki.tree(
+                files,
+                wikiRoot: wikiRoot,
+                wikiHome: wikiHome,
+              ))
+                node.toJson(),
+            ],
+            'pages': [
+              for (final page in _wiki.pages(
+                files,
+                wikiRoot: wikiRoot,
+                wikiHome: wikiHome,
+              ))
+                {'title': page.title, 'path': page.path},
+            ],
+          },
         };
       case 'page.toggle':
         // Where an item starts, the app's checked toggle writes Genbeya's

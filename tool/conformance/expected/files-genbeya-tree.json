@@ -1,0 +1,3665 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": [
+    {
+      "name": ".agents",
+      "path": ".agents",
+      "children": [
+        {
+          "name": "skills",
+          "path": ".agents/skills",
+          "children": [
+            {
+              "name": "genbeya",
+              "path": ".agents/skills/genbeya",
+              "children": [
+                {
+                  "name": "SKILL.md",
+                  "path": ".agents/skills/genbeya/SKILL.md"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": ".claude",
+      "path": ".claude",
+      "children": [
+        {
+          "name": "skills",
+          "path": ".claude/skills",
+          "children": [
+            {
+              "name": "genbeya",
+              "path": ".claude/skills/genbeya",
+              "children": [
+                {
+                  "name": "SKILL.md",
+                  "path": ".claude/skills/genbeya/SKILL.md"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": ".github",
+      "path": ".github",
+      "children": [
+        {
+          "name": "actions",
+          "path": ".github/actions",
+          "children": [
+            {
+              "name": "verify",
+              "path": ".github/actions/verify",
+              "children": [
+                {
+                  "name": "action.yml",
+                  "path": ".github/actions/verify/action.yml"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "workflows",
+          "path": ".github/workflows",
+          "children": [
+            {
+              "name": "build.yml",
+              "path": ".github/workflows/build.yml"
+            }
+          ]
+        },
+        {
+          "name": "release-notes.md",
+          "path": ".github/release-notes.md"
+        }
+      ]
+    },
+    {
+      "name": ".vscode",
+      "path": ".vscode",
+      "children": [
+        {
+          "name": "launch.json",
+          "path": ".vscode/launch.json"
+        },
+        {
+          "name": "tasks.json",
+          "path": ".vscode/tasks.json"
+        }
+      ]
+    },
+    {
+      "name": "branding",
+      "path": "branding",
+      "children": [
+        {
+          "name": "genbeya-mono.svg",
+          "path": "branding/genbeya-mono.svg"
+        },
+        {
+          "name": "genbeya-small.svg",
+          "path": "branding/genbeya-small.svg"
+        },
+        {
+          "name": "genbeya.svg",
+          "path": "branding/genbeya.svg"
+        },
+        {
+          "name": "README.md",
+          "path": "branding/README.md"
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "path": "build",
+      "children": [
+        {
+          "name": "icon.icns",
+          "path": "build/icon.icns"
+        },
+        {
+          "name": "icon.ico",
+          "path": "build/icon.ico"
+        },
+        {
+          "name": "icon.png",
+          "path": "build/icon.png"
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "path": "docs",
+      "children": [
+        {
+          "name": "Architecture",
+          "path": "docs/Architecture",
+          "children": [
+            {
+              "name": "Content-branch.md",
+              "path": "docs/Architecture/Content-branch.md"
+            },
+            {
+              "name": "Demo.md",
+              "path": "docs/Architecture/Demo.md"
+            },
+            {
+              "name": "Hosts.md",
+              "path": "docs/Architecture/Hosts.md"
+            },
+            {
+              "name": "Managers.md",
+              "path": "docs/Architecture/Managers.md"
+            },
+            {
+              "name": "Runtimes.md",
+              "path": "docs/Architecture/Runtimes.md"
+            },
+            {
+              "name": "Security.md",
+              "path": "docs/Architecture/Security.md"
+            },
+            {
+              "name": "VS-Code.md",
+              "path": "docs/Architecture/VS-Code.md"
+            }
+          ]
+        },
+        {
+          "name": "Design",
+          "path": "docs/Design",
+          "children": [
+            {
+              "name": "Optional-parts.md",
+              "path": "docs/Design/Optional-parts.md"
+            },
+            {
+              "name": "Planning-demo.md",
+              "path": "docs/Design/Planning-demo.md"
+            },
+            {
+              "name": "Planning.md",
+              "path": "docs/Design/Planning.md"
+            },
+            {
+              "name": "Pull-requests.md",
+              "path": "docs/Design/Pull-requests.md"
+            }
+          ]
+        },
+        {
+          "name": "Guide",
+          "path": "docs/Guide",
+          "children": [
+            {
+              "name": "AI-agents.md",
+              "path": "docs/Guide/AI-agents.md"
+            },
+            {
+              "name": "Code.md",
+              "path": "docs/Guide/Code.md"
+            },
+            {
+              "name": "Keyboard-shortcuts.md",
+              "path": "docs/Guide/Keyboard-shortcuts.md"
+            },
+            {
+              "name": "Pull-requests.md",
+              "path": "docs/Guide/Pull-requests.md"
+            },
+            {
+              "name": "References.md",
+              "path": "docs/Guide/References.md"
+            },
+            {
+              "name": "Search.md",
+              "path": "docs/Guide/Search.md"
+            },
+            {
+              "name": "Settings.md",
+              "path": "docs/Guide/Settings.md"
+            },
+            {
+              "name": "Sharing.md",
+              "path": "docs/Guide/Sharing.md"
+            },
+            {
+              "name": "Tasks.md",
+              "path": "docs/Guide/Tasks.md"
+            },
+            {
+              "name": "Terminal.md",
+              "path": "docs/Guide/Terminal.md"
+            },
+            {
+              "name": "Version-control.md",
+              "path": "docs/Guide/Version-control.md"
+            },
+            {
+              "name": "VS-Code.md",
+              "path": "docs/Guide/VS-Code.md"
+            },
+            {
+              "name": "Wiki.md",
+              "path": "docs/Guide/Wiki.md"
+            },
+            {
+              "name": "Writing.md",
+              "path": "docs/Guide/Writing.md"
+            }
+          ]
+        },
+        {
+          "name": "images",
+          "path": "docs/images",
+          "children": [
+            {
+              "name": "conflict.png",
+              "path": "docs/images/conflict.png"
+            },
+            {
+              "name": "find-widget.png",
+              "path": "docs/images/find-widget.png"
+            },
+            {
+              "name": "search.png",
+              "path": "docs/images/search.png"
+            },
+            {
+              "name": "task-board.png",
+              "path": "docs/images/task-board.png"
+            },
+            {
+              "name": "task-panel.png",
+              "path": "docs/images/task-panel.png"
+            },
+            {
+              "name": "welcome.png",
+              "path": "docs/images/welcome.png"
+            },
+            {
+              "name": "wiki-references.png",
+              "path": "docs/images/wiki-references.png"
+            }
+          ]
+        },
+        {
+          "name": "Architecture.md",
+          "path": "docs/Architecture.md"
+        },
+        {
+          "name": "Design.md",
+          "path": "docs/Design.md"
+        },
+        {
+          "name": "Development.md",
+          "path": "docs/Development.md"
+        },
+        {
+          "name": "Getting-started.md",
+          "path": "docs/Getting-started.md"
+        },
+        {
+          "name": "Guide.md",
+          "path": "docs/Guide.md"
+        },
+        {
+          "name": "Home.md",
+          "path": "docs/Home.md"
+        }
+      ]
+    },
+    {
+      "name": "e2e",
+      "path": "e2e",
+      "children": [
+        {
+          "name": "demo",
+          "path": "e2e/demo",
+          "children": [
+            {
+              "name": "try.spec.ts",
+              "path": "e2e/demo/try.spec.ts"
+            }
+          ]
+        },
+        {
+          "name": "agents.spec.ts",
+          "path": "e2e/agents.spec.ts"
+        },
+        {
+          "name": "app.ts",
+          "path": "e2e/app.ts"
+        },
+        {
+          "name": "content-branch.spec.ts",
+          "path": "e2e/content-branch.spec.ts"
+        },
+        {
+          "name": "editor.spec.ts",
+          "path": "e2e/editor.spec.ts"
+        },
+        {
+          "name": "epics.spec.ts",
+          "path": "e2e/epics.spec.ts"
+        },
+        {
+          "name": "git-operations.spec.ts",
+          "path": "e2e/git-operations.spec.ts"
+        },
+        {
+          "name": "markdown.spec.ts",
+          "path": "e2e/markdown.spec.ts"
+        },
+        {
+          "name": "mentions.spec.ts",
+          "path": "e2e/mentions.spec.ts"
+        },
+        {
+          "name": "onboarding.spec.ts",
+          "path": "e2e/onboarding.spec.ts"
+        },
+        {
+          "name": "references.spec.ts",
+          "path": "e2e/references.spec.ts"
+        },
+        {
+          "name": "remote.spec.ts",
+          "path": "e2e/remote.spec.ts"
+        },
+        {
+          "name": "reset-and-push.spec.ts",
+          "path": "e2e/reset-and-push.spec.ts"
+        },
+        {
+          "name": "search.spec.ts",
+          "path": "e2e/search.spec.ts"
+        },
+        {
+          "name": "sharing.spec.ts",
+          "path": "e2e/sharing.spec.ts"
+        },
+        {
+          "name": "shell.spec.ts",
+          "path": "e2e/shell.spec.ts"
+        },
+        {
+          "name": "staging.spec.ts",
+          "path": "e2e/staging.spec.ts"
+        },
+        {
+          "name": "task-types.spec.ts",
+          "path": "e2e/task-types.spec.ts"
+        },
+        {
+          "name": "tasks.spec.ts",
+          "path": "e2e/tasks.spec.ts"
+        },
+        {
+          "name": "terminal.spec.ts",
+          "path": "e2e/terminal.spec.ts"
+        },
+        {
+          "name": "version-control.spec.ts",
+          "path": "e2e/version-control.spec.ts"
+        },
+        {
+          "name": "wiki.spec.ts",
+          "path": "e2e/wiki.spec.ts"
+        }
+      ]
+    },
+    {
+      "name": "scripts",
+      "path": "scripts",
+      "children": [
+        {
+          "name": "build-backend.mjs",
+          "path": "scripts/build-backend.mjs"
+        },
+        {
+          "name": "build-vscode.mjs",
+          "path": "scripts/build-vscode.mjs"
+        },
+        {
+          "name": "bundles.mjs",
+          "path": "scripts/bundles.mjs"
+        },
+        {
+          "name": "collect-installers.mjs",
+          "path": "scripts/collect-installers.mjs"
+        },
+        {
+          "name": "dev.mjs",
+          "path": "scripts/dev.mjs"
+        },
+        {
+          "name": "fix-node-pty.mjs",
+          "path": "scripts/fix-node-pty.mjs"
+        },
+        {
+          "name": "make-icons.mjs",
+          "path": "scripts/make-icons.mjs"
+        },
+        {
+          "name": "msi-major-upgrade.ps1",
+          "path": "scripts/msi-major-upgrade.ps1"
+        },
+        {
+          "name": "package-deno.mjs",
+          "path": "scripts/package-deno.mjs"
+        },
+        {
+          "name": "report-sizes.mjs",
+          "path": "scripts/report-sizes.mjs"
+        },
+        {
+          "name": "serve-demo.mjs",
+          "path": "scripts/serve-demo.mjs"
+        },
+        {
+          "name": "test-vscode.mjs",
+          "path": "scripts/test-vscode.mjs"
+        },
+        {
+          "name": "version.mjs",
+          "path": "scripts/version.mjs"
+        }
+      ]
+    },
+    {
+      "name": "src",
+      "path": "src",
+      "children": [
+        {
+          "name": "access",
+          "path": "src/access",
+          "children": [
+            {
+              "name": "content",
+              "path": "src/access/content",
+              "children": [
+                {
+                  "name": "content-store.spec.ts",
+                  "path": "src/access/content/content-store.spec.ts"
+                },
+                {
+                  "name": "content-store.ts",
+                  "path": "src/access/content/content-store.ts"
+                }
+              ]
+            },
+            {
+              "name": "files",
+              "path": "src/access/files",
+              "children": [
+                {
+                  "name": "file-store.spec.ts",
+                  "path": "src/access/files/file-store.spec.ts"
+                },
+                {
+                  "name": "file-store.ts",
+                  "path": "src/access/files/file-store.ts"
+                }
+              ]
+            },
+            {
+              "name": "git",
+              "path": "src/access/git",
+              "children": [
+                {
+                  "name": "authors.spec.ts",
+                  "path": "src/access/git/authors.spec.ts"
+                },
+                {
+                  "name": "authors.ts",
+                  "path": "src/access/git/authors.ts"
+                },
+                {
+                  "name": "file-history.spec.ts",
+                  "path": "src/access/git/file-history.spec.ts"
+                },
+                {
+                  "name": "file-history.ts",
+                  "path": "src/access/git/file-history.ts"
+                },
+                {
+                  "name": "folder-history.spec.ts",
+                  "path": "src/access/git/folder-history.spec.ts"
+                },
+                {
+                  "name": "folder-history.ts",
+                  "path": "src/access/git/folder-history.ts"
+                },
+                {
+                  "name": "git-grep.spec.ts",
+                  "path": "src/access/git/git-grep.spec.ts"
+                },
+                {
+                  "name": "git-grep.ts",
+                  "path": "src/access/git/git-grep.ts"
+                },
+                {
+                  "name": "git-parsers.spec.ts",
+                  "path": "src/access/git/git-parsers.spec.ts"
+                },
+                {
+                  "name": "git-parsers.ts",
+                  "path": "src/access/git/git-parsers.ts"
+                },
+                {
+                  "name": "git.spec.ts",
+                  "path": "src/access/git/git.spec.ts"
+                },
+                {
+                  "name": "git.ts",
+                  "path": "src/access/git/git.ts"
+                },
+                {
+                  "name": "operation-access.spec.ts",
+                  "path": "src/access/git/operation-access.spec.ts"
+                },
+                {
+                  "name": "operation-access.ts",
+                  "path": "src/access/git/operation-access.ts"
+                },
+                {
+                  "name": "pull-access.ts",
+                  "path": "src/access/git/pull-access.ts"
+                },
+                {
+                  "name": "push-access.spec.ts",
+                  "path": "src/access/git/push-access.spec.ts"
+                },
+                {
+                  "name": "push-access.ts",
+                  "path": "src/access/git/push-access.ts"
+                },
+                {
+                  "name": "rebase.spec.ts",
+                  "path": "src/access/git/rebase.spec.ts"
+                },
+                {
+                  "name": "ref-access.spec.ts",
+                  "path": "src/access/git/ref-access.spec.ts"
+                },
+                {
+                  "name": "ref-access.ts",
+                  "path": "src/access/git/ref-access.ts"
+                },
+                {
+                  "name": "repository-access.spec.ts",
+                  "path": "src/access/git/repository-access.spec.ts"
+                },
+                {
+                  "name": "repository-access.ts",
+                  "path": "src/access/git/repository-access.ts"
+                },
+                {
+                  "name": "reset-access.spec.ts",
+                  "path": "src/access/git/reset-access.spec.ts"
+                },
+                {
+                  "name": "reset-access.ts",
+                  "path": "src/access/git/reset-access.ts"
+                },
+                {
+                  "name": "staging-access.spec.ts",
+                  "path": "src/access/git/staging-access.spec.ts"
+                },
+                {
+                  "name": "staging-access.ts",
+                  "path": "src/access/git/staging-access.ts"
+                },
+                {
+                  "name": "stash-access.spec.ts",
+                  "path": "src/access/git/stash-access.spec.ts"
+                },
+                {
+                  "name": "stash-access.ts",
+                  "path": "src/access/git/stash-access.ts"
+                }
+              ]
+            },
+            {
+              "name": "hosts",
+              "path": "src/access/hosts",
+              "children": [
+                {
+                  "name": "host-factory.ts",
+                  "path": "src/access/hosts/host-factory.ts"
+                },
+                {
+                  "name": "host.spec.ts",
+                  "path": "src/access/hosts/host.spec.ts"
+                },
+                {
+                  "name": "host.ts",
+                  "path": "src/access/hosts/host.ts"
+                },
+                {
+                  "name": "local-host.ts",
+                  "path": "src/access/hosts/local-host.ts"
+                },
+                {
+                  "name": "local-hosts.ts",
+                  "path": "src/access/hosts/local-hosts.ts"
+                },
+                {
+                  "name": "locations.ts",
+                  "path": "src/access/hosts/locations.ts"
+                },
+                {
+                  "name": "remote-folders.spec.ts",
+                  "path": "src/access/hosts/remote-folders.spec.ts"
+                },
+                {
+                  "name": "remote-folders.ts",
+                  "path": "src/access/hosts/remote-folders.ts"
+                },
+                {
+                  "name": "shell-host.ts",
+                  "path": "src/access/hosts/shell-host.ts"
+                },
+                {
+                  "name": "shell-session.spec.ts",
+                  "path": "src/access/hosts/shell-session.spec.ts"
+                },
+                {
+                  "name": "shell-session.ts",
+                  "path": "src/access/hosts/shell-session.ts"
+                },
+                {
+                  "name": "terminal-commands.spec.ts",
+                  "path": "src/access/hosts/terminal-commands.spec.ts"
+                },
+                {
+                  "name": "terminal-commands.ts",
+                  "path": "src/access/hosts/terminal-commands.ts"
+                }
+              ]
+            },
+            {
+              "name": "memory",
+              "path": "src/access/memory",
+              "children": [
+                {
+                  "name": "commits.ts",
+                  "path": "src/access/memory/commits.ts"
+                },
+                {
+                  "name": "file-bytes.ts",
+                  "path": "src/access/memory/file-bytes.ts"
+                },
+                {
+                  "name": "ignore-rules.spec.ts",
+                  "path": "src/access/memory/ignore-rules.spec.ts"
+                },
+                {
+                  "name": "ignore-rules.ts",
+                  "path": "src/access/memory/ignore-rules.ts"
+                },
+                {
+                  "name": "line-diff.spec.ts",
+                  "path": "src/access/memory/line-diff.spec.ts"
+                },
+                {
+                  "name": "line-diff.ts",
+                  "path": "src/access/memory/line-diff.ts"
+                },
+                {
+                  "name": "memory-host.spec.ts",
+                  "path": "src/access/memory/memory-host.spec.ts"
+                },
+                {
+                  "name": "memory-host.ts",
+                  "path": "src/access/memory/memory-host.ts"
+                },
+                {
+                  "name": "memory-operations.ts",
+                  "path": "src/access/memory/memory-operations.ts"
+                },
+                {
+                  "name": "memory-remotes.ts",
+                  "path": "src/access/memory/memory-remotes.ts"
+                },
+                {
+                  "name": "memory-repository.spec.ts",
+                  "path": "src/access/memory/memory-repository.spec.ts"
+                },
+                {
+                  "name": "memory-repository.ts",
+                  "path": "src/access/memory/memory-repository.ts"
+                },
+                {
+                  "name": "memory-stashes.ts",
+                  "path": "src/access/memory/memory-stashes.ts"
+                },
+                {
+                  "name": "merge-text.spec.ts",
+                  "path": "src/access/memory/merge-text.spec.ts"
+                },
+                {
+                  "name": "merge-text.ts",
+                  "path": "src/access/memory/merge-text.ts"
+                },
+                {
+                  "name": "ref-names.ts",
+                  "path": "src/access/memory/ref-names.ts"
+                },
+                {
+                  "name": "renames.ts",
+                  "path": "src/access/memory/renames.ts"
+                },
+                {
+                  "name": "unified-diff.spec.ts",
+                  "path": "src/access/memory/unified-diff.spec.ts"
+                },
+                {
+                  "name": "unified-diff.ts",
+                  "path": "src/access/memory/unified-diff.ts"
+                }
+              ]
+            },
+            {
+              "name": "preferences",
+              "path": "src/access/preferences",
+              "children": [
+                {
+                  "name": "preferences-store.spec.ts",
+                  "path": "src/access/preferences/preferences-store.spec.ts"
+                },
+                {
+                  "name": "preferences-store.ts",
+                  "path": "src/access/preferences/preferences-store.ts"
+                }
+              ]
+            },
+            {
+              "name": "terminals",
+              "path": "src/access/terminals",
+              "children": [
+                {
+                  "name": "terminal-session.spec.ts",
+                  "path": "src/access/terminals/terminal-session.spec.ts"
+                },
+                {
+                  "name": "terminal-session.ts",
+                  "path": "src/access/terminals/terminal-session.ts"
+                }
+              ]
+            },
+            {
+              "name": "ports.ts",
+              "path": "src/access/ports.ts"
+            }
+          ]
+        },
+        {
+          "name": "client",
+          "path": "src/client",
+          "children": [
+            {
+              "name": "app",
+              "path": "src/client/app",
+              "children": [
+                {
+                  "name": "core",
+                  "path": "src/client/app/core",
+                  "children": [
+                    {
+                      "name": "app-version.ts",
+                      "path": "src/client/app/core/app-version.ts"
+                    },
+                    {
+                      "name": "clipboard.spec.ts",
+                      "path": "src/client/app/core/clipboard.spec.ts"
+                    },
+                    {
+                      "name": "clipboard.ts",
+                      "path": "src/client/app/core/clipboard.ts"
+                    },
+                    {
+                      "name": "context-menu-guard.spec.ts",
+                      "path": "src/client/app/core/context-menu-guard.spec.ts"
+                    },
+                    {
+                      "name": "context-menu-guard.ts",
+                      "path": "src/client/app/core/context-menu-guard.ts"
+                    },
+                    {
+                      "name": "demo.spec.ts",
+                      "path": "src/client/app/core/demo.spec.ts"
+                    },
+                    {
+                      "name": "demo.ts",
+                      "path": "src/client/app/core/demo.ts"
+                    },
+                    {
+                      "name": "dialogs.ts",
+                      "path": "src/client/app/core/dialogs.ts"
+                    },
+                    {
+                      "name": "external-links.ts",
+                      "path": "src/client/app/core/external-links.ts"
+                    },
+                    {
+                      "name": "file-resource.spec.ts",
+                      "path": "src/client/app/core/file-resource.spec.ts"
+                    },
+                    {
+                      "name": "file-resource.ts",
+                      "path": "src/client/app/core/file-resource.ts"
+                    },
+                    {
+                      "name": "hotkeys.spec.ts",
+                      "path": "src/client/app/core/hotkeys.spec.ts"
+                    },
+                    {
+                      "name": "hotkeys.ts",
+                      "path": "src/client/app/core/hotkeys.ts"
+                    },
+                    {
+                      "name": "link-opener.spec.ts",
+                      "path": "src/client/app/core/link-opener.spec.ts"
+                    },
+                    {
+                      "name": "link-opener.ts",
+                      "path": "src/client/app/core/link-opener.ts"
+                    },
+                    {
+                      "name": "navigation-guard.spec.ts",
+                      "path": "src/client/app/core/navigation-guard.spec.ts"
+                    },
+                    {
+                      "name": "navigation-guard.ts",
+                      "path": "src/client/app/core/navigation-guard.ts"
+                    },
+                    {
+                      "name": "notifications.spec.ts",
+                      "path": "src/client/app/core/notifications.spec.ts"
+                    },
+                    {
+                      "name": "notifications.ts",
+                      "path": "src/client/app/core/notifications.ts"
+                    },
+                    {
+                      "name": "parts.spec.ts",
+                      "path": "src/client/app/core/parts.spec.ts"
+                    },
+                    {
+                      "name": "parts.ts",
+                      "path": "src/client/app/core/parts.ts"
+                    },
+                    {
+                      "name": "people.spec.ts",
+                      "path": "src/client/app/core/people.spec.ts"
+                    },
+                    {
+                      "name": "people.ts",
+                      "path": "src/client/app/core/people.ts"
+                    },
+                    {
+                      "name": "repositories.spec.ts",
+                      "path": "src/client/app/core/repositories.spec.ts"
+                    },
+                    {
+                      "name": "repositories.ts",
+                      "path": "src/client/app/core/repositories.ts"
+                    },
+                    {
+                      "name": "session.spec.ts",
+                      "path": "src/client/app/core/session.spec.ts"
+                    },
+                    {
+                      "name": "session.ts",
+                      "path": "src/client/app/core/session.ts"
+                    },
+                    {
+                      "name": "share-links.spec.ts",
+                      "path": "src/client/app/core/share-links.spec.ts"
+                    },
+                    {
+                      "name": "share-links.ts",
+                      "path": "src/client/app/core/share-links.ts"
+                    },
+                    {
+                      "name": "signals.spec.ts",
+                      "path": "src/client/app/core/signals.spec.ts"
+                    },
+                    {
+                      "name": "signals.ts",
+                      "path": "src/client/app/core/signals.ts"
+                    },
+                    {
+                      "name": "terminals.spec.ts",
+                      "path": "src/client/app/core/terminals.spec.ts"
+                    },
+                    {
+                      "name": "terminals.ts",
+                      "path": "src/client/app/core/terminals.ts"
+                    },
+                    {
+                      "name": "theme.ts",
+                      "path": "src/client/app/core/theme.ts"
+                    },
+                    {
+                      "name": "unsaved-changes.spec.ts",
+                      "path": "src/client/app/core/unsaved-changes.spec.ts"
+                    },
+                    {
+                      "name": "unsaved-changes.ts",
+                      "path": "src/client/app/core/unsaved-changes.ts"
+                    },
+                    {
+                      "name": "workspace-api.ts",
+                      "path": "src/client/app/core/workspace-api.ts"
+                    }
+                  ]
+                },
+                {
+                  "name": "editor",
+                  "path": "src/client/app/editor",
+                  "children": [
+                    {
+                      "name": "block-completion.spec.ts",
+                      "path": "src/client/app/editor/block-completion.spec.ts"
+                    },
+                    {
+                      "name": "block-completion.ts",
+                      "path": "src/client/app/editor/block-completion.ts"
+                    },
+                    {
+                      "name": "brackets.spec.ts",
+                      "path": "src/client/app/editor/brackets.spec.ts"
+                    },
+                    {
+                      "name": "brackets.ts",
+                      "path": "src/client/app/editor/brackets.ts"
+                    },
+                    {
+                      "name": "code-editor.spec.ts",
+                      "path": "src/client/app/editor/code-editor.spec.ts"
+                    },
+                    {
+                      "name": "code-editor.ts",
+                      "path": "src/client/app/editor/code-editor.ts"
+                    },
+                    {
+                      "name": "date-picker.spec.ts",
+                      "path": "src/client/app/editor/date-picker.spec.ts"
+                    },
+                    {
+                      "name": "date-picker.ts",
+                      "path": "src/client/app/editor/date-picker.ts"
+                    },
+                    {
+                      "name": "diff-notes.ts",
+                      "path": "src/client/app/editor/diff-notes.ts"
+                    },
+                    {
+                      "name": "diff-view.ts",
+                      "path": "src/client/app/editor/diff-view.ts"
+                    },
+                    {
+                      "name": "editor-keymap.spec.ts",
+                      "path": "src/client/app/editor/editor-keymap.spec.ts"
+                    },
+                    {
+                      "name": "editor-keymap.ts",
+                      "path": "src/client/app/editor/editor-keymap.ts"
+                    },
+                    {
+                      "name": "editor-setup.ts",
+                      "path": "src/client/app/editor/editor-setup.ts"
+                    },
+                    {
+                      "name": "find-widget.spec.ts",
+                      "path": "src/client/app/editor/find-widget.spec.ts"
+                    },
+                    {
+                      "name": "find-widget.ts",
+                      "path": "src/client/app/editor/find-widget.ts"
+                    },
+                    {
+                      "name": "folding.spec.ts",
+                      "path": "src/client/app/editor/folding.spec.ts"
+                    },
+                    {
+                      "name": "folding.ts",
+                      "path": "src/client/app/editor/folding.ts"
+                    },
+                    {
+                      "name": "git-changes.spec.ts",
+                      "path": "src/client/app/editor/git-changes.spec.ts"
+                    },
+                    {
+                      "name": "git-changes.ts",
+                      "path": "src/client/app/editor/git-changes.ts"
+                    },
+                    {
+                      "name": "ligatures.spec.ts",
+                      "path": "src/client/app/editor/ligatures.spec.ts"
+                    },
+                    {
+                      "name": "ligatures.ts",
+                      "path": "src/client/app/editor/ligatures.ts"
+                    },
+                    {
+                      "name": "line-selection.spec.ts",
+                      "path": "src/client/app/editor/line-selection.spec.ts"
+                    },
+                    {
+                      "name": "line-selection.ts",
+                      "path": "src/client/app/editor/line-selection.ts"
+                    },
+                    {
+                      "name": "line-staging.ts",
+                      "path": "src/client/app/editor/line-staging.ts"
+                    },
+                    {
+                      "name": "markdown-completion.spec.ts",
+                      "path": "src/client/app/editor/markdown-completion.spec.ts"
+                    },
+                    {
+                      "name": "markdown-completion.ts",
+                      "path": "src/client/app/editor/markdown-completion.ts"
+                    },
+                    {
+                      "name": "math-preview.spec.ts",
+                      "path": "src/client/app/editor/math-preview.spec.ts"
+                    },
+                    {
+                      "name": "math-preview.ts",
+                      "path": "src/client/app/editor/math-preview.ts"
+                    },
+                    {
+                      "name": "mention-suggestions.spec.ts",
+                      "path": "src/client/app/editor/mention-suggestions.spec.ts"
+                    },
+                    {
+                      "name": "mention-suggestions.ts",
+                      "path": "src/client/app/editor/mention-suggestions.ts"
+                    },
+                    {
+                      "name": "minimap.spec.ts",
+                      "path": "src/client/app/editor/minimap.spec.ts"
+                    },
+                    {
+                      "name": "minimap.ts",
+                      "path": "src/client/app/editor/minimap.ts"
+                    },
+                    {
+                      "name": "reference-completion.spec.ts",
+                      "path": "src/client/app/editor/reference-completion.spec.ts"
+                    },
+                    {
+                      "name": "reference-completion.ts",
+                      "path": "src/client/app/editor/reference-completion.ts"
+                    },
+                    {
+                      "name": "scroll-link.spec.ts",
+                      "path": "src/client/app/editor/scroll-link.spec.ts"
+                    },
+                    {
+                      "name": "scroll-link.ts",
+                      "path": "src/client/app/editor/scroll-link.ts"
+                    },
+                    {
+                      "name": "smart-dates.spec.ts",
+                      "path": "src/client/app/editor/smart-dates.spec.ts"
+                    },
+                    {
+                      "name": "smart-dates.ts",
+                      "path": "src/client/app/editor/smart-dates.ts"
+                    },
+                    {
+                      "name": "syntax.ts",
+                      "path": "src/client/app/editor/syntax.ts"
+                    },
+                    {
+                      "name": "textarea-completion.ts",
+                      "path": "src/client/app/editor/textarea-completion.ts"
+                    }
+                  ]
+                },
+                {
+                  "name": "features",
+                  "path": "src/client/app/features",
+                  "children": [
+                    {
+                      "name": "changes",
+                      "path": "src/client/app/features/changes",
+                      "children": [
+                        {
+                          "name": "change-actions.ts",
+                          "path": "src/client/app/features/changes/change-actions.ts"
+                        },
+                        {
+                          "name": "change-menu.ts",
+                          "path": "src/client/app/features/changes/change-menu.ts"
+                        },
+                        {
+                          "name": "change-nodes.spec.ts",
+                          "path": "src/client/app/features/changes/change-nodes.spec.ts"
+                        },
+                        {
+                          "name": "change-nodes.ts",
+                          "path": "src/client/app/features/changes/change-nodes.ts"
+                        },
+                        {
+                          "name": "change-row.css",
+                          "path": "src/client/app/features/changes/change-row.css"
+                        },
+                        {
+                          "name": "change-row.ts",
+                          "path": "src/client/app/features/changes/change-row.ts"
+                        },
+                        {
+                          "name": "change-target.ts",
+                          "path": "src/client/app/features/changes/change-target.ts"
+                        },
+                        {
+                          "name": "change-tree.css",
+                          "path": "src/client/app/features/changes/change-tree.css"
+                        },
+                        {
+                          "name": "change-tree.spec.ts",
+                          "path": "src/client/app/features/changes/change-tree.spec.ts"
+                        },
+                        {
+                          "name": "change-tree.ts",
+                          "path": "src/client/app/features/changes/change-tree.ts"
+                        },
+                        {
+                          "name": "changes-view.html",
+                          "path": "src/client/app/features/changes/changes-view.html"
+                        },
+                        {
+                          "name": "changes-view.spec.ts",
+                          "path": "src/client/app/features/changes/changes-view.spec.ts"
+                        },
+                        {
+                          "name": "changes-view.ts",
+                          "path": "src/client/app/features/changes/changes-view.ts"
+                        },
+                        {
+                          "name": "changes.css",
+                          "path": "src/client/app/features/changes/changes.css"
+                        },
+                        {
+                          "name": "commit-draft.ts",
+                          "path": "src/client/app/features/changes/commit-draft.ts"
+                        },
+                        {
+                          "name": "conflict-pane.css",
+                          "path": "src/client/app/features/changes/conflict-pane.css"
+                        },
+                        {
+                          "name": "conflict-pane.spec.ts",
+                          "path": "src/client/app/features/changes/conflict-pane.spec.ts"
+                        },
+                        {
+                          "name": "conflict-pane.ts",
+                          "path": "src/client/app/features/changes/conflict-pane.ts"
+                        },
+                        {
+                          "name": "ignore-dialog.spec.ts",
+                          "path": "src/client/app/features/changes/ignore-dialog.spec.ts"
+                        },
+                        {
+                          "name": "ignore-dialog.ts",
+                          "path": "src/client/app/features/changes/ignore-dialog.ts"
+                        },
+                        {
+                          "name": "stash-actions.ts",
+                          "path": "src/client/app/features/changes/stash-actions.ts"
+                        },
+                        {
+                          "name": "stash-dialog.ts",
+                          "path": "src/client/app/features/changes/stash-dialog.ts"
+                        },
+                        {
+                          "name": "stash-pane.css",
+                          "path": "src/client/app/features/changes/stash-pane.css"
+                        },
+                        {
+                          "name": "stash-pane.ts",
+                          "path": "src/client/app/features/changes/stash-pane.ts"
+                        },
+                        {
+                          "name": "sync-bar.css",
+                          "path": "src/client/app/features/changes/sync-bar.css"
+                        },
+                        {
+                          "name": "sync-bar.spec.ts",
+                          "path": "src/client/app/features/changes/sync-bar.spec.ts"
+                        },
+                        {
+                          "name": "sync-bar.ts",
+                          "path": "src/client/app/features/changes/sync-bar.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "code",
+                      "path": "src/client/app/features/code",
+                      "children": [
+                        {
+                          "name": "code-view.ts",
+                          "path": "src/client/app/features/code/code-view.ts"
+                        },
+                        {
+                          "name": "content-files.ts",
+                          "path": "src/client/app/features/code/content-files.ts"
+                        },
+                        {
+                          "name": "file-editor.spec.ts",
+                          "path": "src/client/app/features/code/file-editor.spec.ts"
+                        },
+                        {
+                          "name": "file-editor.ts",
+                          "path": "src/client/app/features/code/file-editor.ts"
+                        },
+                        {
+                          "name": "pinned-file.ts",
+                          "path": "src/client/app/features/code/pinned-file.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "demo",
+                      "path": "src/client/app/features/demo",
+                      "children": [
+                        {
+                          "name": "demo-badge.spec.ts",
+                          "path": "src/client/app/features/demo/demo-badge.spec.ts"
+                        },
+                        {
+                          "name": "demo-badge.ts",
+                          "path": "src/client/app/features/demo/demo-badge.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "diff",
+                      "path": "src/client/app/features/diff",
+                      "children": [
+                        {
+                          "name": "diff-pane.css",
+                          "path": "src/client/app/features/diff/diff-pane.css"
+                        },
+                        {
+                          "name": "diff-pane.spec.ts",
+                          "path": "src/client/app/features/diff/diff-pane.spec.ts"
+                        },
+                        {
+                          "name": "diff-pane.ts",
+                          "path": "src/client/app/features/diff/diff-pane.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "history",
+                      "path": "src/client/app/features/history",
+                      "children": [
+                        {
+                          "name": "commit-graph.spec.ts",
+                          "path": "src/client/app/features/history/commit-graph.spec.ts"
+                        },
+                        {
+                          "name": "commit-graph.ts",
+                          "path": "src/client/app/features/history/commit-graph.ts"
+                        },
+                        {
+                          "name": "commit-menu.spec.ts",
+                          "path": "src/client/app/features/history/commit-menu.spec.ts"
+                        },
+                        {
+                          "name": "commit-menu.ts",
+                          "path": "src/client/app/features/history/commit-menu.ts"
+                        },
+                        {
+                          "name": "commit-pane.spec.ts",
+                          "path": "src/client/app/features/history/commit-pane.spec.ts"
+                        },
+                        {
+                          "name": "commit-pane.ts",
+                          "path": "src/client/app/features/history/commit-pane.ts"
+                        },
+                        {
+                          "name": "graph-lines.ts",
+                          "path": "src/client/app/features/history/graph-lines.ts"
+                        },
+                        {
+                          "name": "history-view.ts",
+                          "path": "src/client/app/features/history/history-view.ts"
+                        },
+                        {
+                          "name": "history.css",
+                          "path": "src/client/app/features/history/history.css"
+                        },
+                        {
+                          "name": "ref-actions.ts",
+                          "path": "src/client/app/features/history/ref-actions.ts"
+                        },
+                        {
+                          "name": "ref-chips.ts",
+                          "path": "src/client/app/features/history/ref-chips.ts"
+                        },
+                        {
+                          "name": "ref-dialog.ts",
+                          "path": "src/client/app/features/history/ref-dialog.ts"
+                        },
+                        {
+                          "name": "reset-actions.ts",
+                          "path": "src/client/app/features/history/reset-actions.ts"
+                        },
+                        {
+                          "name": "reset-dialog.css",
+                          "path": "src/client/app/features/history/reset-dialog.css"
+                        },
+                        {
+                          "name": "reset-dialog.spec.ts",
+                          "path": "src/client/app/features/history/reset-dialog.spec.ts"
+                        },
+                        {
+                          "name": "reset-dialog.ts",
+                          "path": "src/client/app/features/history/reset-dialog.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "onboarding",
+                      "path": "src/client/app/features/onboarding",
+                      "children": [
+                        {
+                          "name": "changelog.spec.ts",
+                          "path": "src/client/app/features/onboarding/changelog.spec.ts"
+                        },
+                        {
+                          "name": "changelog.ts",
+                          "path": "src/client/app/features/onboarding/changelog.ts"
+                        },
+                        {
+                          "name": "onboarding.spec.ts",
+                          "path": "src/client/app/features/onboarding/onboarding.spec.ts"
+                        },
+                        {
+                          "name": "onboarding.ts",
+                          "path": "src/client/app/features/onboarding/onboarding.ts"
+                        },
+                        {
+                          "name": "tour-offer.ts",
+                          "path": "src/client/app/features/onboarding/tour-offer.ts"
+                        },
+                        {
+                          "name": "tour-steps.spec.ts",
+                          "path": "src/client/app/features/onboarding/tour-steps.spec.ts"
+                        },
+                        {
+                          "name": "tour-steps.ts",
+                          "path": "src/client/app/features/onboarding/tour-steps.ts"
+                        },
+                        {
+                          "name": "whats-new-dialog.ts",
+                          "path": "src/client/app/features/onboarding/whats-new-dialog.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "operations",
+                      "path": "src/client/app/features/operations",
+                      "children": [
+                        {
+                          "name": "merge-dialog.spec.ts",
+                          "path": "src/client/app/features/operations/merge-dialog.spec.ts"
+                        },
+                        {
+                          "name": "merge-dialog.ts",
+                          "path": "src/client/app/features/operations/merge-dialog.ts"
+                        },
+                        {
+                          "name": "operation-actions.spec.ts",
+                          "path": "src/client/app/features/operations/operation-actions.spec.ts"
+                        },
+                        {
+                          "name": "operation-actions.ts",
+                          "path": "src/client/app/features/operations/operation-actions.ts"
+                        },
+                        {
+                          "name": "operation-banner.spec.ts",
+                          "path": "src/client/app/features/operations/operation-banner.spec.ts"
+                        },
+                        {
+                          "name": "operation-banner.ts",
+                          "path": "src/client/app/features/operations/operation-banner.ts"
+                        },
+                        {
+                          "name": "rebase-dialog.css",
+                          "path": "src/client/app/features/operations/rebase-dialog.css"
+                        },
+                        {
+                          "name": "rebase-dialog.spec.ts",
+                          "path": "src/client/app/features/operations/rebase-dialog.spec.ts"
+                        },
+                        {
+                          "name": "rebase-dialog.ts",
+                          "path": "src/client/app/features/operations/rebase-dialog.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "preview",
+                      "path": "src/client/app/features/preview",
+                      "children": [
+                        {
+                          "name": "file-previews.spec.ts",
+                          "path": "src/client/app/features/preview/file-previews.spec.ts"
+                        },
+                        {
+                          "name": "file-previews.ts",
+                          "path": "src/client/app/features/preview/file-previews.ts"
+                        },
+                        {
+                          "name": "file-size.ts",
+                          "path": "src/client/app/features/preview/file-size.ts"
+                        },
+                        {
+                          "name": "image-comparison.spec.ts",
+                          "path": "src/client/app/features/preview/image-comparison.spec.ts"
+                        },
+                        {
+                          "name": "image-comparison.ts",
+                          "path": "src/client/app/features/preview/image-comparison.ts"
+                        },
+                        {
+                          "name": "image-preview.ts",
+                          "path": "src/client/app/features/preview/image-preview.ts"
+                        },
+                        {
+                          "name": "image-resource.ts",
+                          "path": "src/client/app/features/preview/image-resource.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "pulls",
+                      "path": "src/client/app/features/pulls",
+                      "children": [
+                        {
+                          "name": "cleanup-dialog.ts",
+                          "path": "src/client/app/features/pulls/cleanup-dialog.ts"
+                        },
+                        {
+                          "name": "comment-dialog.ts",
+                          "path": "src/client/app/features/pulls/comment-dialog.ts"
+                        },
+                        {
+                          "name": "pull-actions.ts",
+                          "path": "src/client/app/features/pulls/pull-actions.ts"
+                        },
+                        {
+                          "name": "pull-dialog.ts",
+                          "path": "src/client/app/features/pulls/pull-dialog.ts"
+                        },
+                        {
+                          "name": "pull-links.ts",
+                          "path": "src/client/app/features/pulls/pull-links.ts"
+                        },
+                        {
+                          "name": "pull-page.ts",
+                          "path": "src/client/app/features/pulls/pull-page.ts"
+                        },
+                        {
+                          "name": "pull-status.ts",
+                          "path": "src/client/app/features/pulls/pull-status.ts"
+                        },
+                        {
+                          "name": "pulls-view.ts",
+                          "path": "src/client/app/features/pulls/pulls-view.ts"
+                        },
+                        {
+                          "name": "pulls.css",
+                          "path": "src/client/app/features/pulls/pulls.css"
+                        },
+                        {
+                          "name": "task-pulls.ts",
+                          "path": "src/client/app/features/pulls/task-pulls.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "push",
+                      "path": "src/client/app/features/push",
+                      "children": [
+                        {
+                          "name": "force-push-dialog.css",
+                          "path": "src/client/app/features/push/force-push-dialog.css"
+                        },
+                        {
+                          "name": "force-push-dialog.spec.ts",
+                          "path": "src/client/app/features/push/force-push-dialog.spec.ts"
+                        },
+                        {
+                          "name": "force-push-dialog.ts",
+                          "path": "src/client/app/features/push/force-push-dialog.ts"
+                        },
+                        {
+                          "name": "push-actions.ts",
+                          "path": "src/client/app/features/push/push-actions.ts"
+                        },
+                        {
+                          "name": "push-dialog.spec.ts",
+                          "path": "src/client/app/features/push/push-dialog.spec.ts"
+                        },
+                        {
+                          "name": "push-dialog.ts",
+                          "path": "src/client/app/features/push/push-dialog.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "settings",
+                      "path": "src/client/app/features/settings",
+                      "children": [
+                        {
+                          "name": "agent-files.spec.ts",
+                          "path": "src/client/app/features/settings/agent-files.spec.ts"
+                        },
+                        {
+                          "name": "agent-files.ts",
+                          "path": "src/client/app/features/settings/agent-files.ts"
+                        },
+                        {
+                          "name": "calendar-editor.ts",
+                          "path": "src/client/app/features/settings/calendar-editor.ts"
+                        },
+                        {
+                          "name": "content-areas.ts",
+                          "path": "src/client/app/features/settings/content-areas.ts"
+                        },
+                        {
+                          "name": "field-editor.spec.ts",
+                          "path": "src/client/app/features/settings/field-editor.spec.ts"
+                        },
+                        {
+                          "name": "field-editor.ts",
+                          "path": "src/client/app/features/settings/field-editor.ts"
+                        },
+                        {
+                          "name": "part-switches.ts",
+                          "path": "src/client/app/features/settings/part-switches.ts"
+                        },
+                        {
+                          "name": "settings-view.html",
+                          "path": "src/client/app/features/settings/settings-view.html"
+                        },
+                        {
+                          "name": "settings-view.spec.ts",
+                          "path": "src/client/app/features/settings/settings-view.spec.ts"
+                        },
+                        {
+                          "name": "settings-view.ts",
+                          "path": "src/client/app/features/settings/settings-view.ts"
+                        },
+                        {
+                          "name": "settings.css",
+                          "path": "src/client/app/features/settings/settings.css"
+                        },
+                        {
+                          "name": "status-editor.ts",
+                          "path": "src/client/app/features/settings/status-editor.ts"
+                        },
+                        {
+                          "name": "type-editor.spec.ts",
+                          "path": "src/client/app/features/settings/type-editor.spec.ts"
+                        },
+                        {
+                          "name": "type-editor.ts",
+                          "path": "src/client/app/features/settings/type-editor.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "share",
+                      "path": "src/client/app/features/share",
+                      "children": [
+                        {
+                          "name": "share-menu.spec.ts",
+                          "path": "src/client/app/features/share/share-menu.spec.ts"
+                        },
+                        {
+                          "name": "share-menu.ts",
+                          "path": "src/client/app/features/share/share-menu.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "shell",
+                      "path": "src/client/app/features/shell",
+                      "children": [
+                        {
+                          "name": "fuzzy.spec.ts",
+                          "path": "src/client/app/features/shell/fuzzy.spec.ts"
+                        },
+                        {
+                          "name": "fuzzy.ts",
+                          "path": "src/client/app/features/shell/fuzzy.ts"
+                        },
+                        {
+                          "name": "marked-text.ts",
+                          "path": "src/client/app/features/shell/marked-text.ts"
+                        },
+                        {
+                          "name": "palette-icon.ts",
+                          "path": "src/client/app/features/shell/palette-icon.ts"
+                        },
+                        {
+                          "name": "palette-items.spec.ts",
+                          "path": "src/client/app/features/shell/palette-items.spec.ts"
+                        },
+                        {
+                          "name": "palette-items.ts",
+                          "path": "src/client/app/features/shell/palette-items.ts"
+                        },
+                        {
+                          "name": "palette.css",
+                          "path": "src/client/app/features/shell/palette.css"
+                        },
+                        {
+                          "name": "palette.spec.ts",
+                          "path": "src/client/app/features/shell/palette.spec.ts"
+                        },
+                        {
+                          "name": "palette.ts",
+                          "path": "src/client/app/features/shell/palette.ts"
+                        },
+                        {
+                          "name": "repository-actions.ts",
+                          "path": "src/client/app/features/shell/repository-actions.ts"
+                        },
+                        {
+                          "name": "repository-mark.ts",
+                          "path": "src/client/app/features/shell/repository-mark.ts"
+                        },
+                        {
+                          "name": "search-items.spec.ts",
+                          "path": "src/client/app/features/shell/search-items.spec.ts"
+                        },
+                        {
+                          "name": "search-items.ts",
+                          "path": "src/client/app/features/shell/search-items.ts"
+                        },
+                        {
+                          "name": "shell-ui.spec.ts",
+                          "path": "src/client/app/features/shell/shell-ui.spec.ts"
+                        },
+                        {
+                          "name": "shell-ui.ts",
+                          "path": "src/client/app/features/shell/shell-ui.ts"
+                        },
+                        {
+                          "name": "shell.css",
+                          "path": "src/client/app/features/shell/shell.css"
+                        },
+                        {
+                          "name": "shell.spec.ts",
+                          "path": "src/client/app/features/shell/shell.spec.ts"
+                        },
+                        {
+                          "name": "shell.ts",
+                          "path": "src/client/app/features/shell/shell.ts"
+                        },
+                        {
+                          "name": "shortcut-help.ts",
+                          "path": "src/client/app/features/shell/shortcut-help.ts"
+                        },
+                        {
+                          "name": "sidebar.css",
+                          "path": "src/client/app/features/shell/sidebar.css"
+                        },
+                        {
+                          "name": "sidebar.html",
+                          "path": "src/client/app/features/shell/sidebar.html"
+                        },
+                        {
+                          "name": "sidebar.ts",
+                          "path": "src/client/app/features/shell/sidebar.ts"
+                        },
+                        {
+                          "name": "text-search.ts",
+                          "path": "src/client/app/features/shell/text-search.ts"
+                        },
+                        {
+                          "name": "view-memory.spec.ts",
+                          "path": "src/client/app/features/shell/view-memory.spec.ts"
+                        },
+                        {
+                          "name": "view-memory.ts",
+                          "path": "src/client/app/features/shell/view-memory.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "tasks",
+                      "path": "src/client/app/features/tasks",
+                      "children": [
+                        {
+                          "name": "board-cell.ts",
+                          "path": "src/client/app/features/tasks/board-cell.ts"
+                        },
+                        {
+                          "name": "due-dates.ts",
+                          "path": "src/client/app/features/tasks/due-dates.ts"
+                        },
+                        {
+                          "name": "log-time-dialog.ts",
+                          "path": "src/client/app/features/tasks/log-time-dialog.ts"
+                        },
+                        {
+                          "name": "task-activity.spec.ts",
+                          "path": "src/client/app/features/tasks/task-activity.spec.ts"
+                        },
+                        {
+                          "name": "task-activity.ts",
+                          "path": "src/client/app/features/tasks/task-activity.ts"
+                        },
+                        {
+                          "name": "task-board.spec.ts",
+                          "path": "src/client/app/features/tasks/task-board.spec.ts"
+                        },
+                        {
+                          "name": "task-board.ts",
+                          "path": "src/client/app/features/tasks/task-board.ts"
+                        },
+                        {
+                          "name": "task-branches.spec.ts",
+                          "path": "src/client/app/features/tasks/task-branches.spec.ts"
+                        },
+                        {
+                          "name": "task-branches.ts",
+                          "path": "src/client/app/features/tasks/task-branches.ts"
+                        },
+                        {
+                          "name": "task-card.ts",
+                          "path": "src/client/app/features/tasks/task-card.ts"
+                        },
+                        {
+                          "name": "task-changes.ts",
+                          "path": "src/client/app/features/tasks/task-changes.ts"
+                        },
+                        {
+                          "name": "task-comments.spec.ts",
+                          "path": "src/client/app/features/tasks/task-comments.spec.ts"
+                        },
+                        {
+                          "name": "task-comments.ts",
+                          "path": "src/client/app/features/tasks/task-comments.ts"
+                        },
+                        {
+                          "name": "task-fields.spec.ts",
+                          "path": "src/client/app/features/tasks/task-fields.spec.ts"
+                        },
+                        {
+                          "name": "task-fields.ts",
+                          "path": "src/client/app/features/tasks/task-fields.ts"
+                        },
+                        {
+                          "name": "task-icons.ts",
+                          "path": "src/client/app/features/tasks/task-icons.ts"
+                        },
+                        {
+                          "name": "task-list.ts",
+                          "path": "src/client/app/features/tasks/task-list.ts"
+                        },
+                        {
+                          "name": "task-model.spec.ts",
+                          "path": "src/client/app/features/tasks/task-model.spec.ts"
+                        },
+                        {
+                          "name": "task-model.ts",
+                          "path": "src/client/app/features/tasks/task-model.ts"
+                        },
+                        {
+                          "name": "task-panel.spec.ts",
+                          "path": "src/client/app/features/tasks/task-panel.spec.ts"
+                        },
+                        {
+                          "name": "task-panel.ts",
+                          "path": "src/client/app/features/tasks/task-panel.ts"
+                        },
+                        {
+                          "name": "task-plan.ts",
+                          "path": "src/client/app/features/tasks/task-plan.ts"
+                        },
+                        {
+                          "name": "task-planning.ts",
+                          "path": "src/client/app/features/tasks/task-planning.ts"
+                        },
+                        {
+                          "name": "task-properties.spec.ts",
+                          "path": "src/client/app/features/tasks/task-properties.spec.ts"
+                        },
+                        {
+                          "name": "task-properties.ts",
+                          "path": "src/client/app/features/tasks/task-properties.ts"
+                        },
+                        {
+                          "name": "tasks-view.html",
+                          "path": "src/client/app/features/tasks/tasks-view.html"
+                        },
+                        {
+                          "name": "tasks-view.spec.ts",
+                          "path": "src/client/app/features/tasks/tasks-view.spec.ts"
+                        },
+                        {
+                          "name": "tasks-view.ts",
+                          "path": "src/client/app/features/tasks/tasks-view.ts"
+                        },
+                        {
+                          "name": "tasks.css",
+                          "path": "src/client/app/features/tasks/tasks.css"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "terminal",
+                      "path": "src/client/app/features/terminal",
+                      "children": [
+                        {
+                          "name": "terminal-panel.css",
+                          "path": "src/client/app/features/terminal/terminal-panel.css"
+                        },
+                        {
+                          "name": "terminal-panel.spec.ts",
+                          "path": "src/client/app/features/terminal/terminal-panel.spec.ts"
+                        },
+                        {
+                          "name": "terminal-panel.ts",
+                          "path": "src/client/app/features/terminal/terminal-panel.ts"
+                        },
+                        {
+                          "name": "terminal-view.ts",
+                          "path": "src/client/app/features/terminal/terminal-view.ts"
+                        },
+                        {
+                          "name": "xterm.ts",
+                          "path": "src/client/app/features/terminal/xterm.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "welcome",
+                      "path": "src/client/app/features/welcome",
+                      "children": [
+                        {
+                          "name": "folder-browser.css",
+                          "path": "src/client/app/features/welcome/folder-browser.css"
+                        },
+                        {
+                          "name": "folder-browser.spec.ts",
+                          "path": "src/client/app/features/welcome/folder-browser.spec.ts"
+                        },
+                        {
+                          "name": "folder-browser.ts",
+                          "path": "src/client/app/features/welcome/folder-browser.ts"
+                        },
+                        {
+                          "name": "repository-dialogs.spec.ts",
+                          "path": "src/client/app/features/welcome/repository-dialogs.spec.ts"
+                        },
+                        {
+                          "name": "repository-dialogs.ts",
+                          "path": "src/client/app/features/welcome/repository-dialogs.ts"
+                        },
+                        {
+                          "name": "welcome.css",
+                          "path": "src/client/app/features/welcome/welcome.css"
+                        },
+                        {
+                          "name": "welcome.ts",
+                          "path": "src/client/app/features/welcome/welcome.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "wiki",
+                      "path": "src/client/app/features/wiki",
+                      "children": [
+                        {
+                          "name": "breadcrumbs.ts",
+                          "path": "src/client/app/features/wiki/breadcrumbs.ts"
+                        },
+                        {
+                          "name": "folder-page.ts",
+                          "path": "src/client/app/features/wiki/folder-page.ts"
+                        },
+                        {
+                          "name": "hidden-preview.ts",
+                          "path": "src/client/app/features/wiki/hidden-preview.ts"
+                        },
+                        {
+                          "name": "move-page-dialog.css",
+                          "path": "src/client/app/features/wiki/move-page-dialog.css"
+                        },
+                        {
+                          "name": "move-page-dialog.spec.ts",
+                          "path": "src/client/app/features/wiki/move-page-dialog.spec.ts"
+                        },
+                        {
+                          "name": "move-page-dialog.ts",
+                          "path": "src/client/app/features/wiki/move-page-dialog.ts"
+                        },
+                        {
+                          "name": "page-menu.ts",
+                          "path": "src/client/app/features/wiki/page-menu.ts"
+                        },
+                        {
+                          "name": "page-outline.ts",
+                          "path": "src/client/app/features/wiki/page-outline.ts"
+                        },
+                        {
+                          "name": "page-tree.ts",
+                          "path": "src/client/app/features/wiki/page-tree.ts"
+                        },
+                        {
+                          "name": "wiki-actions.spec.ts",
+                          "path": "src/client/app/features/wiki/wiki-actions.spec.ts"
+                        },
+                        {
+                          "name": "wiki-actions.ts",
+                          "path": "src/client/app/features/wiki/wiki-actions.ts"
+                        },
+                        {
+                          "name": "wiki-page.spec.ts",
+                          "path": "src/client/app/features/wiki/wiki-page.spec.ts"
+                        },
+                        {
+                          "name": "wiki-page.ts",
+                          "path": "src/client/app/features/wiki/wiki-page.ts"
+                        },
+                        {
+                          "name": "wiki-pages.spec.ts",
+                          "path": "src/client/app/features/wiki/wiki-pages.spec.ts"
+                        },
+                        {
+                          "name": "wiki-pages.ts",
+                          "path": "src/client/app/features/wiki/wiki-pages.ts"
+                        },
+                        {
+                          "name": "wiki-view.ts",
+                          "path": "src/client/app/features/wiki/wiki-view.ts"
+                        },
+                        {
+                          "name": "wiki.css",
+                          "path": "src/client/app/features/wiki/wiki.css"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "markdown",
+                  "path": "src/client/app/markdown",
+                  "children": [
+                    {
+                      "name": "callouts.spec.ts",
+                      "path": "src/client/app/markdown/callouts.spec.ts"
+                    },
+                    {
+                      "name": "callouts.ts",
+                      "path": "src/client/app/markdown/callouts.ts"
+                    },
+                    {
+                      "name": "code-blocks.spec.ts",
+                      "path": "src/client/app/markdown/code-blocks.spec.ts"
+                    },
+                    {
+                      "name": "code-blocks.ts",
+                      "path": "src/client/app/markdown/code-blocks.ts"
+                    },
+                    {
+                      "name": "dates.spec.ts",
+                      "path": "src/client/app/markdown/dates.spec.ts"
+                    },
+                    {
+                      "name": "dates.ts",
+                      "path": "src/client/app/markdown/dates.ts"
+                    },
+                    {
+                      "name": "diagram-links.spec.ts",
+                      "path": "src/client/app/markdown/diagram-links.spec.ts"
+                    },
+                    {
+                      "name": "diagram-links.ts",
+                      "path": "src/client/app/markdown/diagram-links.ts"
+                    },
+                    {
+                      "name": "diagrams.ts",
+                      "path": "src/client/app/markdown/diagrams.ts"
+                    },
+                    {
+                      "name": "embeds.spec.ts",
+                      "path": "src/client/app/markdown/embeds.spec.ts"
+                    },
+                    {
+                      "name": "embeds.ts",
+                      "path": "src/client/app/markdown/embeds.ts"
+                    },
+                    {
+                      "name": "file-embeds.ts",
+                      "path": "src/client/app/markdown/file-embeds.ts"
+                    },
+                    {
+                      "name": "footnotes.ts",
+                      "path": "src/client/app/markdown/footnotes.ts"
+                    },
+                    {
+                      "name": "headings.spec.ts",
+                      "path": "src/client/app/markdown/headings.spec.ts"
+                    },
+                    {
+                      "name": "headings.ts",
+                      "path": "src/client/app/markdown/headings.ts"
+                    },
+                    {
+                      "name": "image-zoom.spec.ts",
+                      "path": "src/client/app/markdown/image-zoom.spec.ts"
+                    },
+                    {
+                      "name": "image-zoom.ts",
+                      "path": "src/client/app/markdown/image-zoom.ts"
+                    },
+                    {
+                      "name": "link-target.spec.ts",
+                      "path": "src/client/app/markdown/link-target.spec.ts"
+                    },
+                    {
+                      "name": "link-target.ts",
+                      "path": "src/client/app/markdown/link-target.ts"
+                    },
+                    {
+                      "name": "markdown-dom.spec.ts",
+                      "path": "src/client/app/markdown/markdown-dom.spec.ts"
+                    },
+                    {
+                      "name": "markdown-dom.ts",
+                      "path": "src/client/app/markdown/markdown-dom.ts"
+                    },
+                    {
+                      "name": "markdown-pipeline.ts",
+                      "path": "src/client/app/markdown/markdown-pipeline.ts"
+                    },
+                    {
+                      "name": "markdown-view.spec.ts",
+                      "path": "src/client/app/markdown/markdown-view.spec.ts"
+                    },
+                    {
+                      "name": "markdown-view.ts",
+                      "path": "src/client/app/markdown/markdown-view.ts"
+                    },
+                    {
+                      "name": "math-alphabets.ts",
+                      "path": "src/client/app/markdown/math-alphabets.ts"
+                    },
+                    {
+                      "name": "math-syntax.ts",
+                      "path": "src/client/app/markdown/math-syntax.ts"
+                    },
+                    {
+                      "name": "math.spec.ts",
+                      "path": "src/client/app/markdown/math.spec.ts"
+                    },
+                    {
+                      "name": "math.ts",
+                      "path": "src/client/app/markdown/math.ts"
+                    },
+                    {
+                      "name": "mathml.spec.ts",
+                      "path": "src/client/app/markdown/mathml.spec.ts"
+                    },
+                    {
+                      "name": "mathml.ts",
+                      "path": "src/client/app/markdown/mathml.ts"
+                    },
+                    {
+                      "name": "mention-popover.spec.ts",
+                      "path": "src/client/app/markdown/mention-popover.spec.ts"
+                    },
+                    {
+                      "name": "mention-popover.ts",
+                      "path": "src/client/app/markdown/mention-popover.ts"
+                    },
+                    {
+                      "name": "mentions.spec.ts",
+                      "path": "src/client/app/markdown/mentions.spec.ts"
+                    },
+                    {
+                      "name": "mentions.ts",
+                      "path": "src/client/app/markdown/mentions.ts"
+                    },
+                    {
+                      "name": "plan-histories.ts",
+                      "path": "src/client/app/markdown/plan-histories.ts"
+                    },
+                    {
+                      "name": "prose-text.ts",
+                      "path": "src/client/app/markdown/prose-text.ts"
+                    },
+                    {
+                      "name": "raw-html.spec.ts",
+                      "path": "src/client/app/markdown/raw-html.spec.ts"
+                    },
+                    {
+                      "name": "raw-html.ts",
+                      "path": "src/client/app/markdown/raw-html.ts"
+                    },
+                    {
+                      "name": "references.spec.ts",
+                      "path": "src/client/app/markdown/references.spec.ts"
+                    },
+                    {
+                      "name": "references.ts",
+                      "path": "src/client/app/markdown/references.ts"
+                    },
+                    {
+                      "name": "remark-genbeya.ts",
+                      "path": "src/client/app/markdown/remark-genbeya.ts"
+                    },
+                    {
+                      "name": "source-lines.ts",
+                      "path": "src/client/app/markdown/source-lines.ts"
+                    },
+                    {
+                      "name": "task-checkbox.ts",
+                      "path": "src/client/app/markdown/task-checkbox.ts"
+                    },
+                    {
+                      "name": "typesetter.spec.ts",
+                      "path": "src/client/app/markdown/typesetter.spec.ts"
+                    },
+                    {
+                      "name": "typesetter.ts",
+                      "path": "src/client/app/markdown/typesetter.ts"
+                    }
+                  ]
+                },
+                {
+                  "name": "platform",
+                  "path": "src/client/app/platform",
+                  "children": [
+                    {
+                      "name": "connect.demo.ts",
+                      "path": "src/client/app/platform/connect.demo.ts"
+                    },
+                    {
+                      "name": "connect.ts",
+                      "path": "src/client/app/platform/connect.ts"
+                    },
+                    {
+                      "name": "demo-connector.spec.ts",
+                      "path": "src/client/app/platform/demo-connector.spec.ts"
+                    },
+                    {
+                      "name": "demo-connector.ts",
+                      "path": "src/client/app/platform/demo-connector.ts"
+                    },
+                    {
+                      "name": "deno-connector.ts",
+                      "path": "src/client/app/platform/deno-connector.ts"
+                    },
+                    {
+                      "name": "electron-connector.ts",
+                      "path": "src/client/app/platform/electron-connector.ts"
+                    },
+                    {
+                      "name": "platform.ts",
+                      "path": "src/client/app/platform/platform.ts"
+                    },
+                    {
+                      "name": "tauri-connector.ts",
+                      "path": "src/client/app/platform/tauri-connector.ts"
+                    }
+                  ]
+                },
+                {
+                  "name": "testing",
+                  "path": "src/client/app/testing",
+                  "children": [
+                    {
+                      "name": "component-harness.ts",
+                      "path": "src/client/app/testing/component-harness.ts"
+                    },
+                    {
+                      "name": "fake-platform.ts",
+                      "path": "src/client/app/testing/fake-platform.ts"
+                    }
+                  ]
+                },
+                {
+                  "name": "ui",
+                  "path": "src/client/app/ui",
+                  "children": [
+                    {
+                      "name": "tour",
+                      "path": "src/client/app/ui/tour",
+                      "children": [
+                        {
+                          "name": "tour-layer.ts",
+                          "path": "src/client/app/ui/tour/tour-layer.ts"
+                        },
+                        {
+                          "name": "tour-placement.spec.ts",
+                          "path": "src/client/app/ui/tour/tour-placement.spec.ts"
+                        },
+                        {
+                          "name": "tour-placement.ts",
+                          "path": "src/client/app/ui/tour/tour-placement.ts"
+                        },
+                        {
+                          "name": "tour.css",
+                          "path": "src/client/app/ui/tour/tour.css"
+                        },
+                        {
+                          "name": "tour.spec.ts",
+                          "path": "src/client/app/ui/tour/tour.spec.ts"
+                        },
+                        {
+                          "name": "tour.ts",
+                          "path": "src/client/app/ui/tour/tour.ts"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "avatar-hue.ts",
+                      "path": "src/client/app/ui/avatar-hue.ts"
+                    },
+                    {
+                      "name": "avatar.ts",
+                      "path": "src/client/app/ui/avatar.ts"
+                    },
+                    {
+                      "name": "calendar-date.spec.ts",
+                      "path": "src/client/app/ui/calendar-date.spec.ts"
+                    },
+                    {
+                      "name": "calendar-date.ts",
+                      "path": "src/client/app/ui/calendar-date.ts"
+                    },
+                    {
+                      "name": "confirm-dialog.ts",
+                      "path": "src/client/app/ui/confirm-dialog.ts"
+                    },
+                    {
+                      "name": "dialog-frame.ts",
+                      "path": "src/client/app/ui/dialog-frame.ts"
+                    },
+                    {
+                      "name": "empty-state.ts",
+                      "path": "src/client/app/ui/empty-state.ts"
+                    },
+                    {
+                      "name": "icon-data.ts",
+                      "path": "src/client/app/ui/icon-data.ts"
+                    },
+                    {
+                      "name": "icon-picker.spec.ts",
+                      "path": "src/client/app/ui/icon-picker.spec.ts"
+                    },
+                    {
+                      "name": "icon-picker.ts",
+                      "path": "src/client/app/ui/icon-picker.ts"
+                    },
+                    {
+                      "name": "icon.spec.ts",
+                      "path": "src/client/app/ui/icon.spec.ts"
+                    },
+                    {
+                      "name": "icon.ts",
+                      "path": "src/client/app/ui/icon.ts"
+                    },
+                    {
+                      "name": "icons.ts",
+                      "path": "src/client/app/ui/icons.ts"
+                    },
+                    {
+                      "name": "menu-item.ts",
+                      "path": "src/client/app/ui/menu-item.ts"
+                    },
+                    {
+                      "name": "prompt-dialog.spec.ts",
+                      "path": "src/client/app/ui/prompt-dialog.spec.ts"
+                    },
+                    {
+                      "name": "prompt-dialog.ts",
+                      "path": "src/client/app/ui/prompt-dialog.ts"
+                    },
+                    {
+                      "name": "relative-time.spec.ts",
+                      "path": "src/client/app/ui/relative-time.spec.ts"
+                    },
+                    {
+                      "name": "relative-time.ts",
+                      "path": "src/client/app/ui/relative-time.ts"
+                    },
+                    {
+                      "name": "remembered.spec.ts",
+                      "path": "src/client/app/ui/remembered.spec.ts"
+                    },
+                    {
+                      "name": "remembered.ts",
+                      "path": "src/client/app/ui/remembered.ts"
+                    },
+                    {
+                      "name": "resizable.spec.ts",
+                      "path": "src/client/app/ui/resizable.spec.ts"
+                    },
+                    {
+                      "name": "resizable.ts",
+                      "path": "src/client/app/ui/resizable.ts"
+                    },
+                    {
+                      "name": "status-tone.ts",
+                      "path": "src/client/app/ui/status-tone.ts"
+                    },
+                    {
+                      "name": "toasts.spec.ts",
+                      "path": "src/client/app/ui/toasts.spec.ts"
+                    },
+                    {
+                      "name": "toasts.ts",
+                      "path": "src/client/app/ui/toasts.ts"
+                    },
+                    {
+                      "name": "tree.spec.ts",
+                      "path": "src/client/app/ui/tree.spec.ts"
+                    },
+                    {
+                      "name": "tree.ts",
+                      "path": "src/client/app/ui/tree.ts"
+                    }
+                  ]
+                },
+                {
+                  "name": "app.config.ts",
+                  "path": "src/client/app/app.config.ts"
+                },
+                {
+                  "name": "app.routes.ts",
+                  "path": "src/client/app/app.routes.ts"
+                },
+                {
+                  "name": "app.ts",
+                  "path": "src/client/app/app.ts"
+                }
+              ]
+            },
+            {
+              "name": "public",
+              "path": "src/client/public",
+              "children": [
+                {
+                  "name": "icon.png",
+                  "path": "src/client/public/icon.png"
+                },
+                {
+                  "name": "icon.svg",
+                  "path": "src/client/public/icon.svg"
+                }
+              ]
+            },
+            {
+              "name": "styles",
+              "path": "src/client/styles",
+              "children": [
+                {
+                  "name": "base.css",
+                  "path": "src/client/styles/base.css"
+                },
+                {
+                  "name": "controls.css",
+                  "path": "src/client/styles/controls.css"
+                },
+                {
+                  "name": "dialog.css",
+                  "path": "src/client/styles/dialog.css"
+                },
+                {
+                  "name": "markdown.css",
+                  "path": "src/client/styles/markdown.css"
+                },
+                {
+                  "name": "mentions.css",
+                  "path": "src/client/styles/mentions.css"
+                },
+                {
+                  "name": "menu.css",
+                  "path": "src/client/styles/menu.css"
+                },
+                {
+                  "name": "toasts.css",
+                  "path": "src/client/styles/toasts.css"
+                },
+                {
+                  "name": "tokens.css",
+                  "path": "src/client/styles/tokens.css"
+                },
+                {
+                  "name": "tree.css",
+                  "path": "src/client/styles/tree.css"
+                },
+                {
+                  "name": "views.css",
+                  "path": "src/client/styles/views.css"
+                }
+              ]
+            },
+            {
+              "name": "index.demo.html",
+              "path": "src/client/index.demo.html"
+            },
+            {
+              "name": "index.html",
+              "path": "src/client/index.html"
+            },
+            {
+              "name": "main.ts",
+              "path": "src/client/main.ts"
+            },
+            {
+              "name": "styles.css",
+              "path": "src/client/styles.css"
+            },
+            {
+              "name": "test-setup.ts",
+              "path": "src/client/test-setup.ts"
+            }
+          ]
+        },
+        {
+          "name": "contracts",
+          "path": "src/contracts",
+          "children": [
+            {
+              "name": "bridges.ts",
+              "path": "src/contracts/bridges.ts"
+            },
+            {
+              "name": "genbeya-link.ts",
+              "path": "src/contracts/genbeya-link.ts"
+            },
+            {
+              "name": "manager-contracts.ts",
+              "path": "src/contracts/manager-contracts.ts"
+            },
+            {
+              "name": "model.spec.ts",
+              "path": "src/contracts/model.spec.ts"
+            },
+            {
+              "name": "model.ts",
+              "path": "src/contracts/model.ts"
+            },
+            {
+              "name": "rebase-todo.ts",
+              "path": "src/contracts/rebase-todo.ts"
+            },
+            {
+              "name": "rpc.spec.ts",
+              "path": "src/contracts/rpc.spec.ts"
+            },
+            {
+              "name": "rpc.ts",
+              "path": "src/contracts/rpc.ts"
+            },
+            {
+              "name": "shell.ts",
+              "path": "src/contracts/shell.ts"
+            }
+          ]
+        },
+        {
+          "name": "engines",
+          "path": "src/engines",
+          "children": [
+            {
+              "name": "agent-engine.spec.ts",
+              "path": "src/engines/agent-engine.spec.ts"
+            },
+            {
+              "name": "agent-engine.ts",
+              "path": "src/engines/agent-engine.ts"
+            },
+            {
+              "name": "agent-instructions.ts",
+              "path": "src/engines/agent-instructions.ts"
+            },
+            {
+              "name": "demo-engine.ts",
+              "path": "src/engines/demo-engine.ts"
+            },
+            {
+              "name": "line-origins.spec.ts",
+              "path": "src/engines/line-origins.spec.ts"
+            },
+            {
+              "name": "line-origins.ts",
+              "path": "src/engines/line-origins.ts"
+            },
+            {
+              "name": "link-engine.spec.ts",
+              "path": "src/engines/link-engine.spec.ts"
+            },
+            {
+              "name": "link-engine.ts",
+              "path": "src/engines/link-engine.ts"
+            },
+            {
+              "name": "patch-engine.spec.ts",
+              "path": "src/engines/patch-engine.spec.ts"
+            },
+            {
+              "name": "patch-engine.ts",
+              "path": "src/engines/patch-engine.ts"
+            },
+            {
+              "name": "people-engine.spec.ts",
+              "path": "src/engines/people-engine.spec.ts"
+            },
+            {
+              "name": "people-engine.ts",
+              "path": "src/engines/people-engine.ts"
+            },
+            {
+              "name": "pull-engine.spec.ts",
+              "path": "src/engines/pull-engine.spec.ts"
+            },
+            {
+              "name": "pull-engine.ts",
+              "path": "src/engines/pull-engine.ts"
+            },
+            {
+              "name": "rebase-engine.spec.ts",
+              "path": "src/engines/rebase-engine.spec.ts"
+            },
+            {
+              "name": "rebase-engine.ts",
+              "path": "src/engines/rebase-engine.ts"
+            },
+            {
+              "name": "sample-engine.spec.ts",
+              "path": "src/engines/sample-engine.spec.ts"
+            },
+            {
+              "name": "sample-engine.ts",
+              "path": "src/engines/sample-engine.ts"
+            },
+            {
+              "name": "search-engine.spec.ts",
+              "path": "src/engines/search-engine.spec.ts"
+            },
+            {
+              "name": "search-engine.ts",
+              "path": "src/engines/search-engine.ts"
+            },
+            {
+              "name": "settings-engine.spec.ts",
+              "path": "src/engines/settings-engine.spec.ts"
+            },
+            {
+              "name": "settings-engine.ts",
+              "path": "src/engines/settings-engine.ts"
+            },
+            {
+              "name": "task-activity.spec.ts",
+              "path": "src/engines/task-activity.spec.ts"
+            },
+            {
+              "name": "task-activity.ts",
+              "path": "src/engines/task-activity.ts"
+            },
+            {
+              "name": "task-comments.spec.ts",
+              "path": "src/engines/task-comments.spec.ts"
+            },
+            {
+              "name": "task-comments.ts",
+              "path": "src/engines/task-comments.ts"
+            },
+            {
+              "name": "task-engine.spec.ts",
+              "path": "src/engines/task-engine.spec.ts"
+            },
+            {
+              "name": "task-engine.ts",
+              "path": "src/engines/task-engine.ts"
+            },
+            {
+              "name": "wiki-engine.spec.ts",
+              "path": "src/engines/wiki-engine.spec.ts"
+            },
+            {
+              "name": "wiki-engine.ts",
+              "path": "src/engines/wiki-engine.ts"
+            }
+          ]
+        },
+        {
+          "name": "managers",
+          "path": "src/managers",
+          "children": [
+            {
+              "name": "demo",
+              "path": "src/managers/demo",
+              "children": [
+                {
+                  "name": "demo-backend.spec.ts",
+                  "path": "src/managers/demo/demo-backend.spec.ts"
+                },
+                {
+                  "name": "demo-backend.ts",
+                  "path": "src/managers/demo/demo-backend.ts"
+                },
+                {
+                  "name": "demo-content-manager.ts",
+                  "path": "src/managers/demo/demo-content-manager.ts"
+                },
+                {
+                  "name": "demo-sample.ts",
+                  "path": "src/managers/demo/demo-sample.ts"
+                },
+                {
+                  "name": "demo-version-control-manager.ts",
+                  "path": "src/managers/demo/demo-version-control-manager.ts"
+                },
+                {
+                  "name": "demo-workspace-manager.ts",
+                  "path": "src/managers/demo/demo-workspace-manager.ts"
+                },
+                {
+                  "name": "demo-workspace.ts",
+                  "path": "src/managers/demo/demo-workspace.ts"
+                }
+              ]
+            },
+            {
+              "name": "backend.spec.ts",
+              "path": "src/managers/backend.spec.ts"
+            },
+            {
+              "name": "backend.ts",
+              "path": "src/managers/backend.ts"
+            },
+            {
+              "name": "compose-backend.ts",
+              "path": "src/managers/compose-backend.ts"
+            },
+            {
+              "name": "content-manager.ts",
+              "path": "src/managers/content-manager.ts"
+            },
+            {
+              "name": "content-search.spec.ts",
+              "path": "src/managers/content-search.spec.ts"
+            },
+            {
+              "name": "content-search.ts",
+              "path": "src/managers/content-search.ts"
+            },
+            {
+              "name": "local-backend.spec.ts",
+              "path": "src/managers/local-backend.spec.ts"
+            },
+            {
+              "name": "local-backend.ts",
+              "path": "src/managers/local-backend.ts"
+            },
+            {
+              "name": "plan-history.ts",
+              "path": "src/managers/plan-history.ts"
+            },
+            {
+              "name": "preference-change.spec.ts",
+              "path": "src/managers/preference-change.spec.ts"
+            },
+            {
+              "name": "preference-change.ts",
+              "path": "src/managers/preference-change.ts"
+            },
+            {
+              "name": "staging.spec.ts",
+              "path": "src/managers/staging.spec.ts"
+            },
+            {
+              "name": "terminal-manager.spec.ts",
+              "path": "src/managers/terminal-manager.spec.ts"
+            },
+            {
+              "name": "terminal-manager.ts",
+              "path": "src/managers/terminal-manager.ts"
+            },
+            {
+              "name": "version-control-arguments.spec.ts",
+              "path": "src/managers/version-control-arguments.spec.ts"
+            },
+            {
+              "name": "version-control-arguments.ts",
+              "path": "src/managers/version-control-arguments.ts"
+            },
+            {
+              "name": "version-control-manager.spec.ts",
+              "path": "src/managers/version-control-manager.spec.ts"
+            },
+            {
+              "name": "version-control-manager.ts",
+              "path": "src/managers/version-control-manager.ts"
+            },
+            {
+              "name": "workspace-manager.ts",
+              "path": "src/managers/workspace-manager.ts"
+            },
+            {
+              "name": "workspace.spec.ts",
+              "path": "src/managers/workspace.spec.ts"
+            },
+            {
+              "name": "workspace.ts",
+              "path": "src/managers/workspace.ts"
+            }
+          ]
+        },
+        {
+          "name": "platforms",
+          "path": "src/platforms",
+          "children": [
+            {
+              "name": "node",
+              "path": "src/platforms/node",
+              "children": [
+                {
+                  "name": "node-machine.spec.ts",
+                  "path": "src/platforms/node/node-machine.spec.ts"
+                },
+                {
+                  "name": "node-machine.ts",
+                  "path": "src/platforms/node/node-machine.ts"
+                },
+                {
+                  "name": "node-terminals.ts",
+                  "path": "src/platforms/node/node-terminals.ts"
+                }
+              ]
+            },
+            {
+              "name": "tauri",
+              "path": "src/platforms/tauri",
+              "children": [
+                {
+                  "name": "tauri-machine.spec.ts",
+                  "path": "src/platforms/tauri/tauri-machine.spec.ts"
+                },
+                {
+                  "name": "tauri-machine.ts",
+                  "path": "src/platforms/tauri/tauri-machine.ts"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "shells",
+          "path": "src/shells",
+          "children": [
+            {
+              "name": "deno",
+              "path": "src/shells/deno",
+              "children": [
+                {
+                  "name": "deno-desktop.d.ts",
+                  "path": "src/shells/deno/deno-desktop.d.ts"
+                },
+                {
+                  "name": "main.ts",
+                  "path": "src/shells/deno/main.ts"
+                },
+                {
+                  "name": "static-files.spec.ts",
+                  "path": "src/shells/deno/static-files.spec.ts"
+                },
+                {
+                  "name": "static-files.ts",
+                  "path": "src/shells/deno/static-files.ts"
+                }
+              ]
+            },
+            {
+              "name": "electron",
+              "path": "src/shells/electron",
+              "children": [
+                {
+                  "name": "jump-list.ts",
+                  "path": "src/shells/electron/jump-list.ts"
+                },
+                {
+                  "name": "main.ts",
+                  "path": "src/shells/electron/main.ts"
+                },
+                {
+                  "name": "preload.ts",
+                  "path": "src/shells/electron/preload.ts"
+                },
+                {
+                  "name": "renderer-protocol.spec.ts",
+                  "path": "src/shells/electron/renderer-protocol.spec.ts"
+                },
+                {
+                  "name": "renderer-protocol.ts",
+                  "path": "src/shells/electron/renderer-protocol.ts"
+                },
+                {
+                  "name": "window-state.spec.ts",
+                  "path": "src/shells/electron/window-state.spec.ts"
+                },
+                {
+                  "name": "window-state.ts",
+                  "path": "src/shells/electron/window-state.ts"
+                }
+              ]
+            },
+            {
+              "name": "tauri",
+              "path": "src/shells/tauri",
+              "children": [
+                {
+                  "name": "src-tauri",
+                  "path": "src/shells/tauri/src-tauri",
+                  "children": [
+                    {
+                      "name": "capabilities",
+                      "path": "src/shells/tauri/src-tauri/capabilities",
+                      "children": [
+                        {
+                          "name": "default.json",
+                          "path": "src/shells/tauri/src-tauri/capabilities/default.json"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "icons",
+                      "path": "src/shells/tauri/src-tauri/icons",
+                      "children": [
+                        {
+                          "name": "32x32.png",
+                          "path": "src/shells/tauri/src-tauri/icons/32x32.png"
+                        },
+                        {
+                          "name": "128x128.png",
+                          "path": "src/shells/tauri/src-tauri/icons/128x128.png"
+                        },
+                        {
+                          "name": "128x128@2x.png",
+                          "path": "src/shells/tauri/src-tauri/icons/128x128@2x.png"
+                        },
+                        {
+                          "name": "icon.icns",
+                          "path": "src/shells/tauri/src-tauri/icons/icon.icns"
+                        },
+                        {
+                          "name": "icon.ico",
+                          "path": "src/shells/tauri/src-tauri/icons/icon.ico"
+                        },
+                        {
+                          "name": "icon.png",
+                          "path": "src/shells/tauri/src-tauri/icons/icon.png"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "src",
+                      "path": "src/shells/tauri/src-tauri/src",
+                      "children": [
+                        {
+                          "name": "files.rs",
+                          "path": "src/shells/tauri/src-tauri/src/files.rs"
+                        },
+                        {
+                          "name": "main.rs",
+                          "path": "src/shells/tauri/src-tauri/src/main.rs"
+                        },
+                        {
+                          "name": "processes.rs",
+                          "path": "src/shells/tauri/src-tauri/src/processes.rs"
+                        },
+                        {
+                          "name": "terminals.rs",
+                          "path": "src/shells/tauri/src-tauri/src/terminals.rs"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "build.rs",
+                      "path": "src/shells/tauri/src-tauri/build.rs"
+                    },
+                    {
+                      "name": "Cargo.lock",
+                      "path": "src/shells/tauri/src-tauri/Cargo.lock"
+                    },
+                    {
+                      "name": "Cargo.toml",
+                      "path": "src/shells/tauri/src-tauri/Cargo.toml"
+                    },
+                    {
+                      "name": "tauri.conf.json",
+                      "path": "src/shells/tauri/src-tauri/tauri.conf.json"
+                    }
+                  ]
+                },
+                {
+                  "name": "allowlist.spec.ts",
+                  "path": "src/shells/tauri/allowlist.spec.ts"
+                },
+                {
+                  "name": "tauri-config.spec.ts",
+                  "path": "src/shells/tauri/tauri-config.spec.ts"
+                }
+              ]
+            },
+            {
+              "name": "vscode",
+              "path": "src/shells/vscode",
+              "children": [
+                {
+                  "name": "test",
+                  "path": "src/shells/vscode/test",
+                  "children": [
+                    {
+                      "name": "smoke.ts",
+                      "path": "src/shells/vscode/test/smoke.ts"
+                    }
+                  ]
+                },
+                {
+                  "name": "webview",
+                  "path": "src/shells/vscode/webview",
+                  "children": [
+                    {
+                      "name": "board.ts",
+                      "path": "src/shells/vscode/webview/board.ts"
+                    },
+                    {
+                      "name": "bridge.ts",
+                      "path": "src/shells/vscode/webview/bridge.ts"
+                    },
+                    {
+                      "name": "completion.ts",
+                      "path": "src/shells/vscode/webview/completion.ts"
+                    },
+                    {
+                      "name": "markdown.ts",
+                      "path": "src/shells/vscode/webview/markdown.ts"
+                    },
+                    {
+                      "name": "preview.ts",
+                      "path": "src/shells/vscode/webview/preview.ts"
+                    },
+                    {
+                      "name": "protocol.ts",
+                      "path": "src/shells/vscode/webview/protocol.ts"
+                    },
+                    {
+                      "name": "styles.css",
+                      "path": "src/shells/vscode/webview/styles.css"
+                    },
+                    {
+                      "name": "task.ts",
+                      "path": "src/shells/vscode/webview/task.ts"
+                    },
+                    {
+                      "name": "theme.ts",
+                      "path": "src/shells/vscode/webview/theme.ts"
+                    }
+                  ]
+                },
+                {
+                  "name": "CHANGELOG.md",
+                  "path": "src/shells/vscode/CHANGELOG.md"
+                },
+                {
+                  "name": "content-files.ts",
+                  "path": "src/shells/vscode/content-files.ts"
+                },
+                {
+                  "name": "extension.ts",
+                  "path": "src/shells/vscode/extension.ts"
+                },
+                {
+                  "name": "manifest.json",
+                  "path": "src/shells/vscode/manifest.json"
+                },
+                {
+                  "name": "markdown-language.ts",
+                  "path": "src/shells/vscode/markdown-language.ts"
+                },
+                {
+                  "name": "markdown-references.spec.ts",
+                  "path": "src/shells/vscode/markdown-references.spec.ts"
+                },
+                {
+                  "name": "markdown-references.ts",
+                  "path": "src/shells/vscode/markdown-references.ts"
+                },
+                {
+                  "name": "README.md",
+                  "path": "src/shells/vscode/README.md"
+                },
+                {
+                  "name": "repository.ts",
+                  "path": "src/shells/vscode/repository.ts"
+                },
+                {
+                  "name": "revision-files.ts",
+                  "path": "src/shells/vscode/revision-files.ts"
+                },
+                {
+                  "name": "task-actions.ts",
+                  "path": "src/shells/vscode/task-actions.ts"
+                },
+                {
+                  "name": "task-groups.spec.ts",
+                  "path": "src/shells/vscode/task-groups.spec.ts"
+                },
+                {
+                  "name": "task-groups.ts",
+                  "path": "src/shells/vscode/task-groups.ts"
+                },
+                {
+                  "name": "tasks-view.ts",
+                  "path": "src/shells/vscode/tasks-view.ts"
+                },
+                {
+                  "name": "webviews.ts",
+                  "path": "src/shells/vscode/webviews.ts"
+                },
+                {
+                  "name": "wiki-view.ts",
+                  "path": "src/shells/vscode/wiki-view.ts"
+                }
+              ]
+            },
+            {
+              "name": "content-security-policy.spec.ts",
+              "path": "src/shells/content-security-policy.spec.ts"
+            },
+            {
+              "name": "content-security-policy.ts",
+              "path": "src/shells/content-security-policy.ts"
+            }
+          ]
+        },
+        {
+          "name": "testing",
+          "path": "src/testing",
+          "children": [
+            {
+              "name": "machine-contract.ts",
+              "path": "src/testing/machine-contract.ts"
+            },
+            {
+              "name": "repository.ts",
+              "path": "src/testing/repository.ts"
+            },
+            {
+              "name": "shell.ts",
+              "path": "src/testing/shell.ts"
+            },
+            {
+              "name": "temp.ts",
+              "path": "src/testing/temp.ts"
+            },
+            {
+              "name": "terminals.ts",
+              "path": "src/testing/terminals.ts"
+            }
+          ]
+        },
+        {
+          "name": "utilities",
+          "path": "src/utilities",
+          "children": [
+            {
+              "name": "bytes.spec.ts",
+              "path": "src/utilities/bytes.spec.ts"
+            },
+            {
+              "name": "bytes.ts",
+              "path": "src/utilities/bytes.ts"
+            },
+            {
+              "name": "conflict-markers.spec.ts",
+              "path": "src/utilities/conflict-markers.spec.ts"
+            },
+            {
+              "name": "conflict-markers.ts",
+              "path": "src/utilities/conflict-markers.ts"
+            },
+            {
+              "name": "file-tree.spec.ts",
+              "path": "src/utilities/file-tree.spec.ts"
+            },
+            {
+              "name": "file-tree.ts",
+              "path": "src/utilities/file-tree.ts"
+            },
+            {
+              "name": "genbeya-link.spec.ts",
+              "path": "src/utilities/genbeya-link.spec.ts"
+            },
+            {
+              "name": "genbeya-link.ts",
+              "path": "src/utilities/genbeya-link.ts"
+            },
+            {
+              "name": "gitignore.spec.ts",
+              "path": "src/utilities/gitignore.spec.ts"
+            },
+            {
+              "name": "gitignore.ts",
+              "path": "src/utilities/gitignore.ts"
+            },
+            {
+              "name": "image-types.ts",
+              "path": "src/utilities/image-types.ts"
+            },
+            {
+              "name": "launch-request.spec.ts",
+              "path": "src/utilities/launch-request.spec.ts"
+            },
+            {
+              "name": "launch-request.ts",
+              "path": "src/utilities/launch-request.ts"
+            },
+            {
+              "name": "native-path.spec.ts",
+              "path": "src/utilities/native-path.spec.ts"
+            },
+            {
+              "name": "native-path.ts",
+              "path": "src/utilities/native-path.ts"
+            },
+            {
+              "name": "people.spec.ts",
+              "path": "src/utilities/people.spec.ts"
+            },
+            {
+              "name": "people.ts",
+              "path": "src/utilities/people.ts"
+            },
+            {
+              "name": "plan-history.spec.ts",
+              "path": "src/utilities/plan-history.spec.ts"
+            },
+            {
+              "name": "plan-history.ts",
+              "path": "src/utilities/plan-history.ts"
+            },
+            {
+              "name": "planning.spec.ts",
+              "path": "src/utilities/planning.spec.ts"
+            },
+            {
+              "name": "planning.ts",
+              "path": "src/utilities/planning.ts"
+            },
+            {
+              "name": "pull-requests.spec.ts",
+              "path": "src/utilities/pull-requests.spec.ts"
+            },
+            {
+              "name": "pull-requests.ts",
+              "path": "src/utilities/pull-requests.ts"
+            },
+            {
+              "name": "references.spec.ts",
+              "path": "src/utilities/references.spec.ts"
+            },
+            {
+              "name": "references.ts",
+              "path": "src/utilities/references.ts"
+            },
+            {
+              "name": "remote-url.spec.ts",
+              "path": "src/utilities/remote-url.spec.ts"
+            },
+            {
+              "name": "remote-url.ts",
+              "path": "src/utilities/remote-url.ts"
+            },
+            {
+              "name": "repository-path.spec.ts",
+              "path": "src/utilities/repository-path.spec.ts"
+            },
+            {
+              "name": "repository-path.ts",
+              "path": "src/utilities/repository-path.ts"
+            },
+            {
+              "name": "serial-queue.spec.ts",
+              "path": "src/utilities/serial-queue.spec.ts"
+            },
+            {
+              "name": "serial-queue.ts",
+              "path": "src/utilities/serial-queue.ts"
+            },
+            {
+              "name": "shell-quote.ts",
+              "path": "src/utilities/shell-quote.ts"
+            },
+            {
+              "name": "text-style.spec.ts",
+              "path": "src/utilities/text-style.spec.ts"
+            },
+            {
+              "name": "text-style.ts",
+              "path": "src/utilities/text-style.ts"
+            },
+            {
+              "name": "timestamps.ts",
+              "path": "src/utilities/timestamps.ts"
+            },
+            {
+              "name": "version.spec.ts",
+              "path": "src/utilities/version.spec.ts"
+            },
+            {
+              "name": "version.ts",
+              "path": "src/utilities/version.ts"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tasks",
+      "path": "tasks",
+      "children": [
+        {
+          "name": "1 Optional parts",
+          "path": "tasks/1 Optional parts",
+          "children": [
+            {
+              "name": "GENBEYA-39.md",
+              "path": "tasks/1 Optional parts/GENBEYA-39.md"
+            },
+            {
+              "name": "GENBEYA-40.md",
+              "path": "tasks/1 Optional parts/GENBEYA-40.md"
+            },
+            {
+              "name": "GENBEYA-41.md",
+              "path": "tasks/1 Optional parts/GENBEYA-41.md"
+            }
+          ]
+        },
+        {
+          "name": "2 Planning",
+          "path": "tasks/2 Planning",
+          "children": [
+            {
+              "name": "GENBEYA-43.md",
+              "path": "tasks/2 Planning/GENBEYA-43.md"
+            },
+            {
+              "name": "GENBEYA-44.md",
+              "path": "tasks/2 Planning/GENBEYA-44.md"
+            },
+            {
+              "name": "GENBEYA-45.md",
+              "path": "tasks/2 Planning/GENBEYA-45.md"
+            },
+            {
+              "name": "GENBEYA-46.md",
+              "path": "tasks/2 Planning/GENBEYA-46.md"
+            },
+            {
+              "name": "GENBEYA-47.md",
+              "path": "tasks/2 Planning/GENBEYA-47.md"
+            },
+            {
+              "name": "GENBEYA-48.md",
+              "path": "tasks/2 Planning/GENBEYA-48.md"
+            },
+            {
+              "name": "GENBEYA-49.md",
+              "path": "tasks/2 Planning/GENBEYA-49.md"
+            },
+            {
+              "name": "GENBEYA-65.md",
+              "path": "tasks/2 Planning/GENBEYA-65.md"
+            }
+          ]
+        },
+        {
+          "name": "3 Pull requests",
+          "path": "tasks/3 Pull requests",
+          "children": [
+            {
+              "name": "GENBEYA-50.md",
+              "path": "tasks/3 Pull requests/GENBEYA-50.md"
+            },
+            {
+              "name": "GENBEYA-51.md",
+              "path": "tasks/3 Pull requests/GENBEYA-51.md"
+            },
+            {
+              "name": "GENBEYA-52.md",
+              "path": "tasks/3 Pull requests/GENBEYA-52.md"
+            },
+            {
+              "name": "GENBEYA-53.md",
+              "path": "tasks/3 Pull requests/GENBEYA-53.md"
+            },
+            {
+              "name": "GENBEYA-54.md",
+              "path": "tasks/3 Pull requests/GENBEYA-54.md"
+            },
+            {
+              "name": "GENBEYA-55.md",
+              "path": "tasks/3 Pull requests/GENBEYA-55.md"
+            },
+            {
+              "name": "GENBEYA-56.md",
+              "path": "tasks/3 Pull requests/GENBEYA-56.md"
+            }
+          ]
+        },
+        {
+          "name": "Planning demo",
+          "path": "tasks/Planning demo",
+          "children": [
+            {
+              "name": "GENBEYA-57.md",
+              "path": "tasks/Planning demo/GENBEYA-57.md"
+            },
+            {
+              "name": "GENBEYA-58.md",
+              "path": "tasks/Planning demo/GENBEYA-58.md"
+            },
+            {
+              "name": "GENBEYA-59.md",
+              "path": "tasks/Planning demo/GENBEYA-59.md"
+            },
+            {
+              "name": "GENBEYA-60.md",
+              "path": "tasks/Planning demo/GENBEYA-60.md"
+            },
+            {
+              "name": "GENBEYA-61.md",
+              "path": "tasks/Planning demo/GENBEYA-61.md"
+            },
+            {
+              "name": "GENBEYA-62.md",
+              "path": "tasks/Planning demo/GENBEYA-62.md"
+            },
+            {
+              "name": "GENBEYA-63.md",
+              "path": "tasks/Planning demo/GENBEYA-63.md"
+            },
+            {
+              "name": "GENBEYA-64.md",
+              "path": "tasks/Planning demo/GENBEYA-64.md"
+            }
+          ]
+        },
+        {
+          "name": "GENBEYA-1.md",
+          "path": "tasks/GENBEYA-1.md"
+        },
+        {
+          "name": "GENBEYA-2.md",
+          "path": "tasks/GENBEYA-2.md"
+        },
+        {
+          "name": "GENBEYA-3.md",
+          "path": "tasks/GENBEYA-3.md"
+        },
+        {
+          "name": "GENBEYA-4.md",
+          "path": "tasks/GENBEYA-4.md"
+        },
+        {
+          "name": "GENBEYA-5.md",
+          "path": "tasks/GENBEYA-5.md"
+        },
+        {
+          "name": "GENBEYA-6.md",
+          "path": "tasks/GENBEYA-6.md"
+        },
+        {
+          "name": "GENBEYA-7.md",
+          "path": "tasks/GENBEYA-7.md"
+        },
+        {
+          "name": "GENBEYA-8.md",
+          "path": "tasks/GENBEYA-8.md"
+        },
+        {
+          "name": "GENBEYA-9.md",
+          "path": "tasks/GENBEYA-9.md"
+        },
+        {
+          "name": "GENBEYA-10.md",
+          "path": "tasks/GENBEYA-10.md"
+        },
+        {
+          "name": "GENBEYA-11.md",
+          "path": "tasks/GENBEYA-11.md"
+        },
+        {
+          "name": "GENBEYA-12.md",
+          "path": "tasks/GENBEYA-12.md"
+        },
+        {
+          "name": "GENBEYA-13.md",
+          "path": "tasks/GENBEYA-13.md"
+        },
+        {
+          "name": "GENBEYA-14.md",
+          "path": "tasks/GENBEYA-14.md"
+        },
+        {
+          "name": "GENBEYA-15.md",
+          "path": "tasks/GENBEYA-15.md"
+        },
+        {
+          "name": "GENBEYA-16.md",
+          "path": "tasks/GENBEYA-16.md"
+        },
+        {
+          "name": "GENBEYA-17.md",
+          "path": "tasks/GENBEYA-17.md"
+        },
+        {
+          "name": "GENBEYA-18.md",
+          "path": "tasks/GENBEYA-18.md"
+        },
+        {
+          "name": "GENBEYA-19.md",
+          "path": "tasks/GENBEYA-19.md"
+        },
+        {
+          "name": "GENBEYA-20.md",
+          "path": "tasks/GENBEYA-20.md"
+        },
+        {
+          "name": "GENBEYA-21.md",
+          "path": "tasks/GENBEYA-21.md"
+        },
+        {
+          "name": "GENBEYA-22.md",
+          "path": "tasks/GENBEYA-22.md"
+        },
+        {
+          "name": "GENBEYA-23.md",
+          "path": "tasks/GENBEYA-23.md"
+        },
+        {
+          "name": "GENBEYA-24.md",
+          "path": "tasks/GENBEYA-24.md"
+        },
+        {
+          "name": "GENBEYA-25.md",
+          "path": "tasks/GENBEYA-25.md"
+        },
+        {
+          "name": "GENBEYA-27.md",
+          "path": "tasks/GENBEYA-27.md"
+        },
+        {
+          "name": "GENBEYA-28.md",
+          "path": "tasks/GENBEYA-28.md"
+        },
+        {
+          "name": "GENBEYA-29.md",
+          "path": "tasks/GENBEYA-29.md"
+        },
+        {
+          "name": "GENBEYA-30.md",
+          "path": "tasks/GENBEYA-30.md"
+        },
+        {
+          "name": "GENBEYA-31.md",
+          "path": "tasks/GENBEYA-31.md"
+        },
+        {
+          "name": "GENBEYA-32.md",
+          "path": "tasks/GENBEYA-32.md"
+        },
+        {
+          "name": "GENBEYA-33.md",
+          "path": "tasks/GENBEYA-33.md"
+        },
+        {
+          "name": "GENBEYA-34.md",
+          "path": "tasks/GENBEYA-34.md"
+        },
+        {
+          "name": "GENBEYA-35.md",
+          "path": "tasks/GENBEYA-35.md"
+        },
+        {
+          "name": "GENBEYA-36.md",
+          "path": "tasks/GENBEYA-36.md"
+        },
+        {
+          "name": "GENBEYA-37.md",
+          "path": "tasks/GENBEYA-37.md"
+        },
+        {
+          "name": "GENBEYA-38.md",
+          "path": "tasks/GENBEYA-38.md"
+        },
+        {
+          "name": "GENBEYA-42.md",
+          "path": "tasks/GENBEYA-42.md"
+        },
+        {
+          "name": "GENBEYA-66.md",
+          "path": "tasks/GENBEYA-66.md"
+        }
+      ]
+    },
+    {
+      "name": ".genbeya.yml",
+      "path": ".genbeya.yml"
+    },
+    {
+      "name": ".gitattributes",
+      "path": ".gitattributes"
+    },
+    {
+      "name": ".gitignore",
+      "path": ".gitignore"
+    },
+    {
+      "name": ".prettierignore",
+      "path": ".prettierignore"
+    },
+    {
+      "name": ".prettierrc.json",
+      "path": ".prettierrc.json"
+    },
+    {
+      "name": "AGENTS.md",
+      "path": "AGENTS.md"
+    },
+    {
+      "name": "angular.json",
+      "path": "angular.json"
+    },
+    {
+      "name": "CLAUDE.md",
+      "path": "CLAUDE.md"
+    },
+    {
+      "name": "eslint.config.js",
+      "path": "eslint.config.js"
+    },
+    {
+      "name": "LICENSE-MIT-0.md",
+      "path": "LICENSE-MIT-0.md"
+    },
+    {
+      "name": "LICENSE.md",
+      "path": "LICENSE.md"
+    },
+    {
+      "name": "package-lock.json",
+      "path": "package-lock.json"
+    },
+    {
+      "name": "package.json",
+      "path": "package.json"
+    },
+    {
+      "name": "playwright.config.ts",
+      "path": "playwright.config.ts"
+    },
+    {
+      "name": "playwright.demo.config.ts",
+      "path": "playwright.demo.config.ts"
+    },
+    {
+      "name": "README.md",
+      "path": "README.md"
+    },
+    {
+      "name": "tsconfig.app.json",
+      "path": "tsconfig.app.json"
+    },
+    {
+      "name": "tsconfig.backend.json",
+      "path": "tsconfig.backend.json"
+    },
+    {
+      "name": "tsconfig.json",
+      "path": "tsconfig.json"
+    },
+    {
+      "name": "tsconfig.spec.json",
+      "path": "tsconfig.spec.json"
+    },
+    {
+      "name": "vitest.backend.config.ts",
+      "path": "vitest.backend.config.ts"
+    }
+  ]
+}

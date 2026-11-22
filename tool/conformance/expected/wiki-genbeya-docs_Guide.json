@@ -1,0 +1,149 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": {
+    "tree": [
+      {
+        "title": "AI agents",
+        "path": "docs/Guide/AI-agents.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Code",
+        "path": "docs/Guide/Code.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Keyboard shortcuts",
+        "path": "docs/Guide/Keyboard-shortcuts.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Pull requests",
+        "path": "docs/Guide/Pull-requests.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "References",
+        "path": "docs/Guide/References.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Search",
+        "path": "docs/Guide/Search.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Settings",
+        "path": "docs/Guide/Settings.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Sharing",
+        "path": "docs/Guide/Sharing.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Tasks",
+        "path": "docs/Guide/Tasks.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Terminal",
+        "path": "docs/Guide/Terminal.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Version control",
+        "path": "docs/Guide/Version-control.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "VS Code",
+        "path": "docs/Guide/VS-Code.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Wiki",
+        "path": "docs/Guide/Wiki.md",
+        "folder": null,
+        "children": []
+      },
+      {
+        "title": "Writing",
+        "path": "docs/Guide/Writing.md",
+        "folder": null,
+        "children": []
+      }
+    ],
+    "pages": [
+      {
+        "title": "AI agents",
+        "path": "docs/Guide/AI-agents.md"
+      },
+      {
+        "title": "Code",
+        "path": "docs/Guide/Code.md"
+      },
+      {
+        "title": "Keyboard shortcuts",
+        "path": "docs/Guide/Keyboard-shortcuts.md"
+      },
+      {
+        "title": "Pull requests",
+        "path": "docs/Guide/Pull-requests.md"
+      },
+      {
+        "title": "References",
+        "path": "docs/Guide/References.md"
+      },
+      {
+        "title": "Search",
+        "path": "docs/Guide/Search.md"
+      },
+      {
+        "title": "Settings",
+        "path": "docs/Guide/Settings.md"
+      },
+      {
+        "title": "Sharing",
+        "path": "docs/Guide/Sharing.md"
+      },
+      {
+        "title": "Tasks",
+        "path": "docs/Guide/Tasks.md"
+      },
+      {
+        "title": "Terminal",
+        "path": "docs/Guide/Terminal.md"
+      },
+      {
+        "title": "Version control",
+        "path": "docs/Guide/Version-control.md"
+      },
+      {
+        "title": "VS Code",
+        "path": "docs/Guide/VS-Code.md"
+      },
+      {
+        "title": "Wiki",
+        "path": "docs/Guide/Wiki.md"
+      },
+      {
+        "title": "Writing",
+        "path": "docs/Guide/Writing.md"
+      }
+    ]
+  }
+}
