@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../contracts/clones.dart';
 import '../repositories/repository_screen.dart';
+import '../tasks/tasks_screen.dart';
 import 'session_provider.dart';
 import 'wiki_screen.dart';
 
@@ -40,10 +41,7 @@ class _RepositoryShellState extends ConsumerState<RepositoryShell> {
           index: _tab,
           children: [
             WikiScreen(record: widget.record, session: session),
-            const _ComingSoon(
-              'Tasks',
-              'The list and the board come with GM-9.',
-            ),
+            TasksScreen(session: session),
             RepositoryScreen(record: widget.record),
           ],
         ),
@@ -68,16 +66,4 @@ class _RepositoryShellState extends ConsumerState<RepositoryShell> {
       ),
     );
   }
-}
-
-class _ComingSoon extends StatelessWidget {
-  const _ComingSoon(this.title, this.text);
-  final String title;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(title)),
-    body: Center(child: Text(text)),
-  );
 }

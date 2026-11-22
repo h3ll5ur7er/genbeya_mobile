@@ -8,8 +8,6 @@ import '../contracts/model.dart';
 import '../engines/collation.dart';
 import '../engines/people.dart';
 
-const priorities = ['urgent', 'high', 'medium', 'low', 'none'];
-
 /// An assignee filter for tasks nobody has.
 const unassigned = '-';
 
