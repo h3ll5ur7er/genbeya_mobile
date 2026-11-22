@@ -47,8 +47,7 @@ void main() {
           home: Consumer(
             builder: (context, ref, _) => Scaffold(
               body: TextButton(
-                onPressed: () =>
-                    openGenbeyaLink(Navigator.of(context), ref, link),
+                onPressed: () => openLinkText(Navigator.of(context), ref, link),
                 child: const Text('open'),
               ),
             ),
@@ -119,5 +118,21 @@ void main() {
       find.text('That is not a Genbeya link this app opens.'),
       findsOneWidget,
     );
+  });
+
+  testWidgets('a forge web link without a clone offers to clone it', (
+    tester,
+  ) async {
+    final s = session();
+    await open(
+      tester,
+      'https://github.com/acme/demo/blob/main/tasks/DM-1.md',
+      s,
+    );
+    expect(
+      find.text('To open this link, clone its repository first.'),
+      findsOneWidget,
+    );
+    expect(find.text('https://github.com/acme/demo'), findsOneWidget);
   });
 }

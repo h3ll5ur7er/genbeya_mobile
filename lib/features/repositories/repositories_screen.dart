@@ -4,6 +4,10 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../contracts/clones.dart';
 import '../../managers/repositories_manager.dart';
+
+import 'package:flutter/services.dart';
+
+import '../links/open_link.dart';
 import 'add_repository_screen.dart';
 import 'format.dart';
 import 'identity_dialog.dart';
@@ -24,12 +28,14 @@ class RepositoriesScreen extends ConsumerWidget {
         actions: [
           PopupMenuButton<String>(
             onSelected: (choice) => switch (choice) {
+              'link' => _openLink(context, ref),
               'ssh' => Navigator.of(context).push(
                 MaterialPageRoute<void>(builder: (_) => const SshKeyScreen()),
               ),
               _ => context.push('/spikes'),
             },
             itemBuilder: (_) => const [
+              PopupMenuItem(value: 'link', child: Text('Open a link')),
               PopupMenuItem(value: 'ssh', child: Text('SSH key of this phone')),
               PopupMenuItem(value: 'spikes', child: Text('Spikes')),
             ],
@@ -76,6 +82,45 @@ class RepositoriesScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  /// A link pasted, or found on the clipboard: a Genbeya link, or a link to
+  /// a file on the forge, which chats linkify where `genbeya://` isn't.
+  Future<void> _openLink(BuildContext context, WidgetRef ref) async {
+    final clipboard =
+        (await Clipboard.getData(Clipboard.kTextPlain))?.text?.trim() ?? '';
+    final looksLikeOne =
+        clipboard.startsWith('genbeya://') || clipboard.startsWith('https://');
+    if (!context.mounted) return;
+    final text = TextEditingController(text: looksLikeOne ? clipboard : '');
+    final link = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Open a link'),
+        content: TextField(
+          controller: text,
+          autofocus: !looksLikeOne,
+          maxLines: 3,
+          minLines: 1,
+          keyboardType: TextInputType.url,
+          decoration: const InputDecoration(
+            hintText: 'genbeya://open?… or https://github.com/…',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, text.text.trim()),
+            child: const Text('Open'),
+          ),
+        ],
+      ),
+    );
+    if (link == null || link.isEmpty || !context.mounted) return;
+    await openLinkText(Navigator.of(context), ref, link);
   }
 
   Future<void> _add(BuildContext context, WidgetRef ref) async {
