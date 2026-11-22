@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:genbeya_mobile/access/git/git_objects.dart';
+import 'package:genbeya_mobile/features/repository/links.dart';
 import 'package:genbeya_mobile/access/kit/kit_host.dart';
 import 'package:genbeya_mobile/managers/repository_model.dart';
 import 'package:genbeya_mobile/managers/repository_session.dart';
@@ -147,5 +148,14 @@ void main() {
       ],
     ]);
     expect(activity.entries.first.author, 'Ada');
+  });
+
+  test('links lead to tasks, pages and other files', () async {
+    final session = RepositorySession(repository(), folderName: 'demo');
+    final state = await session.load();
+    expect(fileTarget(state, 'tasks/DM-1.md'), FileTarget.task);
+    expect(fileTarget(state, 'docs/Home.md'), FileTarget.page);
+    expect(fileTarget(state, 'src/app.dart'), FileTarget.file);
+    expect(wikiPages(state.wiki), ['docs/Home.md']);
   });
 }

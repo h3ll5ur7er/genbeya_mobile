@@ -20,3 +20,6 @@ The tasks as phones and tablets show them best. See [[Experience#tasks]].
 - [ ] Deepen a shallow clone when the activity needs more history
 - [ ] Keep the repository model's parse cache across app starts, so the board opens from it
 - [ ] Branches and pull requests of the task, listed
+
+On the Pixel (2026-11-22, CI run 36): the list, filters, board with its strip, and the task screen with its activity work. Found there: a page linked from a task didn't open. Links are now followed in one place (`lib/features/repository/links.dart`): from a task, a page opens on a screen of its own (back arrow, no page tree); mentions and missing pages say what they are, as in the wiki.
+

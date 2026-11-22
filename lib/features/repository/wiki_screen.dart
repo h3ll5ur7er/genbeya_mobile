@@ -1,22 +1,29 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../access/kit/kit_host.dart';
 import '../../access/kit/kit_protocol.dart';
-import '../../contracts/clones.dart';
 import '../../contracts/model.dart';
 import '../../managers/repository_session.dart';
 import '../kit/kit_view.dart';
-import 'task_view_screen.dart';
+import 'links.dart';
 
 /// The wiki: pages rendered by Genbeya's own renderer, the page tree in a
 /// drawer, the page's place as a breadcrumb, its headings in "On this page"
 /// ([[Experience#wiki]], US-5, US-6).
 class WikiScreen extends StatefulWidget {
-  const WikiScreen({super.key, required this.record, required this.session});
+  const WikiScreen({
+    super.key,
+    required this.session,
+    this.initialPage,
+    this.initialAnchor,
+  });
 
-  final CloneRecord record;
   final RepositorySession session;
+
+  /// A page to open instead of the home page: then the screen stands on its
+  /// own (opened from a task), with a back arrow and no page tree.
+  final String? initialPage;
+  final String? initialAnchor;
 
   @override
   State<WikiScreen> createState() => _WikiScreenState();
@@ -40,7 +47,12 @@ class _WikiScreenState extends State<WikiScreen> {
     super.initState();
     _host = KitHost(
       files: _session.kitFiles(),
-      onFollow: _follow,
+      onFollow: (link) => followLink(
+        context,
+        _session,
+        link,
+        openPage: (path, anchor) => _open(path, anchor: anchor),
+      ),
       onToggle: (document, offset) async => _say(
         'Ticking checkboxes saves the page, which comes with editing (GM-11).',
       ),
@@ -55,8 +67,10 @@ class _WikiScreenState extends State<WikiScreen> {
         if (anchor != null) _host.reveal(anchor);
       },
     )..updateContext(_session.kitContext());
-    final home = _homePage();
-    if (home != null) _open(home, remember: false);
+    final first = widget.initialPage ?? _homePage();
+    if (first != null) {
+      _open(first, anchor: widget.initialAnchor, remember: false);
+    }
   }
 
   @override
@@ -68,14 +82,10 @@ class _WikiScreenState extends State<WikiScreen> {
   String? _homePage() {
     final state = _session.state!;
     final home = '${state.settings.wikiRoot}/${state.settings.wikiHome}';
-    final pages = _allPages(state.wiki);
+    final pages = wikiPages(state.wiki);
     if (pages.contains(home)) return home;
     return pages.firstOrNull;
   }
-
-  static List<String> _allPages(List<WikiNode> nodes) => [
-    for (final node in nodes) ...[?node.path, ..._allPages(node.children)],
-  ];
 
   Future<void> _open(
     String path, {
@@ -104,38 +114,6 @@ class _WikiScreenState extends State<WikiScreen> {
       _host.show(page);
     } on Object catch (error) {
       if (mounted) setState(() => _problem = "Couldn't open $path: $error");
-    }
-  }
-
-  void _follow(FollowedLink link) {
-    switch (link) {
-      case ExternalLink(:final url):
-        launchUrl(url, mode: LaunchMode.externalApplication);
-      case MissingPage(:final title):
-        _say(
-          '"$title" has no page yet. Creating pages comes with editing (GM-16).',
-        );
-      case PersonLink(:final handle):
-        final person = _session.state!.people
-            .where((p) => p.handle.toLowerCase() == handle.toLowerCase())
-            .firstOrNull;
-        _say(
-          person == null ? '@$handle' : '${person.name} (@${person.handle})',
-        );
-      case FileLink(:final path, :final anchor):
-        final state = _session.state!;
-        final task = state.tasks.where((t) => t.path == path).firstOrNull;
-        if (task != null) {
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (_) => TaskViewScreen(session: _session, task: task),
-            ),
-          );
-        } else if (_allPages(state.wiki).contains(path)) {
-          _open(path, anchor: anchor);
-        } else {
-          _say('$path: files open in Code, which comes with GM-17.');
-        }
     }
   }
 
@@ -219,24 +197,27 @@ class _WikiScreenState extends State<WikiScreen> {
               ),
           ],
         ),
-        drawer: Drawer(
-          child: SafeArea(
-            child: ListView(
-              children: [
-                ListTile(
-                  title: Text(
-                    _session.state!.settings.name,
-                    style: Theme.of(context).textTheme.titleMedium,
+        drawer: widget.initialPage != null
+            ? null
+            : Drawer(
+                child: SafeArea(
+                  child: ListView(
+                    children: [
+                      ListTile(
+                        title: Text(
+                          _session.state!.settings.name,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        subtitle: _openMs == null
+                            ? null
+                            : Text('Last page opened in $_openMs ms'),
+                      ),
+                      for (final node in _session.state!.wiki)
+                        _treeNode(node, 0),
+                    ],
                   ),
-                  subtitle: _openMs == null
-                      ? null
-                      : Text('Last page opened in $_openMs ms'),
                 ),
-                for (final node in _session.state!.wiki) _treeNode(node, 0),
-              ],
-            ),
-          ),
-        ),
+              ),
         body: _problem != null
             ? Padding(padding: const EdgeInsets.all(24), child: Text(_problem!))
             : page == null && _homePage() == null

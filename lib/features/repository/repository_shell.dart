@@ -40,7 +40,7 @@ class _RepositoryShellState extends ConsumerState<RepositoryShell> {
         body: IndexedStack(
           index: _tab,
           children: [
-            WikiScreen(record: widget.record, session: session),
+            WikiScreen(session: session),
             TasksScreen(session: session),
             RepositoryScreen(record: widget.record),
           ],

@@ -1,12 +1,11 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../access/kit/kit_host.dart';
-import '../../access/kit/kit_protocol.dart';
 import '../../contracts/model.dart';
 import '../../managers/repository_session.dart';
 import '../../managers/task_views.dart';
 import '../kit/kit_view.dart';
+import 'links.dart';
 import '../repositories/format.dart';
 import '../tasks/task_look.dart';
 
@@ -39,23 +38,7 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
             onHeight: (height) {
               if (mounted) setState(() => _height = height.clamp(60, 50000));
             },
-            onFollow: (link) {
-              if (link case ExternalLink(:final url)) {
-                launchUrl(url, mode: LaunchMode.externalApplication);
-              } else if (link case FileLink(:final path)) {
-                final task = widget.session.state!.tasks
-                    .where((t) => t.path == path)
-                    .firstOrNull;
-                if (task != null) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) =>
-                          TaskViewScreen(session: widget.session, task: task),
-                    ),
-                  );
-                }
-              }
-            },
+            onFollow: (link) => followLink(context, widget.session, link),
           )
           ..updateContext(widget.session.kitContext())
           ..show(KitTaskDocument(widget.task));
