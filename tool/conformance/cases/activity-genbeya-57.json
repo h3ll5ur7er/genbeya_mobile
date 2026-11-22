@@ -1,0 +1,12 @@
+{
+  "id": "activity-genbeya-57",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/GENBEYA-11.md",
+      "content": "---\nid: GENBEYA-11\ntitle: Manual order of cards within a column\nstatus: backlog\npriority: low\nlabels: [tasks]\n---\n\nCards sort by priority, then by ID. Allow dragging within a column; store the order in the task file (`rank:`) so it survives merges.\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

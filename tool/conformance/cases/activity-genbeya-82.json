@@ -1,0 +1,12 @@
+{
+  "id": "activity-genbeya-82",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/GENBEYA-19.md",
+      "content": "---\nid: GENBEYA-19\ntitle: New logo and app icons\nstatus: in-progress\npriority: medium\nlabels: [branding]\n---\n\nReplace the branch mark with the obeya logo in `branding/`, everywhere the app shows an icon.\n\n- [ ] Logo files and their rules in `branding/`\n- [ ] App icons of Electron, Tauri and Deno Desktop rendered from the logo (`npm run icons`)\n- [ ] Favicon and the start screen's mark\n- [ ] Logo in the README and the start screen screenshot\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

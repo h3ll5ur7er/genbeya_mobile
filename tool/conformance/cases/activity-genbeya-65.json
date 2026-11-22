@@ -1,0 +1,12 @@
+{
+  "id": "activity-genbeya-65",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/GENBEYA-13.md",
+      "content": "---\nid: GENBEYA-13\ntitle: Custom task fields and templates\nstatus: backlog\npriority: low\nlabels: [tasks]\n---\n\nTeams want fields such as estimate, due date or component, and description templates for bugs and features. Unknown frontmatter fields already survive edits; show them in the task panel and allow editing.\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

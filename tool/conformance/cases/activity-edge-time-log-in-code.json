@@ -1,0 +1,15 @@
+{
+  "id": "activity-edge-time-log-in-code",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\n---\n\n```\n## Time log\n- x\n```\n"
+    },
+    "after": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\n---\n\n```\n## Time log\n- y\n```\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

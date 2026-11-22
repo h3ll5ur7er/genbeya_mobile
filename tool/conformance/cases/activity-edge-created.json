@@ -1,0 +1,12 @@
+{
+  "id": "activity-edge-created",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\n---\n\nDo it.\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

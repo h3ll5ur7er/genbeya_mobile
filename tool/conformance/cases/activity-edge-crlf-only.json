@@ -1,0 +1,15 @@
+{
+  "id": "activity-edge-crlf-only",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\n---\n\nDo it.\n"
+    },
+    "after": {
+      "path": "tasks/A-1.md",
+      "content": "---\r\nid: A-1\r\ntitle: First\r\nstatus: todo\r\n---\r\n\r\nDo it.\r\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

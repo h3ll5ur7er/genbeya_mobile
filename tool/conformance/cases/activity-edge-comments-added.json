@@ -1,0 +1,15 @@
+{
+  "id": "activity-edge-comments-added",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\n---\n\nDo it.\n"
+    },
+    "after": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\n---\n\nDo it.\n\n## Comments\n\n### Ada — 2026-11-21 10:00\n\nHi\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

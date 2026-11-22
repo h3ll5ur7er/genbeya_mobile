@@ -1,0 +1,15 @@
+{
+  "id": "activity-edge-broken-before",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: [oops\n---\nBody\n"
+    },
+    "after": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\n---\n\nDo it.\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

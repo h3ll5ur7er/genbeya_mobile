@@ -1,0 +1,15 @@
+{
+  "id": "activity-mobile-56",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/4 Plan and review/GM-21.md",
+      "content": "---\nid: GM-21\ntitle: Review actions\ntype: feature\nstatus: backlog\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M4\ndepends_on: [GM-20, GM-13]\n---\n\nAnswer, comment on lines and give verdicts. See [[Experience#pull-requests]].\n\n- [ ] Reply to the discussion, a topic or a code range\n- [ ] Comment on lines: tap and drag line numbers; new topic or add to one; suggestion as an edit of the lines; optional to-do\n- [ ] Approve, Request changes, Withdraw approval, Request review, naming the source's commit\n- [ ] New pull request from a branch; Close and Reopen\n- [ ] Replies on a pull request whose file is on the source branch: commit onto that branch's tree, or read-only until switched (see [[Roadmap#open-decisions]])\n"
+    },
+    "after": {
+      "path": "tasks/4 Plan and review/GM-21.md",
+      "content": "---\nid: GM-21\ntitle: Review actions\ntype: feature\nstatus: backlog\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M4\ndepends_on: [GM-20, GM-13]\n---\n\nAnswer, comment on lines and give verdicts. See [[Experience#pull-requests]].\n\n- [ ] Reply to the discussion, a topic or a code range\n- [ ] Comment on lines: tap and drag line numbers; new topic or add to one; suggestion as an edit of the lines; optional to-do\n- [ ] Approve, Request changes, Withdraw approval, Request review, naming the source's commit\n- [ ] New pull request from a branch; Close, Reopen, and Mark merged once the target has every commit of the source (D10)\n- [ ] Replies on a pull request whose file is on the source branch: commit onto that branch's tree, named on the button, only branches the remote has, never forced (D9)\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "activity-genbeya-2",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/1 Optional parts/GENBEYA-39.md",
+      "content": "---\nid: GENBEYA-39\ntitle: Let a project declare which parts of the app it doesn't use\ntype: feature\nstatus: backlog\npriority: medium\nlabels: [settings]\n---\n\nThe project layer of [[Design/Optional-parts]]: `.genbeya.yml` says which parts the project doesn't use (wiki, tasks, planning, time log, code, changes, history, terminal, pull requests), and nobody sees them. Done when a part the project doesn't use is gone from the sidebar, the palette, search, onboarding and the generated agent instructions, and its files are untouched.\n\n- [ ] Decide the key and its shape (`unused: [...]` or a list of used parts) and the part names\n- [ ] Settings engine: read and validate it, including parts that need another (planning needs tasks, the time log needs planning)\n- [ ] **Settings → Project**: a switch per part, saying what else goes with it\n- [ ] Agent engine: leave unused parts out of the `AGENTS.md` section and the skill\n- [ ] Search and onboarding leave unused parts out\n- [ ] VS Code extension follows the project layer\n- [ ] Demo counterpart, `npm run e2e:demo`\n- [ ] Document in [[Guide/Settings]]\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

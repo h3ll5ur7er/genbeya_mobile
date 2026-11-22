@@ -1,0 +1,15 @@
+{
+  "id": "activity-genbeya-98",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/GENBEYA-25.md",
+      "content": "---\nid: GENBEYA-25\ntitle: Publish the VS Code extension\ntype: chore\nstatus: backlog\npriority: medium\nlabels: [vscode, release]\n---\n\nPublish the extension once it is ready for users.\n\n- [ ] Publisher `genbeya` on the Visual Studio Marketplace (Azure DevOps organisation, personal access token as a repository secret)\n- [ ] Namespace `genbeya` on Open VSX, for VSCodium, Cursor and other forks (token as a repository secret)\n- [ ] Release job publishes the `.vsix` to both and attaches it to the GitHub release\n- [ ] Screenshots and a feature list in the extension's README\n- [ ] genbeya.fyi: link the extension on the download page and in the docs\n"
+    },
+    "after": {
+      "path": "tasks/GENBEYA-25.md",
+      "content": "---\nid: GENBEYA-25\ntitle: Publish the VS Code extension\ntype: chore\nstatus: review\npriority: medium\nlabels: [vscode, release]\n---\n\nPublish the extension once it is ready for users.\n\n- [x] Publisher `genbeya` on the Visual Studio Marketplace (token as the repository secret `VSCE_PAT`)\n- [x] Namespace `genbeya` on Open VSX, for VSCodium, Cursor and other forks (token as `OVSX_PAT`)\n- [x] Release job publishes the `.vsix` to both and attaches it to the GitHub release\n- [x] Store listing: preview badge, banner, keywords, changelog, 128 pixel icon\n- [ ] Screenshots in the extension's README\n- [x] genbeya.fyi: link the extension on the download page and in the docs\n- [ ] Verified publisher: a DNS record for genbeya.fyi, once the Marketplace allows it\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "activity-genbeya-92",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/GENBEYA-22.md",
+      "content": "---\nid: GENBEYA-22\ntitle: References and preview in VS Code's Markdown editor\ntype: feature\nstatus: backlog\npriority: high\nlabels: [vscode]\n---\n\nPages and tasks open in VS Code's own Markdown editor, which knows nothing of Genbeya's references. Teach it, reusing the link engine.\n\n- [ ] `[[…]]` completion of tasks, pages and files\n- [ ] Hover with a task's title and status, a page's title\n- [ ] Document links: Ctrl+click opens the task, page or file (lines too)\n- [ ] Missing pages and tasks as diagnostics\n- [ ] Markdown preview: references with live titles and states, callouts, embeds of lines, `[TOC]`, through `markdown.markdownItPlugins`\n- [ ] Mermaid and the other diagrams in the preview, if VS Code's own Mermaid support doesn't cover them\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

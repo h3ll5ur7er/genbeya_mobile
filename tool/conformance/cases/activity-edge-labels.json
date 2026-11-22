@@ -1,0 +1,15 @@
+{
+  "id": "activity-edge-labels",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\nlabels: [a, b]\n---\n\nDo it.\n"
+    },
+    "after": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\nlabels: [b, c, d]\n---\n\nDo it.\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

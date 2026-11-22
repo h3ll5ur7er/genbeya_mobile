@@ -22,7 +22,7 @@ import { join } from "node:path";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base" | "task.changes";
   readonly input: Record<string, any>;
 }
 
@@ -116,6 +116,8 @@ function run(c: Case): unknown {
     }
     case "handle.slug":
       return { output: i.texts.map(handleSlug) };
+    case "task.changes":
+      return { output: tasks.changesBetween(i.before, i.after, i.taskRoot) };
     case "task.toggle": {
       // task-panel.ts toggleCheckbox: the description with the checkbox flipped.
       const task = tasks.parse(i.path, i.content, "hash", i.taskRoot);

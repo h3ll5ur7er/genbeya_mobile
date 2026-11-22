@@ -225,6 +225,46 @@ add("areas-of-paths", "area.of", {
   paths: [".genbeya.yml", "docs/.genbeya.yml", "docs/Home.md", "docs/images/a.png", "docsx/Home.md", "tasks/GM-1.md", "tasks/.templates/bug.md", "tasks", "pulls/PR-1.md", "pulls/.images/PR-1/a.png", "work/tasks/X-1.md", "docs/pulls/PR-2.md", "src/main.dart", "README.md"],
 });
 
+// What changed between versions of a task, for its activity: real
+// consecutive versions from both repositories' history, and edge cases.
+for (const set of readdirSync(join(here, "fixtures/activity")).sort()) {
+  JSON.parse(read(join(here, "fixtures/activity", set))).forEach((pair, n) =>
+    add(`activity-${set.replace(/\.json$/, "")}-${n}`, "task.changes", { ...pair, taskRoot: "tasks" }),
+  );
+}
+{
+  const t = (extra = "", body = "\nDo it.\n") => `---\nid: A-1\ntitle: First\nstatus: todo\n${extra}---\n${body}`;
+  const comments = (...list) => `\n## Comments\n\n${list.map(([who, when, text]) => `### ${who} — ${when}\n\n${text}`).join("\n\n")}\n`;
+  const log = (...lines) => `\nDo it.\n\n## Time log\n\n${lines.map((l) => `- ${l}`).join("\n")}\n`;
+  const edges = {
+    status: [t(), t().replace("status: todo", "status: done")],
+    "priority-default": [t("priority: none\n"), t()],
+    labels: [t("labels: [a, b]\n"), t("labels: [b, c, d]\n")],
+    "labels-string": [t("labels: a, b\n"), t("labels: [a]\n")],
+    description: [t(), t("", "\nDo it twice.\n")],
+    "crlf-only": [t(), t().replace(/\n/g, "\r\n")],
+    "comments-added": [t(), t("", "\nDo it.\n" + comments(["Ada", "2026-11-21 10:00", "Hi"]))],
+    "comments-edited-removed": [
+      t("", "\nDo it.\n" + comments(["Ada", "2026-11-21 10:00", "Hi"], ["Sam", "2026-11-21 10:00", "Yo"], ["Ada", "2026-11-21 10:00", "Again"])),
+      t("", "\nDo it.\n" + comments(["Ada", "2026-11-21 10:00", "Hi!"], ["Ada", "2026-11-21 10:00", "Again"])),
+    ],
+    "time-log": [t("", log("2026-11-20 — Ada — 2h — Start")), t("", log("2026-11-20 — Ada — 2h — Start", "2026-11-21 — Ada — 1h — More", "2026-11-21 — Ada — 1h — More"))],
+    "time-log-in-code": [t("", "\n```\n## Time log\n- x\n```\n"), t("", "\n```\n## Time log\n- y\n```\n")],
+    custom: [t("estimate: 2d\ndepends_on: [A-2]\n"), t("estimate: 3d\ndepends_on: [A-2, A-3]\nmilestone: M1\n")],
+    other: [t("meta:\n  a: 1\n"), t("meta:\n  a: 2\nStatus: odd\n")],
+    "broken-before": [`---\nid: [oops\n---\nBody\n`, t()],
+    "broken-after": [t(), `---\ntitle: [oops\n---\nDo it.\n`],
+    numbers: [t("estimate: 8\n"), t("estimate: 8.5\n")],
+  };
+  for (const [name, [before, after]] of Object.entries(edges)) {
+    add(`activity-edge-${name}`, "task.changes", { before: { path: "tasks/A-1.md", content: before }, after: { path: "tasks/A-1.md", content: after }, taskRoot: "tasks" });
+  }
+  add("activity-edge-created", "task.changes", { before: null, after: { path: "tasks/A-1.md", content: t() }, taskRoot: "tasks" });
+  add("activity-edge-moved", "task.changes", { before: { path: "tasks/1 Plan/A-1.md", content: null }, after: { path: "tasks/2 Build/A-1.md", content: null }, taskRoot: "tasks" });
+  add("activity-edge-renamed-same-epic", "task.changes", { before: { path: "tasks/A-1.md", content: null }, after: { path: "tasks/A-2.md", content: null }, taskRoot: "tasks" });
+  add("activity-edge-moved-and-edited", "task.changes", { before: { path: "tasks/A-1.md", content: t() }, after: { path: "tasks/Epic/A-1.md", content: t().replace("First", "Second") }, taskRoot: "tasks" });
+}
+
 function labelsOf(content) {
   const flow = /^labels:\s*\[(.*)\]/m.exec(content);
   if (flow) return flow[1].split(",").map((s) => s.trim()).filter(Boolean);

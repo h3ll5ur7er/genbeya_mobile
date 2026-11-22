@@ -241,6 +241,21 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
               handleSlug(text),
           ],
         };
+      case 'task.changes':
+        ({String path, String? content})? version(Object? value) =>
+            value is Map<String, Object?>
+            ? (
+                path: value['path']! as String,
+                content: value['content'] as String?,
+              )
+            : null;
+        return {
+          'output': _tasks.changesBetween(
+            version(input['before']),
+            version(input['after'])!,
+            input['taskRoot']! as String,
+          ),
+        };
       case 'page.toggle':
         // Where an item starts, the app's checked toggle writes Genbeya's
         // bytes; elsewhere it refuses, and the lenient port still matches.

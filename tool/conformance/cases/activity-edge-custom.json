@@ -1,0 +1,15 @@
+{
+  "id": "activity-edge-custom",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\nestimate: 2d\ndepends_on: [A-2]\n---\n\nDo it.\n"
+    },
+    "after": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\nestimate: 3d\ndepends_on: [A-2, A-3]\nmilestone: M1\n---\n\nDo it.\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

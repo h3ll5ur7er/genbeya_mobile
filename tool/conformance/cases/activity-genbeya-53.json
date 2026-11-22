@@ -1,0 +1,12 @@
+{
+  "id": "activity-genbeya-53",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/GENBEYA-1.md",
+      "content": "---\nid: GENBEYA-1\ntitle: Full-text search across wiki, tasks and code\nstatus: todo\npriority: high\nlabels: [search]\n---\n\nThe command palette matches titles and paths only. Search should also find text inside pages, task descriptions and code.\n\n- [ ] Use `git grep` for tracked files (works on every host, respects `.gitignore`)\n- [ ] Show matches with context in the palette, grouped by area\n- [ ] Jump to the line in the code editor, or to the heading in a page\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

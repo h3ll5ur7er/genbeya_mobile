@@ -1,0 +1,12 @@
+{
+  "id": "activity-genbeya-5",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/1 Optional parts/GENBEYA-40.md",
+      "content": "---\nid: GENBEYA-40\ntitle: Let each user hide parts of the app\ntype: feature\nstatus: backlog\npriority: medium\nlabels: [settings]\n---\n\nThe user layer of [[Design/Optional-parts]]: each person hides parts they don't want to see, per repository with a default for all repositories, in their personal preferences. Done when a hidden part is gone from that person's sidebar, palette and search, shortcuts skip it, references into it still resolve, and nothing in the repository changes.\n\n- [ ] Decide: per repository by default, or global with per-repository overrides\n- [ ] Preferences: store the hidden parts, next to the other personal preferences\n- [ ] **Settings → App**: a switch per part (only parts the project uses, see [[GENBEYA-39]])\n- [ ] Sidebar and `Ctrl+K` palette leave hidden parts out; `Ctrl+1` … `Ctrl+5` keep their views and skip hidden ones\n- [ ] Search leaves hidden parts out\n- [ ] References into a hidden part still show their title and open a read-only preview\n- [ ] Defaults: existing users see everything; a part switches itself on when the project clearly uses it\n- [ ] Demo counterpart, `npm run e2e:demo`\n- [ ] Document in [[Guide/Settings]] and [[Guide]]\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

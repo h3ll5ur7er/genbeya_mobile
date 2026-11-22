@@ -1,0 +1,15 @@
+{
+  "id": "activity-mobile-41",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/2 Work on tasks/GM-11.md",
+      "content": "---\nid: GM-11\ntitle: Commit, sync and the Genbeya merge\ntype: feature\nstatus: backlog\npriority: urgent\nestimate: 5d\nremaining: 5d\nmilestone: M2\ndepends_on: [GM-2, GM-7]\n---\n\nHow mobile edits reach everyone, without ever losing one. See [[Architecture#where-edits-go]] and [[Experience#sync-and-changes]].\n\n- [ ] Every save is a commit named after the change and the task, with the repository's identity\n- [ ] Where commits go, chosen on the first edit: content branch, checked-out branch, or `mobile/<handle>`\n- [ ] Sync: fetch, rebase, push, one at a time per repository; pull to refresh; optional automatic sync\n- [ ] Genbeya merge for task and pull request files: frontmatter per key, signed lines from both sides; conformance cases for it\n- [ ] Rescue branch when it still conflicts, with a clear message of what differs\n- [ ] **Changes**: unsynced commits, undo the last ones before they are pushed\n- [ ] Write journal: a write and its commit as one unit, recovered on the next start\n- [ ] Never force; retry a rejected push from fetch, up to 3 times; rebase in memory\n- [ ] Renumber a local, unpushed task whose ID a teammate took meanwhile, and the references to it in local commits\n"
+    },
+    "after": {
+      "path": "tasks/2 Work on tasks/GM-11.md",
+      "content": "---\nid: GM-11\ntitle: Commit, sync and the Genbeya merge\ntype: feature\nstatus: backlog\npriority: urgent\nestimate: 5d\nremaining: 5d\nmilestone: M2\ndepends_on: [GM-2, GM-7]\n---\n\nHow mobile edits reach everyone, without ever losing one. See [[Architecture#where-edits-go]] and [[Experience#sync-and-changes]].\n\n- [ ] Every save is a commit named after the change and the task, with the repository's identity\n- [ ] Where commits go: the content branch for its areas, else asked on the first edit with the checked-out branch offered; a refused push offers to move the unpushed commits to `mobile/<handle>` (D5)\n- [ ] Sync: fetch, rebase, push, one at a time per repository; pull to refresh; optional automatic sync\n- [ ] Genbeya merge for task and pull request files: frontmatter per key, signed lines from both sides; conformance cases for it\n- [ ] Rescue branch `mobile/rescue/<handle>-<date>` when it still conflicts: pushed, a banner of what differs until its commits are upstream, then an offer to delete it (D6)\n- [ ] **Changes**: unsynced commits, undo the last ones before they are pushed\n- [ ] Write journal: a write and its commit as one unit, recovered on the next start\n- [ ] Never force; retry a rejected push from fetch, up to 3 times; rebase in memory\n- [ ] Renumber a local, unpushed task whose ID a teammate took meanwhile, and the references to it in local commits\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "activity-genbeya-10",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/2 Planning/GENBEYA-43.md",
+      "content": "---\nid: GENBEYA-43\ntitle: Planning fields for estimate, remaining effort, dates and milestones\ntype: feature\nstatus: backlog\npriority: medium\nlabels: [planning]\n---\n\nCustom fields named `estimate`, `remaining`, `start`, `due` and `milestone` take on their planning meaning, and effort is an amount in the project's unit (`16h`, `2d`). Done when a project can configure them, they show on cards and in the task panel, and the board can filter by milestone. See [[Design/Planning#task-fields]].\n\n- [ ] Decide: an `effort` field kind, or a number with the unit set once for the project\n- [ ] Decide: what a milestone is (a field value, or something with its own date)\n- [ ] Settings engine: the effort kind and the project's unit, with validation\n- [ ] Task engine: read and write effort values, keep unknown ones as they are\n- [ ] Task panel and cards: estimate and remaining, with forecast and variance once [[GENBEYA-48]] logs effort\n- [ ] **Filter by** milestone\n- [ ] Only while Planning is on ([[GENBEYA-39]])\n- [ ] Demo counterpart, `npm run e2e:demo`\n- [ ] Document in [[Guide/Tasks]] and [[Guide/Settings]]\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

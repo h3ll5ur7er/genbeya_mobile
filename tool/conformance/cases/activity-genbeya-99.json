@@ -1,0 +1,12 @@
+{
+  "id": "activity-genbeya-99",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/GENBEYA-25.md",
+      "content": "---\nid: GENBEYA-25\ntitle: Publish the VS Code extension\ntype: chore\nstatus: backlog\npriority: medium\nlabels: [vscode, release]\n---\n\nPublish the extension once it is ready for users.\n\n- [ ] Publisher `genbeya` on the Visual Studio Marketplace (Azure DevOps organisation, personal access token as a repository secret)\n- [ ] Namespace `genbeya` on Open VSX, for VSCodium, Cursor and other forks (token as a repository secret)\n- [ ] Release job publishes the `.vsix` to both and attaches it to the GitHub release\n- [ ] Screenshots and a feature list in the extension's README\n- [ ] genbeya.fyi: link the extension on the download page and in the docs\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

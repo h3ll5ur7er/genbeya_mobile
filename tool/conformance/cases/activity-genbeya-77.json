@@ -1,0 +1,12 @@
+{
+  "id": "activity-genbeya-77",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/GENBEYA-17.md",
+      "content": "---\nid: GENBEYA-17\ntitle: Smoke-test on macOS and Linux\nstatus: review\npriority: high\nlabels: [release]\n---\n\nDevelopment and testing happened on Windows. Verify window chrome, menus, shortcuts (`⌘`), the dev script and packaging on macOS and Linux.\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

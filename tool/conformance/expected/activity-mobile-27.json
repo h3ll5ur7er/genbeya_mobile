@@ -1,0 +1,11 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": [
+    {
+      "kind": "field",
+      "field": "status",
+      "from": "review",
+      "to": "done"
+    }
+  ]
+}

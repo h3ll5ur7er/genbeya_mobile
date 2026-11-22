@@ -8,6 +8,8 @@ library;
 import '../contracts/model.dart';
 import 'js.dart';
 import 'repository_path.dart';
+import 'task_activity.dart';
+import 'time_log.dart';
 import 'task_comments.dart';
 import 'text_style.dart';
 import 'yaml/yaml_document.dart';
@@ -246,6 +248,76 @@ class TaskEngine {
 
   /// `original` with the fields and description of `input`; its comments stay
   /// as they are, and so do fields that `input` does not name.
+  /// What changed about a task from [before] (null: it did not exist) to
+  /// [after]. A version's content is null where Git didn't show it (a move
+  /// without edits).
+  List<TaskChange> changesBetween(
+    ({String path, String? content})? before,
+    ({String path, String? content}) after,
+    String taskRoot,
+  ) {
+    if (before?.content == null || after.content == null) {
+      if (before == null) {
+        return [
+          {'kind': 'created'},
+        ];
+      }
+      final from = epicOf(before.path, taskRoot);
+      final to = epicOf(after.path, taskRoot);
+      return from == to
+          ? []
+          : [
+              {'kind': 'field', 'field': 'epic', 'from': from, 'to': to},
+            ];
+    }
+    return diffTasks(
+      _stateOf(before!.path, before.content!, taskRoot),
+      _stateOf(after.path, after.content!, taskRoot),
+    );
+  }
+
+  /// A version of a task as its activity sees it; broken frontmatter reads as empty.
+  TaskState _stateOf(String path, String content, String taskRoot) {
+    var data = <String, Object?>{};
+    var body = content;
+    try {
+      final front = splitFrontmatter(content);
+      data = front.data;
+      body = front.body;
+    } on TaskException {
+      // Old versions may be broken; their body still counts.
+    }
+    final split = splitComments(body.replaceFirst(RegExp(r'^\r?\n'), ''));
+    // Logging time changes the time log, not the description.
+    final log = splitTimeLog(split.description);
+    String text(String key, [String fallback = '']) =>
+        data[key] == null ? fallback : jsString(data[key]);
+    final fields = _extraFields(data);
+    return TaskState(
+      title: text('title'),
+      type: text('type'),
+      status: text('status'),
+      priority: text('priority', _defaultPriority),
+      assignee: text('assignee'),
+      epic: epicOf(path, taskRoot),
+      labels: _toList(data['labels']),
+      description: log.description,
+      comments: [for (final block in split.blocks) block.comment],
+      timeLog: log.lines,
+      fields: {
+        for (final e in fields.entries)
+          e.key: e.value is List
+              ? (e.value as List).join(', ')
+              : jsString(e.value),
+      },
+      other: {
+        for (final e in data.entries)
+          if (!_notFields.contains(e.key) && !fields.containsKey(e.key))
+            e.key: jsJson(e.value),
+      },
+    );
+  }
+
   String serializeUpdate(String original, TaskInput input) {
     final front = splitFrontmatter(original);
     final document = front.document;

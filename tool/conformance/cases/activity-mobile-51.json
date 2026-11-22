@@ -1,0 +1,12 @@
+{
+  "id": "activity-mobile-51",
+  "kind": "task.changes",
+  "input": {
+    "before": null,
+    "after": {
+      "path": "tasks/3 Write/GM-16.md",
+      "content": "---\nid: GM-16\ntitle: Edit wiki pages\ntype: feature\nstatus: backlog\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M3\ndepends_on: [GM-4, GM-8, GM-11]\n---\n\nFix and write pages on the phone. See [[Experience#wiki]].\n\n- [ ] Editor with the toolbar above the keyboard: heading, bold, list, checkbox, link, `[[`, `@`, `//`\n- [ ] Preview by swipe or button; unsaved edits survive the app being sent to the background\n- [ ] Tick checklists while reading\n- [ ] New page below the current one, and from a red reference\n- [ ] Keeps the file's line endings and BOM\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

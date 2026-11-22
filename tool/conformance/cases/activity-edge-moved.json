@@ -1,0 +1,15 @@
+{
+  "id": "activity-edge-moved",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/1 Plan/A-1.md",
+      "content": null
+    },
+    "after": {
+      "path": "tasks/2 Build/A-1.md",
+      "content": null
+    },
+    "taskRoot": "tasks"
+  }
+}

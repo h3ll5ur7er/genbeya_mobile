@@ -1,0 +1,11 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": [
+    {
+      "kind": "custom",
+      "field": "depends_on",
+      "from": "GM-22",
+      "to": "GM-22, GM-27"
+    }
+  ]
+}

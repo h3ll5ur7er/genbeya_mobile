@@ -1,0 +1,15 @@
+{
+  "id": "activity-edge-status",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\n---\n\nDo it.\n"
+    },
+    "after": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: done\n---\n\nDo it.\n"
+    },
+    "taskRoot": "tasks"
+  }
+}

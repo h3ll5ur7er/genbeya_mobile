@@ -1,0 +1,15 @@
+{
+  "id": "activity-edge-time-log",
+  "kind": "task.changes",
+  "input": {
+    "before": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\n---\n\nDo it.\n\n## Time log\n\n- 2026-11-20 — Ada — 2h — Start\n"
+    },
+    "after": {
+      "path": "tasks/A-1.md",
+      "content": "---\nid: A-1\ntitle: First\nstatus: todo\n---\n\nDo it.\n\n## Time log\n\n- 2026-11-20 — Ada — 2h — Start\n- 2026-11-21 — Ada — 1h — More\n- 2026-11-21 — Ada — 1h — More\n"
+    },
+    "taskRoot": "tasks"
+  }
+}
