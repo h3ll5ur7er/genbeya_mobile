@@ -112,7 +112,8 @@ jobs:
         run: node tool/build_kit/build.mjs
       - name: Rust targets for the Git core (GM-2)
         run: rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
-      - run: flutter build apk --debug
+      # OAuth apps for signing in (GM-6): repository variables, empty when unset.
+      - run: flutter build apk --debug --dart-define=GENBEYA_GITHUB_CLIENT_ID=${{ vars.GENBEYA_GITHUB_CLIENT_ID }} --dart-define=GENBEYA_GITLAB_CLIENT_ID=${{ vars.GENBEYA_GITLAB_CLIENT_ID }}
       - uses: actions/upload-artifact@v4
         with:
           name: genbeya-mobile-debug-apk
@@ -139,7 +140,7 @@ jobs:
         run: node tool/build_kit/build.mjs
       - name: Rust targets for the Git core (GM-2)
         run: rustup target add aarch64-apple-ios aarch64-apple-ios-sim x86_64-apple-ios
-      - run: flutter build ios --debug --no-codesign
+      - run: flutter build ios --debug --no-codesign --dart-define=GENBEYA_GITHUB_CLIENT_ID=${{ vars.GENBEYA_GITHUB_CLIENT_ID }} --dart-define=GENBEYA_GITLAB_CLIENT_ID=${{ vars.GENBEYA_GITLAB_CLIENT_ID }}
 
   rust:
     # The Git core (native/genbeya_core): its flow tests, then the same library

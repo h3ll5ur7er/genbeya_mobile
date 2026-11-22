@@ -2,12 +2,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../access/forge/device_flow.dart';
+import '../../access/forge/forge_http.dart';
 import '../../access/git/git_remote.dart';
 import '../../contracts/clones.dart';
 import '../../engines/remote_url.dart';
 import '../../managers/repositories_manager.dart';
 import 'format.dart';
 import 'providers.dart';
+import 'sign_in_sheet.dart';
 
 /// Adds a clone: the address, how the phone reaches it, then which branch,
 /// how deep and who commits are signed as; cloning shows progress and can
@@ -39,6 +42,9 @@ class _AddRepositoryScreenState extends ConsumerState<AddRepositoryScreen> {
   CloneProgress? _progress;
 
   RepositoriesManager? _manager;
+  final _flow = DeviceFlow(IoForgeHttp());
+  ForgeAccount? _account;
+  List<ForgeRepository>? _repositories;
 
   @override
   void initState() {
@@ -141,6 +147,36 @@ class _AddRepositoryScreenState extends ConsumerState<AddRepositoryScreen> {
     }
   }
 
+  Future<void> _signIn(Forge forge) async {
+    final account = await showModalBottomSheet<ForgeAccount>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => SignInSheet(flow: _flow, forge: forge),
+    );
+    final manager = _manager;
+    if (account == null || manager == null || !mounted) return;
+    await manager.saveToken(
+      account.host,
+      RepositoriesManager.tokenUser(account.host),
+      account.token,
+    );
+    setState(() {
+      _account = account;
+      _access = _Access.token;
+      _savedTokenHost = account.host;
+      if (_name.text.trim().isEmpty) _name.text = account.name;
+      if (_email.text.trim().isEmpty && account.email != null) {
+        _email.text = account.email!;
+      }
+    });
+    try {
+      final repositories = await _flow.repositories(account);
+      if (mounted) setState(() => _repositories = repositories);
+    } on SignInFailed catch (error) {
+      if (mounted) setState(() => _problem = error.message);
+    }
+  }
+
   Future<bool?> _askToTrust(HostKeyUnknown unknown) => showDialog<bool>(
     context: context,
     builder: (context) => AlertDialog(
@@ -210,6 +246,48 @@ class _AddRepositoryScreenState extends ConsumerState<AddRepositoryScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            if (_account == null &&
+                (_flow.offers(Forge.github) || _flow.offers(Forge.gitlab))) ...[
+              Wrap(
+                spacing: 8,
+                children: [
+                  if (_flow.offers(Forge.github))
+                    OutlinedButton(
+                      onPressed: _busy ? null : () => _signIn(Forge.github),
+                      child: const Text('Sign in with GitHub'),
+                    ),
+                  if (_flow.offers(Forge.gitlab))
+                    OutlinedButton(
+                      onPressed: _busy ? null : () => _signIn(Forge.gitlab),
+                      child: const Text('Sign in with GitLab'),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              const Text('Or enter an address:'),
+            ],
+            if (_account != null)
+              Text('Signed in to ${_account!.host} as ${_account!.login}.'),
+            if (_repositories != null && _plan == null) ...[
+              const SizedBox(height: 8),
+              for (final repository in _repositories!.take(30))
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  dense: true,
+                  leading: Icon(
+                    repository.private ? Icons.lock_outline : Icons.public,
+                    size: 20,
+                  ),
+                  title: Text(repository.fullName),
+                  onTap: _busy
+                      ? null
+                      : () {
+                          _url.text = repository.cloneUrl;
+                          _check();
+                        },
+                ),
+              const Divider(),
+            ],
             TextField(
               controller: _url,
               enabled: !_busy,

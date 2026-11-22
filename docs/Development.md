@@ -58,6 +58,17 @@ cd ../.. && flutter test test/conformance_test.dart
 
 Add a case before changing an engine, and never change `expected/` by hand. To follow a newer Genbeya, bump `kit/GENBEYA_REF`, regenerate, and make the Dart side pass.
 
+## Signing in with GitHub and GitLab
+
+**Sign in with GitHub** and **Sign in with GitLab** use OAuth's device flow ([[GM-6]]), which needs an OAuth app at each forge. A client ID is not secret; without one, the buttons don't show and tokens and SSH keys still work.
+
+| Forge | Where | Settings |
+| --- | --- | --- |
+| GitHub | Settings → Developer settings → OAuth Apps → New OAuth App | Any homepage and callback URL; tick **Enable Device Flow** |
+| GitLab | Preferences → Applications (or the group's) | Any redirect URI; untick **Confidential**; scopes `read_user`, `read_api`, `read_repository`, `write_repository` |
+
+Pass the IDs at build time, `flutter build apk --dart-define=GENBEYA_GITHUB_CLIENT_ID=… --dart-define=GENBEYA_GITLAB_CLIENT_ID=…`; CI takes them from the repository variables of the same names.
+
 ## CI
 
 `.github/workflows/ci.yml` runs on every push: format, analysis and tests (the conformance cases included) on Linux; a check that `tool/conformance/expected/` is what Genbeya at `kit/GENBEYA_REF` produces; then a debug Android build (kept as an artifact) and an iOS build without signing on macOS.
