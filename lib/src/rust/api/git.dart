@@ -119,6 +119,17 @@ Future<List<String>> changedPaths({
 }) =>
     RustLib.instance.api.crateApiGitChangedPaths(dir: dir, from: from, to: to);
 
+/// Sets (or with None removes) a value of the clone's own Git configuration.
+Future<void> setConfigValue({
+  required String dir,
+  required String key,
+  String? value,
+}) => RustLib.instance.api.crateApiGitSetConfigValue(
+  dir: dir,
+  key: key,
+  value: value,
+);
+
 /// The authors of HEAD's newest commits, as .mailmap names them.
 Future<List<AuthorCount>> commitAuthors({
   required String dir,

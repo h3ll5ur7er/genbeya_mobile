@@ -193,6 +193,30 @@ const areaFiles = {
 };
 for (const [name, file] of Object.entries(areaFiles)) add(`areas-${name}`, "areas.parse", { file });
 
+// Remote URLs as Genbeya reads them: which repository, without secrets.
+const remotes = [
+  "https://github.com/genbeya/genbeya.git", "https://github.com/genbeya/genbeya", "https://GitHub.com/Genbeya/Genbeya/",
+  "http://git.example.com/team/repo.git", "https://user:secret@github.com/a/b.git?x=1#frag", "https://token@gitlab.com/group/sub/repo.git",
+  "https://github.com:443/a/b", "https://github.com:8443/a/b", "https://host:99999/a/b", "https://host:abc/a/b", "https://",
+  "ssh://git@github.com/genbeya/genbeya.git", "ssh://git@github.com:22/genbeya/genbeya.git", "ssh://GIT@Example.COM:2222/~/repo.git",
+  "git+ssh://git@host/x/y", "ssh+git://host/x/y", "git://host.example/x.git", "ssh://[::1]:2222/srv/repo.git", "https://[2001:db8::1]/a/b",
+  "git@github.com:genbeya/genbeya.git", "git@github.com:/genbeya/genbeya.git", "user@host.example:path/to/repo", "host.example:repo.git",
+  "c:/Users/me/repo", "C:\\Users\\me", "/srv/repo.git", "./repo", "../repo", "file:///srv/repo.git", "ftp://host/repo",
+  "ext::sh -c touch% /tmp/pwned", "transport::address", "-oProxyCommand=evil", "ssh://-oProxyCommand=evil/x",
+  "https://host/a%20b/c.git", "https://host/a%zz/c", "https://host/", "https://host", "ssh://host", "git@host:", "",
+  " https://github.com/a/b.git ", "https://dev.azure.com/org/project/_git/repo", "git@ssh.dev.azure.com:v3/org/project/repo",
+  "https://org.visualstudio.com/DefaultCollection/project/_git/repo", "https://org.visualstudio.com/project/_git/repo",
+  "ssh://vs-ssh.visualstudio.com/v3/org/project/repo", "https://bitbucket.org/team/repo.git", "https://host/a.git.git",
+  "https://xn--bcher-kva.example/a/b", "https://host/a?b", "https://host/a#b", "https://user:pa:ss@host/a",
+  "git@github.com:a/b.git?x", "user:pass@host:a/b", "a:b@c:d", "https://host/" + "x".repeat(2100),
+];
+add("remote-urls", "remote.parse", { urls: remotes });
+add("remote-same", "remote.same", {
+  pairs: [["https://github.com/a/b.git", "git@github.com:a/b"], ["https://github.com/A/B", "ssh://git@github.com/a/b.git"],
+    ["https://github.com/a/b", "https://gitlab.com/a/b"], ["https://dev.azure.com/o/p/_git/r", "git@ssh.dev.azure.com:v3/o/p/r"],
+    ["/local", "/local"], ["https://github.com/a/b", "https://github.com/a/c"]],
+});
+
 function labelsOf(content) {
   const flow = /^labels:\s*\[(.*)\]/m.exec(content);
   if (flow) return flow[1].split(",").map((s) => s.trim()).filter(Boolean);

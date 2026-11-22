@@ -9,6 +9,7 @@ import 'package:genbeya_mobile/engines/content_layout.dart';
 import 'package:genbeya_mobile/engines/file_tree.dart';
 import 'package:genbeya_mobile/engines/people.dart';
 import 'package:genbeya_mobile/engines/people_engine.dart';
+import 'package:genbeya_mobile/engines/remote_url.dart';
 import 'package:genbeya_mobile/engines/wiki_engine.dart';
 import 'package:genbeya_mobile/engines/js.dart';
 import 'package:genbeya_mobile/engines/settings_engine.dart';
@@ -110,6 +111,24 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
         final strings = (input['strings']! as List).cast<String>().toList();
         stableSort(strings, collate);
         return {'output': strings};
+      case 'remote.parse':
+        return {
+          'output': [
+            for (final url in (input['urls']! as List).cast<String>())
+              {
+                'remote': parseRemote(url)?.toJson(),
+                'helper': namesRemoteHelper(url),
+                'safe': withoutCredentials(url),
+              },
+          ],
+        };
+      case 'remote.same':
+        return {
+          'output': [
+            for (final pair in (input['pairs']! as List).cast<List>())
+              sameRepository(pair[0] as String, pair[1] as String),
+          ],
+        };
       case 'areas.parse':
         return {
           'output': {

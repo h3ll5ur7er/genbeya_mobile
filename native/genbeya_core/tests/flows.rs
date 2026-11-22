@@ -662,6 +662,19 @@ fn reads_files_from_objects_for_the_repository_model() {
     assert_eq!(git::commit_authors(&phone, 1).unwrap().len(), 1);
 
     assert_eq!(git::config_value(&phone, "genbeya.branch").unwrap(), None);
+    git::set_config_value(&phone, "user.name", Some("Ada Lovelace")).unwrap();
+    assert_eq!(
+        sh(&phone, &["config", "--local", "user.name"]),
+        "Ada Lovelace"
+    );
+    git::set_config_value(&phone, "user.name", None).unwrap();
+    git::set_config_value(&phone, "user.name", None).unwrap();
+    let local = Command::new("git")
+        .args(["config", "--local", "--get", "user.name"])
+        .current_dir(&phone)
+        .status()
+        .unwrap();
+    assert!(!local.success(), "removed from the clone's config");
     sh(&phone, &["config", "genbeya.branch", "content"]);
     assert_eq!(
         git::config_value(&phone, "genbeya.branch")

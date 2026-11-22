@@ -13,6 +13,7 @@ import { WikiEngine } from "genbeya/src/engines/wiki-engine";
 import { PeopleEngine } from "genbeya/src/engines/people-engine";
 import { handleSlug } from "genbeya/src/utilities/people";
 import { CONTENT_AREAS } from "genbeya/src/contracts/model";
+import { namesRemoteHelper, parseRemote, sameRepository, withoutCredentials } from "genbeya/src/utilities/remote-url";
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -20,7 +21,7 @@ import { join } from "node:path";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same";
   readonly input: Record<string, any>;
 }
 
@@ -86,6 +87,12 @@ function run(c: Case): unknown {
     case "collate":
       // The comparison Genbeya sorts names and titles with (file-tree.ts, wiki-engine.ts).
       return { output: [...i.strings].sort((a: string, b: string) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" })) };
+    case "remote.parse":
+      return {
+        output: i.urls.map((url: string) => ({ remote: parseRemote(url), helper: namesRemoteHelper(url), safe: withoutCredentials(url) })),
+      };
+    case "remote.same":
+      return { output: i.pairs.map(([a, b]: [string, string]) => sameRepository(a, b)) };
     case "areas.parse":
       return { output: areasOf(i.file) };
     case "collate.full":

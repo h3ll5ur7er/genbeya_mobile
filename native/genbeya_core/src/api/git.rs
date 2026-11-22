@@ -151,6 +151,11 @@ pub fn changed_paths(dir: String, from: String, to: String) -> Result<Vec<String
     git::changed_paths(Path::new(&dir), &from, &to)
 }
 
+/// Sets (or with None removes) a value of the clone's own Git configuration.
+pub fn set_config_value(dir: String, key: String, value: Option<String>) -> Result<(), CoreError> {
+    git::set_config_value(Path::new(&dir), &key, value.as_deref())
+}
+
 /// The authors of HEAD's newest commits, as .mailmap names them.
 pub fn commit_authors(dir: String, limit: u32) -> Result<Vec<AuthorCount>, CoreError> {
     git::commit_authors(Path::new(&dir), limit as usize)

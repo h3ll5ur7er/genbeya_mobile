@@ -944,6 +944,22 @@ pub fn changed_paths(dir: &Path, from: &str, to: &str) -> Result<Vec<String>> {
     Ok(paths.into_iter().collect())
 }
 
+/// Sets a value of the repository's own Git configuration (`user.name`,
+/// `user.email`, `genbeya.branch`); None removes it.
+pub fn set_config_value(dir: &Path, key: &str, value: Option<&str>) -> Result<()> {
+    let repo = Repository::open(dir)?;
+    let mut config = repo.config()?.open_level(git2::ConfigLevel::Local)?;
+    match value {
+        Some(value) => config.set_str(key, value)?,
+        None => match config.remove(key) {
+            Ok(()) => {}
+            Err(e) if e.code() == ErrorCode::NotFound => {}
+            Err(e) => return Err(e.into()),
+        },
+    }
+    Ok(())
+}
+
 /// Commits by one name and email.
 #[derive(Debug, Clone, PartialEq)]
 pub struct AuthorCount {

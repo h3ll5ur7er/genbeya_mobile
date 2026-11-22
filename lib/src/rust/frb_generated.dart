@@ -68,7 +68,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => -1726438627;
+  int get rustContentHash => -338020848;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -210,6 +210,12 @@ abstract class RustLibApi extends BaseApi {
   });
 
   Future<void> crateApiGitSetCaLocations({String? file, String? dir});
+
+  Future<void> crateApiGitSetConfigValue({
+    required String dir,
+    required String key,
+    String? value,
+  });
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -1102,6 +1108,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiGitSetCaLocationsConstMeta => const TaskConstMeta(
     debugName: "set_ca_locations",
     argNames: ["file", "dir"],
+  );
+
+  @override
+  Future<void> crateApiGitSetConfigValue({
+    required String dir,
+    required String key,
+    String? value,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(dir, serializer);
+          sse_encode_String(key, serializer);
+          sse_encode_opt_String(value, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 26,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_core_error,
+        ),
+        constMeta: kCrateApiGitSetConfigValueConstMeta,
+        argValues: [dir, key, value],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGitSetConfigValueConstMeta => const TaskConstMeta(
+    debugName: "set_config_value",
+    argNames: ["dir", "key", "value"],
   );
 
   @protected

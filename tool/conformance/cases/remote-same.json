@@ -1,0 +1,32 @@
+{
+  "id": "remote-same",
+  "kind": "remote.same",
+  "input": {
+    "pairs": [
+      [
+        "https://github.com/a/b.git",
+        "git@github.com:a/b"
+      ],
+      [
+        "https://github.com/A/B",
+        "ssh://git@github.com/a/b.git"
+      ],
+      [
+        "https://github.com/a/b",
+        "https://gitlab.com/a/b"
+      ],
+      [
+        "https://dev.azure.com/o/p/_git/r",
+        "git@ssh.dev.azure.com:v3/o/p/r"
+      ],
+      [
+        "/local",
+        "/local"
+      ],
+      [
+        "https://github.com/a/b",
+        "https://github.com/a/c"
+      ]
+    ]
+  }
+}

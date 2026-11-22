@@ -1,0 +1,430 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": [
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "genbeya/genbeya",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://github.com/genbeya/genbeya.git"
+    },
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "genbeya/genbeya",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://github.com/genbeya/genbeya"
+    },
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "Genbeya/Genbeya",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://github.com/Genbeya/Genbeya/"
+    },
+    {
+      "remote": {
+        "host": "git.example.com",
+        "path": "team/repo",
+        "scheme": "http"
+      },
+      "helper": false,
+      "safe": "http://git.example.com/team/repo.git"
+    },
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "a/b",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://github.com/a/b.git"
+    },
+    {
+      "remote": {
+        "host": "gitlab.com",
+        "path": "group/sub/repo",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://gitlab.com/group/sub/repo.git"
+    },
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "a/b",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://github.com/a/b"
+    },
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "a/b",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://github.com:8443/a/b"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "https://host:99999/a/b"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "https://host:abc/a/b"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "https://"
+    },
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "genbeya/genbeya",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "ssh://github.com/genbeya/genbeya.git"
+    },
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "genbeya/genbeya",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "ssh://github.com:22/genbeya/genbeya.git"
+    },
+    {
+      "remote": {
+        "host": "example.com",
+        "path": "~/repo",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "ssh://Example.COM:2222/~/repo.git"
+    },
+    {
+      "remote": {
+        "host": "host",
+        "path": "x/y",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "git+ssh://host/x/y"
+    },
+    {
+      "remote": {
+        "host": "host",
+        "path": "x/y",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "ssh+git://host/x/y"
+    },
+    {
+      "remote": {
+        "host": "host.example",
+        "path": "x",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "git://host.example/x.git"
+    },
+    {
+      "remote": {
+        "host": "[::1]",
+        "path": "srv/repo",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "ssh://[::1]:2222/srv/repo.git"
+    },
+    {
+      "remote": {
+        "host": "[2001:db8::1]",
+        "path": "a/b",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://[2001:db8::1]/a/b"
+    },
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "genbeya/genbeya",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "git@github.com:genbeya/genbeya.git"
+    },
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "genbeya/genbeya",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "git@github.com:/genbeya/genbeya.git"
+    },
+    {
+      "remote": {
+        "host": "host.example",
+        "path": "path/to/repo",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "user@host.example:path/to/repo"
+    },
+    {
+      "remote": {
+        "host": "host.example",
+        "path": "repo",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "host.example:repo.git"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "c:/Users/me/repo"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "C:\\Users\\me"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "/srv/repo.git"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "./repo"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "../repo"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "file:///srv/repo.git"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "ftp://host/repo"
+    },
+    {
+      "remote": null,
+      "helper": true,
+      "safe": "ext::sh -c touch% /tmp/pwned"
+    },
+    {
+      "remote": null,
+      "helper": true,
+      "safe": "transport::address"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "-oProxyCommand=evil"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "ssh://-oProxyCommand=evil/x"
+    },
+    {
+      "remote": {
+        "host": "host",
+        "path": "a b/c",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://host/a%20b/c.git"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "https://host/a%zz/c"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "https://host/"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "https://host/"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "ssh://host"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "git@host:"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": ""
+    },
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "a/b",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://github.com/a/b.git"
+    },
+    {
+      "remote": {
+        "host": "dev.azure.com",
+        "path": "org/project/_git/repo",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://dev.azure.com/org/project/_git/repo"
+    },
+    {
+      "remote": {
+        "host": "dev.azure.com",
+        "path": "org/project/_git/repo",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "git@ssh.dev.azure.com:v3/org/project/repo"
+    },
+    {
+      "remote": {
+        "host": "dev.azure.com",
+        "path": "org/project/_git/repo",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://org.visualstudio.com/DefaultCollection/project/_git/repo"
+    },
+    {
+      "remote": {
+        "host": "dev.azure.com",
+        "path": "org/project/_git/repo",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://org.visualstudio.com/project/_git/repo"
+    },
+    {
+      "remote": {
+        "host": "dev.azure.com",
+        "path": "org/project/_git/repo",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "ssh://vs-ssh.visualstudio.com/v3/org/project/repo"
+    },
+    {
+      "remote": {
+        "host": "bitbucket.org",
+        "path": "team/repo",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://bitbucket.org/team/repo.git"
+    },
+    {
+      "remote": {
+        "host": "host",
+        "path": "a.git",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://host/a.git.git"
+    },
+    {
+      "remote": {
+        "host": "xn--bcher-kva.example",
+        "path": "a/b",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://xn--bcher-kva.example/a/b"
+    },
+    {
+      "remote": {
+        "host": "host",
+        "path": "a",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://host/a"
+    },
+    {
+      "remote": {
+        "host": "host",
+        "path": "a",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://host/a"
+    },
+    {
+      "remote": {
+        "host": "host",
+        "path": "a",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "https://host/a"
+    },
+    {
+      "remote": {
+        "host": "github.com",
+        "path": "a/b.git?x",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "git@github.com:a/b.git?x"
+    },
+    {
+      "remote": {
+        "host": "host",
+        "path": "a/b",
+        "scheme": "https"
+      },
+      "helper": false,
+      "safe": "host:a/b"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "c:d"
+    },
+    {
+      "remote": null,
+      "helper": false,
+      "safe": "https://host/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+  ]
+}
