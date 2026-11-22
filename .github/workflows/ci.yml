@@ -147,6 +147,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: An SSH server for the SSH flow test
+        run: |
+          sudo apt-get install -y -q openssh-server
+          sudo mkdir -p /run/sshd
       - name: Flow tests
         working-directory: native/genbeya_core
         run: cargo test

@@ -2,7 +2,7 @@
 id: GM-7
 title: "Port the read engines: settings, wiki, tasks, people"
 type: feature
-status: review
+status: done
 priority: high
 estimate: 4d
 remaining: 0d

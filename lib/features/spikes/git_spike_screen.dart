@@ -84,6 +84,7 @@ class _GitSpikeScreenState extends State<GitSpikeScreen> {
       core.cloneRepository(
         url: _url.text.trim(),
         dir: dir,
+        extraBranches: const ['genbeya'],
         depth: int.tryParse(_depth.text),
         remote: _remote,
         operationId: BigInt.from(_operation),

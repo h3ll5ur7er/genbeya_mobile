@@ -342,6 +342,25 @@ sealed class RebaseOutcome with _$RebaseOutcome {
   }) = RebaseOutcome_Conflicts;
 }
 
+/// What a remote offers: its default branch and every branch.
+class RemoteBranches {
+  final String? defaultBranch;
+  final List<String> branches;
+
+  const RemoteBranches({this.defaultBranch, required this.branches});
+
+  @override
+  int get hashCode => defaultBranch.hashCode ^ branches.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RemoteBranches &&
+          runtimeType == other.runtimeType &&
+          defaultBranch == other.defaultBranch &&
+          branches == other.branches;
+}
+
 /// What a network operation needs besides the repository.
 class RemoteOptions {
   final Auth auth;
@@ -361,6 +380,37 @@ class RemoteOptions {
           runtimeType == other.runtimeType &&
           auth == other.auth &&
           trustedHostKeys == other.trustedHostKeys;
+}
+
+/// An SSH key made on the device.
+class SshKeyPair {
+  /// The private key in OpenSSH's format, for the keychain only.
+  final String privateKey;
+
+  /// The public key line to add to the forge: `ssh-ed25519 AAAA… comment`.
+  final String publicKey;
+
+  /// `SHA256:…`, as `ssh-keygen -l` shows it.
+  final String fingerprint;
+
+  const SshKeyPair({
+    required this.privateKey,
+    required this.publicKey,
+    required this.fingerprint,
+  });
+
+  @override
+  int get hashCode =>
+      privateKey.hashCode ^ publicKey.hashCode ^ fingerprint.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SshKeyPair &&
+          runtimeType == other.runtimeType &&
+          privateKey == other.privateKey &&
+          publicKey == other.publicKey &&
+          fingerprint == other.fingerprint;
 }
 
 /// A file of a commit's tree.

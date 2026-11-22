@@ -136,7 +136,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RebaseOutcome dco_decode_rebase_outcome(dynamic raw);
 
   @protected
+  RemoteBranches dco_decode_remote_branches(dynamic raw);
+
+  @protected
   RemoteOptions dco_decode_remote_options(dynamic raw);
+
+  @protected
+  SshKeyPair dco_decode_ssh_key_pair(dynamic raw);
 
   @protected
   TransferEvent dco_decode_transfer_event(dynamic raw);
@@ -276,7 +282,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RebaseOutcome sse_decode_rebase_outcome(SseDeserializer deserializer);
 
   @protected
+  RemoteBranches sse_decode_remote_branches(SseDeserializer deserializer);
+
+  @protected
   RemoteOptions sse_decode_remote_options(SseDeserializer deserializer);
+
+  @protected
+  SshKeyPair sse_decode_ssh_key_pair(SseDeserializer deserializer);
 
   @protected
   TransferEvent sse_decode_transfer_event(SseDeserializer deserializer);
@@ -444,7 +456,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_rebase_outcome(RebaseOutcome self, SseSerializer serializer);
 
   @protected
+  void sse_encode_remote_branches(
+    RemoteBranches self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_remote_options(RemoteOptions self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_ssh_key_pair(SshKeyPair self, SseSerializer serializer);
 
   @protected
   void sse_encode_transfer_event(TransferEvent self, SseSerializer serializer);

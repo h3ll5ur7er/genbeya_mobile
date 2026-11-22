@@ -70,6 +70,7 @@ void main() {
         url: 'file://$remote',
         dir: phone,
         branch: 'main',
+        extraBranches: const [],
         remote: options,
         operationId: BigInt.one,
       ),
@@ -82,6 +83,7 @@ void main() {
         cloneRepository(
           url: 'file://${tmp.path}/no-such-remote',
           dir: '${tmp.path}/failed',
+          extraBranches: const [],
           remote: options,
           operationId: BigInt.two,
         ),

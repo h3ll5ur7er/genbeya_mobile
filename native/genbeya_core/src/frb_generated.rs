@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1611030931;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1726438627;
 
 // Section: executor
 
@@ -207,6 +207,7 @@ fn wire__crate__api__git__clone_repository_impl(
             let api_url = <String>::sse_decode(&mut deserializer);
             let api_dir = <String>::sse_decode(&mut deserializer);
             let api_branch = <Option<String>>::sse_decode(&mut deserializer);
+            let api_extra_branches = <Vec<String>>::sse_decode(&mut deserializer);
             let api_depth = <Option<i32>>::sse_decode(&mut deserializer);
             let api_remote = <crate::git::RemoteOptions>::sse_decode(&mut deserializer);
             let api_operation_id = <u64>::sse_decode(&mut deserializer);
@@ -221,6 +222,7 @@ fn wire__crate__api__git__clone_repository_impl(
                         api_url,
                         api_dir,
                         api_branch,
+                        api_extra_branches,
                         api_depth,
                         api_remote,
                         api_operation_id,
@@ -489,6 +491,39 @@ fn wire__crate__api__git__fetch_impl(
                         api_operation_id,
                         api_events,
                     )?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__git__generate_ssh_key_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "generate_ssh_key",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_comment = <String>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, crate::git::CoreError>((move || {
+                    let output_ok = crate::api::git::generate_ssh_key(api_comment)?;
                     std::result::Result::Ok(output_ok)
                 })())
             }
@@ -812,6 +847,40 @@ fn wire__crate__api__git__rebase_onto_upstream_impl(
                         api_identity,
                         api_resolutions,
                     )?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__git__remote_branches_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "remote_branches",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_url = <String>::sse_decode(&mut deserializer);
+            let api_remote = <crate::git::RemoteOptions>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, crate::git::CoreError>((move || {
+                    let output_ok = crate::api::git::remote_branches(api_url, api_remote)?;
                     std::result::Result::Ok(output_ok)
                 })())
             }
@@ -1378,6 +1447,18 @@ impl SseDecode for crate::git::RebaseOutcome {
     }
 }
 
+impl SseDecode for crate::git::RemoteBranches {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_defaultBranch = <Option<String>>::sse_decode(deserializer);
+        let mut var_branches = <Vec<String>>::sse_decode(deserializer);
+        return crate::git::RemoteBranches {
+            default_branch: var_defaultBranch,
+            branches: var_branches,
+        };
+    }
+}
+
 impl SseDecode for crate::git::RemoteOptions {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1386,6 +1467,20 @@ impl SseDecode for crate::git::RemoteOptions {
         return crate::git::RemoteOptions {
             auth: var_auth,
             trusted_host_keys: var_trustedHostKeys,
+        };
+    }
+}
+
+impl SseDecode for crate::git::SshKeyPair {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_privateKey = <String>::sse_decode(deserializer);
+        let mut var_publicKey = <String>::sse_decode(deserializer);
+        let mut var_fingerprint = <String>::sse_decode(deserializer);
+        return crate::git::SshKeyPair {
+            private_key: var_privateKey,
+            public_key: var_publicKey,
+            fingerprint: var_fingerprint,
         };
     }
 }
@@ -1474,17 +1569,19 @@ fn pde_ffi_dispatcher_primary_impl(
         9 => wire__crate__api__git__config_value_impl(port, ptr, rust_vec_len, data_len),
         11 => wire__crate__api__git__diff_from_merge_base_impl(port, ptr, rust_vec_len, data_len),
         12 => wire__crate__api__git__fetch_impl(port, ptr, rust_vec_len, data_len),
-        13 => wire__crate__api__git__head_impl(port, ptr, rust_vec_len, data_len),
-        14 => wire__crate__api__git__list_files_impl(port, ptr, rust_vec_len, data_len),
-        15 => wire__crate__api__git__log_path_impl(port, ptr, rust_vec_len, data_len),
-        16 => wire__crate__api__git__merge_conflicts_impl(port, ptr, rust_vec_len, data_len),
-        17 => wire__crate__api__git__push_impl(port, ptr, rust_vec_len, data_len),
-        18 => wire__crate__api__git__read_blob_impl(port, ptr, rust_vec_len, data_len),
-        19 => wire__crate__api__git__read_blobs_impl(port, ptr, rust_vec_len, data_len),
-        20 => wire__crate__api__git__read_file_at_impl(port, ptr, rust_vec_len, data_len),
-        21 => wire__crate__api__git__rebase_onto_upstream_impl(port, ptr, rust_vec_len, data_len),
-        22 => wire__crate__api__git__resolve_commit_impl(port, ptr, rust_vec_len, data_len),
-        23 => wire__crate__api__git__set_ca_locations_impl(port, ptr, rust_vec_len, data_len),
+        13 => wire__crate__api__git__generate_ssh_key_impl(port, ptr, rust_vec_len, data_len),
+        14 => wire__crate__api__git__head_impl(port, ptr, rust_vec_len, data_len),
+        15 => wire__crate__api__git__list_files_impl(port, ptr, rust_vec_len, data_len),
+        16 => wire__crate__api__git__log_path_impl(port, ptr, rust_vec_len, data_len),
+        17 => wire__crate__api__git__merge_conflicts_impl(port, ptr, rust_vec_len, data_len),
+        18 => wire__crate__api__git__push_impl(port, ptr, rust_vec_len, data_len),
+        19 => wire__crate__api__git__read_blob_impl(port, ptr, rust_vec_len, data_len),
+        20 => wire__crate__api__git__read_blobs_impl(port, ptr, rust_vec_len, data_len),
+        21 => wire__crate__api__git__read_file_at_impl(port, ptr, rust_vec_len, data_len),
+        22 => wire__crate__api__git__rebase_onto_upstream_impl(port, ptr, rust_vec_len, data_len),
+        23 => wire__crate__api__git__remote_branches_impl(port, ptr, rust_vec_len, data_len),
+        24 => wire__crate__api__git__resolve_commit_impl(port, ptr, rust_vec_len, data_len),
+        25 => wire__crate__api__git__set_ca_locations_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -1802,6 +1899,22 @@ impl flutter_rust_bridge::IntoIntoDart<crate::git::RebaseOutcome> for crate::git
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::git::RemoteBranches {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.default_branch.into_into_dart().into_dart(),
+            self.branches.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::git::RemoteBranches {}
+impl flutter_rust_bridge::IntoIntoDart<crate::git::RemoteBranches> for crate::git::RemoteBranches {
+    fn into_into_dart(self) -> crate::git::RemoteBranches {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::git::RemoteOptions {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -1814,6 +1927,23 @@ impl flutter_rust_bridge::IntoDart for crate::git::RemoteOptions {
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::git::RemoteOptions {}
 impl flutter_rust_bridge::IntoIntoDart<crate::git::RemoteOptions> for crate::git::RemoteOptions {
     fn into_into_dart(self) -> crate::git::RemoteOptions {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::git::SshKeyPair {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.private_key.into_into_dart().into_dart(),
+            self.public_key.into_into_dart().into_dart(),
+            self.fingerprint.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::git::SshKeyPair {}
+impl flutter_rust_bridge::IntoIntoDart<crate::git::SshKeyPair> for crate::git::SshKeyPair {
+    fn into_into_dart(self) -> crate::git::SshKeyPair {
         self
     }
 }
@@ -2252,11 +2382,28 @@ impl SseEncode for crate::git::RebaseOutcome {
     }
 }
 
+impl SseEncode for crate::git::RemoteBranches {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<String>>::sse_encode(self.default_branch, serializer);
+        <Vec<String>>::sse_encode(self.branches, serializer);
+    }
+}
+
 impl SseEncode for crate::git::RemoteOptions {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <crate::git::Auth>::sse_encode(self.auth, serializer);
         <Vec<String>>::sse_encode(self.trusted_host_keys, serializer);
+    }
+}
+
+impl SseEncode for crate::git::SshKeyPair {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.private_key, serializer);
+        <String>::sse_encode(self.public_key, serializer);
+        <String>::sse_encode(self.fingerprint, serializer);
     }
 }
 

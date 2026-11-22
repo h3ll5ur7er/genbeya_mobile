@@ -2,7 +2,7 @@
 id: GM-6
 title: Repositories, cloning and signing in
 type: feature
-status: backlog
+status: in-progress
 priority: high
 estimate: 4d
 remaining: 4d

@@ -16,6 +16,9 @@ flutter_rust_bridge = "=2.13.0"
 libgit2-sys = "=0.18.8"
 openssl-sys = "=0.9.118"
 libc = "0.2"
+# Ed25519 keys made on the device for SSH, in OpenSSH's format.
+ssh-key = { version = "=0.6.7", default-features = false, features = ["ed25519", "rand_core", "std"] }
+rand_core = { version = "0.6", features = ["getrandom"] }
 
 [dev-dependencies]
 tempfile = "3.27.0"

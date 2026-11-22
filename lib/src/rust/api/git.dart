@@ -36,6 +36,7 @@ Stream<TransferEvent> cloneRepository({
   required String url,
   required String dir,
   String? branch,
+  required List<String> extraBranches,
   int? depth,
   required RemoteOptions remote,
   required BigInt operationId,
@@ -43,10 +44,21 @@ Stream<TransferEvent> cloneRepository({
   url: url,
   dir: dir,
   branch: branch,
+  extraBranches: extraBranches,
   depth: depth,
   remote: remote,
   operationId: operationId,
 );
+
+/// The branches of a remote, without cloning.
+Future<RemoteBranches> remoteBranches({
+  required String url,
+  required RemoteOptions remote,
+}) => RustLib.instance.api.crateApiGitRemoteBranches(url: url, remote: remote);
+
+/// Makes a new Ed25519 SSH key on the device.
+Future<SshKeyPair> generateSshKey({required String comment}) =>
+    RustLib.instance.api.crateApiGitGenerateSshKey(comment: comment);
 
 Future<HeadInfo> head({required String dir}) =>
     RustLib.instance.api.crateApiGitHead(dir: dir);

@@ -571,6 +571,7 @@ pub fn clone(
     url: &str,
     dir: &Path,
     branch: Option<&str>,
+    extra: &[String],
     depth: Option<i32>,
     remote: &RemoteOptions,
     operation: Option<&Operation>,
@@ -581,17 +582,19 @@ pub fn clone(
             message: format!("{} is not empty", dir.display()),
         });
     }
-    let result = clone_into(url, dir, branch, depth, remote, operation, progress);
+    let result = clone_into(url, dir, branch, extra, depth, remote, operation, progress);
     if result.is_err() {
         let _ = fs::remove_dir_all(dir);
     }
     result
 }
 
+#[allow(clippy::too_many_arguments)]
 fn clone_into(
     url: &str,
     dir: &Path,
     branch: Option<&str>,
+    extra: &[String],
     depth: Option<i32>,
     options: &RemoteOptions,
     operation: Option<&Operation>,
@@ -603,20 +606,39 @@ fn clone_into(
         config.set_bool("core.symlinks", false)?;
     }
     let network = Network::new(options);
+    let listed = list_remote(&repo, url, &network)?;
     let branch = match branch {
         Some(b) => b.to_string(),
-        None => default_branch(&repo, url, &network)?,
+        None => listed.default_branch.clone().unwrap_or_default(),
     };
     if branch.is_empty() || branch.contains("..") || branch.starts_with('-') {
         return Err(CoreError::InvalidArgument {
             message: format!("invalid branch {branch}"),
         });
     }
-    let refspec = format!("+refs/heads/{branch}:refs/remotes/{REMOTE}/{branch}");
+    if !listed.branches.contains(&branch) {
+        return Err(CoreError::InvalidArgument {
+            message: format!("The remote has no branch {branch}."),
+        });
+    }
+    let spec = |name: &str| format!("+refs/heads/{name}:refs/remotes/{REMOTE}/{name}");
+    let refspec = spec(&branch);
     let mut remote = repo.remote_with_fetch(REMOTE, url, &refspec)?;
+    drop(remote);
+    // Extra branches the remote has (the content branch) come along, at the
+    // same depth, and stay in the remote's configuration for later fetches.
+    let mut refspecs = vec![refspec];
+    for name in extra {
+        if name != &branch && listed.branches.contains(name) {
+            repo.remote_add_fetch(REMOTE, &spec(name))?;
+            refspecs.push(spec(name));
+        }
+    }
+    remote = repo.find_remote(REMOTE)?;
     let mut fetch = fetch_options(&network, operation, progress, depth);
+    let refs: Vec<&str> = refspecs.iter().map(String::as_str).collect();
     remote
-        .fetch(&[refspec.as_str()], Some(&mut fetch), None)
+        .fetch(&refs, Some(&mut fetch), None)
         .map_err(|e| network.explain(e, operation))?;
     drop(remote);
 
@@ -629,7 +651,14 @@ fn clone_into(
     head_of(&repo)
 }
 
-fn default_branch(repo: &Repository, url: &str, network: &Network) -> Result<String> {
+/// What a remote offers: its default branch and every branch.
+#[derive(Debug, Clone, PartialEq)]
+pub struct RemoteBranches {
+    pub default_branch: Option<String>,
+    pub branches: Vec<String>,
+}
+
+fn list_remote(repo: &Repository, url: &str, network: &Network) -> Result<RemoteBranches> {
     let mut remote = repo.remote_anonymous(url)?;
     let mut proxy = ProxyOptions::new();
     proxy.auto();
@@ -640,12 +669,53 @@ fn default_branch(repo: &Repository, url: &str, network: &Network) -> Result<Str
             Some(proxy),
         )
         .map_err(|e| network.explain(e, None))?;
-    let name = connection.default_branch()?;
-    let name = name.as_str().unwrap_or("").to_string();
-    Ok(name
-        .strip_prefix("refs/heads/")
-        .unwrap_or(&name)
-        .to_string())
+    let default_branch = connection
+        .default_branch()
+        .ok()
+        .and_then(|name| name.as_str().ok().map(str::to_string))
+        .map(|name| {
+            name.strip_prefix("refs/heads/")
+                .unwrap_or(&name)
+                .to_string()
+        })
+        .filter(|name| !name.is_empty());
+    let mut branches: Vec<String> = connection
+        .list()?
+        .iter()
+        .filter_map(|head| head.name().strip_prefix("refs/heads/").map(str::to_string))
+        .collect();
+    branches.sort();
+    branches.dedup();
+    Ok(RemoteBranches {
+        default_branch,
+        branches,
+    })
+}
+
+/// The branches of the remote at `url`, without cloning: for choosing what
+/// to clone, and whether it has a content branch.
+pub fn remote_branches(url: &str, options: &RemoteOptions) -> Result<RemoteBranches> {
+    let dir = tempdir_for_listing()?;
+    let repo = Repository::init_bare(&dir)?;
+    let network = Network::new(options);
+    let listed = list_remote(&repo, url, &network);
+    drop(repo);
+    let _ = fs::remove_dir_all(&dir);
+    listed
+}
+
+/// An empty bare repository to list a remote from, in the system's temporary folder.
+fn tempdir_for_listing() -> Result<PathBuf> {
+    let dir = std::env::temp_dir().join(format!(
+        "genbeya-ls-{}-{}",
+        std::process::id(),
+        SystemTime::now()
+            .duration_since(SystemTime::UNIX_EPOCH)
+            .map(|d| d.as_nanos())
+            .unwrap_or(0)
+    ));
+    fs::create_dir_all(&dir)?;
+    Ok(dir)
 }
 
 // ---------- State ----------
@@ -700,6 +770,42 @@ fn head_of(repo: &Repository) -> Result<HeadInfo> {
 
 fn signature(identity: &Identity) -> Result<Signature<'static>> {
     Ok(Signature::now(&identity.name, &identity.email)?)
+}
+
+// ---------- SSH keys ----------
+
+/// An SSH key made on the device.
+#[derive(Debug, Clone, PartialEq)]
+pub struct SshKeyPair {
+    /// The private key in OpenSSH's format, for the keychain only.
+    pub private_key: String,
+    /// The public key line to add to the forge: `ssh-ed25519 AAAA… comment`.
+    pub public_key: String,
+    /// `SHA256:…`, as `ssh-keygen -l` shows it.
+    pub fingerprint: String,
+}
+
+/// Makes a new Ed25519 key, labelled with `comment` (the device's name).
+pub fn generate_ssh_key(comment: &str) -> Result<SshKeyPair> {
+    let mut key = ssh_key::PrivateKey::random(&mut rand_core::OsRng, ssh_key::Algorithm::Ed25519)
+        .map_err(key_error)?;
+    key.set_comment(comment);
+    let private_key = key
+        .to_openssh(ssh_key::LineEnding::LF)
+        .map_err(key_error)?
+        .to_string();
+    let public = key.public_key();
+    Ok(SshKeyPair {
+        private_key,
+        public_key: public.to_openssh().map_err(key_error)?,
+        fingerprint: public.fingerprint(ssh_key::HashAlg::Sha256).to_string(),
+    })
+}
+
+fn key_error(error: ssh_key::Error) -> CoreError {
+    CoreError::InvalidArgument {
+        message: format!("Couldn't make an SSH key: {error}"),
+    }
 }
 
 // ---------- Objects ----------

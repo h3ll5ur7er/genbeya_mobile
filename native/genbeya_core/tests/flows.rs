@@ -101,6 +101,7 @@ impl Fixture {
             &self.url,
             &dir,
             Some("main"),
+            &[],
             None,
             &RemoteOptions::default(),
             None,
@@ -145,7 +146,7 @@ fn clone_sets_up_a_tracking_branch_and_plain_symlinks() {
 fn default_branch_comes_from_the_remote() {
     let f = Fixture::new();
     let dir = f.root.join("phone");
-    let head = git::clone(&f.url, &dir, None, None, &none(), None, None).unwrap();
+    let head = git::clone(&f.url, &dir, None, &[], None, &none(), None, None).unwrap();
     assert_eq!(head.branch.as_deref(), Some("main"));
 }
 
@@ -445,6 +446,7 @@ fn shallow_clone_over_the_git_protocol() {
         &format!("git://127.0.0.1:{port}/remote.git"),
         &dir,
         Some("main"),
+        &[],
         Some(2),
         &none(),
         None,
@@ -470,6 +472,7 @@ fn a_cancelled_clone_leaves_nothing() {
         &f.url,
         &dir,
         Some("main"),
+        &[],
         None,
         &none(),
         Some(&op),
@@ -527,7 +530,17 @@ fn https_shallow_clone_of_a_real_repository() {
     let started = Instant::now();
     let mut last = None;
     let mut report = |p: Progress| last = Some(p);
-    let head = git::clone(&url, &dir, None, Some(1), &none(), None, Some(&mut report)).unwrap();
+    let head = git::clone(
+        &url,
+        &dir,
+        None,
+        &[],
+        Some(1),
+        &none(),
+        None,
+        Some(&mut report),
+    )
+    .unwrap();
     let elapsed = started.elapsed();
     let size = Command::new("du")
         .args(["-sk", dir.to_str().unwrap()])
@@ -655,5 +668,238 @@ fn reads_files_from_objects_for_the_repository_model() {
             .unwrap()
             .as_deref(),
         Some("content")
+    );
+}
+
+#[test]
+fn lists_a_remote_and_clones_its_content_branch_along() {
+    let f = Fixture::new();
+    let listed = git::remote_branches(&f.url, &none()).unwrap();
+    assert_eq!(listed.default_branch.as_deref(), Some("main"));
+    assert_eq!(
+        listed.branches,
+        vec!["genbeya".to_string(), "main".to_string()]
+    );
+
+    let dir = f.root.join("with-content");
+    let extra = ["genbeya".to_string(), "missing".to_string()];
+    let head = git::clone(&f.url, &dir, None, &extra, None, &none(), None, None).unwrap();
+    assert_eq!(head.branch.as_deref(), Some("main"));
+    let content = git::resolve_commit(&dir, "refs/remotes/origin/genbeya").unwrap();
+    assert!(content.is_some(), "the content branch came along");
+    assert_eq!(
+        git::resolve_commit(&dir, "refs/remotes/origin/missing").unwrap(),
+        None
+    );
+    assert!(
+        sh(&dir, &["config", "--get-all", "remote.origin.fetch"]).contains("refs/heads/genbeya"),
+        "later fetches include it"
+    );
+
+    let refused = git::clone(
+        &f.url,
+        &f.root.join("nope"),
+        Some("nope"),
+        &[],
+        None,
+        &none(),
+        None,
+        None,
+    );
+    assert!(
+        matches!(refused, Err(CoreError::InvalidArgument { .. })),
+        "{refused:?}"
+    );
+    assert!(!f.root.join("nope").exists());
+}
+
+#[test]
+fn ssh_keys_made_on_the_device() {
+    let key = git::generate_ssh_key("Pixel 9 Pro XL").unwrap();
+    assert!(key
+        .private_key
+        .starts_with("-----BEGIN OPENSSH PRIVATE KEY-----\n"));
+    assert!(key.public_key.starts_with("ssh-ed25519 AAAA"));
+    assert!(key.public_key.ends_with(" Pixel 9 Pro XL"));
+    assert!(key.fingerprint.starts_with("SHA256:"));
+    assert_ne!(
+        git::generate_ssh_key("x").unwrap().private_key,
+        key.private_key
+    );
+}
+
+/// A local sshd serving the fixture's remote, if this machine has one.
+struct SshServer {
+    child: std::process::Child,
+    port: u16,
+    host_fingerprint: String,
+}
+
+impl Drop for SshServer {
+    fn drop(&mut self) {
+        let _ = self.child.kill();
+    }
+}
+
+fn ssh_server(root: &Path, authorized: &str, host_key: &str) -> Option<SshServer> {
+    let sshd = Path::new("/usr/sbin/sshd");
+    if !sshd.exists() || Command::new("ssh-keygen").arg("-?").output().is_err() {
+        return None;
+    }
+    let dir = root.join(format!("sshd-{host_key}"));
+    fs::create_dir_all(&dir).unwrap();
+    let key = dir.join("host_key");
+    if !key.exists() {
+        let made = Command::new("ssh-keygen")
+            .args(["-q", "-t", "ed25519", "-N", "", "-f"])
+            .arg(&key)
+            .output()
+            .unwrap();
+        assert!(made.status.success());
+    }
+    fs::write(dir.join("authorized_keys"), format!("{authorized}\n")).unwrap();
+    let listener = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+    let port = listener.local_addr().unwrap().port();
+    drop(listener);
+    let config = dir.join("sshd_config");
+    fs::write(
+        &config,
+        format!(
+            "Port {port}\nListenAddress 127.0.0.1\nHostKey {key}\nAuthorizedKeysFile {auth}\n\
+             PasswordAuthentication no\nKbdInteractiveAuthentication no\nPubkeyAuthentication yes\n\
+             PermitRootLogin prohibit-password\nStrictModes no\nUsePAM no\nPidFile {pid}\n",
+            key = key.display(),
+            auth = dir.join("authorized_keys").display(),
+            pid = dir.join("sshd.pid").display(),
+        ),
+    )
+    .unwrap();
+    fs::create_dir_all("/run/sshd").ok();
+    let child = Command::new(sshd)
+        .args(["-D", "-e", "-f"])
+        .arg(&config)
+        .stderr(std::process::Stdio::null())
+        .spawn()
+        .ok()?;
+    let fingerprint = Command::new("ssh-keygen")
+        .args(["-l", "-E", "sha256", "-f"])
+        .arg(key.with_extension("pub"))
+        .output()
+        .unwrap();
+    let line = String::from_utf8_lossy(&fingerprint.stdout).to_string();
+    let host_fingerprint = line.split_whitespace().nth(1)?.to_string();
+    let deadline = Instant::now() + Duration::from_secs(5);
+    while std::net::TcpStream::connect(("127.0.0.1", port)).is_err() {
+        if Instant::now() > deadline {
+            return None;
+        }
+        std::thread::sleep(Duration::from_millis(50));
+    }
+    Some(SshServer {
+        child,
+        port,
+        host_fingerprint,
+    })
+}
+
+#[test]
+fn clone_and_push_over_ssh_with_a_key_made_on_the_device() {
+    let f = Fixture::new();
+    let key = git::generate_ssh_key("phone").unwrap();
+    let Some(server) = ssh_server(&f.root, &key.public_key, "a") else {
+        eprintln!("skipped: no sshd on this machine");
+        return;
+    };
+    let login = std::env::var("USER").unwrap_or_else(|_| "root".into());
+    let url = format!(
+        "ssh://{login}@127.0.0.1:{}{}",
+        server.port,
+        f.root.join("remote.git").display()
+    );
+    let mut options = RemoteOptions {
+        auth: Auth::SshKey {
+            username: login.clone(),
+            public_key: Some(key.public_key.clone()),
+            private_key: key.private_key.clone(),
+            passphrase: None,
+        },
+        trusted_host_keys: vec![],
+    };
+
+    // The first connection asks about the host's key, with its fingerprint.
+    let first = git::clone(
+        &url,
+        &f.root.join("ssh1"),
+        None,
+        &[],
+        Some(1),
+        &options,
+        None,
+        None,
+    );
+    match first {
+        Err(CoreError::HostKeyUnknown { fingerprint, .. }) => {
+            assert_eq!(fingerprint, server.host_fingerprint)
+        }
+        other => panic!("expected an unknown host key, got {other:?}"),
+    }
+
+    // Trusted, the clone works, and so does a push.
+    options.trusted_host_keys = vec![server.host_fingerprint.clone()];
+    let dir = f.root.join("ssh2");
+    let extra = ["genbeya".to_string()];
+    git::clone(&url, &dir, None, &extra, Some(1), &options, None, None).unwrap();
+    assert!(git::resolve_commit(&dir, "refs/remotes/origin/genbeya")
+        .unwrap()
+        .is_some());
+    edit(
+        &dir,
+        "docs/Home.md",
+        "# Home\n\nFrom the phone, over SSH.\n",
+        "Alice",
+        "Over SSH",
+    );
+    assert_eq!(
+        git::push(&dir, "main", &options).unwrap(),
+        PushOutcome::Pushed
+    );
+    assert_eq!(
+        f.remote_git(&["log", "-1", "--format=%s", "main"]),
+        "Over SSH"
+    );
+
+    // A key the server doesn't know is refused as an auth failure.
+    let stranger = git::generate_ssh_key("stranger").unwrap();
+    let refused = git::remote_branches(
+        &url,
+        &RemoteOptions {
+            auth: Auth::SshKey {
+                username: login.clone(),
+                public_key: Some(stranger.public_key),
+                private_key: stranger.private_key,
+                passphrase: None,
+            },
+            trusted_host_keys: options.trusted_host_keys.clone(),
+        },
+    );
+    assert!(
+        matches!(refused, Err(CoreError::AuthFailed { .. })),
+        "{refused:?}"
+    );
+
+    // A changed host key stops it.
+    drop(server);
+    let Some(other) = ssh_server(&f.root, &key.public_key, "b") else {
+        return;
+    };
+    let url = format!(
+        "ssh://{login}@127.0.0.1:{}{}",
+        other.port,
+        f.root.join("remote.git").display()
+    );
+    let changed = git::remote_branches(&url, &options);
+    assert!(
+        matches!(changed, Err(CoreError::HostKeyUnknown { .. })),
+        "{changed:?}"
     );
 }

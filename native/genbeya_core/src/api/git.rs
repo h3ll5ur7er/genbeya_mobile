@@ -12,7 +12,8 @@ use crate::frb_generated::StreamSink;
 use crate::git::{self, Operation};
 pub use crate::git::{
     Auth, AuthorCount, ChangedFile, CommitInfo, Conflict, CoreError, DiffSummary, FileChange,
-    HeadInfo, Identity, Progress, PushOutcome, RebaseOutcome, RemoteOptions, TreeFile,
+    HeadInfo, Identity, Progress, PushOutcome, RebaseOutcome, RemoteBranches, RemoteOptions,
+    SshKeyPair, TreeFile,
 };
 
 /// The versions inside the core, for the spike screen and bug reports.
@@ -68,10 +69,12 @@ fn finish(
 
 /// Clones into the new folder `dir`. The stream reports progress and ends
 /// with `Done` or `Failed`; read `head` afterwards.
+#[allow(clippy::too_many_arguments)]
 pub fn clone_repository(
     url: String,
     dir: String,
     branch: Option<String>,
+    extra_branches: Vec<String>,
     depth: Option<i32>,
     remote: RemoteOptions,
     operation_id: u64,
@@ -85,6 +88,7 @@ pub fn clone_repository(
         &url,
         Path::new(&dir),
         branch.as_deref(),
+        &extra_branches,
         depth,
         &remote,
         Some(&operation),
@@ -92,6 +96,16 @@ pub fn clone_repository(
     )
     .map(|_| ());
     finish(&events, result)
+}
+
+/// The branches of a remote, without cloning.
+pub fn remote_branches(url: String, remote: RemoteOptions) -> Result<RemoteBranches, CoreError> {
+    git::remote_branches(&url, &remote)
+}
+
+/// Makes a new Ed25519 SSH key on the device.
+pub fn generate_ssh_key(comment: String) -> Result<SshKeyPair, CoreError> {
+    git::generate_ssh_key(&comment)
 }
 
 pub fn head(dir: String) -> Result<HeadInfo, CoreError> {

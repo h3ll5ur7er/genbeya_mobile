@@ -80,6 +80,7 @@ fn https_clone_trusting_certificates_from_memory() {
         &url,
         &tmp.path().join("clone"),
         None,
+        &[],
         Some(1),
         &options,
         None,
