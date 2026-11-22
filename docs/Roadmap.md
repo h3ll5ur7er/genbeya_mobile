@@ -15,11 +15,11 @@ The trial's estimates add up to about 86 working days; 3 more follow once Genbey
 | --- | --- | --- | --- |
 | M0 | **Spikes** | Clone, commit and push on a real phone; see a Genbeya page rendered offline; pick the editor | [[GM-1]] to [[GM-5]] |
 | M1 | **Read anywhere** | Clone a repository, read its wiki, browse its board, search, open `genbeya://` links | [[GM-6]] to [[GM-10]] |
-| M2 | **Work on tasks** | Move tasks, edit fields, tick checklists, comment, create tasks, sync, see **Today** | [[GM-11]] to [[GM-15]] |
+| M2 | **Work on tasks** | Move tasks, edit fields, tick checklists, comment, create tasks, sync, see **Today** | [[GM-11]] to [[GM-15]], [[GM-29]] |
 | M3 | **Write** | Edit pages and add photos to them, browse and edit code, copy references to lines | [[GM-16]], [[GM-17]] |
-| M4 | **Plan and review** | See effort and what blocks what, log time; review pull requests, comment on lines, approve | [[GM-18]] to [[GM-21]] |
+| M4 | **Plan and review** | See effort and what blocks what, log time; review pull requests, comment on lines, approve | [[GM-18]] to [[GM-21]], [[GM-30]] |
 | M5 | **Trial** | Install a test build, try the sample project, use it daily for two weeks, decide | [[GM-22]] to [[GM-24]], [[GM-27]] |
-| — | **When Genbeya has it** | The kit from Genbeya's releases; images in tasks and pull requests ([[Upstream]]) | [[GM-25]], [[GM-26]] |
+| — | **When Genbeya has it** | The kit from Genbeya's releases (0.2.1); images in tasks and pull requests ([[Upstream]]) | [[GM-25]], [[GM-26]] |
 
 M0 ends with a decision gate: if Git on iOS or the kit in a WebView doesn't work well enough, the plan changes before more is built (see [Risks](#risks)).
 

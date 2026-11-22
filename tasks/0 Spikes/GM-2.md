@@ -2,10 +2,10 @@
 id: GM-2
 title: "Spike: Git on the device with a Rust core"
 type: spike
-status: in-progress
+status: done
 priority: urgent
 estimate: 4d
-remaining: 1d
+remaining: 0d
 milestone: M0
 depends_on: [GM-1]
 ios: to-check
@@ -26,7 +26,7 @@ Done when, on a real Android phone and a real iPhone, a test screen can do each 
 - [x] Note the build steps and what broke (`native/genbeya_core/README.md`); the Rust core works, so it stays (D3 in [[Decisions]])
 - [x] On a real Android phone (Pixel 9 Pro XL, 2026-11-21): 120 CA certificates from Android's store; HTTPS clone of genbeya/genbeya at depth 50 in 2.8 s over 5G (2.5 MB received, 7.3 MB on disk); commits in 48–259 ms; Sync without a token fails as it should, with the typed `authFailed` error
 - [x] Push with a token on the phone (2026-11-21, a throwaway private repository): clone 2.0 s, commit 59 ms, Sync (fetch, rebase, push) 2.3 s over 5G. A token without write access was refused with HTTP 403, which reached the screen as a generic `Git` error; the core now reports 401 and 403 as `AuthFailed`, so the app can say the token can't write there
-- [ ] SSH against a real server, on the phone
+- [x] SSH against a real server, on the phone (2026-11-22: a private repository cloned from GitHub over SSH with the phone's own key, in [[GM-6]])
 
 On this Linux container: 11 flow tests (two clones playing teammates against a bare remote, shallow clones over `git daemon`) and the bridge test from Dart pass; a real depth-1 HTTPS clone of genbeya/genbeya took 1.1 s (1.8 MB received, 8.4 MB on disk). The Android app builds with `libgenbeya_core.so` for arm64-v8a, armeabi-v7a and x86_64, about 7 MB each in release (+7.6 MB to an arm64 release APK, mostly OpenSSL). In CI the app also builds for iOS with the Rust core, OpenSSL and libssh2 (unsigned; it needed `-lz -liconv` in the plugin's pod, since libgit2 uses the system's zlib and iconv on Apple platforms). Not run yet: a real phone, SSH against a real server, HTTPS push with a token.
 
