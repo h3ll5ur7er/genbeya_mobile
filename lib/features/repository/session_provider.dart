@@ -16,6 +16,8 @@ final sessionProvider = FutureProvider.family<RepositorySession, CloneRecord>((
     NativeGitObjects(manager.folderOf(record)),
     folderName: record.name,
     author: identity?.name,
+    remote: record.url,
+    branch: record.branch,
   );
   await session.load();
   return session;

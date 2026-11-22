@@ -7,6 +7,7 @@ import 'package:genbeya_mobile/engines/checkbox_engine.dart';
 import 'package:genbeya_mobile/engines/collation.dart';
 import 'package:genbeya_mobile/engines/content_layout.dart';
 import 'package:genbeya_mobile/engines/file_tree.dart';
+import 'package:genbeya_mobile/engines/genbeya_link.dart';
 import 'package:genbeya_mobile/engines/people.dart';
 import 'package:genbeya_mobile/engines/people_engine.dart';
 import 'package:genbeya_mobile/engines/remote_url.dart';
@@ -113,6 +114,61 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
         final strings = (input['strings']! as List).cast<String>().toList();
         stableSort(strings, collate);
         return {'output': strings};
+      case 'link.parse':
+        Map<String, Object?> itemJson(LinkItem item) => {
+          'kind': item.kind,
+          switch (item.kind) {
+            'task' => 'id',
+            'commit' => 'hash',
+            _ => 'path',
+          }: item.value,
+        };
+        return {
+          'output': [
+            for (final text in (input['texts']! as List).cast<String>())
+              switch (parseGenbeyaLink(text)) {
+                null => null,
+                final link => {
+                  'remote': link.remote,
+                  'item': itemJson(link.item),
+                  'described': describeLinkItem(link.item),
+                },
+              },
+          ],
+        };
+      case 'link.format':
+        return {
+          'output': [
+            for (final link
+                in (input['links']! as List).cast<Map<String, Object?>>())
+              () {
+                final item = link['item']! as Map<String, Object?>;
+                final value =
+                    (item['id'] ?? item['hash'] ?? item['path'])! as String;
+                return formatGenbeyaLink(link['remote']! as String, (
+                  kind: item['kind']! as String,
+                  value: value,
+                ));
+              }(),
+          ],
+        };
+      case 'web.url':
+        return {
+          'output': {
+            'files': [
+              for (final f in (input['files']! as List).cast<List>())
+                webFileUrl(
+                  f[0] as String,
+                  path: f[1] as String,
+                  branch: f[2] as String,
+                ),
+            ],
+            'commits': [
+              for (final c in (input['commits']! as List).cast<List>())
+                webCommitUrl(c[0] as String, c[1] as String),
+            ],
+          },
+        };
       case 'search.area':
         final paths = (input['paths']! as List).cast<String>();
         return {

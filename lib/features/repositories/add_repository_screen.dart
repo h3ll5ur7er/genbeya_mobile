@@ -16,7 +16,13 @@ import 'sign_in_sheet.dart';
 /// how deep and who commits are signed as; cloning shows progress and can
 /// be cancelled (US-1, US-3).
 class AddRepositoryScreen extends ConsumerStatefulWidget {
-  const AddRepositoryScreen({super.key});
+  const AddRepositoryScreen({super.key, this.initialUrl, this.note});
+
+  /// An address to start from, such as a Genbeya link's remote.
+  final String? initialUrl;
+
+  /// Why the screen opened, shown at the top.
+  final String? note;
 
   @override
   ConsumerState<AddRepositoryScreen> createState() =>
@@ -49,9 +55,11 @@ class _AddRepositoryScreenState extends ConsumerState<AddRepositoryScreen> {
   @override
   void initState() {
     super.initState();
+    _url.text = widget.initialUrl ?? '';
     _url.addListener(_urlChanged);
     ref.read(repositoriesManagerProvider.future).then((manager) async {
       _manager = manager;
+      if (_url.text.isNotEmpty) await _urlChanged();
       final last = await manager.lastIdentity();
       if (!mounted || last == null) return;
       _name.text = last.name;
@@ -246,6 +254,11 @@ class _AddRepositoryScreenState extends ConsumerState<AddRepositoryScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            if (widget.note != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Text(widget.note!, style: theme.textTheme.bodyLarge),
+              ),
             if (_account == null &&
                 (_flow.offers(Forge.github) || _flow.offers(Forge.gitlab))) ...[
               Wrap(

@@ -15,7 +15,8 @@ import { WikiEngine } from "genbeya/src/engines/wiki-engine";
 import { PeopleEngine } from "genbeya/src/engines/people-engine";
 import { handleSlug } from "genbeya/src/utilities/people";
 import { CONTENT_AREAS } from "genbeya/src/contracts/model";
-import { namesRemoteHelper, parseRemote, sameRepository, withoutCredentials } from "genbeya/src/utilities/remote-url";
+import { namesRemoteHelper, parseRemote, sameRepository, webUrl, withoutCredentials } from "genbeya/src/utilities/remote-url";
+import { describeLinkItem, formatGenbeyaLink, parseGenbeyaLink } from "genbeya/src/utilities/genbeya-link";
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -23,7 +24,7 @@ import { join } from "node:path";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base" | "task.changes" | "search.area" | "search.excerpt";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base" | "task.changes" | "search.area" | "search.excerpt" | "link.parse" | "link.format" | "web.url";
   readonly input: Record<string, any>;
 }
 
@@ -90,6 +91,17 @@ function run(c: Case): unknown {
     case "collate":
       // The comparison Genbeya sorts names and titles with (file-tree.ts, wiki-engine.ts).
       return { output: [...i.strings].sort((a: string, b: string) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" })) };
+    case "link.parse":
+      return { output: i.texts.map((text: string) => { const link = parseGenbeyaLink(text); return link && { ...link, described: describeLinkItem(link.item) }; }) };
+    case "link.format":
+      return { output: i.links.map((link: any) => formatGenbeyaLink(link)) };
+    case "web.url":
+      return {
+        output: {
+          files: i.files.map(([remote, path, branch]: string[]) => webUrl(remote, { kind: "file", path, branch })),
+          commits: i.commits.map(([remote, hash]: string[]) => webUrl(remote, { kind: "commit", hash })),
+        },
+      };
     case "search.area":
       return { output: i.settings.map((settings: any) => i.paths.map((path: string) => search.areaOf(path, settings))) };
     case "search.excerpt":

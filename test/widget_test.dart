@@ -25,7 +25,7 @@ void main() {
         overrides: [
           repositoriesManagerProvider.overrideWith((ref) async => manager),
         ],
-        child: const GenbeyaApp(),
+        child: const GenbeyaApp(listenForLinks: false),
       ),
     );
     await tester.runAsync(

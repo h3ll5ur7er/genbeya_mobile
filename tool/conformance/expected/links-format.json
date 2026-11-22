@@ -1,0 +1,9 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": [
+    "genbeya://open?remote=https://github.com/a/b.git&task=GENBEYA-12",
+    "genbeya://open?remote=git@github.com:a/b.git&page=docs/Getting%20started.md",
+    "genbeya://open?remote=https://github.com/a/b&file=src/%C3%A4%20%C3%B6/x%3F.ts",
+    "genbeya://open?remote=https://github.com/a/b&commit=1a2b3c4d5e"
+  ]
+}

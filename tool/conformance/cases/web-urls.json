@@ -1,0 +1,65 @@
+{
+  "id": "web-urls",
+  "kind": "web.url",
+  "input": {
+    "files": [
+      [
+        "https://github.com/a/b.git",
+        "docs/Home.md",
+        "main"
+      ],
+      [
+        "git@gitlab.com:group/sub/repo.git",
+        "src/a b.ts",
+        "feature/x"
+      ],
+      [
+        "https://bitbucket.org/team/repo",
+        "README.md",
+        "develop"
+      ],
+      [
+        "https://dev.azure.com/org/proj/_git/repo",
+        "docs/Home.md",
+        "main"
+      ],
+      [
+        "http://gitlab.example.com/a/b",
+        "x.md",
+        "main"
+      ],
+      [
+        "https://example.com/a/b",
+        "x.md",
+        "main"
+      ],
+      [
+        "/srv/repo",
+        "x.md",
+        "main"
+      ]
+    ],
+    "commits": [
+      [
+        "https://github.com/a/b",
+        "abc123"
+      ],
+      [
+        "git@gitlab.com:a/b",
+        "abc123"
+      ],
+      [
+        "https://bitbucket.org/a/b",
+        "abc"
+      ],
+      [
+        "https://dev.azure.com/o/p/_git/r",
+        "abc"
+      ],
+      [
+        "https://example.com/a/b",
+        "abc"
+      ]
+    ]
+  }
+}

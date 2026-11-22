@@ -286,6 +286,60 @@ add("search-areas", "search.area", {
   add("search-excerpts", "search.excerpt", { lines: lines.map(([line, ranges]) => ({ line, ranges: ranges.map(([start, end]) => ({ start, end })) })) });
 }
 
+// Genbeya links, parsed strictly and formatted; web links per forge.
+add("links-parse", "link.parse", {
+  texts: [
+    "genbeya://open?remote=https://github.com/genbeya/genbeya.git&task=GENBEYA-12",
+    "genbeya://open/?remote=git@github.com:genbeya/genbeya.git&page=docs/Home.md",
+    "GENBEYA://OPEN?remote=https%3A%2F%2Fgithub.com%2Fa%2Fb&file=src%2Fmain.ts",
+    "genbeya://open?remote=https://github.com/a/b&commit=1A2B3C4D",
+    " genbeya://open?remote=https://github.com/a/b&task=A-1 ",
+    "genbeya://open?remote=https://github.com/a/b&page=docs/Home.txt",
+    "genbeya://open?remote=https://github.com/a/b&file=../etc/passwd",
+    "genbeya://open?remote=https://github.com/a/b&file=.git/config",
+    "genbeya://open?remote=/srv/repo.git&task=A-1",
+    "genbeya://open?remote=ext::sh%20-c%20x&task=A-1",
+    "genbeya://open?remote=https://github.com/a/b&task=A-1&task=A-2",
+    "genbeya://open?remote=https://github.com/a/b&task=A-1&page=docs/x.md",
+    "genbeya://open?remote=https://github.com/a/b&task=-rf",
+    "genbeya://open?remote=https://github.com/a/b&commit=xyz",
+    "genbeya://open?remote=https://github.com/a/b&task",
+    "genbeya://open?remote=https://github.com/a/b&task=A%2",
+    "genbeya://open?remote=https://github.com/a/b&task=A%FF",
+    "genbeya://open?remote=https://github.com/a/b&task=A-1#frag",
+    "genbeya://open?task=A-1",
+    "genbeya://open?remote=https://github.com/a/b",
+    "genbeya://app/index.html",
+    "https://github.com/a/b",
+    "genbeya://open?remote=https://github.com/a/b&unknown=x",
+    "genbeya://open?remote=https://github.com/a/b&file=docs/a%20b.png",
+    "genbeya://open?remote=https://github.com/a/b&task=A+1",
+    "genbeya://open?remote=https://github.com/a/b&page=docs/%C3%9Cber.md",
+    "genbeya://open?" + "a".repeat(9000),
+    "",
+  ],
+});
+add("links-format", "link.format", {
+  links: [
+    { remote: "https://user:secret@github.com/a/b.git", item: { kind: "task", id: "GENBEYA-12" } },
+    { remote: "git@github.com:a/b.git", item: { kind: "page", path: "docs/Getting started.md" } },
+    { remote: "https://github.com/a/b", item: { kind: "file", path: "src/ä ö/x?.ts" } },
+    { remote: "https://github.com/a/b", item: { kind: "commit", hash: "1a2b3c4d5e" } },
+  ],
+});
+add("web-urls", "web.url", {
+  files: [
+    ["https://github.com/a/b.git", "docs/Home.md", "main"],
+    ["git@gitlab.com:group/sub/repo.git", "src/a b.ts", "feature/x"],
+    ["https://bitbucket.org/team/repo", "README.md", "develop"],
+    ["https://dev.azure.com/org/proj/_git/repo", "docs/Home.md", "main"],
+    ["http://gitlab.example.com/a/b", "x.md", "main"],
+    ["https://example.com/a/b", "x.md", "main"],
+    ["/srv/repo", "x.md", "main"],
+  ],
+  commits: [["https://github.com/a/b", "abc123"], ["git@gitlab.com:a/b", "abc123"], ["https://bitbucket.org/a/b", "abc"], ["https://dev.azure.com/o/p/_git/r", "abc"], ["https://example.com/a/b", "abc"]],
+});
+
 function labelsOf(content) {
   const flow = /^labels:\s*\[(.*)\]/m.exec(content);
   if (flow) return flow[1].split(",").map((s) => s.trim()).filter(Boolean);

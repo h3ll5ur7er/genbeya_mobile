@@ -6,6 +6,7 @@ import '../../managers/repository_session.dart';
 import '../../managers/task_views.dart';
 import '../kit/kit_view.dart';
 import 'links.dart';
+import 'share_menu.dart';
 import '../repositories/format.dart';
 import '../tasks/task_look.dart';
 
@@ -66,7 +67,16 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
       for (final d in dueDatesOf(task, settings, today())) d.field: d,
     };
     return Scaffold(
-      appBar: AppBar(title: Text(displayId(task.id))),
+      appBar: AppBar(
+        title: Text(displayId(task.id)),
+        actions: [
+          ShareMenu(
+            session: widget.session,
+            item: (kind: 'task', value: task.id),
+            path: task.path,
+          ),
+        ],
+      ),
       body: ListView(
         children: [
           Padding(

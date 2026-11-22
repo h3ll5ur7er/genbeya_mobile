@@ -1,0 +1,36 @@
+{
+  "id": "links-format",
+  "kind": "link.format",
+  "input": {
+    "links": [
+      {
+        "remote": "https://user:secret@github.com/a/b.git",
+        "item": {
+          "kind": "task",
+          "id": "GENBEYA-12"
+        }
+      },
+      {
+        "remote": "git@github.com:a/b.git",
+        "item": {
+          "kind": "page",
+          "path": "docs/Getting started.md"
+        }
+      },
+      {
+        "remote": "https://github.com/a/b",
+        "item": {
+          "kind": "file",
+          "path": "src/ä ö/x?.ts"
+        }
+      },
+      {
+        "remote": "https://github.com/a/b",
+        "item": {
+          "kind": "commit",
+          "hash": "1a2b3c4d5e"
+        }
+      }
+    ]
+  }
+}

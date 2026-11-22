@@ -158,4 +158,37 @@ void main() {
     expect(fileTarget(state, 'src/app.dart'), FileTarget.file);
     expect(wikiPages(state.wiki), ['docs/Home.md']);
   });
+
+  test(
+    'links to share: Genbeya links and web links on the right branch',
+    () async {
+      final session = RepositorySession(
+        repository(),
+        folderName: 'demo',
+        remote: 'https://user:token@github.com/acme/demo.git',
+        branch: 'main',
+      );
+      await session.load();
+      expect(
+        session.genbeyaLink((kind: 'task', value: 'DM-1')),
+        'genbeya://open?remote=https://github.com/acme/demo.git&task=DM-1',
+      );
+      expect(
+        session.webLink('tasks/DM-1.md'),
+        'https://github.com/acme/demo/blob/genbeya/tasks/DM-1.md',
+        reason: 'tasks live on the content branch',
+      );
+      expect(
+        session.webLink('src/app.dart'),
+        'https://github.com/acme/demo/blob/main/src/app.dart',
+      );
+      expect(
+        RepositorySession(
+          repository(),
+          folderName: 'x',
+        ).genbeyaLink((kind: 'task', value: 'A')),
+        isNull,
+      );
+    },
+  );
 }

@@ -1,7 +1,7 @@
 /// Remote URLs: which repository they name, whatever form they take (https,
-/// ssh, `git@host:owner/repo.git`, Azure DevOps' own forms). Port of the
-/// parsing half of Genbeya's `src/utilities/remote-url.ts`; web links per
-/// forge come with sharing ([[GM-10]]).
+/// ssh, `git@host:owner/repo.git`, Azure DevOps' own forms), and where its
+/// files and commits are on the host's website. Port of Genbeya's
+/// `src/utilities/remote-url.ts`.
 library;
 
 /// A repository on a Git server, independent of how a remote URL spells it.
@@ -206,4 +206,58 @@ _Url? _parseUrl(String text) {
   var path = match[3]!;
   if (defaultPort != null && path.isEmpty) path = '/';
   return _Url('$scheme:', hostname, port, path);
+}
+
+/// GitHub, GitLab (self-hosted ones with "gitlab" in their name), Bitbucket
+/// Cloud and Azure DevOps.
+String? _hostOf(RemoteRepository repository) {
+  final host = repository.host;
+  if (host == 'github.com') return 'github';
+  if (host.contains('gitlab')) return 'gitlab';
+  if (host == 'bitbucket.org') return 'bitbucket';
+  return host == 'dev.azure.com' ? 'azure' : null;
+}
+
+String _encodePath(String path) =>
+    path.split('/').map(Uri.encodeComponent).join('/');
+String _encodeQuery(String value) =>
+    Uri.encodeComponent(value).replaceAll('%2F', '/');
+
+/// The page of a file on a branch on the host's website; null for hosts
+/// Genbeya does not know.
+String? webFileUrl(
+  String remote, {
+  required String path,
+  required String branch,
+}) {
+  final repository = parseRemote(remote);
+  final host = repository == null ? null : _hostOf(repository);
+  if (repository == null || host == null) return null;
+  final base =
+      '${repository.scheme}://${repository.host}/${_encodePath(repository.path)}';
+  if (host == 'azure') {
+    return '$base?path=${_encodeQuery('/$path')}&version=GB${_encodeQuery(branch)}';
+  }
+  final blob = const {
+    'github': 'blob',
+    'gitlab': '-/blob',
+    'bitbucket': 'src',
+  }[host]!;
+  return '$base/$blob/${_encodePath(branch)}/${_encodePath(path)}';
+}
+
+/// The page of a commit on the host's website; null for unknown hosts.
+String? webCommitUrl(String remote, String hash) {
+  final repository = parseRemote(remote);
+  final host = repository == null ? null : _hostOf(repository);
+  if (repository == null || host == null) return null;
+  final base =
+      '${repository.scheme}://${repository.host}/${_encodePath(repository.path)}';
+  final commit = const {
+    'github': 'commit',
+    'gitlab': '-/commit',
+    'bitbucket': 'commits',
+    'azure': 'commit',
+  }[host]!;
+  return '$base/$commit/$hash';
 }

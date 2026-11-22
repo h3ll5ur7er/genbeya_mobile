@@ -12,6 +12,8 @@ import '../access/git/git_objects.dart';
 import '../access/kit/kit_host.dart';
 import '../contracts/model.dart';
 import '../engines/content_layout.dart';
+import '../engines/genbeya_link.dart';
+import '../engines/remote_url.dart';
 import '../engines/search_engine.dart';
 import '../engines/task_activity.dart';
 import '../engines/task_engine.dart';
@@ -21,14 +23,40 @@ import 'search.dart';
 import 'task_views.dart';
 
 class RepositorySession {
-  RepositorySession(this.git, {required String folderName, this.author})
-    : model = RepositoryModel(git, folderName: folderName);
+  RepositorySession(
+    this.git, {
+    required String folderName,
+    this.author,
+    this.remote,
+    this.branch,
+  }) : model = RepositoryModel(git, folderName: folderName);
 
   final GitObjects git;
   final RepositoryModel model;
 
   /// The name the user's comments are signed with (the clone's Git name).
   final String? author;
+
+  /// The clone's remote, for links to share.
+  final String? remote;
+
+  /// The checked-out branch.
+  final String? branch;
+
+  /// A Genbeya link to an item of this repository, for teammates' clones.
+  String? genbeyaLink(LinkItem item) =>
+      remote == null ? null : formatGenbeyaLink(remote!, item);
+
+  /// The file's page on the forge's website, on the branch it lives on;
+  /// null for forges Genbeya doesn't know.
+  String? webLink(String path) {
+    final state = _state;
+    final onBranch = commitOf(path) != state.place.head;
+    final on = onBranch ? state.place.branch : branch;
+    if (remote == null || on == null) return null;
+    return webFileUrl(remote!, path: path, branch: on);
+  }
+
   final _wiki = WikiEngine();
 
   RepositoryState? get state => model.state;

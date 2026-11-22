@@ -7,6 +7,7 @@ import '../../managers/repository_session.dart';
 import '../kit/kit_view.dart';
 import 'links.dart';
 import 'search_screen.dart';
+import 'share_menu.dart';
 
 /// The wiki: pages rendered by Genbeya's own renderer, the page tree in a
 /// drawer, the page's place as a breadcrumb, its headings in "On this page"
@@ -199,6 +200,12 @@ class _WikiScreenState extends State<WikiScreen> {
                 ),
               ),
             ),
+            if (page != null)
+              ShareMenu(
+                session: _session,
+                item: (kind: 'page', value: page.path),
+                path: page.path,
+              ),
             if (_outline.length > 1)
               IconButton(
                 tooltip: 'On this page',

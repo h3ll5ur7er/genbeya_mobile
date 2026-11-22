@@ -1,0 +1,82 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": [
+    {
+      "remote": "https://github.com/genbeya/genbeya.git",
+      "item": {
+        "kind": "task",
+        "id": "GENBEYA-12"
+      },
+      "described": "task GENBEYA-12"
+    },
+    {
+      "remote": "git@github.com:genbeya/genbeya.git",
+      "item": {
+        "kind": "page",
+        "path": "docs/Home.md"
+      },
+      "described": "page docs/Home.md"
+    },
+    {
+      "remote": "https://github.com/a/b",
+      "item": {
+        "kind": "file",
+        "path": "src/main.ts"
+      },
+      "described": "file src/main.ts"
+    },
+    {
+      "remote": "https://github.com/a/b",
+      "item": {
+        "kind": "commit",
+        "hash": "1a2b3c4d"
+      },
+      "described": "commit 1a2b3c4d"
+    },
+    {
+      "remote": "https://github.com/a/b",
+      "item": {
+        "kind": "task",
+        "id": "A-1"
+      },
+      "described": "task A-1"
+    },
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    {
+      "remote": "https://github.com/a/b",
+      "item": {
+        "kind": "file",
+        "path": "docs/a b.png"
+      },
+      "described": "file docs/a b.png"
+    },
+    null,
+    {
+      "remote": "https://github.com/a/b",
+      "item": {
+        "kind": "page",
+        "path": "docs/Über.md"
+      },
+      "described": "page docs/Über.md"
+    },
+    null,
+    null
+  ]
+}

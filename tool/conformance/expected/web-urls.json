@@ -1,0 +1,21 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": {
+    "files": [
+      "https://github.com/a/b/blob/main/docs/Home.md",
+      "https://gitlab.com/group/sub/repo/-/blob/feature/x/src/a%20b.ts",
+      "https://bitbucket.org/team/repo/src/develop/README.md",
+      "https://dev.azure.com/org/proj/_git/repo?path=/docs/Home.md&version=GBmain",
+      "http://gitlab.example.com/a/b/-/blob/main/x.md",
+      null,
+      null
+    ],
+    "commits": [
+      "https://github.com/a/b/commit/abc123",
+      "https://gitlab.com/a/b/-/commit/abc123",
+      "https://bitbucket.org/a/b/commits/abc",
+      "https://dev.azure.com/o/p/_git/r/commit/abc",
+      null
+    ]
+  }
+}
