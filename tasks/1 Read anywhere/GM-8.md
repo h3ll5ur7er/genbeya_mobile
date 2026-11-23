@@ -2,7 +2,7 @@
 id: GM-8
 title: Read the wiki
 type: feature
-status: review
+status: done
 priority: high
 estimate: 3d
 remaining: 0d

@@ -2,7 +2,7 @@
 id: GM-3
 title: "Spike: render Genbeya pages with the web kit"
 type: spike
-status: review
+status: done
 priority: urgent
 estimate: 3d
 remaining: 0d
