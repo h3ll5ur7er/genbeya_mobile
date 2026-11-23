@@ -7,6 +7,9 @@ import 'transfers.dart';
 class NativeGitRemote implements GitRemote {
   const NativeGitRemote();
 
+  /// The core's options for [access], for the other native classes.
+  core.RemoteOptions optionsFor(RemoteAccess access) => _options(access);
+
   core.RemoteOptions _options(RemoteAccess access) => core.RemoteOptions(
     auth: switch (access) {
       RemoteAccess(token: final token?) => core.Auth.token(
@@ -22,6 +25,9 @@ class NativeGitRemote implements GitRemote {
     },
     trustedHostKeys: access.trustedHostKeys,
   );
+
+  /// Runs [run], turning the core's errors into [RemoteFailure]s.
+  Future<T> mapped<T>(Future<T> Function() run) => _mapped(run);
 
   Future<T> _mapped<T>(Future<T> Function() run) async {
     try {
