@@ -118,6 +118,14 @@ class ContentWriter {
     final file = File('$dir/$path');
     if (content == null) {
       if (file.existsSync()) await file.delete();
+      // Folders the file leaves empty go too, as desktop removes them.
+      var folder = file.parent;
+      while (folder.path.length > dir.length &&
+          folder.existsSync() &&
+          folder.listSync().isEmpty) {
+        await folder.delete();
+        folder = folder.parent;
+      }
       return;
     }
     await file.parent.create(recursive: true);

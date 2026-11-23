@@ -11,6 +11,7 @@ import 'package:crypto/crypto.dart';
 
 import '../access/git/git_objects.dart';
 import '../access/kit/kit_host.dart';
+import '../contracts/clones.dart';
 import '../contracts/model.dart';
 import '../engines/content_layout.dart';
 import '../engines/genbeya_link.dart';
@@ -30,6 +31,7 @@ class RepositorySession {
     this.author,
     this.remote,
     this.branch,
+    this.record,
   }) : model = RepositoryModel(git, folderName: folderName);
 
   final GitObjects git;
@@ -43,6 +45,10 @@ class RepositorySession {
 
   /// The checked-out branch.
   final String? branch;
+
+  /// The clone this session reads, for screens that change it; null in
+  /// tests and demos, which then show it read-only.
+  final CloneRecord? record;
 
   /// A Genbeya link to an item of this repository, for teammates' clones.
   String? genbeyaLink(LinkItem item) =>

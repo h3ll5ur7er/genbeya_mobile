@@ -87,3 +87,21 @@ String appendTimeLogLines(String body, List<String> lines) {
     ...split.sublist(at),
   ].join(newline);
 }
+
+/// Hours in a working day, for effort written in days.
+const hoursPerDay = 8;
+
+final _effort = RegExp(
+  r'^\s*(\d+(?:\.\d+)?)\s*([hd])?\s*$',
+  caseSensitive: false,
+);
+
+/// An effort field's hours (`16h`, `2d`, or a number of hours), as
+/// desktop's `parseEffort` (utilities/planning.ts); null when it isn't one.
+num? parseEffort(Object? value) {
+  if (value is num) return value.isFinite && value >= 0 ? value : null;
+  final match = value is String ? _effort.firstMatch(value) : null;
+  if (match == null) return null;
+  return double.parse(match[1]!) *
+      (match[2]?.toLowerCase() == 'd' ? hoursPerDay : 1);
+}

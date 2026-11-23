@@ -13,6 +13,7 @@ class TaskCard extends StatelessWidget {
     required this.settings,
     required this.assigneeName,
     required this.onTap,
+    this.onLongPress,
     this.showEpic = true,
   });
 
@@ -20,6 +21,9 @@ class TaskCard extends StatelessWidget {
   final Settings settings;
   final String assigneeName;
   final VoidCallback onTap;
+
+  /// **Move to…**, in the list; on the board a long press drags instead.
+  final VoidCallback? onLongPress;
   final bool showEpic;
 
   @override
@@ -37,6 +41,7 @@ class TaskCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
+        onLongPress: onLongPress,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
           child: Column(

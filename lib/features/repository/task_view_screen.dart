@@ -1,10 +1,19 @@
+import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../access/kit/kit_host.dart';
+import '../../contracts/clones.dart';
 import '../../contracts/model.dart';
 import '../../managers/repository_session.dart';
 import '../../managers/task_views.dart';
+import '../../engines/js.dart';
+import '../../managers/task_writer.dart';
 import '../kit/kit_view.dart';
+import '../tasks/task_edit_screen.dart';
+import '../tasks/task_editing.dart';
+import '../tasks/task_pickers.dart';
 import 'links.dart';
 import 'share_menu.dart';
 import '../repositories/format.dart';
@@ -12,27 +21,39 @@ import '../tasks/task_look.dart';
 
 /// A task, full screen ([[Experience#tasks]]): its title and properties as
 /// chips, its custom fields, its description and comments rendered by the
-/// kit, and its activity from Git history. Changing them comes with
-/// [[GM-12]] and [[GM-13]].
-class TaskViewScreen extends StatefulWidget {
+/// kit, and its activity from Git history. With the session's clone, each
+/// property changes from a bottom sheet and is saved at once, checkboxes
+/// tick, and **Edit** opens the title and description ([[GM-12]]).
+class TaskViewScreen extends ConsumerStatefulWidget {
   const TaskViewScreen({super.key, required this.session, required this.task});
 
   final RepositorySession session;
   final Task task;
 
   @override
-  State<TaskViewScreen> createState() => _TaskViewScreenState();
+  ConsumerState<TaskViewScreen> createState() => _TaskViewScreenState();
 }
 
-class _TaskViewScreenState extends State<TaskViewScreen> {
+class _TaskViewScreenState extends ConsumerState<TaskViewScreen> {
   late final KitHost _host;
-  late final Future<TaskActivity> _activity;
+  late Future<TaskActivity> _activity;
+  late Task _task = widget.task;
   double _height = 120;
+  StreamSubscription<Object>? _changes;
+
+  /// Changes run one after the other, each on the newest version.
+  Future<void> _queue = Future.value();
+  var _saving = 0;
+
+  /// The clone to change the task in; read-only without one.
+  CloneRecord? get _record => widget.session.record;
+
+  bool get _editable => _record != null;
 
   @override
   void initState() {
     super.initState();
-    _activity = widget.session.taskActivity(widget.task);
+    _activity = widget.session.taskActivity(_task);
     _host =
         KitHost(
             files: widget.session.kitFiles(),
@@ -40,9 +61,35 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
               if (mounted) setState(() => _height = height.clamp(60, 50000));
             },
             onFollow: (link) => followLink(context, widget.session, link),
+            onToggle: (document, offset) async {
+              if (!_editable) return;
+              _change((tasks, task) async {
+                final ticked = await tasks.toggle(task, offset);
+                if (ticked == null && mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('That checkbox moved. Try again.'),
+                    ),
+                  );
+                }
+                return ticked;
+              });
+            },
           )
           ..updateContext(widget.session.kitContext())
-          ..show(KitTaskDocument(widget.task));
+          ..show(KitTaskDocument(_task));
+    // After a sync or another screen's edit: the newest version of this task.
+    _changes = widget.session.changes.listen((state) {
+      _host.updateContext(widget.session.kitContext());
+      final newer = state.tasks.where((t) => t.id == _task.id).firstOrNull;
+      if (newer != null && newer.hash != _task.hash) _show(newer);
+    });
+  }
+
+  @override
+  void dispose() {
+    _changes?.cancel();
+    super.dispose();
   }
 
   @override
@@ -51,9 +98,55 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
     _host.setTheme(dark: Theme.of(context).brightness == Brightness.dark);
   }
 
+  void _show(Task task) {
+    if (!mounted) return;
+    setState(() {
+      _task = task;
+      _activity = widget.session.taskActivity(task);
+    });
+    _host.show(KitTaskDocument(task));
+  }
+
+  /// Saves a change made from the task as it is when its turn comes.
+  void _change(Future<Task?> Function(TaskWriter tasks, Task task) change) {
+    setState(() => _saving++);
+    _queue = _queue
+        .then((_) async {
+          if (!mounted) return;
+          final saved = await changeTask(
+            context,
+            ref,
+            _record!,
+            widget.session,
+            (tasks) => change(tasks, _task),
+          );
+          if (saved != null) _show(saved);
+        })
+        .whenComplete(() {
+          if (mounted) setState(() => _saving--);
+        });
+  }
+
+  /// A property change: the whole task with [patch] applied, as desktop sends it.
+  void _patch(TaskInput Function(TaskInput input) patch) =>
+      _change((tasks, task) => tasks.update(task, patch(task.toInput())));
+
+  Future<void> _edit() async {
+    final saved = await Navigator.of(context).push<Task>(
+      MaterialPageRoute(
+        builder: (_) => TaskEditScreen(
+          record: _record!,
+          session: widget.session,
+          task: _task,
+        ),
+      ),
+    );
+    if (saved != null) _show(saved);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final task = widget.task;
+    final task = _task;
     final state = widget.session.state!;
     final settings = state.settings;
     final theme = Theme.of(context);
@@ -66,10 +159,44 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
     final dates = {
       for (final d in dueDatesOf(task, settings, today())) d.field: d,
     };
+    final editable = _editable;
+
+    /// A property as a chip: tapping it changes it, when the task can change.
+    Widget property({
+      required Widget avatar,
+      required String label,
+      required String tooltip,
+      Future<void> Function()? onTap,
+      bool empty = false,
+    }) => Tooltip(
+      message: tooltip,
+      child: ActionChip(
+        avatar: avatar,
+        label: Text(
+          label,
+          style: empty ? TextStyle(color: scheme.onSurfaceVariant) : null,
+        ),
+        onPressed: editable && onTap != null ? onTap : null,
+      ),
+    );
+
+    final configured = {for (final f in settings.fields) f.name};
     return Scaffold(
       appBar: AppBar(
         title: Text(displayId(task.id)),
+        bottom: _saving > 0
+            ? const PreferredSize(
+                preferredSize: Size.fromHeight(2),
+                child: LinearProgressIndicator(minHeight: 2),
+              )
+            : null,
         actions: [
+          if (editable)
+            IconButton(
+              tooltip: 'Edit title and description',
+              icon: const Icon(Icons.edit_outlined),
+              onPressed: _edit,
+            ),
           ShareMenu(
             session: widget.session,
             item: (kind: 'task', value: task.id),
@@ -81,7 +208,10 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-            child: Text(task.title, style: theme.textTheme.titleLarge),
+            child: GestureDetector(
+              onLongPress: editable ? _edit : null,
+              child: Text(task.title, style: theme.textTheme.titleLarge),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
@@ -89,7 +219,8 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
               spacing: 8,
               runSpacing: 4,
               children: [
-                Chip(
+                property(
+                  tooltip: 'Status',
                   avatar: Icon(
                     Icons.circle,
                     size: 12,
@@ -98,50 +229,157 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
                       scheme,
                     ),
                   ),
-                  label: Text(titleCase(task.status)),
+                  label: titleCase(task.status),
+                  onTap: () async {
+                    final status = await pickStatus(
+                      context,
+                      settings,
+                      task.status,
+                    );
+                    if (status != null && status != task.status) {
+                      _patch((i) => i.copyWith(status: status));
+                    }
+                  },
                 ),
-                if (task.type.isNotEmpty)
-                  Chip(
-                    avatar: TypeIcon(type: task.type, types: settings.types),
-                    label: Text(titleCase(task.type)),
+                if (task.type.isNotEmpty || editable)
+                  property(
+                    tooltip: 'Type',
+                    avatar: task.type.isEmpty
+                        ? const Icon(Icons.category_outlined, size: 16)
+                        : TypeIcon(type: task.type, types: settings.types),
+                    label: task.type.isEmpty ? 'Type' : titleCase(task.type),
+                    empty: task.type.isEmpty,
+                    onTap: () async {
+                      final type = await pickType(context, state, task.type);
+                      if (type != null && type != task.type) {
+                        _patch((i) => i.copyWith(type: type));
+                      }
+                    },
                   ),
-                if (task.priority != 'none')
-                  Chip(
+                if (task.priority != 'none' || editable)
+                  property(
+                    tooltip: 'Priority',
                     avatar: PriorityIcon(priority: task.priority),
-                    label: Text(titleCase(task.priority)),
+                    label: task.priority == 'none'
+                        ? 'Priority'
+                        : titleCase(task.priority),
+                    empty: task.priority == 'none',
+                    onTap: () async {
+                      final priority = await pickPriority(
+                        context,
+                        task.priority,
+                      );
+                      if (priority != null && priority != task.priority) {
+                        _patch((i) => i.copyWith(priority: priority));
+                      }
+                    },
                   ),
-                if (task.assignee.isNotEmpty)
-                  Chip(
-                    avatar: PersonAvatar(name: assignee?.name ?? task.assignee),
-                    label: Text(assignee?.name ?? task.assignee),
+                if (task.assignee.isNotEmpty || editable)
+                  property(
+                    tooltip: 'Assignee',
+                    avatar: task.assignee.isEmpty
+                        ? const Icon(Icons.person_outline, size: 16)
+                        : PersonAvatar(name: assignee?.name ?? task.assignee),
+                    label: task.assignee.isEmpty
+                        ? 'Unassigned'
+                        : assignee?.name ?? task.assignee,
+                    empty: task.assignee.isEmpty,
+                    onTap: () async {
+                      final chosen = await pickAssignee(
+                        context,
+                        state,
+                        task.assignee,
+                      );
+                      if (chosen != null &&
+                          person(chosen) != person(task.assignee)) {
+                        _patch((i) => i.copyWith(assignee: chosen));
+                      }
+                    },
                   ),
-                if (task.epic.isNotEmpty)
-                  Chip(
+                if (task.epic.isNotEmpty || editable)
+                  property(
+                    tooltip: 'Epic',
                     avatar: const Icon(Icons.folder_outlined, size: 16),
-                    label: Text(task.epic),
+                    label: epicName(task.epic),
+                    empty: task.epic.isEmpty,
+                    onTap: () async {
+                      final epic = await pickEpic(
+                        context,
+                        state.tasks,
+                        task.epic,
+                      );
+                      if (epic != null && epic != task.epic) {
+                        _patch((i) => i.copyWith(epic: epic));
+                      }
+                    },
                   ),
-                for (final label in task.labels) Chip(label: LabelChip(label)),
+                for (final label in task.labels)
+                  editable
+                      ? ActionChip(label: LabelChip(label), onPressed: _labels)
+                      : Chip(label: LabelChip(label)),
+                if (editable)
+                  ActionChip(
+                    avatar: const Icon(Icons.label_outline, size: 16),
+                    label: Text(task.labels.isEmpty ? 'Labels' : 'Labels…'),
+                    onPressed: _labels,
+                  ),
               ],
             ),
           ),
           for (final field in settings.fields)
-            if (task.fields[field.name] != null)
+            if (task.fields[field.name] != null || editable)
               ListTile(
                 dense: true,
-                title: Text(field.name),
+                title: Text(titleCase(field.name)),
+                onTap: editable
+                    ? () async {
+                        final value = await editField(
+                          context,
+                          field,
+                          task.fields[field.name],
+                        );
+                        if (value == null ||
+                            _same(value.$1, task.fields[field.name] ?? '')) {
+                          return;
+                        }
+                        _change(
+                          (tasks, current) => tasks.update(
+                            current,
+                            current.toInput().copyWith(
+                              fields: {...current.fields, field.name: value.$1},
+                            ),
+                          ),
+                        );
+                      }
+                    : null,
                 trailing: Text(
                   switch (task.fields[field.name]) {
+                    null => '—',
                     final List<Object?> list => list.join(', '),
-                    final value => '$value',
+                    final value => jsText(value),
                   },
                   style: TextStyle(
                     color: switch (dates[field.name]?.tone) {
                       DueTone.overdue => toneColor('red', scheme),
                       DueTone.soon => toneColor('yellow', scheme),
-                      null => null,
+                      null =>
+                        task.fields[field.name] == null
+                            ? scheme.onSurfaceVariant
+                            : null,
                     },
                   ),
                 ),
+              ),
+          // Fields the settings don't configure: shown, edited on desktop.
+          for (final entry in task.fields.entries)
+            if (!configured.contains(entry.key))
+              ListTile(
+                dense: true,
+                title: Text(entry.key),
+                trailing: Text(switch (entry.value) {
+                  final List<Object?> list => list.join(', '),
+                  final value => jsText(value),
+                }),
               ),
           const Divider(height: 1),
           SizedBox(
@@ -206,4 +444,16 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
       ),
     );
   }
+
+  Future<void> _labels() async {
+    final labels = await pickLabels(
+      context,
+      widget.session.state!.tasks,
+      _task.labels,
+    );
+    if (labels == null || _same(labels, _task.labels)) return;
+    _patch((i) => i.copyWith(labels: labels));
+  }
+
+  static bool _same(Object? a, Object? b) => jsJson(a) == jsJson(b);
 }

@@ -25,6 +25,7 @@ class CloneRecord {
     required this.added,
     this.lastSync,
     this.contentBranch,
+    this.commitsChosen = false,
   });
 
   /// Its folder's name under the app's clone folder.
@@ -47,17 +48,25 @@ class CloneRecord {
   /// The content branch fetched along, if the remote has one.
   final String? contentBranch;
 
-  CloneRecord copyWith({DateTime? lastSync, CredentialKind? credential}) =>
-      CloneRecord(
-        id: id,
-        url: url,
-        name: name,
-        branch: branch,
-        credential: credential ?? this.credential,
-        added: added,
-        lastSync: lastSync ?? this.lastSync,
-        contentBranch: contentBranch,
-      );
+  /// Whether the user chose, on their first edit in the checkout, where its
+  /// commits go: the checked-out branch or one of their own.
+  final bool commitsChosen;
+
+  CloneRecord copyWith({
+    DateTime? lastSync,
+    CredentialKind? credential,
+    bool? commitsChosen,
+  }) => CloneRecord(
+    id: id,
+    url: url,
+    name: name,
+    branch: branch,
+    credential: credential ?? this.credential,
+    added: added,
+    lastSync: lastSync ?? this.lastSync,
+    contentBranch: contentBranch,
+    commitsChosen: commitsChosen ?? this.commitsChosen,
+  );
 
   Map<String, Object?> toJson() => {
     'id': id,
@@ -68,6 +77,7 @@ class CloneRecord {
     'added': added.toUtc().toIso8601String(),
     if (lastSync != null) 'lastSync': lastSync!.toUtc().toIso8601String(),
     if (contentBranch != null) 'contentBranch': contentBranch,
+    if (commitsChosen) 'commitsChosen': true,
   };
 
   static CloneRecord fromJson(Map<String, Object?> json) => CloneRecord(
@@ -84,6 +94,7 @@ class CloneRecord {
         ? null
         : DateTime.parse(json['lastSync']! as String),
     contentBranch: json['contentBranch'] as String?,
+    commitsChosen: json['commitsChosen'] == true,
   );
 }
 

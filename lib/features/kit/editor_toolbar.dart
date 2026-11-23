@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
-/// The row above the keyboard both editor spikes share.
+/// The row above the keyboard of the kit editor: formatting, references, mentions.
 class EditorToolbar extends StatelessWidget {
   const EditorToolbar({super.key, required this.onCommand});
 

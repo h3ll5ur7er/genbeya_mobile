@@ -331,6 +331,19 @@ class RepositoriesManager {
     ]);
   }
 
+  /// Notes that the user chose where the clone's commits go.
+  Future<void> markCommitsChosen(String id) async {
+    final records = await clones();
+    await _saveClones([
+      for (final r in records) r.id == id ? r.copyWith(commitsChosen: true) : r,
+    ]);
+  }
+
+  /// Whether the user chose where the clone's commits go.
+  Future<bool> commitsChosen(String id) async =>
+      (await clones()).where((r) => r.id == id).firstOrNull?.commitsChosen ??
+      false;
+
   /// Removes a clone and its folder. Commits not pushed yet go with it, so
   /// the screen asks first. Tokens stay, for other clones of the host.
   Future<void> remove(String id) async {

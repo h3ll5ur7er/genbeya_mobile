@@ -140,10 +140,7 @@ class SyncManager {
       final remote = await access();
       final state = await git.branchState(branch);
       final local = state.commit!;
-      var name = 'mobile/${handle()}';
-      for (var n = 2; (await git.branchState(name)).commit != null; n++) {
-        name = 'mobile/${handle()}-$n';
-      }
+      final name = await _ownBranchName();
       await git.setBranch(name, local);
       await git.switchBranch(name);
       if (state.upstreamCommit != null) {
@@ -154,6 +151,32 @@ class SyncManager {
     });
     _queue = result.then((_) {}, onError: (Object _) {});
     return result;
+  }
+
+  /// Starts a branch of the user's own, `mobile/<handle>`, at the
+  /// checked-out commit and checks it out, for commits to go there instead
+  /// of the checked-out branch (D5). Its name.
+  Future<String> startOwnBranch() {
+    final result = _queue.then((_) async {
+      final current = (await git.head()).branch;
+      if (current == null) throw StateError('No branch is checked out.');
+      final commit = (await git.branchState(current)).commit!;
+      final name = await _ownBranchName();
+      await git.setBranch(name, commit);
+      await git.switchBranch(name);
+      return name;
+    });
+    _queue = result.then((_) {}, onError: (Object _) {});
+    return result;
+  }
+
+  /// `mobile/<handle>`, numbered when taken.
+  Future<String> _ownBranchName() async {
+    var name = 'mobile/${handle()}';
+    for (var n = 2; (await git.branchState(name)).commit != null; n++) {
+      name = 'mobile/${handle()}-$n';
+    }
+    return name;
   }
 
   /// Rebases [branch], merging conflicting task files; when a conflict

@@ -5,7 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../access/kit/kit_host.dart';
 import '../kit/kit_view.dart';
 import 'editor_samples.dart';
-import 'editor_toolbar.dart';
+import '../kit/editor_toolbar.dart';
 
 /// GM-4: the kit's editor (CodeMirror 6 with Genbeya's Markdown completions)
 /// filling the screen, with a native toolbar above the keyboard.

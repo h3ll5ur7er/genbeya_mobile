@@ -11,8 +11,11 @@ import '../../contracts/clones.dart';
 import '../repository/changes_screen.dart';
 import '../repository/search_screen.dart';
 import '../repository/task_view_screen.dart';
+import 'new_task_screen.dart';
 import 'task_card.dart';
+import 'task_editing.dart';
 import 'task_look.dart';
+import 'task_pickers.dart';
 
 /// The tasks as phones show them best: the list grouped by state (the
 /// default), or the board one column per screen with a strip of states;
@@ -81,6 +84,40 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
     ),
   );
 
+  /// A new task, from the button or a state's "+"; the created task opens.
+  Future<void> _newTask({String? status}) async {
+    final record = widget.record;
+    if (record == null) return;
+    final created = await Navigator.of(context).push<Task>(
+      MaterialPageRoute(
+        builder: (_) => NewTaskScreen(
+          record: record,
+          session: widget.session,
+          status: status,
+        ),
+      ),
+    );
+    if (created != null && mounted) _open(created);
+  }
+
+  /// **Move to…**: another workflow state.
+  Future<void> _moveTo(Task task) async {
+    final status = await pickStatus(context, _state.settings, task.status);
+    if (status != null) await _move(task, status);
+  }
+
+  Future<void> _move(Task task, String status) async {
+    final record = widget.record;
+    if (record == null || status == task.status) return;
+    await changeTask(
+      context,
+      ref,
+      record,
+      widget.session,
+      (tasks) => tasks.update(task, task.toInput().copyWith(status: status)),
+    );
+  }
+
   String _nameOf(
     String assignee,
     Map<String, Person> byHandle,
@@ -101,13 +138,18 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
               if (!settings.hiddenColumns.contains(c)) c,
           ]
         : allColumns;
-    Widget card(Task task, {bool showEpic = true}) => TaskCard(
-      task: task,
-      settings: settings,
-      assigneeName: _nameOf(task.assignee, byHandle, identify),
-      onTap: () => _open(task),
-      showEpic: showEpic,
-    );
+    final editable = widget.record != null;
+    Widget card(Task task, {bool showEpic = true}) {
+      final shownCard = TaskCard(
+        task: task,
+        settings: settings,
+        assigneeName: _nameOf(task.assignee, byHandle, identify),
+        onTap: () => _open(task),
+        onLongPress: editable && !_board ? () => _moveTo(task) : null,
+        showEpic: showEpic,
+      );
+      return editable && _board ? _draggable(task, shownCard) : shownCard;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -161,6 +203,17 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
           ),
         ),
       ),
+      floatingActionButton: editable
+          ? FloatingActionButton(
+              tooltip: 'New task',
+              onPressed: () => _newTask(
+                status: _board && columns.isNotEmpty
+                    ? columns[_column.clamp(0, columns.length - 1)]
+                    : null,
+              ),
+              child: const Icon(Icons.add),
+            )
+          : null,
       body: state.tasks.isEmpty
           ? Center(child: Text('No tasks in ${settings.taskRoot}/ yet.'))
           : _board
@@ -198,10 +251,21 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
             title: Text(
               '${titleCase(column)} · ${shown.where((t) => t.status == column).length}',
             ),
-            trailing: Icon(
-              _collapsed.contains(column)
-                  ? Icons.expand_more
-                  : Icons.expand_less,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (widget.record != null)
+                  IconButton(
+                    tooltip: 'New ${titleCase(column).toLowerCase()} task',
+                    icon: const Icon(Icons.add, size: 20),
+                    onPressed: () => _newTask(status: column),
+                  ),
+                Icon(
+                  _collapsed.contains(column)
+                      ? Icons.expand_more
+                      : Icons.expand_less,
+                ),
+              ],
             ),
             onTap: () => setState(
               () => _collapsed.contains(column)
@@ -231,7 +295,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
     final scheme = Theme.of(context).colorScheme;
     Widget columnOf(String status) {
       final tasks = shown.where((t) => t.status == status).toList();
-      return tasks.isEmpty
+      final content = tasks.isEmpty
           ? Center(
               child: Text(
                 'Nothing ${titleCase(status).toLowerCase()}',
@@ -239,9 +303,19 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
               ),
             )
           : ListView(
-              padding: const EdgeInsets.only(bottom: 24),
+              padding: const EdgeInsets.only(bottom: 88),
               children: [for (final task in tasks) card(task)],
             );
+      return _dropOn(
+        status,
+        (active) => AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          color: active
+              ? scheme.primaryContainer.withValues(alpha: 0.35)
+              : null,
+          child: content,
+        ),
+      );
     }
 
     return LayoutBuilder(
@@ -284,26 +358,30 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                         horizontal: 4,
                         vertical: 6,
                       ),
-                      child: ChoiceChip(
-                        label: Text(
-                          '${titleCase(status)} ${shown.where((t) => t.status == status).length}',
-                        ),
-                        avatar: Icon(
-                          Icons.circle,
-                          size: 10,
-                          color: statusColor(
-                            statusTone(
-                              settings.statuses.indexOf(status),
-                              settings.statuses.length,
-                            ),
-                            scheme,
+                      // A card dragged onto a state's chip moves there.
+                      child: _dropOn(
+                        status,
+                        (active) => ChoiceChip(
+                          label: Text(
+                            '${titleCase(status)} ${shown.where((t) => t.status == status).length}',
                           ),
-                        ),
-                        selected: index == current,
-                        onSelected: (_) => _pages.animateToPage(
-                          index,
-                          duration: const Duration(milliseconds: 250),
-                          curve: Curves.easeOut,
+                          avatar: Icon(
+                            Icons.circle,
+                            size: 10,
+                            color: statusColor(
+                              statusTone(
+                                settings.statuses.indexOf(status),
+                                settings.statuses.length,
+                              ),
+                              scheme,
+                            ),
+                          ),
+                          selected: index == current || active,
+                          onSelected: (_) => _pages.animateToPage(
+                            index,
+                            duration: const Duration(milliseconds: 250),
+                            curve: Curves.easeOut,
+                          ),
                         ),
                       ),
                     ),
@@ -322,6 +400,44 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
       },
     );
   }
+
+  /// Whether a card is being dragged, for the drop targets to show.
+  var _dragging = false;
+
+  /// A card that a long press drags to another state; released where it
+  /// started, it offers **Move to…** instead.
+  Widget _draggable(Task task, Widget card) {
+    var travelled = 0.0;
+    final width = MediaQuery.sizeOf(context).width;
+    return LongPressDraggable<Task>(
+      data: task,
+      feedback: SizedBox(
+        width: width >= 840 ? 300 : width - 24,
+        child: Material(
+          type: MaterialType.transparency,
+          elevation: 8,
+          child: card,
+        ),
+      ),
+      childWhenDragging: Opacity(opacity: 0.35, child: card),
+      onDragStarted: () => setState(() => _dragging = true),
+      onDragUpdate: (details) => travelled += details.delta.distance,
+      onDragEnd: (_) => setState(() => _dragging = false),
+      onDraggableCanceled: (_, _) {
+        if (travelled < 24) _moveTo(task);
+      },
+      child: card,
+    );
+  }
+
+  /// [status] as a place to drop a card on.
+  Widget _dropOn(String status, Widget Function(bool active) builder) =>
+      DragTarget<Task>(
+        onWillAcceptWithDetails: (details) => details.data.status != status,
+        onAcceptWithDetails: (details) => _move(details.data, status),
+        builder: (context, candidates, _) =>
+            builder(_dragging && candidates.isNotEmpty),
+      );
 }
 
 /// Desktop's **Filter by**: type, epic, assignee, priority, label, milestone.

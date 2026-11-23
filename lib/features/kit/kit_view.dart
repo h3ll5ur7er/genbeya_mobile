@@ -19,6 +19,10 @@ class KitView extends StatefulWidget {
   /// A navigation the view refused, for the log.
   final void Function(String reason)? onRefused;
 
+  /// Off in widget tests, which have no web view: the view stays empty.
+  @visibleForTesting
+  static bool webViews = true;
+
   @override
   State<KitView> createState() => _KitViewState();
 }
@@ -31,7 +35,7 @@ class _KitViewState extends State<KitView> {
   @override
   void initState() {
     super.initState();
-    _start();
+    if (KitView.webViews) _start();
   }
 
   static Future<Uint8List?> _loadAsset(String path) async {
@@ -94,6 +98,7 @@ class _KitViewState extends State<KitView> {
 
   @override
   Widget build(BuildContext context) {
+    if (!KitView.webViews) return const SizedBox.shrink();
     final problem = _problem;
     if (problem != null) {
       return Padding(padding: const EdgeInsets.all(16), child: Text(problem));

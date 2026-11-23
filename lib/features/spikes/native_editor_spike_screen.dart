@@ -5,7 +5,7 @@ import 'package:re_highlight/styles/atom-one-dark.dart';
 import 'package:re_highlight/styles/atom-one-light.dart';
 
 import 'editor_samples.dart';
-import 'editor_toolbar.dart';
+import '../kit/editor_toolbar.dart';
 
 /// GM-4's comparison: a native Flutter editor (re_editor) on the same text,
 /// with the same toolbar, but no completions.

@@ -18,6 +18,7 @@ final sessionProvider = FutureProvider.family<RepositorySession, CloneRecord>((
     author: identity?.name,
     remote: record.url,
     branch: record.branch,
+    record: record,
   );
   await session.load();
   return session;
