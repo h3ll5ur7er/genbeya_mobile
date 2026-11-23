@@ -48,11 +48,12 @@ The screen a repository opens on, and the one thing desktop doesn't have: what n
 ## Tasks
 
 - **The list** is the default on phones: grouped by state, filtered by type, epic, assignee, priority, label and milestone, with the filter chips the desktop's **Filter by** has.
-- **The board** shows one column per screen on phones (swipe between columns, a strip at the top shows where you are and how many cards each has) and the whole board on tablets. Long-press a card to drag it, or to get **Move to…** with the states and epics. Swimlanes by epic on tablets.
+- **The board** shows one column per screen on phones (swipe between columns, a strip at the top shows where you are and how many cards each has) and the whole board on tablets. Long-press a card to drag it onto another column, or onto a state in the strip; released where it started, it offers **Move to…**. In the list, a long press offers **Move to…**. Swimlanes by epic on tablets ([[GM-30]]).
 - **A card** shows type, ID, title, assignee, priority, dates, a lock when blocked, the critical-path mark and an open pull request, as desktop cards do.
-- **A task** opens full screen: title, then chips for status, type, priority, assignee, epic and labels that open bottom sheets; custom fields below them; the description rendered, with tickable checklist items; then **Comments**, **Activity** (from Git history) and, where planning is used, the five numbers, **Blocked by**, **Blocks** and float.
+- **A task** opens full screen: title, then chips for status, type, priority, assignee, epic and labels that open bottom sheets, each saved at once; custom fields below them, edited as desktop edits them (a choice, a number, a date, effort as hours or days, task IDs); the description rendered, with tickable checklist items; **Edit** for the title and the description, which opens in the kit's editor; then **Comments**, **Activity** (from Git history) and, where planning is used, the five numbers, **Blocked by**, **Blocks** and float.
 - **Log time** is a bottom sheet: the time spent, what for, and the new remaining effort, filled with the old value minus the time spent.
-- **New task** from the board, from a column, from the app icon's quick action, or from text shared into the app from another app. Choosing a type fills the description from its template (`tasks/.templates/<type>.md`).
+- **New task** from the board, from a column's "+", from the app icon's quick action, or from text shared into the app from another app (its first line becomes the title). Choosing a type fills the description and presets from its template (`tasks/.templates/<type>.md`) where nothing was written yet; choosing another takes that back, as on desktop.
+- **The first edit** of tasks or pages kept with the code asks where the commits go: the checked-out branch, or a branch of one's own, `mobile/<handle>`, to merge later.
 - **Comments** have a native composer above the keyboard with `@`, `//` and `[[` pickers, signed with the Git name and time, written in the desktop's exact format; your own can be edited and deleted.
 
 ## Pull requests

@@ -5,6 +5,7 @@ import 'package:genbeya_mobile/access/storage/json_store.dart';
 import 'package:genbeya_mobile/contracts/model.dart';
 import 'package:genbeya_mobile/engines/task_engine.dart';
 import 'package:genbeya_mobile/managers/content_writer.dart';
+import 'package:genbeya_mobile/managers/page_writer.dart';
 import 'package:genbeya_mobile/managers/repository_session.dart';
 import 'package:genbeya_mobile/managers/task_writer.dart';
 
@@ -25,7 +26,9 @@ void main() {
       ..refs['refs/remotes/origin/genbeya'] = 'content'
       ..commit('code', {'.genbeya.yml': 'name: Demo\ntaskPrefix: DM\n'})
       ..commit('content', {
-        '.genbeya-content': '[areas]\n\ttasks = branch\n',
+        '.genbeya-content': '[areas]\n\ttasks = branch\n\twiki = branch\n',
+        'docs/Home.md':
+            '---\ntitle: Home\n---\n# Home\n\n- [ ] first\n- [x] second\n',
         'tasks/Sync/DM-1.md': '---\nid: DM-1\ntitle: First\nstatus: todo\nlabels: [a, b]\n---\n\nDo it.\n\n- [ ] one\n- [ ] two\n',
         'tasks/DM-7.md': '---\r\nid: DM-7\r\ntitle: Seventh\r\nstatus: backlog\r\n---\r\n\r\nCRLF.\r\n',
         // A file whose task was renamed elsewhere still takes its ID.
@@ -95,7 +98,7 @@ void main() {
     await tasks.update(stale, stale.toInput().copyWith(title: 'Newer'));
     expect(
       () => tasks.update(stale, stale.toInput().copyWith(status: 'done')),
-      throwsA(isA<TaskChangedException>()),
+      throwsA(isA<ChangedMeanwhileException>()),
     );
   });
 
@@ -128,6 +131,22 @@ void main() {
     expect(
       () => tasks.create(emptyDraft('todo')),
       throwsA(isA<TaskException>()),
+    );
+  });
+
+  test('ticks a checkbox on a page, refusing a stale one', () async {
+    final pages = PageWriter(session: session, writer: tasks.writer);
+    final page = await session.page('docs/Home.md');
+    // Offsets count from the end of the frontmatter.
+    final rendered =
+        page.content.indexOf('- [x]') - page.content.indexOf('# Home');
+    final ticked = await pages.toggle(page, rendered);
+    expect(ticked!.content, endsWith('- [ ] first\n- [ ] second\n'));
+    expect(git.messages.last, 'Edit docs/Home.md');
+    expect(await pages.toggle(ticked, 1), isNull);
+    expect(
+      () => pages.toggle(page, rendered),
+      throwsA(isA<ChangedMeanwhileException>()),
     );
   });
 }

@@ -12,12 +12,14 @@ import 'content_writer.dart';
 import 'repository_model.dart';
 import 'repository_session.dart';
 
-/// The task changed since it was shown; reopen it to see the latest version.
-class TaskChangedException implements Exception {
-  const TaskChangedException();
+/// The file changed since it was shown; reopen it to see the latest version.
+class ChangedMeanwhileException implements Exception {
+  const ChangedMeanwhileException([
+    this.message =
+        'This task changed meanwhile. Reopen it to see the latest version.',
+  ]);
 
-  String get message =>
-      'This task changed meanwhile. Reopen it to see the latest version.';
+  final String message;
 
   @override
   String toString() => message;
@@ -41,14 +43,16 @@ class TaskWriter {
 
   /// [task] with [input]'s fields and description, committed as
   /// `Update <ID>: <title>`; another epic moves the file, which keeps its
-  /// name. Throws [TaskChangedException] when the file is no longer the
+  /// name. Throws [ChangedMeanwhileException] when the file is no longer the
   /// version [task] was read from, and [TaskException] for invalid input.
   Future<Task> update(Task task, TaskInput input) async {
     final state = _state;
     final settings = state.settings;
     final valid = _tasks.validate(input, settings.statuses);
     final original = await session.readText(task.path);
-    if (fileHash(original) != task.hash) throw const TaskChangedException();
+    if (fileHash(original) != task.hash) {
+      throw const ChangedMeanwhileException();
+    }
     final epic = _tasks.existingSpelling(
       valid.epic,
       _taskFiles(),

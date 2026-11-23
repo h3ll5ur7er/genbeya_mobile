@@ -4,9 +4,11 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:quick_actions/quick_actions.dart';
 
 import 'features/links/open_link.dart';
 import 'features/links/shared_text.dart';
+import 'features/tasks/start_new_task.dart';
 import 'managers/web_links.dart';
 import 'features/repositories/repositories_screen.dart';
 import 'features/spikes/spikes_screen.dart';
@@ -50,23 +52,42 @@ class _GenbeyaAppState extends ConsumerState<GenbeyaApp> {
       // No link handling on this platform.
     }
     await SharedText.listen(_shared);
+    await _shortcuts();
   }
 
-  /// Text shared into the app: the link in it opens; text without one will
-  /// become a new task ([[GM-12]]).
+  /// Text shared into the app: the link in it opens; text without one
+  /// becomes a new task ([[GM-12]]).
   void _shared(String text) {
     final link = firstLink(text);
     if (link != null) return _open(link);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final context = router.routerDelegate.navigatorKey.currentContext;
-      if (context == null) return;
-      ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-        const SnackBar(
-          content: Text(
-            'That holds no link to open. Turning shared text into a task comes with GM-12.',
-          ),
+    _withNavigator((navigator) => startNewTask(navigator, ref, text: text));
+  }
+
+  /// The app icon's shortcuts: **New task**.
+  Future<void> _shortcuts() async {
+    try {
+      const actions = QuickActions();
+      await actions.initialize((type) {
+        if (type == 'new_task') {
+          _withNavigator((navigator) => startNewTask(navigator, ref));
+        }
+      });
+      await actions.setShortcutItems(const [
+        ShortcutItem(
+          type: 'new_task',
+          localizedTitle: 'New task',
+          icon: 'ic_shortcut_new_task',
         ),
-      );
+      ]);
+    } on Object {
+      // No shortcuts on this platform.
+    }
+  }
+
+  void _withNavigator(Future<void> Function(NavigatorState navigator) run) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final navigator = router.routerDelegate.navigatorKey.currentState;
+      if (navigator != null && mounted) unawaited(run(navigator));
     });
   }
 

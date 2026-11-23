@@ -70,7 +70,7 @@ sequenceDiagram
   participant L as Local clone
   participant R as Remote
   U->>A: Move GM-12 to review
-  A->>L: write tasks/GM-12.md, commit "GM-12: Move to review"
+  A->>L: write tasks/GM-12.md, commit "Update GM-12: Edit tasks"
   U->>A: Sync
   A->>R: fetch
   A->>L: rebase local commits onto the remote branch
@@ -86,7 +86,8 @@ sequenceDiagram
   end
 ```
 
-- The target branch is the content branch for its areas, else the checked-out branch, moved to `mobile/<handle>` when the host refuses a push; see [[Experience#sync-and-changes]].
+- Every save is a commit named as desktop names it: `Create GM-12: <title>`, `Update GM-12: <title>`, `Edit docs/Page.md`. The task engine writes the file (`TaskWriter`, `PageWriter` in `lib/managers/`), refused when the file changed since it was shown; moving a task to another epic moves its file, spelled like the existing folder; a new task takes the next free ID, past file names no task claims ([[GM-12]]).
+- The target branch is the content branch for its areas. An area kept in the checkout goes to the checked-out branch, or, if the user says so on their first edit there, to `mobile/<handle>`, started at the checked-out commit (`startOwnBranch`); and to `mobile/<handle>` when the host refuses a push (`moveToOwnBranch`). See [[Experience#sync-and-changes]].
 - The Genbeya merge for task and pull request files is an engine of its own ([[GM-11]]): three-way per frontmatter key; for `## Comments`, `## Time log`, replies and verdicts, both sides' new lines in time order. It only acts where the formats were designed to merge, and gives up otherwise.
 - Pushes go through a queue: one sync at a time per repository, as the desktop's serial queue does.
 

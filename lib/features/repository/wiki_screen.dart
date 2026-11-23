@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../access/kit/kit_host.dart';
@@ -8,6 +9,7 @@ import '../../contracts/model.dart';
 import '../../managers/repository_session.dart';
 import '../kit/kit_view.dart';
 import '../../contracts/clones.dart';
+import '../tasks/task_editing.dart';
 import 'changes_screen.dart';
 import 'links.dart';
 import 'search_screen.dart';
@@ -16,7 +18,7 @@ import 'share_menu.dart';
 /// The wiki: pages rendered by Genbeya's own renderer, the page tree in a
 /// drawer, the page's place as a breadcrumb, its headings in "On this page"
 /// ([[Experience#wiki]], US-5, US-6).
-class WikiScreen extends StatefulWidget {
+class WikiScreen extends ConsumerStatefulWidget {
   const WikiScreen({
     super.key,
     required this.session,
@@ -36,10 +38,10 @@ class WikiScreen extends StatefulWidget {
   final String? initialAnchor;
 
   @override
-  State<WikiScreen> createState() => _WikiScreenState();
+  ConsumerState<WikiScreen> createState() => _WikiScreenState();
 }
 
-class _WikiScreenState extends State<WikiScreen> {
+class _WikiScreenState extends ConsumerState<WikiScreen> {
   late final KitHost _host;
   final _scaffold = GlobalKey<ScaffoldState>();
   KitPage? _page;
@@ -64,9 +66,29 @@ class _WikiScreenState extends State<WikiScreen> {
         link,
         openPage: (path, anchor) => _open(path, anchor: anchor),
       ),
-      onToggle: (document, offset) async => _say(
-        'Ticking checkboxes saves the page, which comes with editing (GM-11).',
-      ),
+      onToggle: (document, offset) async {
+        final record = _session.record;
+        if (record == null || document is! KitPage) return;
+        final page = await changeContent(
+          context,
+          ref,
+          record,
+          _session,
+          'wiki',
+          () async {
+            final pages = await ref.read(pageWriterProvider(record).future);
+            return pages.toggle(document, offset);
+          },
+        );
+        if (page == null) {
+          if (mounted && _page?.path == document.path) _host.show(_page!);
+          return;
+        }
+        if (mounted && _page?.path == page.path) {
+          setState(() => _page = page);
+          _host.show(page);
+        }
+      },
       onOutline: (headings) {
         if (_opened.isRunning) {
           _opened.stop();
@@ -148,9 +170,6 @@ class _WikiScreenState extends State<WikiScreen> {
       if (mounted) setState(() => _problem = "Couldn't open $path: $error");
     }
   }
-
-  void _say(String text) =>
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
 
   /// The page's place: the titles of the pages above it in the tree.
   List<String> _breadcrumb() {
