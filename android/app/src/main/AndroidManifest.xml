@@ -26,6 +26,12 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <!-- Text shared into the app (a link from a chat), GM-10. -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
             <!-- Genbeya links (genbeya://open?remote=…&task=…), GM-10. -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

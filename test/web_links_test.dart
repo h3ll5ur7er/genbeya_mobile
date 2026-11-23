@@ -63,4 +63,19 @@ void main() {
     expect(pathOnBranch('main', ['main']), '');
     expect(pathOnBranch('other/x.md', ['main']), isNull);
   });
+
+  test('the link in shared text', () {
+    expect(
+      firstLink(
+        'Can you look at this? genbeya://open?remote=https://github.com/a/b&task=A-1.',
+      ),
+      'genbeya://open?remote=https://github.com/a/b&task=A-1',
+      reason: 'a Genbeya link before the web link inside it',
+    );
+    expect(
+      firstLink('See (https://github.com/a/b/blob/main/x.md)!'),
+      'https://github.com/a/b/blob/main/x.md',
+    );
+    expect(firstLink('no link here'), isNull);
+  });
 }

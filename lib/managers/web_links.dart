@@ -65,3 +65,17 @@ String? pathOnBranch(String rest, Iterable<String> branches) {
   }
   return null;
 }
+
+/// The link in text shared from another app: the first Genbeya link, else
+/// the first web link; trailing punctuation of the sentence left out.
+String? firstLink(String text) {
+  String trim(String link) =>
+      link.replaceFirst(RegExp(r'''[).,;:!?'"\]>»]+$'''), '');
+  final genbeya = RegExp(
+    r'genbeya://\S+',
+    caseSensitive: false,
+  ).firstMatch(text);
+  if (genbeya != null) return trim(genbeya[0]!);
+  final web = RegExp(r'https?://\S+', caseSensitive: false).firstMatch(text);
+  return web == null ? null : trim(web[0]!);
+}
