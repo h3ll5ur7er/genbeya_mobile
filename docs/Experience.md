@@ -85,8 +85,9 @@ Full text over pages, tasks, pull requests and code, with the matched line in co
 
 How a mobile edit reaches everyone else is the part that has to be right; [[Architecture#where-edits-go]] has the mechanics.
 
-- **Every save is a commit** on the device, named after what changed and the task (`GM-12: Move to review`), signed with the repository's Git identity. A phone has no staging step to forget.
+- **Every save is a commit** on the device, named as desktop names it (`Update GM-12: Edit tasks`), signed with the repository's Git identity. A phone has no staging step to forget.
 - **Sync** fetches, puts local commits on top of what others pushed, and pushes. It runs when you tap the badge, on pull to refresh in any list, and (optionally) a few seconds after an edit, as **Sync automatically** does on desktop.
+- **Signing in to push**: a public repository cloned without credentials reads fine but can't push. When the remote asks for credentials, or refuses the token kept for it, Changes and pull to refresh offer **Sign in to push**: a token for the host (with a link to make one on GitHub or GitLab), or signing in with the forge where its OAuth app is set up. The token is kept in the keychain and used for that host from then on.
 - **Where commits go**:
   - **The content branch**, for the areas the project keeps there. This is what the content branch was made for, and needs no choice.
   - Otherwise the first edit asks, offering **the checked-out branch**.

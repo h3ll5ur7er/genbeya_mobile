@@ -146,4 +146,24 @@ void main() {
     expect(Directory(manager.folderOf(record)).existsSync(), isFalse);
     expect(await manager.clones(), isEmpty);
   });
+
+  test(
+    'a clone made without credentials pushes with a token saved since',
+    () async {
+      const url = 'https://github.com/acme/app.git';
+      expect((await manager.accessFor(url, CredentialKind.none)).token, isNull);
+      await manager.saveToken('github.com', 'x-access-token', 'secret');
+      final access = await manager.accessFor(url, CredentialKind.none);
+      expect(access.token, 'secret');
+      expect(access.username, 'x-access-token');
+      expect(
+        (await manager.accessFor(
+          'https://gitlab.com/a/b.git',
+          CredentialKind.none,
+        )).token,
+        isNull,
+        reason: 'only to the host it was saved for',
+      );
+    },
+  );
 }

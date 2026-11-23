@@ -463,7 +463,7 @@ impl Network {
                 _ => Err(git2::Error::new(
                     ErrorCode::Auth,
                     git2::ErrorClass::Net,
-                    "no credentials for this remote",
+                    "the remote wants you to sign in, and this clone has no credentials",
                 )),
             }
         });

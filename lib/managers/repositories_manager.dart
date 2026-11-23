@@ -174,6 +174,16 @@ class RepositoriesManager {
     final trusted = await trustedHostKeys();
     switch (kind) {
       case CredentialKind.none:
+        // A token kept for the host since (to push to a public clone) is used.
+        final host = parseRemote(url)?.host;
+        final token = host == null ? null : await tokenFor(host);
+        if (token != null) {
+          return RemoteAccess.token(
+            username: token.username,
+            token: token.token,
+            trustedHostKeys: trusted,
+          );
+        }
         return RemoteAccess.none(trustedHostKeys: trusted);
       case CredentialKind.token:
         final host = parseRemote(url)?.host ?? '';
@@ -328,6 +338,15 @@ class RepositoriesManager {
     await _saveClones([
       for (final r in records)
         r.id == id ? r.copyWith(lastSync: DateTime.now()) : r,
+    ]);
+  }
+
+  /// Reaches the clone's remote with [kind] from now on, as after signing
+  /// in to push to a clone made without credentials.
+  Future<void> setCredential(String id, CredentialKind kind) async {
+    final records = await clones();
+    await _saveClones([
+      for (final r in records) r.id == id ? r.copyWith(credential: kind) : r,
     ]);
   }
 

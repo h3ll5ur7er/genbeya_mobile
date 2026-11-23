@@ -10,6 +10,7 @@ import '../../managers/repository_session.dart';
 import '../../managers/sync_manager.dart';
 import '../repositories/format.dart';
 import '../repositories/providers.dart';
+import 'push_sign_in.dart';
 import 'work_provider.dart';
 
 /// Syncs [record]: fetch, merge, push; then the repository is read again,
@@ -134,6 +135,9 @@ class _ChangesScreenState extends ConsumerState<ChangesScreen> {
   String? _problem;
   var _busy = false;
 
+  /// The remote wants credentials this clone doesn't have, or refused them.
+  var _needsSignIn = false;
+
   @override
   void initState() {
     super.initState();
@@ -161,10 +165,18 @@ class _ChangesScreenState extends ConsumerState<ChangesScreen> {
     setState(() {
       _busy = true;
       _problem = null;
+      _needsSignIn = false;
     });
     try {
       final report = await syncRepository(ref, widget.record, widget.session);
       if (mounted) setState(() => _report = report);
+    } on AuthFailed catch (error) {
+      if (mounted) {
+        setState(() {
+          _problem = error.message;
+          _needsSignIn = widget.record.credential != CredentialKind.sshKey;
+        });
+      }
     } on RemoteFailure catch (error) {
       if (mounted) setState(() => _problem = error.message);
     } finally {
@@ -278,6 +290,28 @@ class _ChangesScreenState extends ConsumerState<ChangesScreen> {
                     child: Text(
                       _problem!,
                       style: TextStyle(color: theme.colorScheme.error),
+                    ),
+                  ),
+                if (_needsSignIn)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: FilledButton.tonalIcon(
+                        onPressed: _busy
+                            ? null
+                            : () async {
+                                if (await signInToPush(
+                                  context,
+                                  ref,
+                                  widget.record,
+                                )) {
+                                  await _sync();
+                                }
+                              },
+                        icon: const Icon(Icons.key),
+                        label: const Text('Sign in to push'),
+                      ),
                     ),
                   ),
                 for (final (branch, commits, upstream) in branches) ...[

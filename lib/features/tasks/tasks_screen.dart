@@ -8,7 +8,9 @@ import '../../managers/repository_model.dart';
 import '../../managers/repository_session.dart';
 import '../../managers/task_views.dart';
 import '../../contracts/clones.dart';
+import '../../access/git/git_remote.dart';
 import '../repository/changes_screen.dart';
+import '../repository/push_sign_in.dart';
 import '../repository/search_screen.dart';
 import '../repository/task_view_screen.dart';
 import 'new_task_screen.dart';
@@ -54,6 +56,23 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(describeSync(report))));
       }
+    } on AuthFailed catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(error.message),
+          action: record.credential == CredentialKind.sshKey
+              ? null
+              : SnackBarAction(
+                  label: 'Sign in',
+                  onPressed: () async {
+                    if (await signInToPush(context, ref, record) && mounted) {
+                      await _refresh();
+                    }
+                  },
+                ),
+        ),
+      );
     } on Object catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context)
