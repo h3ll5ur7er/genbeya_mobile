@@ -3,6 +3,7 @@
 /// ([[Call chains#c5-render-a-page]]).
 library;
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -61,7 +62,18 @@ class RepositorySession {
 
   RepositoryState? get state => model.state;
 
-  Future<RepositoryState> load() => model.load();
+  final _changes = StreamController<RepositoryState>.broadcast();
+
+  /// Each state the repository is read in after the first: after a sync or
+  /// an edit, for the screens to follow.
+  Stream<RepositoryState> get changes => _changes.stream;
+
+  Future<RepositoryState> load() async {
+    final first = model.state == null;
+    final state = await model.load();
+    if (!first) _changes.add(state);
+    return state;
+  }
 
   RepositoryState get _state =>
       model.state ?? (throw StateError('The repository is not loaded yet.'));

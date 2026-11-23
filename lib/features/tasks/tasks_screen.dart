@@ -1,9 +1,14 @@
+import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../contracts/model.dart';
 import '../../managers/repository_model.dart';
 import '../../managers/repository_session.dart';
 import '../../managers/task_views.dart';
+import '../../contracts/clones.dart';
+import '../repository/changes_screen.dart';
 import '../repository/search_screen.dart';
 import '../repository/task_view_screen.dart';
 import 'task_card.dart';
@@ -13,16 +18,47 @@ import 'task_look.dart';
 /// default), or the board one column per screen with a strip of states;
 /// on tablets the whole board. Filters as desktop's **Filter by**
 /// ([[Experience#tasks]]).
-class TasksScreen extends StatefulWidget {
-  const TasksScreen({super.key, required this.session});
+class TasksScreen extends ConsumerStatefulWidget {
+  const TasksScreen({super.key, required this.session, this.record});
 
   final RepositorySession session;
 
+  /// The clone, in the repository's tab: the sync badge and pull to refresh.
+  final CloneRecord? record;
+
   @override
-  State<TasksScreen> createState() => _TasksScreenState();
+  ConsumerState<TasksScreen> createState() => _TasksScreenState();
 }
 
-class _TasksScreenState extends State<TasksScreen> {
+class _TasksScreenState extends ConsumerState<TasksScreen> {
+  StreamSubscription<Object>? _changes;
+
+  @override
+  void initState() {
+    super.initState();
+    _changes = widget.session.changes.listen((_) {
+      if (mounted) setState(() {});
+    });
+  }
+
+  /// Pull to refresh: a sync, and what it did.
+  Future<void> _refresh() async {
+    final record = widget.record;
+    if (record == null) return;
+    try {
+      final report = await syncRepository(ref, record, widget.session);
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(describeSync(report))));
+      }
+    } on Object catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('$error')));
+      }
+    }
+  }
+
   var _filters = const TaskFilters();
   var _board = false;
   var _searching = false;
@@ -34,6 +70,7 @@ class _TasksScreenState extends State<TasksScreen> {
 
   @override
   void dispose() {
+    _changes?.cancel();
     _pages.dispose();
     super.dispose();
   }
@@ -86,6 +123,8 @@ class _TasksScreenState extends State<TasksScreen> {
               )
             : const Text('Tasks'),
         actions: [
+          if (widget.record != null)
+            SyncBadge(record: widget.record!, session: widget.session),
           IconButton(
             tooltip: _searching ? 'Stop filtering' : 'Filter tasks by text',
             icon: Icon(_searching ? Icons.close : Icons.filter_list),
@@ -138,7 +177,8 @@ class _TasksScreenState extends State<TasksScreen> {
     Widget Function(Task, {bool showEpic}) card,
   ) {
     final scheme = Theme.of(context).colorScheme;
-    return ListView(
+    final list = ListView(
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.only(bottom: 24),
       children: [
         for (final (index, column) in columns.indexed) ...[
@@ -176,6 +216,9 @@ class _TasksScreenState extends State<TasksScreen> {
         ],
       ],
     );
+    return widget.record == null
+        ? list
+        : RefreshIndicator(onRefresh: _refresh, child: list);
   }
 
   Widget _boardView(

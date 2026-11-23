@@ -322,6 +322,15 @@ class RepositoriesManager {
     }
   }
 
+  /// Notes that [id] synced now.
+  Future<void> markSynced(String id) async {
+    final records = await clones();
+    await _saveClones([
+      for (final r in records)
+        r.id == id ? r.copyWith(lastSync: DateTime.now()) : r,
+    ]);
+  }
+
   /// Removes a clone and its folder. Commits not pushed yet go with it, so
   /// the screen asks first. Tokens stay, for other clones of the host.
   Future<void> remove(String id) async {

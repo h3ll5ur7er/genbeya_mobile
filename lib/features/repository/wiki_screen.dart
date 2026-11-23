@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:material_ui/material_ui.dart';
 
 import '../../access/kit/kit_host.dart';
@@ -5,6 +7,8 @@ import '../../access/kit/kit_protocol.dart';
 import '../../contracts/model.dart';
 import '../../managers/repository_session.dart';
 import '../kit/kit_view.dart';
+import '../../contracts/clones.dart';
+import 'changes_screen.dart';
 import 'links.dart';
 import 'search_screen.dart';
 import 'share_menu.dart';
@@ -16,11 +20,15 @@ class WikiScreen extends StatefulWidget {
   const WikiScreen({
     super.key,
     required this.session,
+    this.record,
     this.initialPage,
     this.initialAnchor,
   });
 
   final RepositorySession session;
+
+  /// The clone, in the repository's tab: then the bar shows the sync badge.
+  final CloneRecord? record;
 
   /// A page to open instead of the home page: then the screen stands on its
   /// own (opened from a task), with a back arrow and no page tree.
@@ -43,6 +51,7 @@ class _WikiScreenState extends State<WikiScreen> {
   int? _openMs;
 
   RepositorySession get _session => widget.session;
+  StreamSubscription<Object>? _changes;
 
   @override
   void initState() {
@@ -69,10 +78,31 @@ class _WikiScreenState extends State<WikiScreen> {
         if (anchor != null) _host.reveal(anchor);
       },
     )..updateContext(_session.kitContext());
+    // After a sync or an edit: the context, and the page if it changed.
+    _changes = _session.changes.listen((_) async {
+      _host.updateContext(_session.kitContext());
+      final path = _page?.path;
+      if (path == null) return;
+      try {
+        final page = await _session.page(path);
+        if (mounted && page.hash != _page?.hash) {
+          setState(() => _page = page);
+          _host.show(page);
+        }
+      } on Object {
+        // The page went away; the tree still shows the rest.
+      }
+    });
     final first = widget.initialPage ?? _homePage();
     if (first != null) {
       _open(first, anchor: widget.initialAnchor, remember: false);
     }
+  }
+
+  @override
+  void dispose() {
+    _changes?.cancel();
+    super.dispose();
   }
 
   @override
@@ -191,6 +221,8 @@ class _WikiScreenState extends State<WikiScreen> {
             ],
           ),
           actions: [
+            if (widget.record != null)
+              SyncBadge(record: widget.record!, session: _session),
             IconButton(
               tooltip: 'Search',
               icon: const Icon(Icons.search),
