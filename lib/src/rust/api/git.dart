@@ -221,14 +221,49 @@ Stream<TransferEvent> fetch({
   operationId: operationId,
 );
 
-Future<RebaseOutcome> rebaseOntoUpstream({
+/// Replays the local commits of `branch` (the checked-out one when None)
+/// onto its upstream in memory; resolutions per replayed commit and path.
+Future<RebaseOutcome> rebaseBranch({
   required String dir,
+  String? branch,
   required Identity identity,
-  required List<FileChange> resolutions,
-}) => RustLib.instance.api.crateApiGitRebaseOntoUpstream(
+  required List<Resolution> resolutions,
+}) => RustLib.instance.api.crateApiGitRebaseBranch(
   dir: dir,
+  branch: branch,
   identity: identity,
   resolutions: resolutions,
+);
+
+/// Where a branch stands against its upstream.
+Future<BranchStatus> branchStatus({
+  required String dir,
+  required String branch,
+}) => RustLib.instance.api.crateApiGitBranchStatus(dir: dir, branch: branch);
+
+/// The commits of a branch its upstream doesn't have, newest first.
+Future<List<CommitInfo>> unpushedCommits({
+  required String dir,
+  required String branch,
+  required int max,
+}) => RustLib.instance.api.crateApiGitUnpushedCommits(
+  dir: dir,
+  branch: branch,
+  max: max,
+);
+
+/// Points a branch at a commit (creating it), refused when it isn't at
+/// `expected`; the working tree follows when it is checked out.
+Future<void> setBranch({
+  required String dir,
+  required String branch,
+  required String commit,
+  String? expected,
+}) => RustLib.instance.api.crateApiGitSetBranch(
+  dir: dir,
+  branch: branch,
+  commit: commit,
+  expected: expected,
 );
 
 Future<PushOutcome> push({

@@ -1519,28 +1519,60 @@ pub fn fetch(
 /// applied. `resolutions` settle conflicts a previous call reported, by path,
 /// for the local commit it named; anything else conflicting is reported and
 /// nothing changes.
-pub fn rebase_onto_upstream(
+/// A conflict resolved: the content of `path` when the local commit
+/// `commit` is replayed (None removes the file).
+#[derive(Debug, Clone)]
+pub struct Resolution {
+    pub commit: String,
+    pub path: String,
+    pub content: Option<Vec<u8>>,
+}
+
+/// Replays the local commits of `branch` (the checked-out branch when None)
+/// onto its upstream, in memory. A branch that isn't checked out (the
+/// content branch) only has its ref moved; the checked-out one also its
+/// working tree, once the result is known. A conflict without a resolution
+/// stops it, changing nothing.
+pub fn rebase_branch(
     dir: &Path,
+    branch: Option<&str>,
     identity: &Identity,
-    resolutions: &[FileChange],
+    resolutions: &[Resolution],
 ) -> Result<RebaseOutcome> {
-    for change in resolutions {
-        check_path(&change.path)?;
+    for resolution in resolutions {
+        check_path(&resolution.path)?;
     }
     let repo = Repository::open(dir)?;
     let head = repo.head()?;
-    let branch_name = head.shorthand().map_err(CoreError::from)?.to_string();
-    let local = head.peel_to_commit()?;
-    let upstream_ref = repo
-        .find_branch(&branch_name, BranchType::Local)?
-        .upstream()?;
+    let checked_out = head.shorthand().ok().map(str::to_string);
+    let branch_name = match branch {
+        Some(name) => name.to_string(),
+        None => checked_out
+            .clone()
+            .ok_or_else(|| CoreError::InvalidArgument {
+                message: "HEAD is detached".into(),
+            })?,
+    };
+    let is_checked_out = head.is_branch() && checked_out.as_deref() == Some(branch_name.as_str());
+    let Ok(local_branch) = repo.find_branch(&branch_name, BranchType::Local) else {
+        // No local branch: nothing of ours to replay.
+        return Ok(RebaseOutcome::UpToDate);
+    };
+    let local = local_branch.get().peel_to_commit()?;
+    let upstream_ref = local_branch.upstream()?;
     let upstream = upstream_ref.get().peel_to_commit()?;
     let base = repo.merge_base(local.id(), upstream.id())?;
     if base == upstream.id() {
         return Ok(RebaseOutcome::UpToDate);
     }
     if base == local.id() {
-        move_branch_and_checkout(&repo, &branch_name, local.id(), upstream.id())?;
+        move_branch(
+            &repo,
+            &branch_name,
+            local.id(),
+            upstream.id(),
+            is_checked_out,
+        )?;
         return Ok(RebaseOutcome::FastForwarded {
             commit: upstream.id().to_string(),
         });
@@ -1574,7 +1606,11 @@ pub fn rebase_onto_upstream(
                     .or(conflict.ancestor.as_ref())
                     .unwrap();
                 let path = String::from_utf8_lossy(&entry.path).to_string();
-                if let Some(resolution) = resolutions.iter().find(|r| r.path == path) {
+                let replayed_id = replayed.to_string();
+                if let Some(resolution) = resolutions
+                    .iter()
+                    .find(|r| r.path == path && r.commit == replayed_id)
+                {
                     index.conflict_remove(Path::new(&path))?;
                     if let Some(bytes) = &resolution.content {
                         let stage0 = git2::IndexEntry {
@@ -1644,7 +1680,7 @@ pub fn rebase_onto_upstream(
         }
     }
     rebase.finish(Some(&sig))?;
-    move_branch_and_checkout(&repo, &branch_name, local.id(), last)?;
+    move_branch(&repo, &branch_name, local.id(), last, is_checked_out)?;
     Ok(RebaseOutcome::Rebased {
         commit: last.to_string(),
         commits: count,
@@ -1653,6 +1689,28 @@ pub fn rebase_onto_upstream(
 
 /// Moves the checked-out branch from `from` to `to` and updates the working
 /// tree, refusing to overwrite changes that aren't committed.
+/// Moves `branch` from `from` to `to`; the working tree follows only when
+/// it is checked out.
+fn move_branch(
+    repo: &Repository,
+    branch: &str,
+    from: Oid,
+    to: Oid,
+    checked_out: bool,
+) -> Result<()> {
+    if checked_out {
+        return move_branch_and_checkout(repo, branch, from, to);
+    }
+    repo.reference_matching(
+        &format!("refs/heads/{branch}"),
+        to,
+        true,
+        from,
+        "genbeya: sync",
+    )?;
+    Ok(())
+}
+
 fn move_branch_and_checkout(repo: &Repository, branch: &str, from: Oid, to: Oid) -> Result<()> {
     let target = repo.find_commit(to)?;
     let mut checkout = CheckoutBuilder::new();
@@ -1667,6 +1725,118 @@ fn move_branch_and_checkout(repo: &Repository, branch: &str, from: Oid, to: Oid)
     )?;
     repo.set_head(&format!("refs/heads/{branch}"))?;
     Ok(())
+}
+
+/// Where a branch stands against its upstream.
+#[derive(Debug, Clone, PartialEq)]
+pub struct BranchStatus {
+    /// None when there is no local branch of the name.
+    pub commit: Option<String>,
+    pub upstream: Option<String>,
+    pub upstream_commit: Option<String>,
+    pub ahead: u32,
+    pub behind: u32,
+}
+
+pub fn branch_status(dir: &Path, branch: &str) -> Result<BranchStatus> {
+    let repo = Repository::open(dir)?;
+    let Ok(local) = repo.find_branch(branch, BranchType::Local) else {
+        return Ok(BranchStatus {
+            commit: None,
+            upstream: None,
+            upstream_commit: None,
+            ahead: 0,
+            behind: 0,
+        });
+    };
+    let commit = local.get().peel_to_commit()?.id();
+    let (mut upstream, mut upstream_commit, mut ahead, mut behind) = (None, None, 0, 0);
+    if let Ok(up) = local.upstream() {
+        if let Some(target) = up.get().target() {
+            let (a, b) = repo.graph_ahead_behind(commit, target)?;
+            ahead = a as u32;
+            behind = b as u32;
+            upstream_commit = Some(target.to_string());
+        }
+        upstream = up.name()?.map(str::to_string);
+    } else {
+        // Never pushed: every commit is the branch's own.
+        let mut walk = repo.revwalk()?;
+        walk.push(commit)?;
+        ahead = walk.count() as u32;
+    }
+    Ok(BranchStatus {
+        commit: Some(commit.to_string()),
+        upstream,
+        upstream_commit,
+        ahead,
+        behind,
+    })
+}
+
+/// The commits of `branch` its upstream doesn't have, newest first.
+pub fn unpushed_commits(dir: &Path, branch: &str, max: usize) -> Result<Vec<CommitInfo>> {
+    let repo = Repository::open(dir)?;
+    let Ok(local) = repo.find_branch(branch, BranchType::Local) else {
+        return Ok(Vec::new());
+    };
+    let mut walk = repo.revwalk()?;
+    walk.push(local.get().peel_to_commit()?.id())?;
+    if let Ok(up) = local.upstream() {
+        if let Some(target) = up.get().target() {
+            walk.hide(target)?;
+        }
+    }
+    walk.set_sorting(Sort::TOPOLOGICAL | Sort::TIME)?;
+    let mut out = Vec::new();
+    for id in walk.take(max) {
+        let commit = repo.find_commit(id?)?;
+        let author = commit.author();
+        out.push(CommitInfo {
+            id: commit.id().to_string(),
+            author: author.name().unwrap_or("").to_string(),
+            email: author.email().unwrap_or("").to_string(),
+            time: author.when().seconds(),
+            summary: commit.summary().ok().flatten().unwrap_or("").to_string(),
+        });
+    }
+    Ok(out)
+}
+
+/// Points `branch` at `commit`, creating it when it doesn't exist; refused
+/// when `expected` (the commit it must be at now) doesn't hold. When the
+/// branch is checked out, the working tree follows. For the rescue branch,
+/// a reset to upstream after it, and undoing unpushed commits.
+pub fn set_branch(dir: &Path, branch: &str, commit: &str, expected: Option<&str>) -> Result<()> {
+    if branch.is_empty() || branch.contains("..") || branch.starts_with('-') {
+        return Err(CoreError::InvalidArgument {
+            message: format!("invalid branch {branch}"),
+        });
+    }
+    let repo = Repository::open(dir)?;
+    let to = Oid::from_str(commit)?;
+    repo.find_commit(to)?;
+    let head = repo.head()?;
+    let checked_out = head.is_branch() && head.shorthand().ok() == Some(branch);
+    let existing = repo.find_branch(branch, BranchType::Local);
+    let moved = match existing {
+        Ok(existing) => {
+            let from = existing.get().peel_to_commit()?.id();
+            if let Some(expected) = expected {
+                if from != Oid::from_str(expected)? {
+                    return Err(CoreError::InvalidArgument {
+                        message: format!("{branch} moved meanwhile"),
+                    });
+                }
+            }
+            move_branch(&repo, branch, from, to, checked_out)
+        }
+        Err(_) => {
+            repo.branch(branch, &repo.find_commit(to)?, false)?;
+            Ok(())
+        }
+    };
+    moved
 }
 
 /// Pushes `branch` to the same name on the remote. Never forced: a remote
@@ -1713,6 +1883,21 @@ pub fn push(dir: &Path, branch: &str, remote_options: &RemoteOptions) -> Result<
         true,
         "genbeya: push",
     )?;
+    // A branch pushed for the first time tracks what it was pushed to.
+    let mut pushed = repo.find_branch(branch, BranchType::Local)?;
+    if pushed.upstream().is_err() {
+        // A single-branch clone fetches only its branch: fetch this one too,
+        // so it can track it.
+        let spec = format!("+refs/heads/{branch}:refs/remotes/{REMOTE}/{branch}");
+        let fetched = repo.find_remote(REMOTE)?.fetch_refspecs()?;
+        if !fetched
+            .iter()
+            .any(|s| matches!(s, Ok(Some(found)) if found == spec))
+        {
+            repo.remote_add_fetch(REMOTE, &spec)?;
+        }
+        pushed.set_upstream(Some(&format!("{REMOTE}/{branch}")))?;
+    }
     Ok(PushOutcome::Pushed)
 }
 

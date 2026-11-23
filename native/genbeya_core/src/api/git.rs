@@ -11,9 +11,10 @@ use flutter_rust_bridge::frb;
 use crate::frb_generated::StreamSink;
 use crate::git::{self, Operation};
 pub use crate::git::{
-    Auth, AuthorCount, ChangedFile, CommitInfo, Conflict, CoreError, DiffSummary, FileChange,
-    FileHistory, FileRevision, GrepFile, GrepLine, GrepQuery, GrepRange, HeadInfo, Identity,
-    Progress, PushOutcome, RebaseOutcome, RemoteBranches, RemoteOptions, SshKeyPair, TreeFile,
+    Auth, AuthorCount, BranchStatus, ChangedFile, CommitInfo, Conflict, CoreError, DiffSummary,
+    FileChange, FileHistory, FileRevision, GrepFile, GrepLine, GrepQuery, GrepRange, HeadInfo,
+    Identity, Progress, PushOutcome, RebaseOutcome, RemoteBranches, RemoteOptions, Resolution,
+    SshKeyPair, TreeFile,
 };
 
 /// The versions inside the core, for the spike screen and bug reports.
@@ -242,12 +243,40 @@ pub fn fetch(
     finish(&events, result)
 }
 
-pub fn rebase_onto_upstream(
+/// Replays the local commits of `branch` (the checked-out one when None)
+/// onto its upstream in memory; resolutions per replayed commit and path.
+pub fn rebase_branch(
     dir: String,
+    branch: Option<String>,
     identity: Identity,
-    resolutions: Vec<FileChange>,
+    resolutions: Vec<Resolution>,
 ) -> Result<RebaseOutcome, CoreError> {
-    git::rebase_onto_upstream(Path::new(&dir), &identity, &resolutions)
+    git::rebase_branch(Path::new(&dir), branch.as_deref(), &identity, &resolutions)
+}
+
+/// Where a branch stands against its upstream.
+pub fn branch_status(dir: String, branch: String) -> Result<BranchStatus, CoreError> {
+    git::branch_status(Path::new(&dir), &branch)
+}
+
+/// The commits of a branch its upstream doesn't have, newest first.
+pub fn unpushed_commits(
+    dir: String,
+    branch: String,
+    max: u32,
+) -> Result<Vec<CommitInfo>, CoreError> {
+    git::unpushed_commits(Path::new(&dir), &branch, max as usize)
+}
+
+/// Points a branch at a commit (creating it), refused when it isn't at
+/// `expected`; the working tree follows when it is checked out.
+pub fn set_branch(
+    dir: String,
+    branch: String,
+    commit: String,
+    expected: Option<String>,
+) -> Result<(), CoreError> {
+    git::set_branch(Path::new(&dir), &branch, &commit, expected.as_deref())
 }
 
 pub fn push(dir: String, branch: String, remote: RemoteOptions) -> Result<PushOutcome, CoreError> {

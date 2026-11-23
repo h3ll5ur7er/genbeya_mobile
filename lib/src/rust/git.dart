@@ -53,6 +53,43 @@ class AuthorCount {
           commits == other.commits;
 }
 
+/// Where a branch stands against its upstream.
+class BranchStatus {
+  /// None when there is no local branch of the name.
+  final String? commit;
+  final String? upstream;
+  final String? upstreamCommit;
+  final int ahead;
+  final int behind;
+
+  const BranchStatus({
+    this.commit,
+    this.upstream,
+    this.upstreamCommit,
+    required this.ahead,
+    required this.behind,
+  });
+
+  @override
+  int get hashCode =>
+      commit.hashCode ^
+      upstream.hashCode ^
+      upstreamCommit.hashCode ^
+      ahead.hashCode ^
+      behind.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BranchStatus &&
+          runtimeType == other.runtimeType &&
+          commit == other.commit &&
+          upstream == other.upstream &&
+          upstreamCommit == other.upstreamCommit &&
+          ahead == other.ahead &&
+          behind == other.behind;
+}
+
 class ChangedFile {
   /// A, M, D, R, C or T, as `git diff --name-status`.
   final String status;
@@ -559,6 +596,33 @@ class RemoteOptions {
           runtimeType == other.runtimeType &&
           auth == other.auth &&
           trustedHostKeys == other.trustedHostKeys;
+}
+
+/// Puts the checked-out branch's local commits on top of its upstream, in
+/// memory: the working tree and the branch change only once every commit
+/// applied. `resolutions` settle conflicts a previous call reported, by path,
+/// for the local commit it named; anything else conflicting is reported and
+/// nothing changes.
+/// A conflict resolved: the content of `path` when the local commit
+/// `commit` is replayed (None removes the file).
+class Resolution {
+  final String commit;
+  final String path;
+  final Uint8List? content;
+
+  const Resolution({required this.commit, required this.path, this.content});
+
+  @override
+  int get hashCode => commit.hashCode ^ path.hashCode ^ content.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Resolution &&
+          runtimeType == other.runtimeType &&
+          commit == other.commit &&
+          path == other.path &&
+          content == other.content;
 }
 
 /// An SSH key made on the device.

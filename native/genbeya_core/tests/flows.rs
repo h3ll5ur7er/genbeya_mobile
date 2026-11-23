@@ -187,7 +187,7 @@ fn commit_push_and_a_teammate_rebases_in_memory() {
     }
     git::fetch(&bob, &[], &none(), None, None).unwrap();
     assert_eq!(git::head(&bob).unwrap().behind, 1);
-    match git::rebase_onto_upstream(&bob, &me("Bob"), &[]).unwrap() {
+    match git::rebase_branch(&bob, None, &me("Bob"), &[]).unwrap() {
         RebaseOutcome::Rebased { commits, .. } => assert_eq!(commits, 1),
         other => panic!("{other:?}"),
     }
@@ -214,11 +214,11 @@ fn commit_push_and_a_teammate_rebases_in_memory() {
     // Alice has nothing local: she fast-forwards.
     git::fetch(&alice, &[], &none(), None, None).unwrap();
     assert!(matches!(
-        git::rebase_onto_upstream(&alice, &me("Alice"), &[]).unwrap(),
+        git::rebase_branch(&alice, None, &me("Alice"), &[]).unwrap(),
         RebaseOutcome::FastForwarded { .. }
     ));
     assert_eq!(
-        git::rebase_onto_upstream(&alice, &me("Alice"), &[]).unwrap(),
+        git::rebase_branch(&alice, None, &me("Alice"), &[]).unwrap(),
         RebaseOutcome::UpToDate
     );
     assert!(fs::read_to_string(alice.join("docs/Home.md"))
@@ -249,7 +249,7 @@ fn a_conflict_is_reported_without_touching_anything_then_resolved() {
     let bob_commit = edit(&bob, "tasks/GM-1.md", &mine, "Bob", "GM-1: Start");
     git::fetch(&bob, &[], &none(), None, None).unwrap();
     let before = git::head(&bob).unwrap();
-    let outcome = git::rebase_onto_upstream(&bob, &me("Bob"), &[]).unwrap();
+    let outcome = git::rebase_branch(&bob, None, &me("Bob"), &[]).unwrap();
     let RebaseOutcome::Conflicts { commit, conflicts } = outcome else {
         panic!("{outcome:?}")
     };
@@ -268,11 +268,21 @@ fn a_conflict_is_reported_without_touching_anything_then_resolved() {
 
     // The Genbeya merge (in Dart) decides; the core applies its result.
     let merged = TASK.replace("status: todo", "status: done\nassignee: bob");
-    let resolution = FileChange {
+    let resolution = Resolution {
+        commit: commit.clone(),
         path: "tasks/GM-1.md".into(),
         content: Some(merged.clone().into_bytes()),
     };
-    match git::rebase_onto_upstream(&bob, &me("Bob"), &[resolution]).unwrap() {
+    // A resolution names the commit it was made for: for another, it doesn't apply.
+    let elsewhere = Resolution {
+        commit: "0".repeat(40),
+        ..resolution.clone()
+    };
+    assert!(matches!(
+        git::rebase_branch(&bob, None, &me("Bob"), &[elsewhere]).unwrap(),
+        RebaseOutcome::Conflicts { .. }
+    ));
+    match git::rebase_branch(&bob, None, &me("Bob"), &[resolution]).unwrap() {
         RebaseOutcome::Rebased { commits: 1, .. } => {}
         other => panic!("{other:?}"),
     }
@@ -1139,4 +1149,121 @@ fn search_finds_what_git_grep_finds() {
         git::grep_files(&dir, &head, &query("(", false, true, false)),
         Err(CoreError::InvalidArgument { .. })
     ));
+}
+
+#[test]
+fn the_content_branch_rebases_without_a_checkout_and_a_rescue_keeps_everything() {
+    let f = Fixture::new();
+    let phone = f.clone("phone");
+    let desk = f.clone("desk");
+    for dir in [&phone, &desk] {
+        git::fetch(dir, &["genbeya".into()], &none(), None, None).unwrap();
+    }
+    let task = |id: &str, status: &str| FileChange {
+        path: format!("tasks/{id}.md"),
+        content: Some(
+            TASK.replace("GM-1", id)
+                .replace("todo", status)
+                .into_bytes(),
+        ),
+    };
+    // A teammate pushes to the content branch; the phone commits there offline.
+    git::commit_onto_branch(
+        &desk,
+        "genbeya",
+        &[task("GM-20", "todo")],
+        "Create GM-20",
+        &me("Desk"),
+    )
+    .unwrap();
+    assert_eq!(
+        git::push(&desk, "genbeya", &none()).unwrap(),
+        PushOutcome::Pushed
+    );
+    let mine = git::commit_onto_branch(
+        &phone,
+        "genbeya",
+        &[task("GM-21", "todo")],
+        "Create GM-21",
+        &me("Alice"),
+    )
+    .unwrap();
+    let status = git::branch_status(&phone, "genbeya").unwrap();
+    assert_eq!(status.commit.as_deref(), Some(mine.as_str()));
+    assert_eq!((status.ahead, status.behind), (1, 0));
+    assert_eq!(
+        git::unpushed_commits(&phone, "genbeya", 10).unwrap()[0].summary,
+        "Create GM-21"
+    );
+
+    git::fetch(&phone, &[], &none(), None, None).unwrap();
+    assert_eq!(git::branch_status(&phone, "genbeya").unwrap().behind, 1);
+    let checkout = git::head(&phone).unwrap();
+    match git::rebase_branch(&phone, Some("genbeya"), &me("Alice"), &[]).unwrap() {
+        RebaseOutcome::Rebased { commits: 1, .. } => {}
+        other => panic!("{other:?}"),
+    }
+    assert_eq!(
+        git::head(&phone).unwrap(),
+        checkout,
+        "the checkout doesn't change"
+    );
+    assert!(!phone.join("tasks/GM-21.md").exists());
+    assert_eq!(
+        git::push(&phone, "genbeya", &none()).unwrap(),
+        PushOutcome::Pushed
+    );
+    assert!(f
+        .remote_git(&["show", "genbeya:tasks/GM-20.md"])
+        .contains("GM-20"));
+    assert!(f
+        .remote_git(&["show", "genbeya:tasks/GM-21.md"])
+        .contains("GM-21"));
+    let unknown = git::rebase_branch(&phone, Some("nope"), &me("Alice"), &[]).unwrap();
+    assert_eq!(unknown, RebaseOutcome::UpToDate);
+
+    // On the checked-out branch: a rescue branch keeps the local commit and is
+    // pushed, then the branch goes back to its upstream, working tree included.
+    let local = edit(
+        &phone,
+        "docs/Home.md",
+        "# Home\n\nPhone.\n",
+        "Alice",
+        "Phone edit",
+    );
+    let upstream = git::branch_status(&phone, "main")
+        .unwrap()
+        .upstream_commit
+        .unwrap();
+    git::set_branch(&phone, "mobile/rescue/alice-2026-11-23", &local, None).unwrap();
+    assert_eq!(
+        git::push(&phone, "mobile/rescue/alice-2026-11-23", &none()).unwrap(),
+        PushOutcome::Pushed
+    );
+    let rescue = git::branch_status(&phone, "mobile/rescue/alice-2026-11-23").unwrap();
+    assert_eq!(
+        rescue.upstream.as_deref(),
+        Some("origin/mobile/rescue/alice-2026-11-23")
+    );
+    assert_eq!(rescue.ahead, 0);
+    git::set_branch(&phone, "main", &upstream, Some(&local)).unwrap();
+    assert_eq!(git::head(&phone).unwrap().commit, upstream);
+    assert_eq!(
+        fs::read_to_string(phone.join("docs/Home.md")).unwrap(),
+        "# Home\n\nWelcome.\n"
+    );
+    assert!(git::head(&phone).unwrap().dirty.is_empty());
+    assert_eq!(
+        f.remote_git(&["log", "-1", "--format=%s", "mobile/rescue/alice-2026-11-23"]),
+        "Phone edit"
+    );
+
+    // Undo an unpushed commit: the branch back to its parent; a stale expectation is refused.
+    let undone = edit(&phone, "docs/Home.md", "# Home\n\nOops.\n", "Alice", "Oops");
+    assert!(
+        git::set_branch(&phone, "main", &upstream, Some(&local)).is_err(),
+        "moved meanwhile"
+    );
+    git::set_branch(&phone, "main", &upstream, Some(&undone)).unwrap();
+    assert_eq!(git::branch_status(&phone, "main").unwrap().ahead, 0);
 }

@@ -63,6 +63,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RemoteOptions dco_decode_box_autoadd_remote_options(dynamic raw);
 
   @protected
+  BranchStatus dco_decode_branch_status(dynamic raw);
+
+  @protected
   ChangedFile dco_decode_changed_file(dynamic raw);
 
   @protected
@@ -150,6 +153,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
 
   @protected
+  List<Resolution> dco_decode_list_resolution(dynamic raw);
+
+  @protected
   List<TreeFile> dco_decode_list_tree_file(dynamic raw);
 
   @protected
@@ -175,6 +181,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   RemoteOptions dco_decode_remote_options(dynamic raw);
+
+  @protected
+  Resolution dco_decode_resolution(dynamic raw);
 
   @protected
   SshKeyPair dco_decode_ssh_key_pair(dynamic raw);
@@ -236,6 +245,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RemoteOptions sse_decode_box_autoadd_remote_options(
     SseDeserializer deserializer,
   );
+
+  @protected
+  BranchStatus sse_decode_branch_status(SseDeserializer deserializer);
 
   @protected
   ChangedFile sse_decode_changed_file(SseDeserializer deserializer);
@@ -331,6 +343,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
+  List<Resolution> sse_decode_list_resolution(SseDeserializer deserializer);
+
+  @protected
   List<TreeFile> sse_decode_list_tree_file(SseDeserializer deserializer);
 
   @protected
@@ -356,6 +371,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   RemoteOptions sse_decode_remote_options(SseDeserializer deserializer);
+
+  @protected
+  Resolution sse_decode_resolution(SseDeserializer deserializer);
 
   @protected
   SshKeyPair sse_decode_ssh_key_pair(SseDeserializer deserializer);
@@ -428,6 +446,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     RemoteOptions self,
     SseSerializer serializer,
   );
+
+  @protected
+  void sse_encode_branch_status(BranchStatus self, SseSerializer serializer);
 
   @protected
   void sse_encode_changed_file(ChangedFile self, SseSerializer serializer);
@@ -544,6 +565,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_list_resolution(
+    List<Resolution> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_list_tree_file(List<TreeFile> self, SseSerializer serializer);
 
   @protected
@@ -575,6 +602,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_remote_options(RemoteOptions self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_resolution(Resolution self, SseSerializer serializer);
 
   @protected
   void sse_encode_ssh_key_pair(SshKeyPair self, SseSerializer serializer);

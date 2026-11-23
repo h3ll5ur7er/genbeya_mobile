@@ -127,7 +127,7 @@ class _GitSpikeScreenState extends State<GitSpikeScreen> {
       ),
       onProgress: (p) => setState(() => _progress = p),
     );
-    final rebase = await core.rebaseOntoUpstream(
+    final rebase = await core.rebaseBranch(
       dir: dir,
       identity: _identity,
       resolutions: const [],
