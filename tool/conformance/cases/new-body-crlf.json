@@ -1,0 +1,23 @@
+{
+  "id": "new-body-crlf",
+  "kind": "task.new",
+  "input": {
+    "id": "GM-32",
+    "input": {
+      "title": "A task",
+      "status": "todo",
+      "priority": "none",
+      "assignee": "",
+      "labels": [],
+      "body": "Line one\r\nLine two\rLine three\r\n",
+      "epic": ""
+    },
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

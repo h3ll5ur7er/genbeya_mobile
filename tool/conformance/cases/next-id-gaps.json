@@ -1,0 +1,13 @@
+{
+  "id": "next-id-gaps",
+  "kind": "task.nextId",
+  "input": {
+    "prefix": "GM",
+    "ids": [
+      "GM-1",
+      "GM-7",
+      "GM-3"
+    ],
+    "taken": []
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "new-id-zero",
+  "kind": "task.new",
+  "input": {
+    "id": "X-0",
+    "input": {
+      "title": "0",
+      "status": "todo",
+      "priority": "none",
+      "assignee": "",
+      "labels": [],
+      "body": "",
+      "epic": ""
+    },
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

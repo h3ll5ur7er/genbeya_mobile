@@ -1,0 +1,29 @@
+{
+  "id": "new-yaml-words",
+  "kind": "task.new",
+  "input": {
+    "id": "GM-32",
+    "input": {
+      "title": "yes",
+      "status": "todo",
+      "priority": "none",
+      "assignee": "null",
+      "labels": [
+        "true",
+        "1.5",
+        "~",
+        "@me",
+        "- x"
+      ],
+      "body": "",
+      "epic": ""
+    },
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

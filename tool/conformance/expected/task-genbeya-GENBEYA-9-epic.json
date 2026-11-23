@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-9\ntitle: Harden SSH hosts\nstatus: in-progress\npriority: high\nlabels:\n  - remote\n---\n\nThe shell transport is tested against WSL. SSH uses the same code but needs testing against real servers.\n\n- [x] One persistent shell per repository, binary-safe framing\n- [x] Batch mode: no password prompts, clear errors\n- [ ] Jump hosts and `ProxyCommand` from `~/.ssh/config`\n- [ ] Login shells that are not POSIX (fish): start `sh` explicitly\n- [ ] Reconnect after sleep or network loss without a restart\n"
+}

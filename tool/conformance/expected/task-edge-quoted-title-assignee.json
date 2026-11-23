@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: EDGE-2\ntitle: \"Spike: titles with a colon stay quoted\"\ntype: spike\nstatus: in-progress\nassignee: Zoë O'Brien\n---\n\nBody.\n"
+}

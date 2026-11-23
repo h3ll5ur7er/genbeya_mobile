@@ -1,0 +1,23 @@
+{
+  "id": "new-priority",
+  "kind": "task.new",
+  "input": {
+    "id": "GM-32",
+    "input": {
+      "title": "A task",
+      "status": "todo",
+      "priority": "  ",
+      "assignee": "",
+      "labels": [],
+      "body": "",
+      "epic": ""
+    },
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "task-genbeya-GENBEYA-30-description",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/GENBEYA-30.md",
+    "content": "---\nid: GENBEYA-30\ntitle: The wiki's Save button doesn't show whether there is anything to save\ntype: bug\nstatus: review\npriority: low\nlabels: [feedback, wiki]\n---\n\nReported by a tester:\n\n> In Code when I press Ctrl+S the purple button becomes grey. In Wiki not.\n\nTo reproduce: edit a wiki page, change something, press `Ctrl+S`: the page is saved, but **Save** stays purple. Do the same with a file in **Code**: **Save** turns grey.\n\n## Comments\n\n### Claude — 2026-10-14 00:40+02:00\n\n**Triage: fix, after a small decision.** Reproduced in the web demo; `Ctrl+S` does save (the Changes count went up), only the button doesn't show it.\n\nCause: in Code the button follows the unsaved state (`btn-primary` and enabled only while dirty, `features/code/file-editor.ts`); in the wiki it is always `btn-primary` (`features/wiki/wiki-page.ts`). The two buttons also do different things: in Code, Save only saves; in the wiki, the button saves *and closes the editor* (`save(true)`), while `Ctrl+S` saves and stays (`save(false)`).\n\nTo decide, what the wiki's button shows when nothing is unsaved:\n\n- **Done** in the default style, closing the editor; **Save** in purple only while there are changes. (My suggestion: it keeps the one-click way out and reads like the state.)\n- Grey and disabled, as in Code; leaving the editor is then only **Cancel**.\n\n### Emanuel Knecht — 2026-10-14 01:29+02:00\n\nyes, your recommendation solves it neatly.\n\n### Claude — 2026-10-14 02:00+02:00\n\nDone as recommended: while editing a page, the button is **Save** (purple, saves and closes) while there are unsaved changes, and **Done** (default style, closes) once everything is saved, so `Ctrl+S` turns it into **Done**. The wiki guide says so.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "edit": "append"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "new-body-comments",
+  "kind": "task.new",
+  "input": {
+    "id": "GM-32",
+    "input": {
+      "title": "A task",
+      "status": "todo",
+      "priority": "none",
+      "assignee": "",
+      "labels": [],
+      "body": "Text\n\n## Comments\n\n### Ada — 2026-01-01 10:00\n\nFake.\n",
+      "epic": ""
+    },
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

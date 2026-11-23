@@ -1,0 +1,13 @@
+{
+  "id": "next-id-regex",
+  "kind": "task.nextId",
+  "input": {
+    "prefix": "A.B+(c)",
+    "ids": [
+      "A.B+(c)-4",
+      "AxB+(c)-9",
+      "A.BB(c)-8"
+    ],
+    "taken": []
+  }
+}

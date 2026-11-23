@@ -1,0 +1,19 @@
+{
+  "id": "task-edge-no-frontmatter-unassign",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/no-frontmatter.md",
+    "content": "# Just a page\n\nNo frontmatter here.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "assignee": ""
+    }
+  }
+}

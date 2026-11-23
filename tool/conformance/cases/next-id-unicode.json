@@ -1,0 +1,12 @@
+{
+  "id": "next-id-unicode",
+  "kind": "task.nextId",
+  "input": {
+    "prefix": "ÄB",
+    "ids": [
+      "äb-3",
+      "ÄB-2"
+    ],
+    "taken": []
+  }
+}

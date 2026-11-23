@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-32\ntitle: A task\nstatus: todo\nestimate: 2d\npoints: 3\nratio: 0.5\nflag: false\ndepends_on:\n  - GM-1\n  - GM-2\nnone: []\n---\n"
+}

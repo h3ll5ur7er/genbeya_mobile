@@ -1,0 +1,17 @@
+{
+  "id": "task-edge-time-log-description",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/time-log.md",
+    "content": "---\nid: EDGE-5\ntitle: A time log and comments\nstatus: in-progress\nestimate: 2d\nremaining: 6h\n---\n\nWork to do.\n\n## Time log\n\n- 2026-10-21 — Alex Chen — 2h — Investigated the flow\n- 2026-10-22 — Alex Chen — 3h — Implemented it\n- not an entry\n\n## Comments\n\n### Sam Rivera — 2026-10-23 09:10+02:00\n\nLooks good.\n\n### Alex Chen — 2026-10-23 12:45+02:00\n\nThanks.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "edit": "append"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "next-id-huge",
+  "kind": "task.nextId",
+  "input": {
+    "prefix": "T",
+    "ids": [
+      "T-9007199254740993"
+    ],
+    "taken": []
+  }
+}

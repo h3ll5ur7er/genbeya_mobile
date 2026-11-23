@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: EDGE-10\ntitle: Plain title\nstatus: todo\nestimate: 8\nreviewer: 'single quoted'\nflag: \"true\"\npoints: 5\nblocked: true\nios: to-check\n---\n"
+}

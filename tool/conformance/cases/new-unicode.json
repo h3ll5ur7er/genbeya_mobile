@@ -1,0 +1,25 @@
+{
+  "id": "new-unicode",
+  "kind": "task.new",
+  "input": {
+    "id": "GM-32",
+    "input": {
+      "title": "Überprüfen 日本語 🎉",
+      "status": "todo",
+      "priority": "none",
+      "assignee": "",
+      "labels": [
+        "ÄÖÜ"
+      ],
+      "body": "",
+      "epic": ""
+    },
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

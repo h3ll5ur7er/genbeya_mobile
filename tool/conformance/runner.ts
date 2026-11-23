@@ -24,7 +24,7 @@ import { join } from "node:path";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base" | "task.changes" | "search.area" | "search.excerpt" | "link.parse" | "link.format" | "web.url" | "task.comment";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base" | "task.changes" | "search.area" | "search.excerpt" | "link.parse" | "link.format" | "web.url" | "task.comment" | "task.new" | "task.nextId" | "task.spelling" | "task.template";
   readonly input: Record<string, any>;
 }
 
@@ -81,8 +81,29 @@ function run(c: Case): unknown {
       return { task: tasks.parse(i.path, i.content, "hash", i.taskRoot) };
     case "task.update": {
       const task = tasks.parse(i.path, i.content, "hash", i.taskRoot);
-      return { output: tasks.serializeUpdate(i.content, tasks.validate(inputOf(task, i.change), i.statuses)) };
+      // Description edits as the editor sends them: a line appended, or the text replaced with CRLF lines.
+      const body = i.edit === "append" ? `${task.body.trimEnd()}\n\nAdded on the phone.\n` : i.edit === "replace" ? "New text\r\n\r\n- [ ] item\r\n" : undefined;
+      const change = { ...(i.change ?? {}), ...(body !== undefined && { body }) };
+      return { output: tasks.serializeUpdate(i.content, tasks.validate(inputOf(task, change), i.statuses)) };
     }
+    case "task.new":
+      // content-manager.ts createTask: validate, then serializeNew.
+      return { output: tasks.serializeNew(i.id, tasks.validate(i.input, i.statuses)) };
+    case "task.nextId": {
+      const taken = new Set(i.taken);
+      return { output: tasks.nextId(i.prefix, i.ids, (id) => taken.has(id)) };
+    }
+    case "task.spelling":
+      return { output: i.epics.map((epic: string) => tasks.existingSpelling(epic, i.files, i.taskRoot)) };
+    case "task.template":
+      if (i.types)
+        return {
+          output: {
+            templates: i.types.map((type: string) => tasks.newTemplate(type)),
+            paths: i.paths.map((type: string) => { try { return tasks.templatePath("tasks", type); } catch (error) { return { error: (error as Error).message }; } }),
+          },
+        };
+      return { output: tasks.parseTemplate(i.content) };
     case "page.toggle": {
       // wiki-page.ts toggleCheckbox: offsets count from the end of the frontmatter.
       const at = i.content.length - stripFrontmatter(i.content).length + i.offset;

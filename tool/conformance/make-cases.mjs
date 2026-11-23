@@ -42,6 +42,13 @@ for (const set of readdirSync(join(here, "fixtures/tasks")).sort()) {
       add(`${id}-label`, "task.update", { ...base, change: { labels: [...labelsOf(content), "mobile"] } });
       add(`${id}-no-type`, "task.update", { ...base, change: { type: "" } });
       add(`${id}-title`, "task.update", { ...base, change: { title: "Renamed: on the phone" } });
+      add(`${id}-assignee`, "task.update", { ...base, change: { assignee: "Zoë O'Brien" } });
+      add(`${id}-unassign`, "task.update", { ...base, change: { assignee: "" } });
+      add(`${id}-epic`, "task.update", { ...base, change: { epic: "Moved/On the phone" } });
+      add(`${id}-field-clear`, "task.update", { ...base, change: { fields: { remaining: "", estimate: "" } } });
+      add(`${id}-field-kinds`, "task.update", { ...base, change: { fields: { points: 5, blocked: true, ios: "to-check" } } });
+      add(`${id}-description`, "task.update", { ...base, edit: "append" });
+      add(`${id}-description-crlf`, "task.update", { ...base, edit: "replace" });
     });
 }
 
@@ -362,6 +369,67 @@ add("web-urls", "web.url", {
   add("comment-edge-empty", "task.comment", { content: plain, op: "add", author: "Ada", date: "2026-11-23T09:05:00Z", text: "   " });
   add("comment-edge-missing", "task.comment", { content: plain, op: "edit", index: 3, text: "x" });
   add("comment-edge-no-body", "task.comment", { content: "---\nid: A-1\ntitle: T\nstatus: todo\n---\n", op: "add", author: "Ada", date: "2026-11-23T09:05:00Z", text: "First." });
+}
+
+// New tasks (serializeNew after validate), the next ID, epic spellings and
+// templates: what creating a task on the phone writes.
+{
+  const input = (change) => ({ title: "A task", status: "todo", priority: "none", assignee: "", labels: [], body: "", epic: "", ...change });
+  const news = {
+    minimal: input({}),
+    typed: input({ type: "bug", priority: "high", assignee: "Ada Lovelace", labels: ["mobile", "sync", "mobile", " "] }),
+    "empty-type": input({ type: "" }),
+    fields: input({ fields: { estimate: "2d", remaining: "", points: 3, ratio: 0.5, flag: false, depends_on: ["GM-1", "GM-2"], none: [] } }),
+    "numeric-keys": input({ fields: { "2024": "yes", b: "1", "10": "x", "01": "y", "4294967295": "z", "-1": "n" } }),
+    "quoted-title": input({ title: "Fix: the [[link]] # and 'quotes' \"too\"" }),
+    "yaml-words": input({ title: "yes", assignee: "null", labels: ["true", "1.5", "~", "@me", "- x"] }),
+    "long-title": input({ title: "word ".repeat(30).trim() }),
+    "multiline-title": input({ title: "first\nsecond\r\nthird  " }),
+    unicode: input({ title: "Überprüfen 日本語 🎉", labels: ["ÄÖÜ"] }),
+    body: input({ body: "\n\n## Goal\n\nDo it.\n\n- [ ] one\n- [x] two\n\n\n" }),
+    "body-crlf": input({ body: "Line one\r\nLine two\rLine three\r\n" }),
+    "body-comments": input({ body: "Text\n\n## Comments\n\n### Ada — 2026-01-01 10:00\n\nFake.\n" }),
+    "body-spaces": input({ body: "   \n\t\n" }),
+    "bad-status": input({ status: "nope" }),
+    "no-title": input({ title: "  \n " }),
+    epic: input({ epic: " Auth / Tokens " }),
+    "bad-epic": input({ epic: "a/.hidden" }),
+    priority: input({ priority: "  " }),
+  };
+  for (const [name, value] of Object.entries(news)) add(`new-${name}`, "task.new", { id: "GM-32", input: value, statuses: STATUSES });
+  add("new-id-zero", "task.new", { id: "X-0", input: input({ title: "0" }), statuses: STATUSES });
+
+  const ids = {
+    empty: { prefix: "GM", ids: [], taken: [] },
+    gaps: { prefix: "GM", ids: ["GM-1", "GM-7", "GM-3"], taken: [] },
+    "case": { prefix: "GM", ids: ["gm-12", "Gm-4", "GM-x", "GMX-40", "GM-5a"], taken: [] },
+    other: { prefix: "GM", ids: ["GENBEYA-99", "A-1", "GM-"], taken: [] },
+    taken: { prefix: "GM", ids: ["GM-9"], taken: ["GM-10", "GM-11", "GM-13"] },
+    zeros: { prefix: "GM", ids: ["GM-007", "GM-0010"], taken: [] },
+    regex: { prefix: "A.B+(c)", ids: ["A.B+(c)-4", "AxB+(c)-9", "A.BB(c)-8"], taken: [] },
+    huge: { prefix: "T", ids: ["T-9007199254740993"], taken: [] },
+    unicode: { prefix: "ÄB", ids: ["äb-3", "ÄB-2"], taken: [] },
+  };
+  for (const [name, value] of Object.entries(ids)) add(`next-id-${name}`, "task.nextId", value);
+
+  const files = ["tasks/Auth/Tokens/GM-1.md", "tasks/auth/GM-2.md", "tasks/Sync/GM-3.md", "tasks/GM-4.md", "tasks/.templates/bug.md", "docs/Home.md", "tasks/UI/Board/GM-5.md"];
+  const spellings = ["", "auth", "AUTH/tokens", "auth/tokens/new", "sync", "Sync/Rescue", "ui/board/x/y", "New", "ui"];
+  add("spelling-files", "task.spelling", { epics: spellings, files, taskRoot: "tasks" });
+  add("spelling-root", "task.spelling", { epics: ["a", "A/B"], files: ["A/b/T-1.md", "a/T-2.md", "T-3.md"], taskRoot: "" });
+
+  const templates = {
+    plain: "---\npriority: high\nlabels: [bug, triage]\nassignee: Ada\nseverity: 2\nid: X-1\ntitle: ignored\nstatus: done\n---\n\n## Steps\n\n1. \n",
+    "string-labels": "---\nlabels: a, b , ,c\n---\nBody right away\r\n",
+    comment: "---\n# New bug tasks start with the description below.\n---\n\n## Goal\n\n",
+    none: "Just a description.\n",
+    empty: "",
+    bom: "\uFEFF---\npriority: low\n---\n\nText\n",
+    broken: "---\npriority: [high\n---\n",
+    "not-map": "---\n- a\n- b\n---\n",
+    numbers: "---\npriority: 3\nassignee: 12\nlabels: [1, true]\n---\n",
+  };
+  for (const [name, content] of Object.entries(templates)) add(`template-${name}`, "task.template", { content });
+  add("template-new", "task.template", { types: ["bug", "Feature", "chore", "BUG", "spike"], paths: ["bug", "my type", "../x", "", "a".repeat(41), "_x"] });
 }
 
 function labelsOf(content) {

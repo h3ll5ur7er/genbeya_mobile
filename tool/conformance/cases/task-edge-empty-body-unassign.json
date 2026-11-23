@@ -1,0 +1,19 @@
+{
+  "id": "task-edge-empty-body-unassign",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/empty-body.md",
+    "content": "---\nid: EDGE-6\ntitle: No description\nstatus: done\n---\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "assignee": ""
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "template-new",
+  "kind": "task.template",
+  "input": {
+    "types": [
+      "bug",
+      "Feature",
+      "chore",
+      "BUG",
+      "spike"
+    ],
+    "paths": [
+      "bug",
+      "my type",
+      "../x",
+      "",
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "_x"
+    ]
+  }
+}

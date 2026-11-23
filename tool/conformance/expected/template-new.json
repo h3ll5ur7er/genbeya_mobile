@@ -1,0 +1,28 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": {
+    "templates": [
+      "---\n# New bug tasks start with the description below. Fields here, such as\n# priority, assignee, labels or custom fields, preset theirs too.\n---\n\n## Steps to reproduce\n\n## Expected\n\n## Actual\n\n## Environment\n",
+      "---\n# New Feature tasks start with the description below. Fields here, such as\n# priority, assignee, labels or custom fields, preset theirs too.\n---\n\n## Goal\n\n## Proposal\n\n## Done when\n",
+      "---\n# New chore tasks start with the description below. Fields here, such as\n# priority, assignee, labels or custom fields, preset theirs too.\n---\n\n## Context\n\n## Done when\n",
+      "---\n# New BUG tasks start with the description below. Fields here, such as\n# priority, assignee, labels or custom fields, preset theirs too.\n---\n\n## Steps to reproduce\n\n## Expected\n\n## Actual\n\n## Environment\n",
+      "---\n# New spike tasks start with the description below. Fields here, such as\n# priority, assignee, labels or custom fields, preset theirs too.\n---\n\n## Context\n\n## Done when\n"
+    ],
+    "paths": [
+      "tasks/.templates/bug.md",
+      "tasks/.templates/my type.md",
+      {
+        "error": "Invalid task type."
+      },
+      {
+        "error": "Invalid task type."
+      },
+      {
+        "error": "Invalid task type."
+      },
+      {
+        "error": "Invalid task type."
+      }
+    ]
+  }
+}

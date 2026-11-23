@@ -1,0 +1,7 @@
+{
+  "id": "template-broken",
+  "kind": "task.template",
+  "input": {
+    "content": "---\npriority: [high\n---\n"
+  }
+}

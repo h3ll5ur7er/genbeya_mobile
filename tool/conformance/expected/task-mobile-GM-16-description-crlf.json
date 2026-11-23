@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-16\ntitle: Edit wiki pages\ntype: feature\nstatus: backlog\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M3\ndepends_on: [GM-4, GM-8, GM-11]\n---\n\nNew text\n\n- [ ] item\n"
+}

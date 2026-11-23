@@ -1,0 +1,27 @@
+{
+  "id": "spelling-files",
+  "kind": "task.spelling",
+  "input": {
+    "epics": [
+      "",
+      "auth",
+      "AUTH/tokens",
+      "auth/tokens/new",
+      "sync",
+      "Sync/Rescue",
+      "ui/board/x/y",
+      "New",
+      "ui"
+    ],
+    "files": [
+      "tasks/Auth/Tokens/GM-1.md",
+      "tasks/auth/GM-2.md",
+      "tasks/Sync/GM-3.md",
+      "tasks/GM-4.md",
+      "tasks/.templates/bug.md",
+      "docs/Home.md",
+      "tasks/UI/Board/GM-5.md"
+    ],
+    "taskRoot": "tasks"
+  }
+}

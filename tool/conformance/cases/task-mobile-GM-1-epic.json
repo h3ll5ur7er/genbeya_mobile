@@ -1,0 +1,19 @@
+{
+  "id": "task-mobile-GM-1-epic",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/0 Spikes/GM-1.md",
+    "content": "---\nid: GM-1\ntitle: Set up the Flutter project and CI\ntype: chore\nstatus: in-progress\npriority: high\nestimate: 2d\nremaining: 2d\nmilestone: M0\n---\n\nAn empty app that builds, tests and runs on an Android phone and an iPhone, with CI on every push.\n\n- [x] `flutter create` for Android and iOS (phones and tablets), app ID and name *Genbeya Mobile*, Genbeya's icon\n- [x] Folders as in [[Architecture#repository-layout]], Riverpod and go_router wired up\n- [ ] CI: `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test`, an Android build and an iOS build without signing\n- [x] Light and dark theme from Genbeya's colour tokens\n- [x] License: FSL-1.1-ALv2, as Genbeya (D1 in [[Decisions]]), and README\n- [x] Managers and engines import no Flutter, so they can run headless later (checked by `test/layers_test.dart`)\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "epic": "Moved/On the phone"
+    }
+  }
+}

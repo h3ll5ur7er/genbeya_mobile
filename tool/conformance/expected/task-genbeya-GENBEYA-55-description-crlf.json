@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-55\ntitle: Clean up a pull request into tasks and pages\ntype: feature\nstatus: review\npriority: medium\nlabels:\n  - pull-requests\n---\n\nNew text\n\n- [ ] item\n"
+}

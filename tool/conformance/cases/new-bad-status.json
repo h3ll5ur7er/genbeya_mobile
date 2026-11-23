@@ -1,0 +1,23 @@
+{
+  "id": "new-bad-status",
+  "kind": "task.new",
+  "input": {
+    "id": "GM-32",
+    "input": {
+      "title": "A task",
+      "status": "nope",
+      "priority": "none",
+      "assignee": "",
+      "labels": [],
+      "body": "",
+      "epic": ""
+    },
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

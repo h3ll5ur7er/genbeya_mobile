@@ -1,0 +1,23 @@
+{
+  "id": "new-body",
+  "kind": "task.new",
+  "input": {
+    "id": "GM-32",
+    "input": {
+      "title": "A task",
+      "status": "todo",
+      "priority": "none",
+      "assignee": "",
+      "labels": [],
+      "body": "\n\n## Goal\n\nDo it.\n\n- [ ] one\n- [x] two\n\n\n",
+      "epic": ""
+    },
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

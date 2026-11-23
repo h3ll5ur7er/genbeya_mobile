@@ -1,0 +1,29 @@
+{
+  "id": "new-typed",
+  "kind": "task.new",
+  "input": {
+    "id": "GM-32",
+    "input": {
+      "title": "A task",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "Ada Lovelace",
+      "labels": [
+        "mobile",
+        "sync",
+        "mobile",
+        " "
+      ],
+      "body": "",
+      "epic": "",
+      "type": "bug"
+    },
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

@@ -88,7 +88,12 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
           'hash',
           input['taskRoot']! as String,
         );
-        final change = input['change']! as Map<String, Object?>;
+        final change = input['change'] as Map<String, Object?>? ?? const {};
+        final body = switch (input['edit']) {
+          'append' => '${task.body.trimRight()}\n\nAdded on the phone.\n',
+          'replace' => 'New text\r\n\r\n- [ ] item\r\n',
+          _ => null,
+        };
         final changedFields = (change['fields'] as Map<String, Object?>?)?.map(
           (k, v) => MapEntry<String, FieldValue>(
             k,
@@ -101,6 +106,9 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
           priority: change['priority'] as String?,
           labels: (change['labels'] as List?)?.cast<String>(),
           type: change['type'] as String?,
+          assignee: change['assignee'] as String?,
+          epic: change['epic'] as String?,
+          body: body,
           fields: {...task.fields, ...?changedFields},
         );
         final statuses = (input['statuses']! as List).cast<String>();
@@ -109,6 +117,56 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
             content,
             _tasks.validate(taskInput, statuses),
           ),
+        };
+      case 'task.new':
+        final statuses = (input['statuses']! as List).cast<String>();
+        return {
+          'output': _tasks.serializeNew(
+            input['id']! as String,
+            _tasks.validate(
+              _taskInput(input['input']! as Map<String, Object?>),
+              statuses,
+            ),
+          ),
+        };
+      case 'task.nextId':
+        final taken = (input['taken']! as List).cast<String>().toSet();
+        return {
+          'output': _tasks.nextId(
+            input['prefix']! as String,
+            (input['ids']! as List).cast<String>(),
+            taken.contains,
+          ),
+        };
+      case 'task.spelling':
+        final files = (input['files']! as List).cast<String>();
+        return {
+          'output': [
+            for (final epic in (input['epics']! as List).cast<String>())
+              _tasks.existingSpelling(
+                epic,
+                files,
+                input['taskRoot']! as String,
+              ),
+          ],
+        };
+      case 'task.template':
+        if (input['types'] case final List types) {
+          return {
+            'output': {
+              'templates': [
+                for (final type in types.cast<String>())
+                  _tasks.newTemplate(type),
+              ],
+              'paths': [
+                for (final type in (input['paths']! as List).cast<String>())
+                  _orError(() => _tasks.templatePath('tasks', type)),
+              ],
+            },
+          };
+        }
+        return {
+          'output': _tasks.parseTemplate(input['content']! as String).toJson(),
         };
       case 'collate':
         final strings = (input['strings']! as List).cast<String>().toList();
@@ -408,5 +466,31 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
     return {'error': error.message, 'fromYaml': error.fromYaml};
   } on TaskException catch (error) {
     return {'error': error.message, 'fromYaml': error.fromYaml};
+  }
+}
+
+FieldValue _fieldValue(Object? value) =>
+    value is List ? value.cast<String>() : value!;
+
+/// A task input as the client sends it.
+TaskInput _taskInput(Map<String, Object?> json) => TaskInput(
+  title: json['title']! as String,
+  status: json['status']! as String,
+  priority: json['priority']! as String,
+  assignee: json['assignee']! as String,
+  labels: (json['labels']! as List).cast<String>(),
+  body: json['body']! as String,
+  epic: json['epic']! as String,
+  type: json['type'] as String?,
+  fields: (json['fields'] as Map<String, Object?>?)?.map(
+    (k, v) => MapEntry(k, _fieldValue(v)),
+  ),
+);
+
+Object? _orError(Object? Function() run) {
+  try {
+    return run();
+  } on TaskException catch (error) {
+    return {'error': error.message};
   }
 }

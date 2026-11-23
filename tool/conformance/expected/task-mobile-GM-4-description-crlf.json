@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-4\ntitle: \"Spike: compare editors on the device\"\ntype: spike\nstatus: in-progress\npriority: high\nestimate: 2d\nremaining: 2d\nmilestone: M0\ndepends_on: [GM-3]\n---\n\nNew text\n\n- [ ] item\n"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "task-edge-no-frontmatter-description-crlf",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/no-frontmatter.md",
+    "content": "# Just a page\n\nNo frontmatter here.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "edit": "replace"
+  }
+}

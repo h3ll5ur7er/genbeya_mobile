@@ -1,0 +1,15 @@
+{
+  "id": "next-id-case",
+  "kind": "task.nextId",
+  "input": {
+    "prefix": "GM",
+    "ids": [
+      "gm-12",
+      "Gm-4",
+      "GM-x",
+      "GMX-40",
+      "GM-5a"
+    ],
+    "taken": []
+  }
+}

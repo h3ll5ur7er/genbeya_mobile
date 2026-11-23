@@ -1,0 +1,13 @@
+{
+  "id": "next-id-other",
+  "kind": "task.nextId",
+  "input": {
+    "prefix": "GM",
+    "ids": [
+      "GENBEYA-99",
+      "A-1",
+      "GM-"
+    ],
+    "taken": []
+  }
+}

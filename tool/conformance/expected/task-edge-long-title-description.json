@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: EDGE-7\ntitle: A title that is quite long and contains characters like # hash, 'quotes', \"double quotes\" and a trailing colon:\nstatus: todo\npriority: medium\n---\n\nText right after the frontmatter, without a blank line.\n\nAdded on the phone.\n"
+}

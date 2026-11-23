@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-24\ntitle: Dogfood and decide\ntype: chore\nstatus: backlog\npriority: medium\nestimate: 5d\nremaining: 5d\nmilestone: M5\ndepends_on: [GM-23]\n---\n\nNew text\n\n- [ ] item\n"
+}

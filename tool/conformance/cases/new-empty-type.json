@@ -1,0 +1,24 @@
+{
+  "id": "new-empty-type",
+  "kind": "task.new",
+  "input": {
+    "id": "GM-32",
+    "input": {
+      "title": "A task",
+      "status": "todo",
+      "priority": "none",
+      "assignee": "",
+      "labels": [],
+      "body": "",
+      "epic": "",
+      "type": ""
+    },
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

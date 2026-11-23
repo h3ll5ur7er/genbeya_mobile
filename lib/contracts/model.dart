@@ -392,3 +392,29 @@ class TaskInput {
     fields: fields ?? this.fields,
   );
 }
+
+/// What a type's template presets for a new task (`<taskRoot>/.templates/<type>.md`):
+/// its description, and the fields its frontmatter names.
+class TaskTemplate {
+  const TaskTemplate({
+    required this.body,
+    this.priority,
+    this.assignee,
+    this.labels,
+    this.fields,
+  });
+
+  final String body;
+  final String? priority;
+  final String? assignee;
+  final List<String>? labels;
+  final Map<String, FieldValue>? fields;
+
+  Map<String, Object?> toJson() => {
+    'body': body,
+    'priority': ?priority,
+    'assignee': ?assignee,
+    'labels': ?labels,
+    'fields': ?fields,
+  };
+}

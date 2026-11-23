@@ -1,0 +1,22 @@
+{
+  "id": "task-edge-quoted-title-field-clear",
+  "kind": "task.update",
+  "input": {
+    "path": "tasks/quoted-title.md",
+    "content": "---\nid: EDGE-2\ntitle: \"Spike: titles with a colon stay quoted\"\ntype: spike\nstatus: in-progress\nassignee: Ada Lovelace\n---\n\nBody.\n",
+    "taskRoot": "tasks",
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ],
+    "change": {
+      "fields": {
+        "remaining": "",
+        "estimate": ""
+      }
+    }
+  }
+}

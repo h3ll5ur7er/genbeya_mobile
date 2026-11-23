@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GENBEYA-22\ntitle: References and preview in VS Code's Markdown editor\ntype: feature\nstatus: review\npriority: high\nlabels:\n  - vscode\n---\n\nNew text\n\n- [ ] item\n"
+}

@@ -5,9 +5,12 @@
 /// against Genbeya by the conformance cases in `tool/conformance/`.
 library;
 
+import 'dart:math';
+
 import '../contracts/model.dart';
 import 'js.dart';
 import 'repository_path.dart';
+import 'settings_engine.dart' show typeName;
 import 'task_activity.dart';
 import 'time_log.dart';
 import 'task_comments.dart';
@@ -16,6 +19,14 @@ import 'yaml/yaml_document.dart';
 
 final _frontmatter = RegExp(r'^---\r?\n([\s\S]*?\r?\n)?---[ \t]*(?:\r?\n|$)');
 const _defaultPriority = 'none';
+const _templateFolder = '.templates';
+
+/// The headings new templates of a type start with; other types get the last.
+const _outlines = {
+  'bug': ['Steps to reproduce', 'Expected', 'Actual', 'Environment'],
+  'feature': ['Goal', 'Proposal', 'Done when'],
+  '': ['Context', 'Done when'],
+};
 const _limits = (
   title: 300,
   type: 40,
@@ -122,7 +133,9 @@ String compose(String frontmatter, String body) {
 }
 
 /// Markdown files below the task folder, outside folders whose names start with a dot.
-bool isTaskFile(String path, String taskRoot) =>
+bool isTaskFile(String path, String taskRoot) => _isTaskFile(path, taskRoot);
+
+bool _isTaskFile(String path, String taskRoot) =>
     within(path, taskRoot) &&
     path.toLowerCase().endsWith('.md') &&
     !path
@@ -400,6 +413,119 @@ class TaskEngine {
     );
   }
 
+  /// Markdown files below the task folder, outside folders whose names start with a dot.
+  bool isTaskFile(String path, String taskRoot) => _isTaskFile(path, taskRoot);
+
+  String templatePath(String taskRoot, String type) {
+    if (!typeName.hasMatch(type)) _fail('Invalid task type.');
+    return '$taskRoot/$_templateFolder/$type.md';
+  }
+
+  /// The description of a template, and the fields its frontmatter presets
+  /// (not id, title, type or status).
+  TaskTemplate parseTemplate(String content) {
+    final front = splitFrontmatter(content);
+    final data = front.data;
+    final fields = _extraFields(data);
+    return TaskTemplate(
+      body: front.body.replaceFirst(RegExp(r'^\r?\n'), ''),
+      priority: data['priority'] == null ? null : jsString(data['priority']),
+      assignee: data['assignee'] == null ? null : jsString(data['assignee']),
+      labels: data['labels'] == null ? null : _toList(data['labels']),
+      fields: fields.isEmpty ? null : fields,
+    );
+  }
+
+  /// A first template for a type, to edit in Genbeya.
+  String newTemplate(String type) => [
+    '---',
+    '# New $type tasks start with the description below. Fields here, such as',
+    '# priority, assignee, labels or custom fields, preset theirs too.',
+    '---',
+    '',
+    for (final heading in _outlines[type.toLowerCase()] ?? _outlines['']!) ...[
+      '## $heading',
+      '',
+    ],
+  ].join('\n');
+
+  /// [epic] spelled like the existing epic folders among [files] that differ
+  /// from it only in case, folder by folder: Windows and macOS see one folder
+  /// in both spellings.
+  String existingSpelling(String epic, List<String> files, String taskRoot) {
+    final folders = <String, String>{};
+    for (final file in files) {
+      final parts = epicOf(file, taskRoot).split('/');
+      for (
+        var length = 1;
+        length <= parts.length && parts[0].isNotEmpty;
+        length++
+      ) {
+        final folder = parts.sublist(0, length).join('/');
+        folders.putIfAbsent(folder.toLowerCase(), () => folder);
+      }
+    }
+    var spelled = '';
+    for (final part in epic.isEmpty ? const <String>[] : epic.split('/')) {
+      final folder = spelled.isEmpty ? part : '$spelled/$part';
+      spelled = folders[folder.toLowerCase()] ?? folder;
+    }
+    return spelled;
+  }
+
+  /// `PREFIX-n`, one past the highest number used with the prefix. [taken]
+  /// reports IDs whose file names exist although no task claims them (for
+  /// example a task renamed on another branch).
+  String nextId(
+    String prefix,
+    Iterable<String> ids, [
+    bool Function(String id)? taken,
+  ]) {
+    final pattern = RegExp(
+      '^${RegExp.escape(prefix)}-(\\d+)\$',
+      caseSensitive: false,
+    );
+    num highest = 0;
+    for (final id in ids) {
+      final match = pattern.firstMatch(id);
+      if (match != null) highest = max(highest, double.parse(match[1]!));
+    }
+    String id;
+    do {
+      id = '$prefix-${jsNumber(++highest)}';
+    } while (taken?.call(id) ?? false);
+    return id;
+  }
+
+  /// A new task's file: `id`, the fields in their written order, then the
+  /// custom fields, and the description; LF line endings.
+  String serializeNew(String id, TaskInput input) {
+    final entries = <(String, Object?)>[
+      ('id', id),
+      ..._fieldsOf(input),
+      for (final e in (input.fields ?? const <String, FieldValue>{}).entries)
+        if (e.value != '') (e.key, e.value),
+    ];
+    // A JavaScript object: keys that are array indices come first, ascending;
+    // a key given twice keeps its first place and its last value.
+    final values = <String, Object?>{};
+    for (final (key, value) in entries) {
+      values[key] = value;
+    }
+    final keys = values.keys.toList();
+    final indices = keys.where(_isArrayIndex).toList()
+      ..sort((a, b) => int.parse(a).compareTo(int.parse(b)));
+    final ordered = [...indices, ...keys.where((k) => !_isArrayIndex(k))];
+    final map = YMap([
+      for (final key in ordered)
+        if (values[key] != null) YPair(YScalar(key), createNode(values[key])),
+    ]);
+    return applyTextStyle(
+      compose(YDocument(map).toString(), input.body),
+      lfStyle,
+    );
+  }
+
   String serializeUpdate(String original, TaskInput input) {
     final front = splitFrontmatter(original);
     final document = front.document;
@@ -441,4 +567,10 @@ class TaskEngine {
     document.contents = map;
     return map;
   }
+}
+
+/// Whether [key] is an array index, which JavaScript objects list first.
+bool _isArrayIndex(String key) {
+  if (!RegExp(r'^(?:0|[1-9]\d{0,9})$').hasMatch(key)) return false;
+  return int.parse(key) < 4294967295;
 }

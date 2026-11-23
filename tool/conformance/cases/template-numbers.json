@@ -1,0 +1,7 @@
+{
+  "id": "template-numbers",
+  "kind": "task.template",
+  "input": {
+    "content": "---\npriority: 3\nassignee: 12\nlabels: [1, true]\n---\n"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "id": "template-comment",
+  "kind": "task.template",
+  "input": {
+    "content": "---\n# New bug tasks start with the description below.\n---\n\n## Goal\n\n"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "id": "template-empty",
+  "kind": "task.template",
+  "input": {
+    "content": ""
+  }
+}

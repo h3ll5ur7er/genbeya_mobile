@@ -1,0 +1,31 @@
+{
+  "id": "new-numeric-keys",
+  "kind": "task.new",
+  "input": {
+    "id": "GM-32",
+    "input": {
+      "title": "A task",
+      "status": "todo",
+      "priority": "none",
+      "assignee": "",
+      "labels": [],
+      "body": "",
+      "epic": "",
+      "fields": {
+        "10": "x",
+        "2024": "yes",
+        "b": "1",
+        "01": "y",
+        "4294967295": "z",
+        "-1": "n"
+      }
+    },
+    "statuses": [
+      "backlog",
+      "todo",
+      "in-progress",
+      "review",
+      "done"
+    ]
+  }
+}

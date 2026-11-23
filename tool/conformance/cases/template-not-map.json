@@ -1,0 +1,7 @@
+{
+  "id": "template-not-map",
+  "kind": "task.template",
+  "input": {
+    "content": "---\n- a\n- b\n---\n"
+  }
+}

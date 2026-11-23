@@ -1,0 +1,7 @@
+{
+  "id": "template-string-labels",
+  "kind": "task.template",
+  "input": {
+    "content": "---\nlabels: a, b , ,c\n---\nBody right away\r\n"
+  }
+}

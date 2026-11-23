@@ -1,0 +1,7 @@
+{
+  "id": "template-plain",
+  "kind": "task.template",
+  "input": {
+    "content": "---\npriority: high\nlabels: [bug, triage]\nassignee: Ada\nseverity: 2\nid: X-1\ntitle: ignored\nstatus: done\n---\n\n## Steps\n\n1. \n"
+  }
+}

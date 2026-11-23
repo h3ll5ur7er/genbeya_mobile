@@ -1,0 +1,7 @@
+{
+  "id": "template-bom",
+  "kind": "task.template",
+  "input": {
+    "content": "﻿---\npriority: low\n---\n\nText\n"
+  }
+}

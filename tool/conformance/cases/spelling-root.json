@@ -1,0 +1,16 @@
+{
+  "id": "spelling-root",
+  "kind": "task.spelling",
+  "input": {
+    "epics": [
+      "a",
+      "A/B"
+    ],
+    "files": [
+      "A/b/T-1.md",
+      "a/T-2.md",
+      "T-3.md"
+    ],
+    "taskRoot": ""
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "id": "template-none",
+  "kind": "task.template",
+  "input": {
+    "content": "Just a description.\n"
+  }
+}
