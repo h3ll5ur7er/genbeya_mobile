@@ -24,7 +24,7 @@ import { join } from "node:path";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base" | "task.changes" | "search.area" | "search.excerpt" | "link.parse" | "link.format" | "web.url";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base" | "task.changes" | "search.area" | "search.excerpt" | "link.parse" | "link.format" | "web.url" | "task.comment";
   readonly input: Record<string, any>;
 }
 
@@ -134,6 +134,11 @@ function run(c: Case): unknown {
     }
     case "handle.slug":
       return { output: i.texts.map(handleSlug) };
+    case "task.comment":
+      // Comments are signed in local time; generate.mjs runs in UTC.
+      if (i.op === "add") return { output: tasks.addComment(i.content, i.author, new Date(i.date), tasks.validComment(i.text)) };
+      if (i.op === "edit") return { output: tasks.editComment(i.content, i.index, tasks.validComment(i.text)) };
+      return { output: tasks.removeComment(i.content, i.index) };
     case "task.changes":
       return { output: tasks.changesBetween(i.before, i.after, i.taskRoot) };
     case "task.toggle": {

@@ -1,0 +1,11 @@
+{
+  "id": "comment-edge-no-frontmatter-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "# Just a page\n\nNo frontmatter here.\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "@ada see [[GM-1]] by 2026-12-01"
+  }
+}

@@ -28,6 +28,7 @@ const _limits = (
   fields: 50,
   field: 100,
   value: 2000,
+  comment: 64 * 1024,
   items: 100,
 );
 const _notFields = [...taskKeys, '__proto__', 'constructor', 'prototype'];
@@ -248,6 +249,87 @@ class TaskEngine {
 
   /// `original` with the fields and description of `input`; its comments stay
   /// as they are, and so do fields that `input` does not name.
+  /// A comment's text, checked and normalised.
+  String validComment(String value) {
+    if (value.length > _limits.comment) _fail('Invalid comment.');
+    final text = value.replaceAll(RegExp(r'\r\n?'), '\n').trim();
+    if (text.isEmpty) _fail('Write a comment first.');
+    return protectHeadings(text);
+  }
+
+  /// A person's name as comments are signed with it: one line, bounded.
+  String commentAuthor(String name) {
+    final line = name.replaceAll(RegExp(r'\s+'), ' ').trim();
+    return line.length > _limits.assignee
+        ? line.substring(0, _limits.assignee)
+        : line;
+  }
+
+  /// [original] with a comment by [author], written at [date], after the others.
+  String addComment(
+    String original,
+    String author,
+    DateTime date,
+    String text,
+  ) {
+    final heading = commentHeading(commentAuthor(author), timestampOf(date));
+    return rewriteComments(
+      original,
+      (body) => [
+        for (final block in body.blocks) block.text,
+        commentBlock(heading, text),
+      ],
+    );
+  }
+
+  /// [original] with the text of comment [index] replaced; its author and date stay.
+  String editComment(String original, int index, String text) =>
+      rewriteComments(
+        original,
+        (body) => [
+          for (final (i, block) in body.blocks.indexed)
+            i == index ? commentBlock(block.heading, text) : block.text,
+        ],
+        index: index,
+      );
+
+  String removeComment(String original, int index) => rewriteComments(
+    original,
+    (body) => [
+      for (final (i, block) in body.blocks.indexed)
+        if (i != index) block.text,
+    ],
+    index: index,
+  );
+
+  /// [original] with the comment texts [change] makes of its comments; the
+  /// frontmatter and description stay as written. [index] must name a
+  /// comment. Genbeya's `withComments`.
+  String rewriteComments(
+    String original,
+    List<String> Function(SplitBody body) change, {
+    int? index,
+  }) {
+    final raw = withoutByteOrderMark(original);
+    final frontmatter = _frontmatter.firstMatch(raw);
+    if (frontmatter == null) {
+      _fail('A task needs id, title and status in its frontmatter.');
+    }
+    final body = splitComments(
+      raw.substring(frontmatter[0]!.length).replaceFirst(RegExp(r'^\r?\n'), ''),
+    );
+    if (index != null && (index < 0 || index >= body.blocks.length)) {
+      _fail(
+        'This comment no longer exists. Reopen the task to see the latest version.',
+      );
+    }
+    final text = joinComments(body.description, change(body));
+    return applyTextStyle(
+      '${frontmatter[0]!.trimRight()}\n${text.isEmpty ? '' : '\n$text'}',
+      textStyleOf(original),
+    );
+  }
+
   /// What changed about a task from [before] (null: it did not exist) to
   /// [after]. A version's content is null where Git didn't show it (a move
   /// without edits).

@@ -1,0 +1,11 @@
+{
+  "id": "comment-edge-long-title-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\nid: EDGE-7\ntitle: A title that is quite long and contains characters like # hash, 'quotes', \"double quotes\" and a trailing colon:\nstatus: todo\npriority: medium\nlabels: []\n---\nText right after the frontmatter, without a blank line.\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "  spaced  "
+  }
+}

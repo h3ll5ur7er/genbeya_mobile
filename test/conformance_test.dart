@@ -337,6 +337,24 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
               handleSlug(text),
           ],
         };
+      case 'task.comment':
+        final content = input['content']! as String;
+        return {
+          'output': switch (input['op']) {
+            'add' => _tasks.addComment(
+              content,
+              input['author']! as String,
+              DateTime.parse(input['date']! as String).toUtc(),
+              _tasks.validComment(input['text']! as String),
+            ),
+            'edit' => _tasks.editComment(
+              content,
+              input['index']! as int,
+              _tasks.validComment(input['text']! as String),
+            ),
+            _ => _tasks.removeComment(content, input['index']! as int),
+          },
+        };
       case 'task.changes':
         ({String path, String? content})? version(Object? value) =>
             value is Map<String, Object?>

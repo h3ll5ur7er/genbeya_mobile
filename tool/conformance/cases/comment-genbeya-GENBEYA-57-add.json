@@ -1,0 +1,11 @@
+{
+  "id": "comment-genbeya-GENBEYA-57-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\nid: GENBEYA-57\ntitle: \"DEMO: Gather requirements\"\ntype: chore\nstatus: done\npriority: low\nlabels: [demo]\nmilestone: DEMO\nestimate: 6h\nduration: 1d\nstart: 2026-10-19\ndue: 2026-10-20\n---\n\n> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nFinished, and over its estimate: 7h logged against 6h. Finished tasks are left out of the critical path.\n\n## Time log\n\n- 2026-10-19 — Ada Lovelace — 4h — Interviews\n- 2026-10-20 — Ada Lovelace — 3h — Wrote them up\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "```\nopen fence"
+  }
+}

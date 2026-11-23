@@ -1,0 +1,11 @@
+{
+  "id": "comment-genbeya-GENBEYA-12-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\nid: GENBEYA-12\ntitle: Virtualize long lists\nstatus: backlog\npriority: medium\nlabels: [performance]\n---\n\nThe file tree caps at what the DOM handles comfortably, and history loads 200 commits per page.\n\n- [ ] Virtualized file tree\n- [ ] Virtualized history list with the commit graph\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "```\nopen fence"
+  }
+}

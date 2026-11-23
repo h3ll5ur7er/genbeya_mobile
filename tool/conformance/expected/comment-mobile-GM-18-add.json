@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: GM-18\ntitle: Planning on tasks and logging time\ntype: feature\nstatus: backlog\npriority: medium\nestimate: 4d\nremaining: 4d\nmilestone: M4\ndepends_on: [GM-12]\n---\n\nThe planning prototype of Genbeya's develop branch on the phone. See [[Experience#tasks]].\n\n- [ ] Planning engine port: effort, the five numbers, blocked and ready, critical path and float; conformance cases from Genbeya's planning specs\n- [ ] Task screen: estimate, logged, remaining, forecast, variance; **Blocked by**, **Blocks**, float\n- [ ] Cards: lock when blocked, critical-path mark\n- [ ] **Log time** sheet updating `remaining`; time log lines exactly as on desktop; unreadable lines flagged\n- [ ] Plan macros (`[EFFORT]`, `[GANTT]`, `[BURNDOWN]`, …) render in pages with the plan context and history the kit needs\n\n## Comments\n\n### Ada Lovelace — 2026-11-23 09:05+00:00\n\nLooks good.\n"
+}

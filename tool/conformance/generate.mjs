@@ -5,6 +5,8 @@
 //   GENBEYA_SRC=/path/to/genbeya-checkout node generate.mjs
 //
 // Without GENBEYA_SRC, Genbeya is cloned into .cache/ at that commit.
+// Comments are signed in local time: the cases are written in UTC.
+process.env.TZ = "UTC";
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";

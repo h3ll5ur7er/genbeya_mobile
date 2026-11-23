@@ -1,0 +1,11 @@
+{
+  "id": "comment-edge-no-body",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\nid: A-1\ntitle: T\nstatus: todo\n---\n",
+    "op": "add",
+    "author": "Ada",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "First."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "comment-edge-quoted-title-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\nid: EDGE-2\ntitle: \"Spike: titles with a colon stay quoted\"\ntype: spike\nstatus: in-progress\nassignee: Ada Lovelace\n---\n\nBody.\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "Two lines\r\nwith CRLF\n"
+  }
+}

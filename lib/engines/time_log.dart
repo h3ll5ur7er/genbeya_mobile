@@ -69,3 +69,21 @@ List<bool> _fencedLines(List<String> lines) {
     lines: [for (final index in section.items) lines[index].trim()],
   );
 }
+
+/// [body] with [lines] (time log list items, as written) after the last
+/// entry of its time log section; the body as it is without one or without
+/// lines to add. For the Genbeya merge, which keeps both sides' entries.
+String appendTimeLogLines(String body, List<String> lines) {
+  if (lines.isEmpty) return body;
+  final newline = body.contains('\r\n') ? '\r\n' : '\n';
+  final split = body.split(RegExp(r'\r?\n'));
+  final section = _section(split);
+  if (section == null) return body;
+  final at = section.items.isEmpty ? section.start + 1 : section.items.last + 1;
+  return [
+    ...split.sublist(0, at),
+    if (section.items.isEmpty) '',
+    ...lines,
+    ...split.sublist(at),
+  ].join(newline);
+}

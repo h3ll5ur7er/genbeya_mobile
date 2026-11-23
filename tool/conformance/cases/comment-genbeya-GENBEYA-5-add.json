@@ -1,0 +1,11 @@
+{
+  "id": "comment-genbeya-GENBEYA-5-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\nid: GENBEYA-5\ntitle: Stash, rebase, tags and branch deletion\nstatus: backlog\npriority: low\nlabels: [git]\n---\n\nCommon Git operations that still need a terminal.\n\n- [ ] Stash list with apply and drop\n- [ ] Delete merged branches\n- [ ] Create and push tags\n- [ ] Interactive rebase is out of scope\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "```\nopen fence"
+  }
+}

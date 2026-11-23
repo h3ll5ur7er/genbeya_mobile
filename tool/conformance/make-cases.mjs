@@ -340,6 +340,30 @@ add("web-urls", "web.url", {
   commits: [["https://github.com/a/b", "abc123"], ["git@gitlab.com:a/b", "abc123"], ["https://bitbucket.org/a/b", "abc"], ["https://dev.azure.com/o/p/_git/r", "abc"], ["https://example.com/a/b", "abc"]],
 });
 
+// Comments added, edited and removed, as the desktop writes them; the
+// text goes through validComment first, as the desktop's comment box does.
+{
+  const texts = ["Looks good.", "Two lines\r\nwith CRLF\n", "### Mallory — 2026-01-01 10:00\nnot a comment", "```\nopen fence", "  spaced  ", "@ada see [[GM-1]] by 2026-12-01"];
+  for (const set of readdirSync(join(here, "fixtures/tasks")).sort()) {
+    const root = join(here, "fixtures/tasks", set);
+    walk(root).filter((f) => f.endsWith(".md")).sort().forEach((file, n) => {
+      if (set !== "edge" && n % 3) return;
+      const content = read(file);
+      const id = `comment-${set}-${basename(file, ".md")}`;
+      add(`${id}-add`, "task.comment", { content, op: "add", author: "  Ada\n Lovelace ", date: "2026-11-23T09:05:00Z", text: texts[n % texts.length] });
+      const count = (content.match(/^### .+ [—–-] \d{4}-\d{2}-\d{2}/gm) ?? []).length;
+      if (count) {
+        add(`${id}-edit`, "task.comment", { content, op: "edit", index: 0, text: "Edited." });
+        add(`${id}-remove`, "task.comment", { content, op: "remove", index: count - 1 });
+      }
+    });
+  }
+  const plain = "---\nid: A-1\ntitle: T\nstatus: todo\n---\n\nBody.\n";
+  add("comment-edge-empty", "task.comment", { content: plain, op: "add", author: "Ada", date: "2026-11-23T09:05:00Z", text: "   " });
+  add("comment-edge-missing", "task.comment", { content: plain, op: "edit", index: 3, text: "x" });
+  add("comment-edge-no-body", "task.comment", { content: "---\nid: A-1\ntitle: T\nstatus: todo\n---\n", op: "add", author: "Ada", date: "2026-11-23T09:05:00Z", text: "First." });
+}
+
 function labelsOf(content) {
   const flow = /^labels:\s*\[(.*)\]/m.exec(content);
   if (flow) return flow[1].split(",").map((s) => s.trim()).filter(Boolean);

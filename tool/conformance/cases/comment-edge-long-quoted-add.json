@@ -1,0 +1,11 @@
+{
+  "id": "comment-edge-long-quoted-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\nid: EDGE-9\ntitle: \"A long title that needs quotes: because it has a colon and space, and it goes well past eighty characters in width\"\nstatus: todo\npriority: high\n---\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "```\nopen fence"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "comment-edge-plain-to-quoted-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\nid: EDGE-10\ntitle: Plain title\nstatus: todo\nestimate: 08\nreviewer: 'single quoted'\nflag: \"true\"\n---\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "Looks good."
+  }
+}

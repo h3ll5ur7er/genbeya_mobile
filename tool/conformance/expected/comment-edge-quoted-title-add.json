@@ -1,0 +1,4 @@
+{
+  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "output": "---\nid: EDGE-2\ntitle: \"Spike: titles with a colon stay quoted\"\ntype: spike\nstatus: in-progress\nassignee: Ada Lovelace\n---\n\nBody.\n\n## Comments\n\n### Ada Lovelace — 2026-11-23 09:05+00:00\n\nTwo lines\nwith CRLF\n"
+}

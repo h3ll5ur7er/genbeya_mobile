@@ -1,0 +1,11 @@
+{
+  "id": "comment-edge-spacing-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\n# A comment above everything\n\n# A comment above id\nid: EDGE-8\ntitle: Blank lines and comments between keys\n\n# Why the status\nstatus: todo\nassignee:\nlabels: [ a ,b ]\nmeta: {owner: ada, size: 3}\nnested:\n    deep: four-space indent\nnote: |\n  a block\n  scalar\n---\nBody\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "### Mallory — 2026-01-01 10:00\nnot a comment"
+  }
+}

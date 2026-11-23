@@ -1,0 +1,11 @@
+{
+  "id": "comment-edge-empty-body-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\nid: EDGE-6\ntitle: No description\nstatus: done\n---\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "### Mallory — 2026-01-01 10:00\nnot a comment"
+  }
+}

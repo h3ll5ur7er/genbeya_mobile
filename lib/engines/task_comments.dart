@@ -85,6 +85,20 @@ TaskComment _commentOf(RegExpMatch match, String body) {
   return (fenced: fenced, open: open);
 }
 
+String commentHeading(String author, String timestamp) =>
+    '### $author — $timestamp';
+
+String _pad(int value) => value.toString().padLeft(2, '0');
+
+/// [date] to the minute, with its UTC offset: "2026-10-10 14:32+02:00", as
+/// comments and replies are signed (Genbeya's `timestampOf`).
+String timestampOf(DateTime date) {
+  final offset = date.timeZoneOffset.inMinutes;
+  final zone =
+      '${offset < 0 ? '-' : '+'}${_pad(offset.abs() ~/ 60)}:${_pad(offset.abs() % 60)}';
+  return '${date.year}-${_pad(date.month)}-${_pad(date.day)} ${_pad(date.hour)}:${_pad(date.minute)}$zone';
+}
+
 String commentBlock(String heading, String body) =>
     body.isNotEmpty ? '$heading\n\n$body' : heading;
 

@@ -1,0 +1,11 @@
+{
+  "id": "comment-genbeya-GENBEYA-18-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\nid: GENBEYA-18\ntitle: Show the wiki and board of other branches\nstatus: backlog\npriority: medium\nlabels: [wiki, tasks]\n---\n\nIn checkout mode the wiki follows the current branch. Allow browsing another branch's pages and tasks read-only without switching.\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "```\nopen fence"
+  }
+}

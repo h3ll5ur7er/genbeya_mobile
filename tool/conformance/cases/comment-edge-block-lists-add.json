@@ -1,0 +1,11 @@
+{
+  "id": "comment-edge-block-lists-add",
+  "kind": "task.comment",
+  "input": {
+    "content": "---\nid: EDGE-3\ntitle: Labels written as a block list\nstatus: backlog\nlabels:\n  - one\n  - two\ndepends_on:\n  - EDGE-1\n  - EDGE-2\n---\n",
+    "op": "add",
+    "author": "  Ada\n Lovelace ",
+    "date": "2026-11-23T09:05:00Z",
+    "text": "Looks good."
+  }
+}
