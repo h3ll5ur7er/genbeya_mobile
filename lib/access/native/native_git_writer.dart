@@ -158,6 +158,10 @@ class NativeGitWriter implements GitWriter {
       );
 
   @override
+  Future<void> switchBranch(String branch) =>
+      _mapped(() => core.switchBranch(dir: dir, branch: branch));
+
+  @override
   Future<({String? branch, List<String> dirty})> head() => _mapped(() async {
     final head = await core.head(dir: dir);
     return (branch: head.branch, dirty: head.dirty);

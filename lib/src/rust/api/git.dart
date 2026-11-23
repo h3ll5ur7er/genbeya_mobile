@@ -252,6 +252,10 @@ Future<List<CommitInfo>> unpushedCommits({
   max: max,
 );
 
+/// Checks out a local branch, safely.
+Future<void> switchBranch({required String dir, required String branch}) =>
+    RustLib.instance.api.crateApiGitSwitchBranch(dir: dir, branch: branch);
+
 /// Points a branch at a commit (creating it), refused when it isn't at
 /// `expected`; the working tree follows when it is checked out.
 Future<void> setBranch({

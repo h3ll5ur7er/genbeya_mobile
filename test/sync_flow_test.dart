@@ -203,4 +203,71 @@ void main() {
     },
     skip: skip,
   );
+
+  test('a push the remote refuses is reported; the commits move to a branch of their own', () async {
+    final side = phoneSide();
+    final state = await side.model.load();
+    // A protected main: the remote turns pushes to it down.
+    final hook = File('$remote/hooks/pre-receive')
+      ..writeAsStringSync(
+        '#!/bin/sh\nwhile read old new ref; do\n  [ "\$ref" = refs/heads/main ] && echo "main is protected" && exit 1\ndone\nexit 0\n',
+      );
+    Process.runSync('chmod', ['+x', hook.path]);
+    // libgit2 writes to a file:// remote directly, without its hooks: serve
+    // it with git daemon, whose receive-pack runs them.
+    final socket = await ServerSocket.bind('127.0.0.1', 0);
+    final port = socket.port;
+    await socket.close();
+    final daemon = await Process.start('git', [
+      'daemon',
+      '--reuseaddr',
+      '--export-all',
+      '--enable=receive-pack',
+      '--base-path=${tmp.path}',
+      '--listen=127.0.0.1',
+      '--port=$port',
+      tmp.path,
+    ]);
+    addTearDown(daemon.kill);
+    for (var i = 0; i < 50; i++) {
+      try {
+        await (await Socket.connect('127.0.0.1', port)).close();
+        break;
+      } on SocketException {
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+      }
+    }
+    git(phone, [
+      'remote',
+      'set-url',
+      'origin',
+      'git://127.0.0.1:$port/remote.git',
+    ]);
+    await side.writer.write(state, {
+      'docs/Home.md': '# Home\n\nMine.\n',
+    }, 'Edit Home');
+    final report = await side.sync.sync(state);
+    expect(report.refused, {'main'});
+    expect(report.rescued, isEmpty, reason: 'nothing conflicted');
+
+    final own = await side.sync.moveToOwnBranch('main');
+    expect(own, 'mobile/alice');
+    expect(git(phone, ['branch', '--show-current']), 'mobile/alice');
+    expect(File('$phone/docs/Home.md').readAsStringSync(), '# Home\n\nMine.\n');
+    expect(
+      git(tmp.path, [
+        '--git-dir',
+        remote,
+        'log',
+        '-1',
+        '--format=%s',
+        'mobile/alice',
+      ]),
+      'Edit Home',
+    );
+    expect(
+      git(phone, ['rev-parse', 'main']),
+      git(phone, ['rev-parse', 'origin/main']),
+    );
+  }, skip: skip);
 }

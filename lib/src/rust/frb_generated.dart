@@ -68,7 +68,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => -1410655914;
+  int get rustContentHash => -275796817;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -250,6 +250,11 @@ abstract class RustLibApi extends BaseApi {
     required String dir,
     required String key,
     String? value,
+  });
+
+  Future<void> crateApiGitSwitchBranch({
+    required String dir,
+    required String branch,
   });
 
   Future<List<CommitInfo>> crateApiGitUnpushedCommits({
@@ -1377,6 +1382,40 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   );
 
   @override
+  Future<void> crateApiGitSwitchBranch({
+    required String dir,
+    required String branch,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(dir, serializer);
+          sse_encode_String(branch, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 32,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_core_error,
+        ),
+        constMeta: kCrateApiGitSwitchBranchConstMeta,
+        argValues: [dir, branch],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGitSwitchBranchConstMeta => const TaskConstMeta(
+    debugName: "switch_branch",
+    argNames: ["dir", "branch"],
+  );
+
+  @override
   Future<List<CommitInfo>> crateApiGitUnpushedCommits({
     required String dir,
     required String branch,
@@ -1392,7 +1431,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 32,
+            funcId: 33,
             port: port_,
           );
         },

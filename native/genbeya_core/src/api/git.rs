@@ -268,6 +268,11 @@ pub fn unpushed_commits(
     git::unpushed_commits(Path::new(&dir), &branch, max as usize)
 }
 
+/// Checks out a local branch, safely.
+pub fn switch_branch(dir: String, branch: String) -> Result<(), CoreError> {
+    git::switch_branch(Path::new(&dir), &branch)
+}
+
 /// Points a branch at a commit (creating it), refused when it isn't at
 /// `expected`; the working tree follows when it is checked out.
 pub fn set_branch(

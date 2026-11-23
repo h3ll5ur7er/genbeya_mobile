@@ -1258,6 +1258,22 @@ fn the_content_branch_rebases_without_a_checkout_and_a_rescue_keeps_everything()
         "Phone edit"
     );
 
+    // Commits moved to a branch of their own: the checkout follows it.
+    let own = edit(&phone, "docs/Home.md", "# Home\n\nMine.\n", "Alice", "Mine");
+    git::set_branch(&phone, "mobile/alice", &own, None).unwrap();
+    git::switch_branch(&phone, "mobile/alice").unwrap();
+    git::set_branch(&phone, "main", &upstream, Some(&own)).unwrap();
+    assert_eq!(
+        git::head(&phone).unwrap().branch.as_deref(),
+        Some("mobile/alice")
+    );
+    assert_eq!(
+        fs::read_to_string(phone.join("docs/Home.md")).unwrap(),
+        "# Home\n\nMine.\n"
+    );
+    assert_eq!(git::branch_status(&phone, "main").unwrap().ahead, 0);
+    git::switch_branch(&phone, "main").unwrap();
+
     // Undo an unpushed commit: the branch back to its parent; a stale expectation is refused.
     let undone = edit(&phone, "docs/Home.md", "# Home\n\nOops.\n", "Alice", "Oops");
     assert!(

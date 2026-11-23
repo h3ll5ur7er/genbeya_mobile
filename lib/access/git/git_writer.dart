@@ -80,6 +80,9 @@ abstract interface class GitWriter {
   /// [expected]; the working tree follows a checked-out branch.
   Future<void> setBranch(String branch, String commit, {String? expected});
 
+  /// Checks out a local branch, safely.
+  Future<void> switchBranch(String branch);
+
   /// The checked-out branch, and paths with uncommitted changes.
   Future<({String? branch, List<String> dirty})> head();
 }

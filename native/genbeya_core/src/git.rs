@@ -1839,6 +1839,22 @@ pub fn set_branch(dir: &Path, branch: &str, commit: &str, expected: Option<&str>
     moved
 }
 
+/// Checks out the local branch `branch`, safely: the working tree follows
+/// only where it holds no changes. For moving the phone's commits to a
+/// branch of their own when the checked-out one refuses them.
+pub fn switch_branch(dir: &Path, branch: &str) -> Result<()> {
+    let repo = Repository::open(dir)?;
+    let target = repo
+        .find_branch(branch, BranchType::Local)?
+        .get()
+        .peel_to_commit()?;
+    let mut checkout = CheckoutBuilder::new();
+    checkout.safe();
+    repo.checkout_tree(target.as_object(), Some(&mut checkout))?;
+    repo.set_head(&format!("refs/heads/{branch}"))?;
+    Ok(())
+}
+
 /// Pushes `branch` to the same name on the remote. Never forced: a remote
 /// that has commits the branch lacks answers `Rejected`.
 pub fn push(dir: &Path, branch: &str, remote_options: &RemoteOptions) -> Result<PushOutcome> {

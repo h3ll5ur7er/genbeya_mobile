@@ -132,6 +132,30 @@ class SyncManager {
     return report;
   }
 
+  /// Moves [branch]'s commits that the remote refused (a protected branch)
+  /// to `mobile/<handle>`, a branch of the user's own: it is checked out
+  /// and pushed, and [branch] goes back to its upstream (D5). Its name.
+  Future<String> moveToOwnBranch(String branch) {
+    final result = _queue.then((_) async {
+      final remote = await access();
+      final state = await git.branchState(branch);
+      final local = state.commit!;
+      var name = 'mobile/${handle()}';
+      for (var n = 2; (await git.branchState(name)).commit != null; n++) {
+        name = 'mobile/${handle()}-$n';
+      }
+      await git.setBranch(name, local);
+      await git.switchBranch(name);
+      if (state.upstreamCommit != null) {
+        await git.setBranch(branch, state.upstreamCommit!, expected: local);
+      }
+      await git.push(name, remote);
+      return name;
+    });
+    _queue = result.then((_) {}, onError: (Object _) {});
+    return result;
+  }
+
   /// Rebases [branch], merging conflicting task files; when a conflict
   /// can't be merged, keeps the local commits on a pushed rescue branch and
   /// puts the branch back to its upstream.
