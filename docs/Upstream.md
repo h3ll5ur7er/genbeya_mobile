@@ -7,13 +7,14 @@ None of them blocks the first version of this app. Each spec ends with **Until G
 | Spec | Adds to Genbeya | Mobile tasks | State in Genbeya |
 | --- | --- | --- | --- |
 | [[Kit build]] | `build:kit`: Genbeya's renderer and editor as one browser bundle with a message protocol, carried by each release | [[GM-3]] builds it here meanwhile; [[GM-25]] switches to Genbeya's | Built on `develop` ([GENBEYA-68](https://github.com/genbeya/genbeya/blob/develop/tasks/GENBEYA-68.md)), released with 0.2.1; differs from this app's kit, see below |
+| [[Kit additions]] | `outline`, `reveal` and a Markdown preview's `checkboxes` in Genbeya's kit, all additions within protocol 1 | [[GM-25]] | Requested 2026-11-25, passed on by the maintainer |
 | [[Attached images]] | Where pasted and captured images live for pages, tasks and pull requests, how they are referenced, and the change ID rule that keeps approvals | [[GM-16]] for pages now; [[GM-26]] for tasks and pull requests | Screenshots in tasks and pull requests decided; the rest proposed |
 
 When Genbeya ships one, note the version here and in the spec, and start its mobile task.
 
 ## Genbeya's kit and this app's
 
-Genbeya's kit (`src/shells/kit/` on `develop`, 2026-11-25) speaks protocol 1, as this app's (`kit/src/`) does, but the two differ. The spec ([[Kit build]]) named the messages and left their fields open; Genbeya chose its own, and this app added two messages after the spec. Before the app can use Genbeya's kit ([[GM-25]]):
+Genbeya's kit (`src/shells/kit/` on `develop`, 2026-11-25) speaks protocol 1, as this app's (`kit/src/`) does, but the two differ. The spec ([[Kit build]]) named the messages and left their fields open; Genbeya chose its own, and this app added two messages after the spec. Before the app can use Genbeya's kit ([[GM-25]]); the requests to Genbeya are [[Kit additions]]:
 
 | | Genbeya's kit | This app's kit | Who changes |
 | --- | --- | --- | --- |
