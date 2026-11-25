@@ -432,6 +432,35 @@ add("web-urls", "web.url", {
   add("template-new", "task.template", { types: ["bug", "Feature", "chore", "BUG", "spike"], paths: ["bug", "my type", "../x", "", "a".repeat(41), "_x"] });
 }
 
+// What `@`, `[[` and `//` offer in a comment (GM-13), from desktop's own editor modules.
+{
+  const people = [
+    { handle: "ada", name: "Ada Lovelace", email: "ada@example.com", aliases: ["countess"], commits: 12 },
+    { handle: "alex", name: "Alex Chen", email: null, aliases: [], commits: 30 },
+    { handle: "sam", name: "Sam Rivera", email: "sam.r@example.org", aliases: ["Samuel"], commits: 3 },
+    { handle: "zoe", name: "Zoë Østergård", email: "zoe@example.com", aliases: [], commits: 3 },
+    { handle: "jose", name: "José Núñez", email: null, aliases: ["pepe"], commits: 0 },
+    { handle: "kai-1", name: "Kai Park", email: "kai@example.org", aliases: [], commits: 3 },
+  ];
+  add("suggest-mentions", "suggest.mentions", { people, queries: ["", "a", "Al", "lov", "sam.r", "count", "ø", "zo", "x", "kai-", " sam ", "e", "PARK"] });
+  const tasks = [
+    { id: "GM-1", path: "tasks/GM-1.md", title: "Spike: clone", status: "in-progress" },
+    { id: "GM-12", path: "tasks/Edit/GM-12.md", title: "Edit tasks", status: "done" },
+  ];
+  const pages = [
+    { path: "docs/Home.md", title: "Home" },
+    { path: "docs/Guide/Setup.md", title: "Setup" },
+    { path: "docs/Admin/Setup.md", title: "Setup" },
+    { path: "docs/Call chains.md", title: "Call chains" },
+    { path: "docs/Call-chains.md", title: "Call-chains" },
+  ];
+  const files = ["README.md", "docs/Home.md", "tasks/GM-1.md", "lib/app.dart"];
+  add("suggest-references", "suggest.references", { tasks, pages, files, wikiRoot: "docs" });
+  // With the wiki at the root (wikiRoot ""), desktop cuts the first character off repeated titles' paths; the app doesn't (see Upstream).
+  const queries = ["", "to", "tomorrow", "fri", "next fri", "mo", "3", "3d", "2 weeks", "in 4 w", "1 month", "1y", "eom", "2026-12-24", "2026-02-30", "cal", "zzz", "12 x", "sunday"];
+  for (const today of ["2026-11-25", "2026-01-31", "2028-02-29", "2026-12-27"]) add(`suggest-dates-${today}`, "suggest.dates", { today, queries });
+}
+
 function labelsOf(content) {
   const flow = /^labels:\s*\[(.*)\]/m.exec(content);
   if (flow) return flow[1].split(",").map((s) => s.trim()).filter(Boolean);

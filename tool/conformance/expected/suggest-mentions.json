@@ -1,0 +1,140 @@
+{
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
+  "output": [
+    {
+      "handles": [
+        "alex",
+        "ada",
+        "kai-1",
+        "sam",
+        "zoe",
+        "jose"
+      ],
+      "insert": [
+        "@alex ",
+        "@alex"
+      ]
+    },
+    {
+      "handles": [
+        "alex",
+        "ada",
+        "kai-1",
+        "sam",
+        "zoe"
+      ],
+      "insert": [
+        "@alex ",
+        "@alex"
+      ]
+    },
+    {
+      "handles": [
+        "alex"
+      ],
+      "insert": [
+        "@alex ",
+        "@alex"
+      ]
+    },
+    {
+      "handles": [
+        "ada"
+      ],
+      "insert": [
+        "@ada ",
+        "@ada"
+      ]
+    },
+    {
+      "handles": [
+        "sam"
+      ],
+      "insert": [
+        "@sam ",
+        "@sam"
+      ]
+    },
+    {
+      "handles": [
+        "ada"
+      ],
+      "insert": [
+        "@ada ",
+        "@ada"
+      ]
+    },
+    {
+      "handles": [
+        "zoe"
+      ],
+      "insert": [
+        "@zoe ",
+        "@zoe"
+      ]
+    },
+    {
+      "handles": [
+        "zoe"
+      ],
+      "insert": [
+        "@zoe ",
+        "@zoe"
+      ]
+    },
+    {
+      "handles": [
+        "alex",
+        "ada",
+        "kai-1",
+        "sam",
+        "zoe"
+      ],
+      "insert": [
+        "@alex ",
+        "@alex"
+      ]
+    },
+    {
+      "handles": [
+        "kai-1"
+      ],
+      "insert": [
+        "@kai-1 ",
+        "@kai-1"
+      ]
+    },
+    {
+      "handles": [
+        "sam"
+      ],
+      "insert": [
+        "@sam ",
+        "@sam"
+      ]
+    },
+    {
+      "handles": [
+        "alex",
+        "ada",
+        "kai-1",
+        "sam",
+        "zoe",
+        "jose"
+      ],
+      "insert": [
+        "@alex ",
+        "@alex"
+      ]
+    },
+    {
+      "handles": [
+        "kai-1"
+      ],
+      "insert": [
+        "@kai-1 ",
+        "@kai-1"
+      ]
+    }
+  ]
+}

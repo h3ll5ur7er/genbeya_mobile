@@ -1,0 +1,57 @@
+{
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
+  "output": [
+    {
+      "target": "GM-1",
+      "label": "GM-1 Spike: clone",
+      "detail": "in progress",
+      "kind": "task"
+    },
+    {
+      "target": "GM-12",
+      "label": "GM-12 Edit tasks",
+      "detail": "done",
+      "kind": "task"
+    },
+    {
+      "target": "Home",
+      "label": "Home",
+      "detail": "page",
+      "kind": "page"
+    },
+    {
+      "target": "Guide/Setup",
+      "label": "Guide/Setup",
+      "detail": "page",
+      "kind": "page"
+    },
+    {
+      "target": "Admin/Setup",
+      "label": "Admin/Setup",
+      "detail": "page",
+      "kind": "page"
+    },
+    {
+      "target": "Call chains",
+      "label": "Call chains",
+      "detail": "page",
+      "kind": "page"
+    },
+    {
+      "target": "Call-chains",
+      "label": "Call-chains",
+      "detail": "page",
+      "kind": "page"
+    },
+    {
+      "target": "README.md",
+      "label": "README.md",
+      "kind": "file"
+    },
+    {
+      "target": "lib/app.dart",
+      "label": "lib/app.dart",
+      "kind": "file"
+    }
+  ]
+}

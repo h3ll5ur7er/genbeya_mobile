@@ -1,0 +1,49 @@
+{
+  "id": "suggest-references",
+  "kind": "suggest.references",
+  "input": {
+    "tasks": [
+      {
+        "id": "GM-1",
+        "path": "tasks/GM-1.md",
+        "title": "Spike: clone",
+        "status": "in-progress"
+      },
+      {
+        "id": "GM-12",
+        "path": "tasks/Edit/GM-12.md",
+        "title": "Edit tasks",
+        "status": "done"
+      }
+    ],
+    "pages": [
+      {
+        "path": "docs/Home.md",
+        "title": "Home"
+      },
+      {
+        "path": "docs/Guide/Setup.md",
+        "title": "Setup"
+      },
+      {
+        "path": "docs/Admin/Setup.md",
+        "title": "Setup"
+      },
+      {
+        "path": "docs/Call chains.md",
+        "title": "Call chains"
+      },
+      {
+        "path": "docs/Call-chains.md",
+        "title": "Call-chains"
+      }
+    ],
+    "files": [
+      "README.md",
+      "docs/Home.md",
+      "tasks/GM-1.md",
+      "lib/app.dart"
+    ],
+    "wikiRoot": "docs"
+  }
+}

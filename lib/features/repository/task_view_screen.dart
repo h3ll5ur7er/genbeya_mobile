@@ -11,6 +11,8 @@ import '../../managers/task_views.dart';
 import '../../engines/js.dart';
 import '../../managers/task_writer.dart';
 import '../kit/kit_view.dart';
+import '../../engines/task_engine.dart';
+import '../tasks/comment_composer.dart';
 import '../tasks/task_edit_screen.dart';
 import '../tasks/task_editing.dart';
 import '../tasks/task_pickers.dart';
@@ -49,6 +51,14 @@ class _TaskViewScreenState extends ConsumerState<TaskViewScreen> {
   CloneRecord? get _record => widget.session.record;
 
   bool get _editable => _record != null;
+
+  /// The name the user's comments are signed with, as desktop compares it.
+  String get _me => TaskEngine().commentAuthor(widget.session.author ?? '');
+
+  final _composer = GlobalKey<CommentComposerState>();
+
+  /// The comment of the user's being edited in the composer.
+  int? _editingComment;
 
   @override
   void initState() {
@@ -108,9 +118,11 @@ class _TaskViewScreenState extends ConsumerState<TaskViewScreen> {
   }
 
   /// Saves a change made from the task as it is when its turn comes.
-  void _change(Future<Task?> Function(TaskWriter tasks, Task task) change) {
+  Future<void> _change(
+    Future<Task?> Function(TaskWriter tasks, Task task) change,
+  ) {
     setState(() => _saving++);
-    _queue = _queue
+    return _queue = _queue
         .then((_) async {
           if (!mounted) return;
           final saved = await changeTask(
@@ -204,245 +216,354 @@ class _TaskViewScreenState extends ConsumerState<TaskViewScreen> {
           ),
         ],
       ),
-      body: ListView(
+      body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-            child: GestureDetector(
-              onLongPress: editable ? _edit : null,
-              child: Text(task.title, style: theme.textTheme.titleLarge),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 4,
+          Expanded(
+            child: ListView(
               children: [
-                property(
-                  tooltip: 'Status',
-                  avatar: Icon(
-                    Icons.circle,
-                    size: 12,
-                    color: statusColor(
-                      statusTone(statusIndex, settings.statuses.length),
-                      scheme,
-                    ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                  child: GestureDetector(
+                    onLongPress: editable ? _edit : null,
+                    child: Text(task.title, style: theme.textTheme.titleLarge),
                   ),
-                  label: titleCase(task.status),
-                  onTap: () async {
-                    final status = await pickStatus(
-                      context,
-                      settings,
-                      task.status,
-                    );
-                    if (status != null && status != task.status) {
-                      _patch((i) => i.copyWith(status: status));
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 4,
+                    children: [
+                      property(
+                        tooltip: 'Status',
+                        avatar: Icon(
+                          Icons.circle,
+                          size: 12,
+                          color: statusColor(
+                            statusTone(statusIndex, settings.statuses.length),
+                            scheme,
+                          ),
+                        ),
+                        label: titleCase(task.status),
+                        onTap: () async {
+                          final status = await pickStatus(
+                            context,
+                            settings,
+                            task.status,
+                          );
+                          if (status != null && status != task.status) {
+                            _patch((i) => i.copyWith(status: status));
+                          }
+                        },
+                      ),
+                      if (task.type.isNotEmpty || editable)
+                        property(
+                          tooltip: 'Type',
+                          avatar: task.type.isEmpty
+                              ? const Icon(Icons.category_outlined, size: 16)
+                              : TypeIcon(
+                                  type: task.type,
+                                  types: settings.types,
+                                ),
+                          label: task.type.isEmpty
+                              ? 'Type'
+                              : titleCase(task.type),
+                          empty: task.type.isEmpty,
+                          onTap: () async {
+                            final type = await pickType(
+                              context,
+                              state,
+                              task.type,
+                            );
+                            if (type != null && type != task.type) {
+                              _patch((i) => i.copyWith(type: type));
+                            }
+                          },
+                        ),
+                      if (task.priority != 'none' || editable)
+                        property(
+                          tooltip: 'Priority',
+                          avatar: PriorityIcon(priority: task.priority),
+                          label: task.priority == 'none'
+                              ? 'Priority'
+                              : titleCase(task.priority),
+                          empty: task.priority == 'none',
+                          onTap: () async {
+                            final priority = await pickPriority(
+                              context,
+                              task.priority,
+                            );
+                            if (priority != null && priority != task.priority) {
+                              _patch((i) => i.copyWith(priority: priority));
+                            }
+                          },
+                        ),
+                      if (task.assignee.isNotEmpty || editable)
+                        property(
+                          tooltip: 'Assignee',
+                          avatar: task.assignee.isEmpty
+                              ? const Icon(Icons.person_outline, size: 16)
+                              : PersonAvatar(
+                                  name: assignee?.name ?? task.assignee,
+                                ),
+                          label: task.assignee.isEmpty
+                              ? 'Unassigned'
+                              : assignee?.name ?? task.assignee,
+                          empty: task.assignee.isEmpty,
+                          onTap: () async {
+                            final chosen = await pickAssignee(
+                              context,
+                              state,
+                              task.assignee,
+                            );
+                            if (chosen != null &&
+                                person(chosen) != person(task.assignee)) {
+                              _patch((i) => i.copyWith(assignee: chosen));
+                            }
+                          },
+                        ),
+                      if (task.epic.isNotEmpty || editable)
+                        property(
+                          tooltip: 'Epic',
+                          avatar: const Icon(Icons.folder_outlined, size: 16),
+                          label: epicName(task.epic),
+                          empty: task.epic.isEmpty,
+                          onTap: () async {
+                            final epic = await pickEpic(
+                              context,
+                              state.tasks,
+                              task.epic,
+                            );
+                            if (epic != null && epic != task.epic) {
+                              _patch((i) => i.copyWith(epic: epic));
+                            }
+                          },
+                        ),
+                      for (final label in task.labels)
+                        editable
+                            ? ActionChip(
+                                label: LabelChip(label),
+                                onPressed: _labels,
+                              )
+                            : Chip(label: LabelChip(label)),
+                      if (editable)
+                        ActionChip(
+                          avatar: const Icon(Icons.label_outline, size: 16),
+                          label: Text(
+                            task.labels.isEmpty ? 'Labels' : 'Labels…',
+                          ),
+                          onPressed: _labels,
+                        ),
+                    ],
+                  ),
+                ),
+                for (final field in settings.fields)
+                  if (task.fields[field.name] != null || editable)
+                    ListTile(
+                      dense: true,
+                      title: Text(titleCase(field.name)),
+                      onTap: editable
+                          ? () async {
+                              final value = await editField(
+                                context,
+                                field,
+                                task.fields[field.name],
+                              );
+                              if (value == null ||
+                                  _same(
+                                    value.$1,
+                                    task.fields[field.name] ?? '',
+                                  )) {
+                                return;
+                              }
+                              _change(
+                                (tasks, current) => tasks.update(
+                                  current,
+                                  current.toInput().copyWith(
+                                    fields: {
+                                      ...current.fields,
+                                      field.name: value.$1,
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                          : null,
+                      trailing: Text(
+                        switch (task.fields[field.name]) {
+                          null => '—',
+                          final List<Object?> list => list.join(', '),
+                          final value => jsText(value),
+                        },
+                        style: TextStyle(
+                          color: switch (dates[field.name]?.tone) {
+                            DueTone.overdue => toneColor('red', scheme),
+                            DueTone.soon => toneColor('yellow', scheme),
+                            null =>
+                              task.fields[field.name] == null
+                                  ? scheme.onSurfaceVariant
+                                  : null,
+                          },
+                        ),
+                      ),
+                    ),
+                // Fields the settings don't configure: shown, edited on desktop.
+                for (final entry in task.fields.entries)
+                  if (!configured.contains(entry.key))
+                    ListTile(
+                      dense: true,
+                      title: Text(entry.key),
+                      trailing: Text(switch (entry.value) {
+                        final List<Object?> list => list.join(', '),
+                        final value => jsText(value),
+                      }),
+                    ),
+                const Divider(height: 1),
+                SizedBox(
+                  height: _height,
+                  child: KitView(host: _host),
+                ),
+                // The kit shows every comment; one's own are changed from here.
+                for (final (index, comment) in task.comments.indexed)
+                  if (editable && comment.author == _me)
+                    ListTile(
+                      dense: true,
+                      leading: const Icon(Icons.chat_bubble_outline, size: 20),
+                      title: Text(
+                        comment.body.split('\n').first,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: Text(
+                        'Your comment · ${comment.date.replaceFirst('T', ' ')}',
+                      ),
+                      selected: _editingComment == index,
+                      trailing: PopupMenuButton<String>(
+                        tooltip: 'Edit or delete',
+                        onSelected: (action) => action == 'edit'
+                            ? setState(() => _editingComment = index)
+                            : _deleteComment(index),
+                        itemBuilder: (_) => const [
+                          PopupMenuItem(value: 'edit', child: Text('Edit')),
+                          PopupMenuItem(value: 'delete', child: Text('Delete')),
+                        ],
+                      ),
+                    ),
+                const Divider(height: 1),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+                  child: Text('Activity', style: theme.textTheme.titleMedium),
+                ),
+                FutureBuilder<TaskActivity>(
+                  future: _activity,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          "Couldn't read the history: ${snapshot.error}",
+                        ),
+                      );
                     }
+                    final activity = snapshot.data;
+                    if (activity == null) {
+                      return const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: LinearProgressIndicator(),
+                      );
+                    }
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (final entry in activity.entries)
+                          ListTile(
+                            dense: true,
+                            leading: PersonAvatar(name: entry.author, size: 28),
+                            title: Text(
+                              entry.changes.isEmpty
+                                  ? entry.subject
+                                  : entry.changes
+                                        .map(describeChange)
+                                        .join('; '),
+                            ),
+                            subtitle: Text(
+                              '${entry.author} · ${formatAgo(entry.date)}',
+                            ),
+                          ),
+                        if (activity.truncated)
+                          const Padding(
+                            padding: EdgeInsets.all(16),
+                            child: Text(
+                              'Older history isn\'t on this phone: the clone is shallow.',
+                            ),
+                          ),
+                        if (activity.entries.isEmpty && !activity.truncated)
+                          const Padding(
+                            padding: EdgeInsets.all(16),
+                            child: Text('No commits changed this task yet.'),
+                          ),
+                        const SizedBox(height: 24),
+                      ],
+                    );
                   },
                 ),
-                if (task.type.isNotEmpty || editable)
-                  property(
-                    tooltip: 'Type',
-                    avatar: task.type.isEmpty
-                        ? const Icon(Icons.category_outlined, size: 16)
-                        : TypeIcon(type: task.type, types: settings.types),
-                    label: task.type.isEmpty ? 'Type' : titleCase(task.type),
-                    empty: task.type.isEmpty,
-                    onTap: () async {
-                      final type = await pickType(context, state, task.type);
-                      if (type != null && type != task.type) {
-                        _patch((i) => i.copyWith(type: type));
-                      }
-                    },
-                  ),
-                if (task.priority != 'none' || editable)
-                  property(
-                    tooltip: 'Priority',
-                    avatar: PriorityIcon(priority: task.priority),
-                    label: task.priority == 'none'
-                        ? 'Priority'
-                        : titleCase(task.priority),
-                    empty: task.priority == 'none',
-                    onTap: () async {
-                      final priority = await pickPriority(
-                        context,
-                        task.priority,
-                      );
-                      if (priority != null && priority != task.priority) {
-                        _patch((i) => i.copyWith(priority: priority));
-                      }
-                    },
-                  ),
-                if (task.assignee.isNotEmpty || editable)
-                  property(
-                    tooltip: 'Assignee',
-                    avatar: task.assignee.isEmpty
-                        ? const Icon(Icons.person_outline, size: 16)
-                        : PersonAvatar(name: assignee?.name ?? task.assignee),
-                    label: task.assignee.isEmpty
-                        ? 'Unassigned'
-                        : assignee?.name ?? task.assignee,
-                    empty: task.assignee.isEmpty,
-                    onTap: () async {
-                      final chosen = await pickAssignee(
-                        context,
-                        state,
-                        task.assignee,
-                      );
-                      if (chosen != null &&
-                          person(chosen) != person(task.assignee)) {
-                        _patch((i) => i.copyWith(assignee: chosen));
-                      }
-                    },
-                  ),
-                if (task.epic.isNotEmpty || editable)
-                  property(
-                    tooltip: 'Epic',
-                    avatar: const Icon(Icons.folder_outlined, size: 16),
-                    label: epicName(task.epic),
-                    empty: task.epic.isEmpty,
-                    onTap: () async {
-                      final epic = await pickEpic(
-                        context,
-                        state.tasks,
-                        task.epic,
-                      );
-                      if (epic != null && epic != task.epic) {
-                        _patch((i) => i.copyWith(epic: epic));
-                      }
-                    },
-                  ),
-                for (final label in task.labels)
-                  editable
-                      ? ActionChip(label: LabelChip(label), onPressed: _labels)
-                      : Chip(label: LabelChip(label)),
-                if (editable)
-                  ActionChip(
-                    avatar: const Icon(Icons.label_outline, size: 16),
-                    label: Text(task.labels.isEmpty ? 'Labels' : 'Labels…'),
-                    onPressed: _labels,
-                  ),
               ],
             ),
           ),
-          for (final field in settings.fields)
-            if (task.fields[field.name] != null || editable)
-              ListTile(
-                dense: true,
-                title: Text(titleCase(field.name)),
-                onTap: editable
-                    ? () async {
-                        final value = await editField(
-                          context,
-                          field,
-                          task.fields[field.name],
-                        );
-                        if (value == null ||
-                            _same(value.$1, task.fields[field.name] ?? '')) {
-                          return;
-                        }
-                        _change(
-                          (tasks, current) => tasks.update(
-                            current,
-                            current.toInput().copyWith(
-                              fields: {...current.fields, field.name: value.$1},
-                            ),
-                          ),
-                        );
-                      }
-                    : null,
-                trailing: Text(
-                  switch (task.fields[field.name]) {
-                    null => '—',
-                    final List<Object?> list => list.join(', '),
-                    final value => jsText(value),
-                  },
-                  style: TextStyle(
-                    color: switch (dates[field.name]?.tone) {
-                      DueTone.overdue => toneColor('red', scheme),
-                      DueTone.soon => toneColor('yellow', scheme),
-                      null =>
-                        task.fields[field.name] == null
-                            ? scheme.onSurfaceVariant
-                            : null,
-                    },
-                  ),
-                ),
-              ),
-          // Fields the settings don't configure: shown, edited on desktop.
-          for (final entry in task.fields.entries)
-            if (!configured.contains(entry.key))
-              ListTile(
-                dense: true,
-                title: Text(entry.key),
-                trailing: Text(switch (entry.value) {
-                  final List<Object?> list => list.join(', '),
-                  final value => jsText(value),
-                }),
-              ),
-          const Divider(height: 1),
-          SizedBox(
-            height: _height,
-            child: KitView(host: _host),
+          if (editable)
+            CommentComposer(
+              key: _composer,
+              state: state,
+              editing:
+                  _editingComment == null ||
+                      _editingComment! >= task.comments.length
+                  ? null
+                  : task.comments[_editingComment!].body,
+              onCancelEdit: () => setState(() => _editingComment = null),
+              onSend: _sendComment,
+            ),
+        ],
+      ),
+    );
+  }
+
+  /// Writes the composer's text: a new comment, or the one being edited.
+  Future<bool> _sendComment(String text) async {
+    final editing = _editingComment;
+    var sent = false;
+    await _change((tasks, task) async {
+      final saved = editing == null
+          ? await tasks.addComment(task, text)
+          : await tasks.editComment(task, editing, text);
+      sent = true;
+      if (mounted) setState(() => _editingComment = null);
+      return saved;
+    });
+    return sent;
+  }
+
+  Future<void> _deleteComment(int index) async {
+    final sure = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete your comment?'),
+        content: const Text(
+          'It is removed from the task with a commit, which history keeps.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Keep'),
           ),
-          const Divider(height: 1),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
-            child: Text('Activity', style: theme.textTheme.titleMedium),
-          ),
-          FutureBuilder<TaskActivity>(
-            future: _activity,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text("Couldn't read the history: ${snapshot.error}"),
-                );
-              }
-              final activity = snapshot.data;
-              if (activity == null) {
-                return const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: LinearProgressIndicator(),
-                );
-              }
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (final entry in activity.entries)
-                    ListTile(
-                      dense: true,
-                      leading: PersonAvatar(name: entry.author, size: 28),
-                      title: Text(
-                        entry.changes.isEmpty
-                            ? entry.subject
-                            : entry.changes.map(describeChange).join('; '),
-                      ),
-                      subtitle: Text(
-                        '${entry.author} · ${formatAgo(entry.date)}',
-                      ),
-                    ),
-                  if (activity.truncated)
-                    const Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        'Older history isn\'t on this phone: the clone is shallow.',
-                      ),
-                    ),
-                  if (activity.entries.isEmpty && !activity.truncated)
-                    const Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text('No commits changed this task yet.'),
-                    ),
-                  const SizedBox(height: 24),
-                ],
-              );
-            },
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Delete'),
           ),
         ],
       ),
     );
+    if (sure != true) return;
+    _change((tasks, task) => tasks.deleteComment(task, index));
   }
 
   Future<void> _labels() async {

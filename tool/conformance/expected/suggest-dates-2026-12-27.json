@@ -1,0 +1,196 @@
+{
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
+  "output": [
+    [
+      {
+        "date": "2026-12-27",
+        "label": "Today"
+      },
+      {
+        "date": "2026-12-28",
+        "label": "Tomorrow"
+      },
+      {
+        "date": "2027-01-03",
+        "label": "In a week"
+      },
+      {
+        "date": "2026-12-31",
+        "label": "End of month"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2026-12-27",
+        "label": "Today"
+      },
+      {
+        "date": "2026-12-28",
+        "label": "Tomorrow"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2026-12-28",
+        "label": "Tomorrow"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2027-01-01",
+        "label": "Friday"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2027-01-01",
+        "label": "Friday"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2026-12-28",
+        "label": "Monday"
+      },
+      {
+        "date": "2026-12-31",
+        "label": "End of month"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2026-12-30",
+        "label": "In 3 days"
+      },
+      {
+        "date": "2027-01-17",
+        "label": "In 3 weeks"
+      },
+      {
+        "date": "2027-03-27",
+        "label": "In 3 months"
+      },
+      {
+        "date": "2029-12-27",
+        "label": "In 3 years"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2026-12-30",
+        "label": "In 3 days"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2027-01-10",
+        "label": "In 2 weeks"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2027-01-24",
+        "label": "In 4 weeks"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2027-01-27",
+        "label": "In 1 month"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2027-12-27",
+        "label": "In 1 year"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2026-12-31",
+        "label": "End of month"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [
+      {
+        "date": "2026-12-24",
+        "label": null
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [],
+    [
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "date": "2027-01-03",
+        "label": "Sunday"
+      },
+      {
+        "date": null,
+        "label": "Pick a date…"
+      }
+    ]
+  ]
+}

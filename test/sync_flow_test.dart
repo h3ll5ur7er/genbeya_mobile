@@ -7,6 +7,7 @@ import 'package:genbeya_mobile/access/native/native_git_objects.dart';
 import 'package:genbeya_mobile/access/native/native_git_writer.dart';
 import 'package:genbeya_mobile/access/native/transfers.dart';
 import 'package:genbeya_mobile/access/storage/json_store.dart';
+import 'package:genbeya_mobile/engines/task_engine.dart';
 import 'package:genbeya_mobile/managers/content_writer.dart';
 import 'package:genbeya_mobile/managers/repository_model.dart';
 import 'package:genbeya_mobile/managers/sync_manager.dart';
@@ -139,6 +140,48 @@ void main() {
     state = await side.model.load();
     expect(state.tasks.single.status, 'done');
     expect(state.tasks.single.assignee, 'sam');
+  }, skip: skip);
+
+  test('a comment written on both sides keeps both, in time order', () async {
+    final side = phoneSide();
+    final state = await side.model.load();
+    final tasks = TaskEngine();
+    // The phone comments at 10:00 UTC; the desk at 09:30, pushed first.
+    await side.writer.write(state, {
+      'tasks/GM-1.md': tasks.addComment(
+        task('todo'),
+        'Alice',
+        DateTime.utc(2026, 11, 23, 10),
+        'From the phone.',
+      ),
+    }, 'Comment on GM-1');
+    git(desk, ['switch', '-q', 'genbeya']);
+    File('$desk/tasks/GM-1.md').writeAsStringSync(
+      tasks.addComment(
+        task('todo'),
+        'Desk',
+        DateTime.utc(2026, 11, 23, 9, 30),
+        'From the desk.',
+      ),
+    );
+    git(desk, ['commit', '-q', '-am', 'Comment on GM-1']);
+    git(desk, ['push', '-q', 'origin', 'genbeya']);
+
+    final report = await side.sync.sync(state);
+    expect(report.merged, {'tasks/GM-1.md'});
+    expect(report.rescued, isEmpty);
+    final merged = git(tmp.path, [
+      '--git-dir',
+      remote,
+      'show',
+      'genbeya:tasks/GM-1.md',
+    ]);
+    expect(
+      merged,
+      endsWith(
+        '## Comments\n\n### Desk — 2026-11-23 09:30+00:00\n\nFrom the desk.\n\n### Alice — 2026-11-23 10:00+00:00\n\nFrom the phone.',
+      ),
+    );
   }, skip: skip);
 
   test('what cannot merge goes to a pushed rescue branch; the branch follows the remote', () async {

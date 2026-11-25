@@ -16,6 +16,7 @@ import 'package:genbeya_mobile/engines/wiki_engine.dart';
 import 'package:genbeya_mobile/engines/js.dart';
 import 'package:genbeya_mobile/engines/settings_engine.dart';
 import 'package:genbeya_mobile/engines/task_engine.dart';
+import 'package:genbeya_mobile/managers/suggestions.dart';
 
 /// Runs every case in tool/conformance/cases through the Dart engines and
 /// compares with what Genbeya's engines produced (tool/conformance/expected,
@@ -117,6 +118,80 @@ Map<String, Object?> _run(String kind, Map<String, Object?> input) {
             content,
             _tasks.validate(taskInput, statuses),
           ),
+        };
+      case 'suggest.mentions':
+        final people = [
+          for (final p
+              in (input['people']! as List).cast<Map<String, Object?>>())
+            Person(
+              handle: p['handle']! as String,
+              name: p['name']! as String,
+              email: p['email'] as String?,
+              aliases: (p['aliases']! as List).cast<String>(),
+              commits: p['commits']! as int,
+            ),
+        ];
+        return {
+          'output': [
+            for (final query in (input['queries']! as List).cast<String>())
+              () {
+                final found = mentionSuggestions(people, query);
+                return {
+                  'handles': [for (final p in found) p.handle],
+                  'insert': found.isEmpty
+                      ? null
+                      : [
+                          mentionText(found[0], ''),
+                          mentionText(found[0], ' x'),
+                        ],
+                };
+              }(),
+          ],
+        };
+      case 'suggest.references':
+        final tasks = [
+          for (final t
+              in (input['tasks']! as List).cast<Map<String, Object?>>())
+            _tasks.parse(
+              t['path']! as String,
+              '---\nid: ${t['id']}\ntitle: "${t['title']}"\nstatus: ${t['status']}\n---\n',
+              'hash',
+              'tasks',
+            ),
+        ];
+        return {
+          'output': [
+            for (final c in referenceCandidates(
+              tasks: tasks,
+              pages: [
+                for (final p
+                    in (input['pages']! as List).cast<Map<String, Object?>>())
+                  (path: p['path']! as String, title: p['title']! as String),
+              ],
+              files: (input['files']! as List).cast<String>(),
+              wikiRoot: input['wikiRoot']! as String,
+            ))
+              {
+                'target': c.target,
+                'label': c.label,
+                'detail': ?c.detail,
+                'kind': c.kind,
+              },
+          ],
+        };
+      case 'suggest.dates':
+        final today = input['today']! as String;
+        return {
+          'output': [
+            for (final query in (input['queries']! as List).cast<String>())
+              [
+                for (final s in dateSuggestions(query, today))
+                  {
+                    'date': s.date,
+                    'label': s.date == query.trim() ? null : s.label,
+                  },
+              ],
+          ],
         };
       case 'task.new':
         final statuses = (input['statuses']! as List).cast<String>();

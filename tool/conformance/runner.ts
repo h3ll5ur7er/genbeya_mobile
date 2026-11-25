@@ -17,6 +17,9 @@ import { handleSlug } from "genbeya/src/utilities/people";
 import { CONTENT_AREAS } from "genbeya/src/contracts/model";
 import { namesRemoteHelper, parseRemote, sameRepository, webUrl, withoutCredentials } from "genbeya/src/utilities/remote-url";
 import { describeLinkItem, formatGenbeyaLink, parseGenbeyaLink } from "genbeya/src/utilities/genbeya-link";
+import { mentionSuggestions, mentionText } from "genbeya/src/client/app/editor/mention-suggestions";
+import { dateSuggestions } from "genbeya/src/client/app/editor/smart-dates";
+import { referenceCandidates } from "genbeya/src/client/app/markdown/references";
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -24,7 +27,7 @@ import { join } from "node:path";
 
 export interface Case {
   readonly id: string;
-  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base" | "task.changes" | "search.area" | "search.excerpt" | "link.parse" | "link.format" | "web.url" | "task.comment" | "task.new" | "task.nextId" | "task.spelling" | "task.template";
+  readonly kind: "settings.parse" | "task.parse" | "task.update" | "page.toggle" | "task.toggle" | "collate" | "file.tree" | "wiki.tree" | "people.merge" | "handle.slug" | "collate.full" | "areas.parse" | "remote.parse" | "remote.same" | "area.of" | "collate.base" | "task.changes" | "search.area" | "search.excerpt" | "link.parse" | "link.format" | "web.url" | "task.comment" | "task.new" | "task.nextId" | "task.spelling" | "task.template" | "suggest.mentions" | "suggest.references" | "suggest.dates";
   readonly input: Record<string, any>;
 }
 
@@ -86,6 +89,23 @@ function run(c: Case): unknown {
       const change = { ...(i.change ?? {}), ...(body !== undefined && { body }) };
       return { output: tasks.serializeUpdate(i.content, tasks.validate(inputOf(task, change), i.statuses)) };
     }
+    case "suggest.mentions":
+      // What the comment box offers after `@`, and what picking the first inserts.
+      return {
+        output: i.queries.map((query: string) => {
+          const found = mentionSuggestions(i.people, query);
+          return { handles: found.map((person) => person.handle), insert: found[0] ? [mentionText(found[0], ""), mentionText(found[0], " x")] : null };
+        }),
+      };
+    case "suggest.references":
+      return { output: referenceCandidates({ ...i, statuses: [] }) };
+    case "suggest.dates":
+      // A typed date's label is in the user's language; the dates are what is inserted.
+      return {
+        output: i.queries.map((query: string) =>
+          dateSuggestions(query, i.today).map((s) => ({ date: s.date, label: s.date === query.trim() ? null : s.label })),
+        ),
+      };
     case "task.new":
       // content-manager.ts createTask: validate, then serializeNew.
       return { output: tasks.serializeNew(i.id, tasks.validate(i.input, i.statuses)) };

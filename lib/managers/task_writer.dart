@@ -110,6 +110,103 @@ class TaskWriter {
     return _tasks.parse(path, content, fileHash(content), settings.taskRoot);
   }
 
+  /// The name comments are signed with: the clone's Git name, as desktop's
+  /// `author` makes it; refused while the clone has none.
+  String commentAuthor() {
+    final name = _tasks.commentAuthor(session.author ?? '');
+    if (name.isEmpty) {
+      throw TaskException(
+        "Set the name your commits and comments are signed with first, in the repository's About.",
+      );
+    }
+    return name;
+  }
+
+  /// [task] with a comment signed by the user, written now, after the others,
+  /// committed as `Comment on <ID>`. Comments only ever go last, so the task
+  /// needn't be the version shown, as on desktop.
+  Future<Task> addComment(Task task, String text, {DateTime? now}) async {
+    final comment = _tasks.validComment(text);
+    final author = commentAuthor();
+    final original = await session.readText(task.path);
+    final current = _tasks.parse(
+      task.path,
+      original,
+      fileHash(original),
+      _state.settings.taskRoot,
+    );
+    final content = _tasks.addComment(
+      original,
+      author,
+      now ?? DateTime.now(),
+      comment,
+    );
+    return _writeTask(current, content, 'Comment on ${current.id}');
+  }
+
+  /// [task] with the text of comment [index] replaced, committed as
+  /// `Edit a comment on <ID>`; only the user's own, in the version shown.
+  Future<Task> editComment(Task task, int index, String text) async {
+    final comment = _tasks.validComment(text);
+    final original = await _ownComment(task, index);
+    return _writeTask(
+      task,
+      _tasks.editComment(original, index, comment),
+      'Edit a comment on ${task.id}',
+    );
+  }
+
+  /// [task] without comment [index], committed as `Delete a comment on <ID>`;
+  /// only the user's own, in the version shown.
+  Future<Task> deleteComment(Task task, int index) async {
+    final original = await _ownComment(task, index);
+    return _writeTask(
+      task,
+      _tasks.removeComment(original, index),
+      'Delete a comment on ${task.id}',
+    );
+  }
+
+  /// Whether the user wrote [comment], as desktop decides it.
+  bool isMine(TaskComment comment) {
+    final name = _tasks.commentAuthor(session.author ?? '');
+    return name.isNotEmpty && comment.author == name;
+  }
+
+  /// The file of [task] as shown, if comment [index] is the user's.
+  Future<String> _ownComment(Task task, int index) async {
+    final original = await session.readText(task.path);
+    if (fileHash(original) != task.hash) {
+      throw const ChangedMeanwhileException();
+    }
+    final current = _tasks.parse(
+      task.path,
+      original,
+      task.hash,
+      _state.settings.taskRoot,
+    );
+    if (index < 0 || index >= current.comments.length) {
+      throw const ChangedMeanwhileException(
+        'This comment no longer exists. Reopen the task to see the latest version.',
+      );
+    }
+    if (current.comments[index].author != commentAuthor()) {
+      throw TaskException('You can only change your own comments.');
+    }
+    return original;
+  }
+
+  Future<Task> _writeTask(Task task, String content, String message) async {
+    await writer.write(_state, {task.path: content}, message);
+    await session.load();
+    return _tasks.parse(
+      task.path,
+      content,
+      fileHash(content),
+      _state.settings.taskRoot,
+    );
+  }
+
   /// What a new task of [type] starts with, from its template; null when
   /// the type has none.
   Future<TaskTemplate?> template(String type) async {

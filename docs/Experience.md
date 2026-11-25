@@ -54,7 +54,7 @@ The screen a repository opens on, and the one thing desktop doesn't have: what n
 - **Log time** is a bottom sheet: the time spent, what for, and the new remaining effort, filled with the old value minus the time spent.
 - **New task** from the board, from a column's "+", from the app icon's quick action, or from text shared into the app from another app (its first line becomes the title). Choosing a type fills the description and presets from its template (`tasks/.templates/<type>.md`) where nothing was written yet; choosing another takes that back, as on desktop.
 - **The first edit** of tasks or pages kept with the code asks where the commits go: the checked-out branch, or a branch of one's own, `mobile/<handle>`, to merge later.
-- **Comments** have a native composer above the keyboard with `@`, `//` and `[[` pickers, signed with the Git name and time, written in the desktop's exact format; your own can be edited and deleted.
+- **Comments** have a native composer above the keyboard: typing `@`, `[[` or `//` (or its button) offers people, tasks, pages and files, and dates (`tomorrow`, `fri`, `3d`, a calendar), the same suggestions desktop's editor makes, inserting the same text. Comments are signed with the Git name and the local time with its offset, written in the desktop's exact format; your own are listed under the task with **Edit** and **Delete**.
 
 ## Pull requests
 

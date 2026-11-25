@@ -1,0 +1,71 @@
+{
+  "id": "suggest-mentions",
+  "kind": "suggest.mentions",
+  "input": {
+    "people": [
+      {
+        "handle": "ada",
+        "name": "Ada Lovelace",
+        "email": "ada@example.com",
+        "aliases": [
+          "countess"
+        ],
+        "commits": 12
+      },
+      {
+        "handle": "alex",
+        "name": "Alex Chen",
+        "email": null,
+        "aliases": [],
+        "commits": 30
+      },
+      {
+        "handle": "sam",
+        "name": "Sam Rivera",
+        "email": "sam.r@example.org",
+        "aliases": [
+          "Samuel"
+        ],
+        "commits": 3
+      },
+      {
+        "handle": "zoe",
+        "name": "Zoë Østergård",
+        "email": "zoe@example.com",
+        "aliases": [],
+        "commits": 3
+      },
+      {
+        "handle": "jose",
+        "name": "José Núñez",
+        "email": null,
+        "aliases": [
+          "pepe"
+        ],
+        "commits": 0
+      },
+      {
+        "handle": "kai-1",
+        "name": "Kai Park",
+        "email": "kai@example.org",
+        "aliases": [],
+        "commits": 3
+      }
+    ],
+    "queries": [
+      "",
+      "a",
+      "Al",
+      "lov",
+      "sam.r",
+      "count",
+      "ø",
+      "zo",
+      "x",
+      "kai-",
+      " sam ",
+      "e",
+      "PARK"
+    ]
+  }
+}

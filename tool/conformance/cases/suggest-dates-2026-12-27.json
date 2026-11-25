@@ -1,0 +1,28 @@
+{
+  "id": "suggest-dates-2026-12-27",
+  "kind": "suggest.dates",
+  "input": {
+    "today": "2026-12-27",
+    "queries": [
+      "",
+      "to",
+      "tomorrow",
+      "fri",
+      "next fri",
+      "mo",
+      "3",
+      "3d",
+      "2 weeks",
+      "in 4 w",
+      "1 month",
+      "1y",
+      "eom",
+      "2026-12-24",
+      "2026-02-30",
+      "cal",
+      "zzz",
+      "12 x",
+      "sunday"
+    ]
+  }
+}

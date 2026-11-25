@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -36,7 +38,11 @@ void main() {
         'tasks/.templates/bug.md': '---\npriority: high\nlabels: [bug]\nseverity: "2"\n---\n\n## Steps\n',
       });
     git = FakeWriter(repo);
-    session = RepositorySession(repo, folderName: 'demo');
+    session = RepositorySession(
+      repo,
+      folderName: 'demo',
+      author: ' Ada  Lovelace ',
+    );
     await session.load();
     tasks = TaskWriter(
       session: session,
@@ -52,9 +58,8 @@ void main() {
   tearDown(() => tmp.deleteSync(recursive: true));
 
   Task taskOf(String id) => session.state!.tasks.firstWhere((t) => t.id == id);
-  String fileOf(String path) => String.fromCharCodes(
-    repo.commits[repo.refs['refs/heads/genbeya']]![path]!,
-  );
+  String fileOf(String path) =>
+      utf8.decode(repo.commits[repo.refs['refs/heads/genbeya']]![path]!);
 
   test('changes a field in place, committed onto the content branch', () async {
     final updated = await tasks.update(
@@ -147,6 +152,76 @@ void main() {
     expect(
       () => pages.toggle(page, rendered),
       throwsA(isA<ChangedMeanwhileException>()),
+    );
+  });
+
+  test('comments: added last and signed, own ones edited and deleted', () async {
+    final at = DateTime(2026, 11, 25, 9, 5);
+    var task = await tasks.addComment(
+      taskOf('DM-1'),
+      'Looks good, see [[DM-7]]\r\n',
+      now: at,
+    );
+    expect(git.messages.last, 'Comment on DM-1');
+    final offset = at.timeZoneOffset;
+    final zone =
+        '${offset.isNegative ? '-' : '+'}${offset.inHours.abs().toString().padLeft(2, '0')}:${(offset.inMinutes.abs() % 60).toString().padLeft(2, '0')}';
+    expect(
+      fileOf('tasks/Sync/DM-1.md'),
+      endsWith(
+        '\n## Comments\n\n### Ada Lovelace — 2026-11-25 09:05$zone\n\nLooks good, see [[DM-7]]\n',
+      ),
+    );
+    expect(task.comments.single.author, 'Ada Lovelace');
+    expect(tasks.isMine(task.comments.single), isTrue);
+
+    task = await tasks.editComment(task, 0, 'Edited.');
+    expect(git.messages.last, 'Edit a comment on DM-1');
+    expect(task.comments.single.body, 'Edited.');
+    expect(
+      () => tasks.editComment(taskOf('DM-1'), 3, 'x'),
+      throwsA(isA<ChangedMeanwhileException>()),
+    );
+
+    task = await tasks.deleteComment(task, 0);
+    expect(git.messages.last, 'Delete a comment on DM-1');
+    expect(task.comments, isEmpty);
+  });
+
+  test(
+    "someone else's comment can't be changed; a stale task refuses",
+    () async {
+      repo.commits['content']!['tasks/DM-7.md'] = Uint8List.fromList(
+        utf8.encode(
+          '---\nid: DM-7\ntitle: Seventh\nstatus: backlog\n---\n\nText.\n\n## Comments\n\n### Sam Rivera — 2026-11-20 10:00+01:00\n\nMine.\n',
+        ),
+      );
+      await session.load();
+      final task = taskOf('DM-7');
+      expect(tasks.isMine(task.comments.single), isFalse);
+      expect(
+        () => tasks.editComment(task, 0, 'Taken over.'),
+        throwsA(isA<TaskException>()),
+      );
+      final newer = await tasks.addComment(task, 'Reply.');
+      expect(newer.comments.length, 2);
+      expect(
+        () => tasks.deleteComment(task, 1),
+        throwsA(isA<ChangedMeanwhileException>()),
+        reason: 'edits name a comment in the version shown',
+      );
+    },
+  );
+
+  test('comments need a name to be signed with', () async {
+    final nameless = TaskWriter(
+      session: RepositorySession(repo, folderName: 'demo'),
+      writer: tasks.writer,
+    );
+    await nameless.session.load();
+    expect(
+      () => nameless.addComment(taskOf('DM-1'), 'Hi'),
+      throwsA(isA<TaskException>()),
     );
   });
 }
