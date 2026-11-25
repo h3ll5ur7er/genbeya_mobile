@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GM-12\ntitle: Edit tasks\ntype: feature\nstatus: backlog\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M2\ndepends_on: [GM-9, GM-11]\n---\n\nKeep the board true from the phone. See [[Experience#tasks]].\n\n- [ ] Task engine writes: change a field keeping order, comments, line endings; conformance cases for each kind\n- [ ] Status, type, priority, assignee (people picker), epic (moves the file), labels in bottom sheets; custom fields\n- [ ] Tick checklist items in the description\n- [ ] Drag cards between columns and swimlanes; **Move to…** on long press\n- [ ] Edit title and description\n- [ ] New task with the next ID, from the board, a column, the app icon's quick action and shared text; type templates\n\nAdded on the phone.\n"
 }

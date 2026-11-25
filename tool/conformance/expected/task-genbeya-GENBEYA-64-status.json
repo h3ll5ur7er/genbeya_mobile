@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GENBEYA-64\ntitle: \"DEMO: Broken plan, on purpose\"\ntype: chore\nstatus: in-progress\npriority: low\nlabels:\n  - demo\nmilestone: DEMO\nestimate: 1d\nremaining: soon\ndepends_on: [GENBEYA-64, GENBEYA-999]\n---\n\n> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nEverything here is wrong on purpose, to see how planning says so: it depends on itself and on a task that doesn't exist, **Remaining** isn't an effort, and one line of the time log can't be read.\n\n## Time log\n\n- 2026-10-26 — Ada Lovelace — 1h — Fine\n- yesterday, for a while\n"
 }

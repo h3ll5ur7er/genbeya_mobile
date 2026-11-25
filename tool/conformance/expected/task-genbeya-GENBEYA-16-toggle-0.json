@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GENBEYA-16\ntitle: Accessibility pass\nstatus: todo\npriority: medium\nlabels:\n  - accessibility\n---\n\n- [x] Screen reader labels on all icon buttons and menus\n- [ ] Keyboard-only drag and drop on the board (move with a menu)\n- [ ] Focus order in the task panel and dialogs\n- [ ] Contrast check for both themes\n"
 }

@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GENBEYA-8\ntitle: Task comments and activity from Git history\nstatus: in-progress\npriority: medium\nlabels:\n  - tasks\n---\n\nShow who changed a task and when, from `git log --follow` on the task file, and allow comments stored in the task file below the description.\n"
 }

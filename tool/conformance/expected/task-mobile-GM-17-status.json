@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GM-17\ntitle: Browse and edit code\ntype: feature\nstatus: todo\npriority: medium\nestimate: 4d\nremaining: 4d\nmilestone: M3\ndepends_on: [GM-4, GM-11]\n---\n\nSmall edits to any file, and references to lines. See [[Experience#code]].\n\n- [ ] File tree with a filter and recent files\n- [ ] Viewer: highlighting, line numbers, find, wrap; Markdown preview; images\n- [ ] Select lines → **Copy reference** (`[[path#L10-L20]]`); references open with their lines selected; pinned ones read-only at their revision\n- [ ] Edit with undo, find and replace; new file, rename, delete\n"
 }

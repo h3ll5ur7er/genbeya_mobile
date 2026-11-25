@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GM-6\ntitle: Repositories, cloning and signing in\ntype: feature\nstatus: backlog\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M1\ndepends_on: [GM-2]\n---\n\nThe start screen and everything needed to get a repository onto the phone. See [[Experience#navigation]] and [[Experience#signing-in]].\n\n- [x] Repositories screen: clones with branch, unsynced edits, last sync, size; **Remove clone**\n- [ ] Clone from a URL; choose the branch; shallow by default\n- [ ] HTTPS token in the keychain; SSH key made on the device with the public key to copy; host key trust on first use\n- [ ] GitHub and GitLab device-flow sign-in, ending in a token\n- [ ] Git name and email per repository\n"
 }

@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\n# A comment above everything\n\n# A comment above id\nid: EDGE-8\ntitle: Blank lines and comments between keys\n\n# Why the status\nstatus: todo\nlabels:\n  - a\n  - b\nmeta: {owner: ada, size: 3}\nnested:\n  deep: four-space indent\nnote: |\n  a block\n  scalar\ndepends_on:\n  - GM-1\n  - GM-2\n---\n\nBody\n"
 }

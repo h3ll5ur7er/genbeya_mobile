@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GENBEYA-58\ntitle: \"DEMO: Design the data model\"\ntype: chore\nstatus: review\npriority: low\nlabels:\n  - demo\nmilestone: DEMO\nestimate: 2d\nremaining: 1d\nduration: 2d\nstart: 2026-10-26\ndue: 2026-10-28\ndepends_on: [GENBEYA-57]\n---\n\n> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nOn the critical path. Try **Log time** here, then change **Remaining** and watch the forecast and variance.\n\n## Time log\n\n- 2026-10-26 — Ada Lovelace — 4h — First draft of the schema\n"
 }

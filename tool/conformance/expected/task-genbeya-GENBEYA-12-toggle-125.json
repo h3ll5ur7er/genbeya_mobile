@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GENBEYA-12\ntitle: Virtualize long lists\nstatus: backlog\npriority: medium\nlabels:\n  - performance\n---\n\nThe file tree caps at what the DOM handles comfortably, and history loads 200 commits per page.\n\n- [ ] Virtualized file tree\n- [x] Virtualized history list with the commit graph\n"
 }

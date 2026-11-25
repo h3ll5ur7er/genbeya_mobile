@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GENBEYA-55\ntitle: Clean up a pull request into tasks and pages\ntype: feature\nstatus: review\npriority: medium\nlabels:\n  - pull-requests\nremaining: 3h\n---\n\nBefore the merge, Genbeya walks through what is still open: each to-do or topic is resolved, dismissed with a reason, or promoted to a new task or a wiki page and replaced by a reference to it. Verdicts are never removed. Done when the cleanup leaves a short record with references to its follow-ups, and the full discussion stays in Git. See [[Design/Pull-requests#cleaning-up]].\n\nBuilt on `feature/pull-requests`: **Clean up…** on the pull request.\n\n- [x] Open items listed: to-dos and topics without an outcome\n- [x] Resolve, dismiss with a reason, promote to a task (prefilled) or to a page section\n- [x] Shorten a topic to its outcome\n- [x] Never remove verdicts\n- [x] Say when a squash merge in the checkout would drop the discussion's history\n- [x] Demo counterpart, `npm run e2e:demo`\n"
 }

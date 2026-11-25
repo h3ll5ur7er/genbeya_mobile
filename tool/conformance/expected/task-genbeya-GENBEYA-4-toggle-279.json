@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GENBEYA-4\ntitle: Paste and drop images into wiki pages\nstatus: todo\npriority: medium\nlabels:\n  - wiki\n---\n\nScreenshots are the most common attachment. Pasting or dropping an image while editing should store it next to the page (for example `docs/Guide/images/`) and insert the Markdown link.\n\n- [ ] Binary write API in the engine (all hosts)\n- [ ] Paste and drop handling in the editor\n- [x] Configurable attachment folder\n"
 }

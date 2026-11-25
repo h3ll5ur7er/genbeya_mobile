@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GM-7\ntitle: \"Port the read engines: settings, wiki, tasks, people\"\ntype: feature\nstatus: todo\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M1\ndepends_on: [GM-5]\n---\n\nThe Dart engines needed to show a repository, each checked by conformance cases. See [[Architecture#engines]].\n\n- [ ] Contracts mirroring `model.ts`: `Settings`, `WikiNode`, `Task`, `Person`, field definitions\n- [ ] Settings: every key, defaults and validation, `unused` and the automatic parts\n- [ ] Wiki tree and titles from file names\n- [ ] Tasks: parsing, epics, comments section, time log split, custom field kinds (effort, tasks, date, choice)\n- [ ] People and handles, and \"me\"\n- [ ] References: resolving `[[…]]` to tasks, pages and files\n- [ ] `.genbeya-content` and the content branch layout (read only)\n- [ ] Event-driven repository model instead of polled snapshots, with a parse cache by blob ID ([[Call chains#the-repository-model]])\n- [ ] On resume, `status` catches changes made outside the app\n"
 }

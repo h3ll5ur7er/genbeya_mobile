@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GENBEYA-14\ntitle: Rewrite on a host-agnostic engine\nstatus: done\npriority: high\nlabels:\n  - architecture\n---\n\nReplace the proof of concept with a maintainable structure.\n\n- [x] `core/` engine without Electron, validated inputs, serialized operations\n- [x] Host interface: local, WSL and SSH\n- [x] Renderer split into views, components and app state\n- [x] Design system with dark and light themes\n- [ ] Engine tests against real repositories, including WSL\n"
 }

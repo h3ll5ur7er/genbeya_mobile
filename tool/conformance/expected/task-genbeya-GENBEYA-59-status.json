@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GENBEYA-59\ntitle: \"DEMO: Build the API\"\ntype: chore\nstatus: in-progress\npriority: low\nlabels:\n  - demo\nmilestone: DEMO\nestimate: 3d\nremaining: 3d\nstart: 2026-10-29\ndue: 2026-10-31\ndepends_on: [GENBEYA-58]\n---\n\n> [!WARNING]\n> **Demo task** for trying the planning prototype ([[Planning demo]]); not real work. Delete the *Planning demo* epic once planning is tested.\n\nNo `duration` field: its 3 days come from its start and due dates. On the critical path, and blocked until GENBEYA-58 is done.\n"
 }

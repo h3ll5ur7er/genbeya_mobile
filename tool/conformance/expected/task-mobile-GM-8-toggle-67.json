@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GM-8\ntitle: Read the wiki\ntype: feature\nstatus: backlog\npriority: high\nestimate: 3d\nremaining: 3d\nmilestone: M1\ndepends_on: [GM-3, GM-6, GM-7]\n---\n\nPages exactly as the desktop shows them. See [[Experience#wiki]].\n\n- [x] Page tree drawer, breadcrumb, home page first\n- [ ] Page body in the kit with a real `MarkdownContext`; images and embeds served through checked paths\n- [ ] Tapping references opens tasks, pages and files; red references offer a new page (wired up in [[GM-16]])\n- [ ] **On this page** sheet; pinch to zoom diagrams and images\n- [ ] Opens in under a second for Genbeya's own wiki on a mid-range phone\n- [ ] Completions for `[[`, `@` and `//` inside the kit, from its context ([[Kit build]])\n"
 }

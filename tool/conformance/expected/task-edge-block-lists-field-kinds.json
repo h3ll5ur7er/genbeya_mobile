@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: EDGE-3\ntitle: Labels written as a block list\nstatus: backlog\nlabels:\n  - one\n  - two\ndepends_on:\n  - EDGE-1\n  - EDGE-2\npoints: 5\nblocked: true\nios: to-check\n---\n"
 }

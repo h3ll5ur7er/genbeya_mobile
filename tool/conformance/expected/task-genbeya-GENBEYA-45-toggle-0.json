@@ -1,4 +1,4 @@
 {
-  "genbeya": "82e9002552aecdca08b977fe20fc4ab1e9717d96",
+  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
   "output": "---\nid: GENBEYA-45\ntitle: Dependency graph as a wiki macro\ntype: feature\nstatus: review\npriority: medium\nlabels:\n  - planning\n  - wiki\n---\n\n`[DEPENDENCIES …]` on a wiki page draws the dependency graph ([[GENBEYA-44]]) of the matching tasks with the Mermaid renderer, live from the task files. Done when the macro renders in the wiki and the VS Code preview, filters by epic, milestone, assignee, label and type, and a click on a task opens it. See [[Design/Planning#plans-as-wiki-macros]].\n\nBuilt on `feature/planning-prototype`: `[DEPENDENCIES]` with `key=value` filters.\n\n- [ ] Decide the macro names and the filter syntax, shared by [[GENBEYA-46]] and [[GENBEYA-47]]\n- [x] Engine: tasks and filters to a Mermaid flowchart, with spec tests\n- [x] Renderer: the macro in pages, task descriptions and previews; clickable tasks\n- [x] Blocked, ready and done tasks styled by state; cycles marked\n- [x] VS Code preview\n- [x] Document in [[Guide/Wiki]]\n"
 }
