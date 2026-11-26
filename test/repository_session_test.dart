@@ -198,4 +198,46 @@ void main() {
       );
     },
   );
+
+  test(
+    'reads run in order: an older read never overwrites a newer one',
+    () async {
+      final git = _SlowFirstGit()
+        ..refs['HEAD'] = 'c1'
+        ..commit('c1', {
+          'tasks/DM-1.md': '---\nid: DM-1\ntitle: One\nstatus: todo\n---\n',
+        });
+      final session = RepositorySession(git, folderName: 'demo');
+      await session.load();
+      final published = <String>[];
+      session.changes.listen(
+        (state) => published.add(state.tasks.single.status),
+      );
+      git.slow = true;
+      final older = session.load();
+      git
+        ..commit('c2', {
+          'tasks/DM-1.md': '---\nid: DM-1\ntitle: One\nstatus: done\n---\n',
+        })
+        ..refs['HEAD'] = 'c2';
+      final newer = session.load();
+      await Future.wait([older, newer]);
+      expect(session.state!.tasks.single.status, 'done');
+      expect(published.last, 'done');
+    },
+  );
+}
+
+/// Its first listing after [slow] is set takes a while, as a large tree does.
+class _SlowFirstGit extends FakeGit {
+  var slow = false;
+
+  @override
+  Future<List<GitFile>> listFiles(String commit) async {
+    if (slow) {
+      slow = false;
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+    }
+    return super.listFiles(commit);
+  }
 }

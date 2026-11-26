@@ -182,4 +182,41 @@ void main() {
     expect(git.messages.last, 'Edit a comment on DM-1');
     expect(fileOf('tasks/DM-1.md'), endsWith('\n\nChanged.\n'));
   });
+
+  testWidgets('a change goes on when the task screen is left at once', (
+    tester,
+  ) async {
+    await setUpRepository(tester);
+    final task = session.state!.tasks.single;
+    final navigator = GlobalKey<NavigatorState>();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          taskWriterProvider.overrideWith((ref, _) async => writer),
+          repositoriesManagerProvider.overrideWith(
+            (ref) => Future.error(StateError('no storage in tests')),
+          ),
+        ],
+        child: MaterialApp(
+          navigatorKey: navigator,
+          home: const Scaffold(body: Text('Home')),
+        ),
+      ),
+    );
+    navigator.currentState!.push(
+      MaterialPageRoute<void>(
+        builder: (_) => TaskViewScreen(session: session, task: task),
+      ),
+    );
+    await settle(tester);
+    await tester.tap(find.text('Priority'));
+    await settle(tester);
+    await tester.tap(find.text('High'));
+    // Back at once, before the change was written.
+    navigator.currentState!.pop();
+    await settle(tester);
+    await settle(tester);
+    expect(find.text('Home'), findsOneWidget);
+    expect(fileOf('tasks/DM-1.md'), contains('priority: high\n'));
+  });
 }

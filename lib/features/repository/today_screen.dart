@@ -22,10 +22,19 @@ import 'wiki_screen.dart';
 /// **Today** ([[Experience#today]]): the user's open tasks, dated checklist
 /// items and mentions, computed from the files ([[GM-14]]).
 class TodayScreen extends ConsumerStatefulWidget {
-  const TodayScreen({super.key, required this.session, required this.record});
+  const TodayScreen({
+    super.key,
+    required this.session,
+    required this.record,
+    this.active = true,
+  });
 
   final RepositorySession session;
   final CloneRecord record;
+
+  /// Whether its tab is the one shown: Today is worked out again each time
+  /// it is.
+  final bool active;
 
   @override
   ConsumerState<TodayScreen> createState() => _TodayScreenState();
@@ -42,6 +51,12 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     _changes = widget.session.changes.listen((_) {
       if (mounted) setState(() => _today = _compute());
     });
+  }
+
+  @override
+  void didUpdateWidget(TodayScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.active && !oldWidget.active) _today = _compute();
   }
 
   @override

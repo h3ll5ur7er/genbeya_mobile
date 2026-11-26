@@ -74,12 +74,21 @@ class RepositorySession {
   /// an edit, for the screens to follow.
   Stream<RepositoryState> get changes => _changes.stream;
 
-  Future<RepositoryState> load() async {
-    final first = model.state == null;
-    final state = await model.load();
-    if (!first) _changes.add(state);
-    return state;
+  /// Reads the repository again. Reads run one after the other, so the
+  /// state last published is always the newest read: an earlier read that
+  /// happened to finish later never overwrites it.
+  Future<RepositoryState> load() {
+    final result = _loading.then((_) async {
+      final first = model.state == null;
+      final state = await model.load();
+      if (!first) _changes.add(state);
+      return state;
+    });
+    _loading = result.then((_) {}, onError: (Object _) {});
+    return result;
   }
+
+  Future<void> _loading = Future.value();
 
   RepositoryState get _state =>
       model.state ?? (throw StateError('The repository is not loaded yet.'));

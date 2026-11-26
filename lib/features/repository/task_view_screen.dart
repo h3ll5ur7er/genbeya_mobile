@@ -109,26 +109,29 @@ class _TaskViewScreenState extends ConsumerState<TaskViewScreen> {
   }
 
   void _show(Task task) {
+    // The next queued change starts from it, on screen or not.
+    _task = task;
     if (!mounted) return;
     setState(() {
-      _task = task;
       _activity = widget.session.taskActivity(task);
     });
     _host.show(KitTaskDocument(task));
   }
 
   /// Saves a change made from the task as it is when its turn comes.
+  /// Saves a change made from the task as it is when its turn comes; it
+  /// goes on when the user leaves the screen meanwhile.
   Future<void> _change(
     Future<Task?> Function(TaskWriter tasks, Task task) change,
   ) {
     setState(() => _saving++);
+    final scope = EditScope(context);
+    final record = _record!;
     return _queue = _queue
         .then((_) async {
-          if (!mounted) return;
           final saved = await changeTask(
-            context,
-            ref,
-            _record!,
+            scope,
+            record,
             widget.session,
             (tasks) => change(tasks, _task),
           );

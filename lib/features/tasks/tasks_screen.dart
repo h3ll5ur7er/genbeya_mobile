@@ -129,8 +129,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
     final record = widget.record;
     if (record == null || status == task.status) return;
     await changeTask(
-      context,
-      ref,
+      EditScope(context),
       record,
       widget.session,
       (tasks) => tasks.update(task, task.toInput().copyWith(status: status)),

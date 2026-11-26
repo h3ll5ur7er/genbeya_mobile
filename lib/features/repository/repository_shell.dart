@@ -38,10 +38,16 @@ class _RepositoryShellState extends ConsumerState<RepositoryShell> {
         ),
       ),
       data: (session) => Scaffold(
+        // A new session (another identity, say) starts every tab afresh.
         body: IndexedStack(
+          key: ObjectKey(session),
           index: _tab,
           children: [
-            TodayScreen(session: session, record: widget.record),
+            TodayScreen(
+              session: session,
+              record: widget.record,
+              active: _tab == 0,
+            ),
             WikiScreen(session: session, record: widget.record),
             TasksScreen(session: session, record: widget.record),
             RepositoryScreen(record: widget.record),

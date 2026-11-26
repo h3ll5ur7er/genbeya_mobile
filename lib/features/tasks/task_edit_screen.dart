@@ -86,8 +86,7 @@ class _TaskEditScreenState extends ConsumerState<TaskEditScreen> {
     }
     setState(() => _saving = true);
     final saved = await changeTask(
-      context,
-      ref,
+      EditScope(context),
       widget.record,
       widget.session,
       (tasks) => tasks.update(

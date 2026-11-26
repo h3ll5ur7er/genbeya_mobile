@@ -119,8 +119,7 @@ class _NewTaskScreenState extends ConsumerState<NewTaskScreen> {
     }
     setState(() => _saving = true);
     final created = await changeTask(
-      context,
-      ref,
+      EditScope(context),
       widget.record,
       widget.session,
       (tasks) => tasks.create(_draft.copyWith(title: _title.text, body: body)),

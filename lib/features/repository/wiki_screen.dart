@@ -69,14 +69,16 @@ class _WikiScreenState extends ConsumerState<WikiScreen> {
       onToggle: (document, offset) async {
         final record = _session.record;
         if (record == null || document is! KitPage) return;
+        final scope = EditScope(context);
         final page = await changeContent(
-          context,
-          ref,
+          scope,
           record,
           _session,
           'wiki',
           () async {
-            final pages = await ref.read(pageWriterProvider(record).future);
+            final pages = await scope.container.read(
+              pageWriterProvider(record).future,
+            );
             return pages.toggle(document, offset);
           },
         );

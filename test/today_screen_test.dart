@@ -65,4 +65,38 @@ void main() {
     expect(find.text('Who are you here?'), findsOneWidget);
     expect(find.text('Set my name and email'), findsOneWidget);
   });
+
+  testWidgets('Today is worked out again when its tab is shown', (
+    tester,
+  ) async {
+    final s = await session(tester, 'Ada Lovelace');
+    Widget shown(bool active) => ProviderScope(
+      overrides: [
+        repositoriesManagerProvider.overrideWith(
+          (ref) => Future.error(StateError('no storage in tests')),
+        ),
+      ],
+      child: MaterialApp(
+        home: TodayScreen(session: s, record: record, active: active),
+      ),
+    );
+    await tester.pumpWidget(shown(true));
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+    await tester.pump();
+    expect(find.text('Checklist · 1'), findsOneWidget);
+    // The model changes without a published reload (as when another screen read it).
+    final git = s.git as FakeGit;
+    git
+      ..commit('c2', {
+        ...{for (final e in git.commits['c1']!.entries) e.key: e.value},
+        'tasks/DM-1.md': '---\nid: DM-1\ntitle: Write the plan\nstatus: in-progress\nassignee: ada\n---\n\n- [x] Send it 2020-01-01\n',
+      })
+      ..refs['HEAD'] = 'c2';
+    await tester.runAsync(s.model.load);
+    await tester.pumpWidget(shown(false));
+    await tester.pumpWidget(shown(true));
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+    await tester.pump();
+    expect(find.textContaining('Checklist'), findsNothing);
+  });
 }

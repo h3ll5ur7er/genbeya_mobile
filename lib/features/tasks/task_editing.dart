@@ -32,15 +32,34 @@ final pageWriterProvider = FutureProvider.family<PageWriter, CloneRecord>((
   return PageWriter(session: session, writer: work.writer);
 });
 
+/// What a change needs from the screen that asked for it, taken when it
+/// was asked: the change goes on when the user has left the screen
+/// meanwhile, as after ticking a checkbox and going back at once.
+class EditScope {
+  EditScope(BuildContext context)
+    : container = ProviderScope.containerOf(context, listen: false),
+      messenger = ScaffoldMessenger.of(context),
+      _context = context;
+
+  final ProviderContainer container;
+  final ScaffoldMessengerState messenger;
+  final BuildContext _context;
+
+  /// The screen, while it is still there: for questions to ask.
+  BuildContext? get context => _context.mounted ? _context : null;
+
+  void say(String text) =>
+      messenger.showSnackBar(SnackBar(content: Text(text)));
+}
+
 /// Runs a task change for [record] ([changeContent]).
 Future<Task?> changeTask(
-  BuildContext context,
-  WidgetRef ref,
+  EditScope scope,
   CloneRecord record,
   RepositorySession session,
   Future<Task?> Function(TaskWriter tasks) change,
-) => changeContent(context, ref, record, session, 'tasks', () async {
-  final tasks = await ref.read(taskWriterProvider(record).future);
+) => changeContent(scope, record, session, 'tasks', () async {
+  final tasks = await scope.container.read(taskWriterProvider(record).future);
   return change(tasks);
 });
 
@@ -49,25 +68,23 @@ Future<Task?> changeTask(
 /// the change, whose problems are shown in a snack bar. What it returned,
 /// or null when it didn't happen.
 Future<T?> changeContent<T>(
-  BuildContext context,
-  WidgetRef ref,
+  EditScope scope,
   CloneRecord record,
   RepositorySession session,
   String area,
   Future<T?> Function() change,
 ) async {
-  final messenger = ScaffoldMessenger.of(context);
   try {
-    if (!await askWhereCommitsGo(context, ref, record, session, area)) {
+    if (!await askWhereCommitsGo(scope, record, session, area)) {
       return null;
     }
     return await change();
   } on ChangedMeanwhileException catch (error) {
-    messenger.showSnackBar(SnackBar(content: Text(error.message)));
+    scope.say(error.message);
   } on TaskException catch (error) {
-    messenger.showSnackBar(SnackBar(content: Text(error.message)));
+    scope.say(error.message);
   } on Object catch (error) {
-    messenger.showSnackBar(SnackBar(content: Text("Couldn't save: $error")));
+    scope.say("Couldn't save: $error");
   }
   return null;
 }
@@ -76,10 +93,9 @@ Future<T?> changeContent<T>(
 /// content branch is committed there, nothing to ask. One in the
 /// checkout is committed to the checked-out branch; the first time, the
 /// user chooses it or a branch of their own, `mobile/<handle>`. False when
-/// they cancelled.
+/// they cancelled, or left the screen before they could be asked.
 Future<bool> askWhereCommitsGo(
-  BuildContext context,
-  WidgetRef ref,
+  EditScope scope,
   CloneRecord record,
   RepositorySession session, [
   String area = 'tasks',
@@ -89,11 +105,20 @@ Future<bool> askWhereCommitsGo(
       state.place.branch != null &&
       state.place.areas[area] == StorageMode.branch;
   if (onBranch) return true;
-  final manager = await ref.read(repositoriesManagerProvider.future);
+  final manager = await scope.container.read(
+    repositoriesManagerProvider.future,
+  );
   if (await manager.commitsChosen(record.id)) return true;
-  final work = await ref.read(workProvider(record).future);
+  final work = await scope.container.read(workProvider(record).future);
   final branch = (await work.git.head()).branch;
-  if (branch == null || !context.mounted) return branch != null;
+  if (branch == null) return false;
+  final context = scope.context;
+  if (context == null || !context.mounted) {
+    scope.say(
+      'Not saved: where your edits go needs your answer first. Try again.',
+    );
+    return false;
+  }
   final choice = await showDialog<bool>(
     context: context,
     builder: (context) => AlertDialog(
@@ -123,11 +148,7 @@ Future<bool> askWhereCommitsGo(
   if (!choice) {
     final name = await work.sync.startOwnBranch();
     await session.load();
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Your edits go to $name, pushed with sync.')),
-      );
-    }
+    scope.say('Your edits go to $name, pushed with sync.');
   }
   await manager.markCommitsChosen(record.id);
   return true;
