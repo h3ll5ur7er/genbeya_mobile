@@ -270,6 +270,29 @@ Future<void> setBranch({
   expected: expected,
 );
 
+/// Deletes a branch that isn't checked out, on the remote too when given
+/// how to reach it (a rescue branch once its commits are upstream).
+Future<void> deleteBranch({
+  required String dir,
+  required String branch,
+  RemoteOptions? remote,
+}) => RustLib.instance.api.crateApiGitDeleteBranch(
+  dir: dir,
+  branch: branch,
+  remote: remote,
+);
+
+/// Whether `commit` is on `branch`, local or else the remote's.
+Future<bool> branchContains({
+  required String dir,
+  required String branch,
+  required String commit,
+}) => RustLib.instance.api.crateApiGitBranchContains(
+  dir: dir,
+  branch: branch,
+  commit: commit,
+);
+
 Future<PushOutcome> push({
   required String dir,
   required String branch,

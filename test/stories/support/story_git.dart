@@ -66,6 +66,11 @@ class StoryGit implements GitWriter {
       list.add(at);
       at = _parents[at];
     }
+    // A merge's second parent and what it holds count too.
+    for (final id in [?from, ...list]) {
+      final second = _secondParents[id];
+      if (second != null) list.addAll([second, ..._ancestors(second)]);
+    }
     return list;
   }
 
@@ -142,8 +147,9 @@ class StoryGit implements GitWriter {
     if (commit != null && upstream != null && commit != upstream) {
       final mine = [commit, ..._ancestors(commit)];
       final theirs = [upstream, ..._ancestors(upstream)];
-      ahead = mine.contains(upstream) ? mine.indexOf(upstream) : mine.length;
-      behind = theirs.contains(commit) ? theirs.indexOf(commit) : 0;
+      // As Git counts them: commits on one side and not in the other's history.
+      ahead = mine.where((c) => !theirs.contains(c)).toSet().length;
+      behind = theirs.where((c) => !mine.contains(c)).toSet().length;
     }
     return (
       commit: commit,
@@ -189,6 +195,35 @@ class StoryGit implements GitWriter {
     current = branch;
     repo.refs['HEAD'] = repo.refs['refs/heads/$branch']!;
   }
+
+  @override
+  Future<void> deleteBranch(String branch, {RemoteAccess? access}) async {
+    if (branch == current) throw StateError('$branch is checked out');
+    if (access != null) repo.refs.remove('refs/remotes/origin/$branch');
+    repo.refs.remove('refs/heads/$branch');
+  }
+
+  @override
+  Future<bool> branchContains(String branch, String commit) async {
+    final tip = _local(branch) ?? repo.refs['refs/remotes/origin/$branch'];
+    if (tip == null) return false;
+    return tip == commit || _ancestors(tip).contains(commit);
+  }
+
+  /// Makes [commit] the parent chain's newest on [branch] as a merge on the
+  /// desktop would: a commit whose first parent is the branch and that
+  /// holds [files] (for a merge of a rescue branch, its files).
+  String merge(String branch, String other, Map<String, Uint8List?> files) {
+    final tip = repo.refs['refs/remotes/origin/$branch']!;
+    final id = _commit(tip, files, 'Merge $other into $branch');
+    _secondParents[id] =
+        repo.refs['refs/remotes/origin/$other'] ??
+        repo.refs['refs/heads/$other']!;
+    repo.refs['refs/remotes/origin/$branch'] = id;
+    return id;
+  }
+
+  final _secondParents = <String, String>{};
 
   @override
   Future<({String? branch, List<String> dirty})> head() async =>

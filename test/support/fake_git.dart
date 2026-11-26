@@ -56,7 +56,17 @@ class FakeGit implements GitObjects {
   }
 
   @override
-  Future<List<String>> changedPaths(String from, String to) async => [];
+  Future<List<String>> changedPaths(String from, String to) async {
+    final a = commits[from] ?? const <String, List<int>>{};
+    final b = commits[to] ?? const <String, List<int>>{};
+    return [
+      for (final path in {...a.keys, ...b.keys})
+        if (a[path] == null ||
+            b[path] == null ||
+            blobOf(a[path]!) != blobOf(b[path]!))
+          path,
+    ]..sort();
+  }
 
   @override
   Future<String?> configValue(String key) async => config[key];

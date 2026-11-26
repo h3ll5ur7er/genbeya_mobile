@@ -10,6 +10,7 @@ import 'package:genbeya_mobile/access/storage/json_store.dart';
 import 'package:genbeya_mobile/engines/task_engine.dart';
 import 'package:genbeya_mobile/managers/content_writer.dart';
 import 'package:genbeya_mobile/managers/repository_model.dart';
+import 'package:genbeya_mobile/managers/rescues.dart';
 import 'package:genbeya_mobile/managers/sync_manager.dart';
 import 'package:genbeya_mobile/src/rust/api/git.dart' as core;
 import 'package:genbeya_mobile/src/rust/frb_generated.dart';
@@ -89,9 +90,19 @@ void main() {
     if (built) tmp.deleteSync(recursive: true);
   });
 
-  ({ContentWriter writer, SyncManager sync, RepositoryModel model})
+  ({
+    ContentWriter writer,
+    Rescues rescues,
+    SyncManager sync,
+    RepositoryModel model,
+  })
   phoneSide() {
     final gitWriter = NativeGitWriter(phone);
+    final rescues = Rescues(
+      store: JsonStore(File('${tmp.path}/rescues.json')),
+      git: gitWriter,
+      objects: NativeGitObjects(phone),
+    );
     final writer = ContentWriter(
       dir: phone,
       git: gitWriter,
@@ -100,10 +111,12 @@ void main() {
     );
     return (
       writer: writer,
+      rescues: rescues,
       sync: SyncManager(
         git: gitWriter,
         objects: NativeGitObjects(phone),
         writer: writer,
+        rescues: rescues,
         access: () async => const RemoteAccess.none(),
         signer: () async => signer,
         handle: () => 'alice',
@@ -385,6 +398,38 @@ void main() {
       reason: 'nothing is discarded',
     );
     expect(git(phone, ['status', '--porcelain']), isEmpty);
+
+    // The banner: what the rescue keeps that main doesn't have.
+    var states = await side.rescues.states();
+    expect(states.single.upstream, isFalse);
+    expect(states.single.differing, ['docs/Home.md']);
+
+    // The desk finishes the merge: the rescue branch into main, pushed.
+    git(desk, ['fetch', '-q', 'origin']);
+    git(desk, [
+      '-c',
+      'user.name=Desk',
+      'merge',
+      '-q',
+      '-X',
+      'theirs',
+      '-m',
+      'Merge the rescue',
+      'origin/mobile/rescue/alice-2026-11-23',
+    ]);
+    git(desk, ['push', '-q', 'origin', 'main']);
+    await side.sync.sync(await side.model.load());
+    states = await side.rescues.states();
+    expect(states.single.upstream, isTrue, reason: 'its commit is on main');
+
+    await side.rescues.delete(states.single.rescue, const RemoteAccess.none());
+    expect(await side.rescues.all(), isEmpty);
+    expect(
+      git(tmp.path, ['--git-dir', remote, 'branch', '--list', 'mobile/*']),
+      isEmpty,
+      reason: 'gone from the remote',
+    );
+    expect(git(phone, ['branch', '--list', '--all', '*rescue*']), isEmpty);
   }, skip: skip);
 
   test(

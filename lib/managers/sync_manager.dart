@@ -26,6 +26,7 @@ import '../engines/task_engine.dart';
 import '../engines/task_merge.dart';
 import 'content_writer.dart';
 import 'repository_model.dart';
+import 'rescues.dart';
 
 /// How a sync went, for the screen to say.
 class SyncReport {
@@ -63,6 +64,7 @@ class SyncManager {
     required this.git,
     required this.objects,
     required this.writer,
+    this.rescues,
     required this.access,
     required this.signer,
     required this.handle,
@@ -74,6 +76,9 @@ class SyncManager {
   /// Reads commits, for the tasks local commits created.
   final GitObjects objects;
   final ContentWriter writer;
+
+  /// Where rescue branches are remembered, for the banner.
+  final Rescues? rescues;
 
   /// How to reach the remote, read when a sync starts.
   final Future<RemoteAccess> Function() access;
@@ -105,6 +110,17 @@ class SyncManager {
       if (content != null && content != checkedOut) content,
       ?checkedOut,
     ];
+
+    // Rescue branches a sync couldn't push (offline) go first.
+    for (final rescue in await rescues?.all() ?? const <Rescue>[]) {
+      final kept = await git.branchState(rescue.name);
+      if (kept.commit == null || kept.upstream != null) continue;
+      try {
+        await git.push(rescue.name, remote);
+      } on RemoteFailure {
+        // Again with the next sync.
+      }
+    }
 
     for (var attempt = 1; attempt <= 3; attempt++) {
       await git.fetch([?content], remote);
@@ -139,6 +155,7 @@ class SyncManager {
             remote,
             plan?.resolutions ?? const {},
             plan?.oldPaths ?? const {},
+            windows[branch]?.base,
           );
           if (!kept) rescuedBranches.add(branch);
           if (kept && plan != null) report.renumbered.addAll(plan.renumbered);
@@ -253,6 +270,7 @@ class SyncManager {
     RemoteAccess remote, [
     Map<String, Map<String, Uint8List?>> initial = const {},
     Set<String> keepRemote = const {},
+    String? base,
   ]) async {
     final resolutions = <String, Map<String, Uint8List?>>{
       for (final e in initial.entries) e.key: {...e.value},
@@ -268,7 +286,7 @@ class SyncManager {
         }
         final merged = _merge(conflict, state);
         if (merged == null) {
-          await _rescue(branch, report, remote);
+          await _rescue(branch, report, remote, base);
           return false;
         }
         resolved[conflict.path] = Uint8List.fromList(utf8.encode(merged));
@@ -279,7 +297,7 @@ class SyncManager {
         ...resolved,
       };
     }
-    await _rescue(branch, report, remote);
+    await _rescue(branch, report, remote, base);
     return false;
   }
 
@@ -467,6 +485,7 @@ class SyncManager {
     String branch,
     SyncReport report,
     RemoteAccess remote,
+    String? base,
   ) async {
     final state = await git.branchState(branch);
     final local = state.commit!;
@@ -483,6 +502,13 @@ class SyncManager {
     }
     await git.setBranch(branch, state.upstreamCommit!, expected: local);
     report.rescued[branch] = name;
+    await rescues?.remember((
+      name: name,
+      branch: branch,
+      base: base ?? state.upstreamCommit!,
+      tip: local,
+      day: day,
+    ));
   }
 }
 

@@ -602,9 +602,11 @@ class RemoteOptions {
 /// memory: the working tree and the branch change only once every commit
 /// applied. `resolutions` settle conflicts a previous call reported, by path,
 /// for the local commit it named; anything else conflicting is reported and
-/// nothing changes.
-/// A conflict resolved: the content of `path` when the local commit
-/// `commit` is replayed (None removes the file).
+/// nothing changes. A resolution for a path that doesn't conflict applies
+/// too: the replayed commit leaves that content there (a renumbered task
+/// moving to its new name, say).
+/// The content of `path` when the local commit `commit` is replayed (None
+/// removes the file): a conflict resolved, or a file rewritten.
 class Resolution {
   final String commit;
   final String path;

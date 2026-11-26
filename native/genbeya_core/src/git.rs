@@ -1888,6 +1888,80 @@ pub fn switch_branch(dir: &Path, branch: &str) -> Result<()> {
 
 /// Pushes `branch` to the same name on the remote. Never forced: a remote
 /// that has commits the branch lacks answers `Rejected`.
+/// Deletes a local branch that isn't checked out, its remote-tracking ref
+/// and the fetch refspec a first push added for it; with `remote_options`,
+/// deletes it on the remote first. A branch that isn't there is no error.
+pub fn delete_branch(
+    dir: &Path,
+    branch: &str,
+    remote_options: Option<&RemoteOptions>,
+) -> Result<()> {
+    let repo = Repository::open(dir)?;
+    let head = repo.head()?;
+    if head.is_branch() && head.shorthand().ok() == Some(branch) {
+        return Err(CoreError::InvalidArgument {
+            message: format!("{branch} is checked out"),
+        });
+    }
+    let tracking = format!("refs/remotes/{REMOTE}/{branch}");
+    if let Some(options) = remote_options {
+        if repo.find_reference(&tracking).is_ok() {
+            let mut remote = repo.find_remote(REMOTE)?;
+            let network = Network::new(options);
+            let mut proxy = ProxyOptions::new();
+            proxy.auto();
+            let mut push = PushOptions::new();
+            push.remote_callbacks(network.callbacks(None, None));
+            push.proxy_options(proxy);
+            let refspec = format!(":refs/heads/{branch}");
+            if let Err(e) = remote.push(&[refspec.as_str()], Some(&mut push)) {
+                return Err(network.explain(e, None));
+            }
+            let rejected = network.rejected.lock().unwrap().clone();
+            if !rejected.is_empty() {
+                return Err(CoreError::Git {
+                    code: -1,
+                    class: 0,
+                    message: format!("The remote kept {branch}: {}", rejected.join("; ")),
+                });
+            }
+        }
+    }
+    if let Ok(mut local) = repo.find_branch(branch, BranchType::Local) {
+        local.delete()?;
+    }
+    if let Ok(mut reference) = repo.find_reference(&tracking) {
+        reference.delete()?;
+    }
+    let spec = format!("+refs/heads/{branch}:refs/remotes/{REMOTE}/{branch}");
+    let mut config = repo.config()?;
+    let pattern = format!("^{}$", regex::escape(&spec));
+    match config.remove_multivar(&format!("remote.{REMOTE}.fetch"), &pattern) {
+        Ok(()) => {}
+        Err(e) if e.code() == ErrorCode::NotFound => {}
+        Err(e) => return Err(e.into()),
+    }
+    Ok(())
+}
+
+/// Whether `commit` is on `branch` (the local branch, else the remote's):
+/// it or one of its descendants is the branch's tip.
+pub fn branch_contains(dir: &Path, branch: &str, commit: &str) -> Result<bool> {
+    let repo = Repository::open(dir)?;
+    let tip = match repo.find_branch(branch, BranchType::Local) {
+        Ok(local) => local.get().peel_to_commit()?.id(),
+        Err(_) => match repo.find_reference(&format!("refs/remotes/{REMOTE}/{branch}")) {
+            Ok(remote) => remote.peel_to_commit()?.id(),
+            Err(_) => return Ok(false),
+        },
+    };
+    let commit = Oid::from_str(commit)?;
+    if repo.find_commit(commit).is_err() {
+        return Ok(false);
+    }
+    Ok(tip == commit || repo.graph_descendant_of(tip, commit)?)
+}
+
 pub fn push(dir: &Path, branch: &str, remote_options: &RemoteOptions) -> Result<PushOutcome> {
     let repo = Repository::open(dir)?;
     let local = repo

@@ -34,7 +34,7 @@ Every story that is built has a test that follows its steps ([[GM-32]]): a widge
 | US-12 | `test/stories/us_12_answer_comment_test.dart` |
 | US-14 | `test/stories/us_14_reassign_test.dart` |
 | US-22 | `test/sync_flow_test.dart` (through the core), and the merge rules in `test/task_merge_test.dart` |
-| US-23 | `test/sync_flow_test.dart` (through the core); the banner comes with [[GM-11]] |
+| US-23 | `test/sync_flow_test.dart` (through the core: the rescue, the desktop's merge, the deletion), `test/stories/us_23_rescue_test.dart` (the banner) |
 | US-24 | `test/stories/us_24_own_branch_test.dart`, and `test/sync_flow_test.dart` against a remote that refuses |
 | US-25 | `test/stories/us_25_content_branch_test.dart` |
 | US-26 | `test/stories/us_26_untrusted_test.dart`, `test/kit_protocol_test.dart`, and the content security policy in `tool/build_kit/test.mjs` |

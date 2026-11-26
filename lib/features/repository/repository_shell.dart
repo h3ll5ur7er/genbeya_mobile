@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../contracts/clones.dart';
 import '../repositories/repository_screen.dart';
 import '../tasks/tasks_screen.dart';
+import 'rescue_banner.dart';
 import 'session_provider.dart';
 import 'today_screen.dart';
 import 'wiki_screen.dart';
@@ -38,19 +39,30 @@ class _RepositoryShellState extends ConsumerState<RepositoryShell> {
         ),
       ),
       data: (session) => Scaffold(
-        // A new session (another identity, say) starts every tab afresh.
-        body: IndexedStack(
-          key: ObjectKey(session),
-          index: _tab,
+        body: Column(
           children: [
-            TodayScreen(
-              session: session,
-              record: widget.record,
-              active: _tab == 0,
+            // Rescued edits, above every tab, until they're dealt with.
+            SafeArea(
+              bottom: false,
+              child: RescueBanner(record: widget.record, session: session),
             ),
-            WikiScreen(session: session, record: widget.record),
-            TasksScreen(session: session, record: widget.record),
-            RepositoryScreen(record: widget.record),
+            Expanded(
+              // A new session (another identity, say) starts every tab afresh.
+              child: IndexedStack(
+                key: ObjectKey(session),
+                index: _tab,
+                children: [
+                  TodayScreen(
+                    session: session,
+                    record: widget.record,
+                    active: _tab == 0,
+                  ),
+                  WikiScreen(session: session, record: widget.record),
+                  TasksScreen(session: session, record: widget.record),
+                  RepositoryScreen(record: widget.record),
+                ],
+              ),
+            ),
           ],
         ),
         bottomNavigationBar: NavigationBar(

@@ -158,6 +158,20 @@ class NativeGitWriter implements GitWriter {
       );
 
   @override
+  Future<void> deleteBranch(String branch, {RemoteAccess? access}) => _mapped(
+    () => core.deleteBranch(
+      dir: dir,
+      branch: branch,
+      remote: access == null ? null : _options(access),
+    ),
+  );
+
+  @override
+  Future<bool> branchContains(String branch, String commit) => _mapped(
+    () => core.branchContains(dir: dir, branch: branch, commit: commit),
+  );
+
+  @override
   Future<void> switchBranch(String branch) =>
       _mapped(() => core.switchBranch(dir: dir, branch: branch));
 

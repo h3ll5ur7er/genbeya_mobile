@@ -8,6 +8,7 @@ import '../../access/storage/json_store.dart';
 import '../../contracts/clones.dart';
 import '../../engines/people.dart';
 import '../../managers/content_writer.dart';
+import '../../managers/rescues.dart';
 import '../../managers/sync_manager.dart';
 import '../repositories/providers.dart';
 import 'session_provider.dart';
@@ -17,6 +18,7 @@ typedef RepositoryWork = ({
   ContentWriter writer,
   SyncManager sync,
   GitWriter git,
+  Rescues rescues,
 });
 
 final workProvider = FutureProvider.family<RepositoryWork, CloneRecord>((
@@ -40,13 +42,20 @@ final workProvider = FutureProvider.family<RepositoryWork, CloneRecord>((
     journal: JsonStore(File('${manager.root.path}/journals/${record.id}.json')),
     signer: signer,
   );
+  final rescues = Rescues(
+    store: JsonStore(File('${manager.root.path}/rescues/${record.id}.json')),
+    git: git,
+    objects: session.git,
+  );
   return (
     writer: writer,
     git: git,
+    rescues: rescues,
     sync: SyncManager(
       git: git,
       objects: session.git,
       writer: writer,
+      rescues: rescues,
       access: () => manager.accessFor(record.url, record.credential),
       signer: signer,
       handle: () {

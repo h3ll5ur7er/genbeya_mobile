@@ -284,6 +284,21 @@ pub fn set_branch(
     git::set_branch(Path::new(&dir), &branch, &commit, expected.as_deref())
 }
 
+/// Deletes a branch that isn't checked out, on the remote too when given
+/// how to reach it (a rescue branch once its commits are upstream).
+pub fn delete_branch(
+    dir: String,
+    branch: String,
+    remote: Option<RemoteOptions>,
+) -> Result<(), CoreError> {
+    git::delete_branch(Path::new(&dir), &branch, remote.as_ref())
+}
+
+/// Whether `commit` is on `branch`, local or else the remote's.
+pub fn branch_contains(dir: String, branch: String, commit: String) -> Result<bool, CoreError> {
+    git::branch_contains(Path::new(&dir), &branch, &commit)
+}
+
 pub fn push(dir: String, branch: String, remote: RemoteOptions) -> Result<PushOutcome, CoreError> {
     git::push(Path::new(&dir), &branch, &remote)
 }

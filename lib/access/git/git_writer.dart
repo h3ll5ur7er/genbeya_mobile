@@ -83,6 +83,13 @@ abstract interface class GitWriter {
   /// Checks out a local branch, safely.
   Future<void> switchBranch(String branch);
 
+  /// Deletes a branch that isn't checked out, on the remote too with
+  /// [access]; a branch that isn't there is no error.
+  Future<void> deleteBranch(String branch, {RemoteAccess? access});
+
+  /// Whether [commit] is on [branch] (local, else the remote's).
+  Future<bool> branchContains(String branch, String commit);
+
   /// The checked-out branch, and paths with uncommitted changes.
   Future<({String? branch, List<String> dirty})> head();
 }

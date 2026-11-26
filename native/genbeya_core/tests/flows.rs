@@ -1376,3 +1376,38 @@ fn a_conflicting_path_and_a_rewritten_one_in_the_same_commit() {
     assert_eq!(fs::read(bob.join("tasks/GM-3.md")).unwrap(), renumbered(&second));
     assert!(git::head(&bob).unwrap().dirty.is_empty());
 }
+
+/// A rescue branch, pushed, is deleted here and on the remote once its commit
+/// is on the branch it came from (GM-11, the rescue banner).
+#[test]
+fn a_rescue_branch_is_known_upstream_then_deleted_everywhere() {
+    let f = Fixture::new();
+    let bob = f.clone("bob");
+    let start = git::head(&bob).unwrap();
+    let mine = edit(&bob, "docs/Notes.md", "# Notes\n", "Bob", "Edit docs/Notes.md");
+    git::set_branch(&bob, "mobile/rescue/bob-2026-11-26", &mine, None).unwrap();
+    assert_eq!(
+        git::push(&bob, "mobile/rescue/bob-2026-11-26", &none()).unwrap(),
+        PushOutcome::Pushed
+    );
+    // As the rescue left it: main back at the remote.
+    git::set_branch(&bob, "main", &start.commit, Some(&mine)).unwrap();
+    assert!(!git::branch_contains(&bob, "main", &mine).unwrap());
+    assert!(git::branch_contains(&bob, "mobile/rescue/bob-2026-11-26", &mine).unwrap());
+
+    // The desk finished the merge: main has the commit now.
+    git::set_branch(&bob, "main", &mine, None).unwrap();
+    assert!(git::branch_contains(&bob, "main", &mine).unwrap());
+    assert!(!git::branch_contains(&bob, "main", &"0".repeat(40)).unwrap());
+
+    assert!(git::delete_branch(&bob, "main", None).is_err(), "main is checked out");
+    git::delete_branch(&bob, "mobile/rescue/bob-2026-11-26", Some(&none())).unwrap();
+    assert!(f
+        .remote_git(&["branch", "--list", "mobile/rescue/*"])
+        .trim()
+        .is_empty());
+    assert!(sh(&bob, &["branch", "--list", "--all", "*rescue*"]).trim().is_empty());
+    assert!(!sh(&bob, &["config", "--get-all", "remote.origin.fetch"]).contains("rescue"));
+    // Gone already: no error.
+    git::delete_branch(&bob, "mobile/rescue/bob-2026-11-26", Some(&none())).unwrap();
+}

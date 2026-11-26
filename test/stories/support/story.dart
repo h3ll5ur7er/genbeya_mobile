@@ -30,6 +30,7 @@ import 'package:genbeya_mobile/features/repository/work_provider.dart';
 import 'package:genbeya_mobile/managers/content_writer.dart';
 import 'package:genbeya_mobile/managers/repositories_manager.dart';
 import 'package:genbeya_mobile/managers/repository_session.dart';
+import 'package:genbeya_mobile/managers/rescues.dart';
 import 'package:genbeya_mobile/managers/sync_manager.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -91,6 +92,7 @@ class Story {
   late final RepositorySession session;
   late final ContentWriter writer;
   late final SyncManager sync;
+  late final Rescues rescues;
 
   String get folder => manager.folderOf(record);
 
@@ -103,7 +105,7 @@ class Story {
         url: 'https://github.com/acme/demo.git',
         name: 'demo',
         branch: 'main',
-        credential: CredentialKind.token,
+        credential: CredentialKind.none,
         added: DateTime.utc(2026, 11, 1),
         contentBranch: content == null ? null : 'genbeya',
         commitsChosen: commitsChosen,
@@ -151,10 +153,16 @@ class Story {
         journal: JsonStore(File('${root.path}/journal.json')),
         signer: signer,
       );
+      rescues = Rescues(
+        store: JsonStore(File('${root.path}/rescues.json')),
+        git: git,
+        objects: repo,
+      );
       sync = SyncManager(
         git: git,
         objects: repo,
         writer: writer,
+        rescues: rescues,
         access: () async => const RemoteAccess.none(),
         signer: signer,
         handle: () => 'ada',
@@ -167,7 +175,8 @@ class Story {
     repositoriesManagerProvider.overrideWith((ref) async => manager),
     sessionProvider.overrideWith((ref, _) async => session),
     workProvider.overrideWith(
-      (ref, _) async => (writer: writer, sync: sync, git: git),
+      (ref, _) async =>
+          (writer: writer, sync: sync, git: git, rescues: rescues),
     ),
   ];
 
