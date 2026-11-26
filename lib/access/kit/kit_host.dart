@@ -183,6 +183,9 @@ class KitHost {
   KitDocument? _document;
   KitEdit? _edit;
 
+  /// The file open in the kit's editor, if one is.
+  KitEdit? get editing => _edit;
+
   /// The document shown, if the kit shows one now.
   KitDocument? get document => _edit == null ? _document : null;
 

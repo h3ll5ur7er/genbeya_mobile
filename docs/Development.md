@@ -36,6 +36,16 @@ flutter build ios --debug --no-codesign   # iOS, on macOS
 - The Git core's flow test `clone_and_push_over_ssh_with_a_key_made_on_the_device` starts a local `sshd` (`/usr/sbin/sshd`) and skips without one; CI installs `openssh-server`.
 - `test/native_bridge_test.dart` clones, commits and pushes through the Rust core from Dart; it skips unless the library is built (`cargo build --release --lib` in `native/genbeya_core`).
 - `test/widget_test.dart` opens the app.
+- `test/stories/` holds a test for each user story that is built: see [Story tests](#story-tests).
+
+### Story tests
+
+Each built story of [[User stories]] has a widget test that follows its steps on the app's real screens (`test/stories/us_<n>_<what>_test.dart`, starting with the story's heading as a comment). Unit tests check what a piece computes; these check that the story works, including what happens after the screen first showed (Today missed edits made just before, which only a test of the steps would have shown: [[GM-14]]).
+
+- **The harness** (`test/stories/support/`): `Story` makes one clone held in memory, with the clone registered in a real `RepositoriesManager`, and gives the app's providers its session and its work, so the screens, `TaskWriter`, `ContentWriter` and `SyncManager` run unchanged. `StoryGit` writes commits as the native core does and plays the remote: branches with upstreams, pushes, refused pushes (`refuses`), and how often the remote was asked (`fetches`).
+- **The kit** has no web view in widget tests; `FakeKit` sends what it would (`ready`, a checkbox's `tick`, the editor's `save`, a followed link) through the host of the kit shown, so the host's checks run too.
+- **Waiting**: writes go through real files, so tests wait for what they expect: `story.committed(tester, message)` waits for the commit and for the app to have read it; `Story.until` for anything else. Avoid fixed waits.
+- **New story**: add its test with the feature, and its row in [[User stories#tested-by]]. Stories that only the real Git core can tell (SSH, a merge through libgit2) keep an end-to-end test named after the story instead (`test/sync_flow_test.dart`, `native/genbeya_core/tests/flows.rs`).
 
 ## Conformance
 

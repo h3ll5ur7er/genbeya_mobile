@@ -16,6 +16,29 @@ What people will use the app for, as stories with what has to be true when they 
 
 Priorities are for the trial: **Must** stories decide whether it succeeds, **Should** stories are expected, **Could** stories are welcome if time allows.
 
+## Tested by
+
+Every story that is built has a test that follows its steps ([[GM-32]]): a widget test on the app's real screens over a clone held in memory (`test/stories/`, see [[Development#story-tests]]), or, where only the real Git core can tell, an end-to-end test against real repositories.
+
+| Story | Test |
+| --- | --- |
+| US-1 | `native/genbeya_core/tests/flows.rs`: the SSH key made on the device, clone and push over SSH against a local sshd |
+| US-2 | `test/stories/us_02_open_link_test.dart` |
+| US-4 | `test/stories/us_04_today_test.dart` |
+| US-5 | `test/stories/us_05_look_up_test.dart` (rendering: `tool/build_kit/test.mjs`) |
+| US-6 | `test/stories/us_06_follow_reference_test.dart` (files open with [[GM-17]]) |
+| US-8 | `test/stories/us_08_offline_test.dart` |
+| US-9 | `test/stories/us_09_move_task_test.dart` |
+| US-10 | `test/stories/us_10_tick_checklist_test.dart` |
+| US-11 | `test/stories/us_11_capture_task_test.dart` |
+| US-12 | `test/stories/us_12_answer_comment_test.dart` |
+| US-14 | `test/stories/us_14_reassign_test.dart` |
+| US-22 | `test/sync_flow_test.dart` (through the core), and the merge rules in `test/task_merge_test.dart` |
+| US-23 | `test/sync_flow_test.dart` (through the core); the banner comes with [[GM-11]] |
+| US-24 | `test/stories/us_24_own_branch_test.dart`, and `test/sync_flow_test.dart` against a remote that refuses |
+| US-25 | `test/stories/us_25_content_branch_test.dart` |
+| US-26 | `test/stories/us_26_untrusted_test.dart`, `test/kit_protocol_test.dart`, and the content security policy in `tool/build_kit/test.mjs` |
+
 ## Getting a repository onto the phone
 
 ### US-1 · Clone a private repository over SSH
@@ -117,7 +140,7 @@ Priorities are for the trial: **Must** stories decide whether it succeeds, **Sho
 
 - Long-press and drag a card to another column, or choose **Move to…**; on the task screen, the status chip opens the states.
 - The file changes only in `status`: other fields, their order, YAML comments and line endings stay as they are.
-- The change is one commit named after the task (`GM-12: Move to review`).
+- The change is one commit named after the task, as desktop names it (`Update GM-12: <title>`).
 
 **Must** · [[GM-12]], [[GM-11]]
 

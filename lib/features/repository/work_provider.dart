@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../access/git/git_writer.dart';
 import '../../access/native/native_git_writer.dart';
 import '../../access/storage/json_store.dart';
 import '../../contracts/clones.dart';
@@ -15,7 +16,7 @@ import 'session_provider.dart';
 typedef RepositoryWork = ({
   ContentWriter writer,
   SyncManager sync,
-  NativeGitWriter git,
+  GitWriter git,
 });
 
 final workProvider = FutureProvider.family<RepositoryWork, CloneRecord>((

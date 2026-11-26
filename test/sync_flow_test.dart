@@ -112,7 +112,7 @@ void main() {
     );
   }
 
-  test('a task both changed merges the Genbeya way', () async {
+  test('US-22: a task both changed merges the Genbeya way', () async {
     final side = phoneSide();
     var state = await side.model.load();
     expect(state.place.branch, 'genbeya');
@@ -142,49 +142,53 @@ void main() {
     expect(state.tasks.single.assignee, 'sam');
   }, skip: skip);
 
-  test('a comment written on both sides keeps both, in time order', () async {
-    final side = phoneSide();
-    final state = await side.model.load();
-    final tasks = TaskEngine();
-    // The phone comments at 10:00 UTC; the desk at 09:30, pushed first.
-    await side.writer.write(state, {
-      'tasks/GM-1.md': tasks.addComment(
-        task('todo'),
-        'Alice',
-        DateTime.utc(2026, 11, 23, 10),
-        'From the phone.',
-      ),
-    }, 'Comment on GM-1');
-    git(desk, ['switch', '-q', 'genbeya']);
-    File('$desk/tasks/GM-1.md').writeAsStringSync(
-      tasks.addComment(
-        task('todo'),
-        'Desk',
-        DateTime.utc(2026, 11, 23, 9, 30),
-        'From the desk.',
-      ),
-    );
-    git(desk, ['commit', '-q', '-am', 'Comment on GM-1']);
-    git(desk, ['push', '-q', 'origin', 'genbeya']);
+  test(
+    'US-22: a comment written on both sides keeps both, in time order',
+    () async {
+      final side = phoneSide();
+      final state = await side.model.load();
+      final tasks = TaskEngine();
+      // The phone comments at 10:00 UTC; the desk at 09:30, pushed first.
+      await side.writer.write(state, {
+        'tasks/GM-1.md': tasks.addComment(
+          task('todo'),
+          'Alice',
+          DateTime.utc(2026, 11, 23, 10),
+          'From the phone.',
+        ),
+      }, 'Comment on GM-1');
+      git(desk, ['switch', '-q', 'genbeya']);
+      File('$desk/tasks/GM-1.md').writeAsStringSync(
+        tasks.addComment(
+          task('todo'),
+          'Desk',
+          DateTime.utc(2026, 11, 23, 9, 30),
+          'From the desk.',
+        ),
+      );
+      git(desk, ['commit', '-q', '-am', 'Comment on GM-1']);
+      git(desk, ['push', '-q', 'origin', 'genbeya']);
 
-    final report = await side.sync.sync(state);
-    expect(report.merged, {'tasks/GM-1.md'});
-    expect(report.rescued, isEmpty);
-    final merged = git(tmp.path, [
-      '--git-dir',
-      remote,
-      'show',
-      'genbeya:tasks/GM-1.md',
-    ]);
-    expect(
-      merged,
-      endsWith(
-        '## Comments\n\n### Desk — 2026-11-23 09:30+00:00\n\nFrom the desk.\n\n### Alice — 2026-11-23 10:00+00:00\n\nFrom the phone.',
-      ),
-    );
-  }, skip: skip);
+      final report = await side.sync.sync(state);
+      expect(report.merged, {'tasks/GM-1.md'});
+      expect(report.rescued, isEmpty);
+      final merged = git(tmp.path, [
+        '--git-dir',
+        remote,
+        'show',
+        'genbeya:tasks/GM-1.md',
+      ]);
+      expect(
+        merged,
+        endsWith(
+          '## Comments\n\n### Desk — 2026-11-23 09:30+00:00\n\nFrom the desk.\n\n### Alice — 2026-11-23 10:00+00:00\n\nFrom the phone.',
+        ),
+      );
+    },
+    skip: skip,
+  );
 
-  test('what cannot merge goes to a pushed rescue branch; the branch follows the remote', () async {
+  test('US-23: what cannot merge goes to a pushed rescue branch; the branch follows the remote', () async {
     final side = phoneSide();
     final state = await side.model.load();
     await side.writer.write(state, {
@@ -216,7 +220,7 @@ void main() {
   }, skip: skip);
 
   test(
-    'a write the app was stopped during is committed on the next sync',
+    'US-23: a write the app was stopped during is committed on the next sync',
     () async {
       final side = phoneSide();
       final state = await side.model.load();
@@ -247,7 +251,7 @@ void main() {
     skip: skip,
   );
 
-  test('a push the remote refuses is reported; the commits move to a branch of their own', () async {
+  test('US-24: a push the remote refuses is reported; the commits move to a branch of their own', () async {
     final side = phoneSide();
     final state = await side.model.load();
     // A protected main: the remote turns pushes to it down.

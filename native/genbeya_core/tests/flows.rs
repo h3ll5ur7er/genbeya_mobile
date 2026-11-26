@@ -736,6 +736,7 @@ fn lists_a_remote_and_clones_its_content_branch_along() {
     assert!(!f.root.join("nope").exists());
 }
 
+/// US-1: the device makes the Ed25519 key it offers.
 #[test]
 fn ssh_keys_made_on_the_device() {
     let key = git::generate_ssh_key("Pixel 9 Pro XL").unwrap();
@@ -825,6 +826,7 @@ fn ssh_server(root: &Path, authorized: &str, host_key: &str) -> Option<SshServer
     })
 }
 
+/// US-1 · Clone a private repository over SSH (docs/Experience/User-stories.md).
 #[test]
 fn clone_and_push_over_ssh_with_a_key_made_on_the_device() {
     let f = Fixture::new();
