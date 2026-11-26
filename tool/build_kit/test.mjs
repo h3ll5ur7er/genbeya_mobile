@@ -338,15 +338,23 @@ try {
   timings.editorOpen = Date.now() - start;
   await kit.page.click(".cm-content");
   await kit.page.keyboard.press("Control+End");
+  // CodeMirror ignores keys for 75 ms after the list opens or changes (its interactionDelay); a
+  // person is slower than that, the test waits for it.
+  const listShown = () =>
+    kit.page
+      .waitForSelector(".cm-tooltip-autocomplete li[aria-selected]", { timeout: 5000 })
+      .then(() => kit.page.waitForTimeout(150))
+      .then(() => true)
+      .catch(() => false);
   await kit.page.keyboard.type("See [[GENBEYA-4");
-  const listed = await kit.page.waitForSelector(".cm-tooltip-autocomplete li", { timeout: 5000 }).then(() => true).catch(() => false);
+  const listed = await listShown();
   const options = await kit.page.evaluate(() => [...document.querySelectorAll(".cm-tooltip-autocomplete li")].slice(0, 3).map((item) => item.textContent));
   await kit.page.keyboard.press("Enter");
   await kit.page.keyboard.type(" with @ad");
-  await kit.page.waitForSelector(".cm-tooltip-autocomplete li", { timeout: 5000 }).catch(() => null);
+  await listShown();
   await kit.page.keyboard.press("Enter");
   await kit.page.keyboard.type(" by //tom");
-  await kit.page.waitForSelector(".cm-tooltip-autocomplete li", { timeout: 5000 }).catch(() => null);
+  await listShown();
   await kit.page.keyboard.press("Enter");
   const text = await kit.page.evaluate(() => document.querySelector(".cm-content").innerText);
   check("[[ completes task references in the editor", listed && /\[\[GENBEYA-4\d*\]\]/.test(text), `offered ${options.join(" / ")}; text: ${JSON.stringify(text.split("\n").at(-1))}`);
