@@ -1,6 +1,7 @@
-// Checks the built kit (kit/dist) in Chromium with a test host, as a phone's web view would
-// host it: messages through window.genbeyaKitHost and window.genbeyaKit only. Uses Genbeya's
-// own repository (the build cache) as the repository the host serves.
+// Checks the kit in kit/dist (Genbeya's, as build.mjs put it there) in Chromium with a test
+// host speaking the messages this app sends, as a phone's web view hosts it: through
+// window.genbeyaKitHost and window.genbeyaKit only. The repository the host serves is
+// Genbeya's own at kit/GENBEYA_REF, cloned into .cache once.
 // Usage: node test.mjs   (after node build.mjs)
 import { execFileSync, execSync } from "node:child_process";
 import fs from "node:fs";
@@ -14,6 +15,11 @@ const repo = path.resolve(here, "../..");
 const dist = path.join(repo, "kit/dist");
 const ref = fs.readFileSync(path.join(repo, "kit/GENBEYA_REF"), "utf8").trim();
 const genbeya = path.join(here, ".cache", `genbeya-${ref.slice(0, 12)}`);
+if (!fs.existsSync(path.join(genbeya, ".git"))) {
+  const source = process.env.GENBEYA_SOURCE ?? "https://github.com/genbeya/genbeya.git";
+  execFileSync("git", ["clone", "--quiet", "--no-checkout", source, genbeya], { stdio: "inherit" });
+}
+execFileSync("git", ["-C", genbeya, "checkout", "--quiet", "--detach", ref], { stdio: "inherit" });
 const shots = path.join(repo, "kit/test/screenshots");
 const { chromium, devices } = createRequire(path.join(execSync("npm root -g").toString().trim(), "_.js"))("playwright");
 
@@ -81,15 +87,19 @@ const planHistory = {
   truncated: false,
   baseline: null,
 };
+// The parts as lib/managers/repository_session.dart kitContext sends them (Genbeya's ContextParts).
+const calendar = { workdays: ["mon", "tue", "wed", "thu", "fri"], holidays: [], milestones: [{ name: "M0", due: "2026-12-04" }] };
 const context = {
-  wiki: { version: "w1", value: { wikiRoot: "docs", nodes: wikiTree("docs") } },
+  wiki: { version: "w1", value: wikiTree("docs") },
   tasks: { version: "t1", value: [...tasks, ...plan.map(({ id, path, title, status }) => ({ id, path, title, status }))] },
-  plan: { version: "p1", value: { tasks: plan, calendar: { workdays: ["mon", "tue", "wed", "thu", "fri"], holidays: [], milestones: [{ name: "M0", due: "2026-12-04" }] } } },
+  plan: { version: "p1", value: plan },
   files: { version: "f1", value: files },
   people: { version: "pe1", value: people },
-  settings: { version: "s1", value: { statuses, hiddenColumns: [], types: [], fields: [] } },
+  settings: { version: "s1", value: { wikiRoot: "docs", statuses, calendar } },
   author: { version: "a1", value: "Alex Chen" },
 };
+// lib/access/kit/kit_protocol.dart themeMessage.
+const theme = (mode) => ({ type: "theme", mode, tokens: {} });
 const references = { kind: "page", path: "docs/Guide/References.md", title: "References", source: read("docs/Guide/References.md"), hash: "h-references" };
 const planPage = {
   kind: "page",
@@ -216,7 +226,7 @@ try {
   check("ready names protocol 1 and Genbeya's version", ready?.protocol === 1 && typeof ready.genbeya === "string", JSON.stringify(ready));
   timings.loadToReady = kit.loaded;
 
-  await kit.send({ type: "theme", theme: "light" });
+  await kit.send(theme("light"));
   await kit.send({ type: "context", parts: context });
   let start = Date.now();
   await kit.send({ type: "preview", document: references });
@@ -279,7 +289,7 @@ try {
   check("the rendered height is reported", kit.messages.some((m) => m.type === "height" && m.height > 200), `last height ${kit.messages.filter((m) => m.type === "height").at(-1)?.height}`);
 
   await kit.page.screenshot({ path: path.join(shots, "page-light.png"), fullPage: true });
-  await kit.send({ type: "theme", theme: "dark" });
+  await kit.send(theme("dark"));
   await kit.page.waitForTimeout(1500);
   await kit.page.screenshot({ path: path.join(shots, "page-dark.png"), fullPage: true });
 
@@ -316,14 +326,14 @@ try {
   const allowedProbe = outside.every((url) => url.startsWith("https://example.com"));
   check("no request leaves the kit's own files (apart from the refused probes)", allowedProbe, outside.length ? outside.join(", ") : "none");
 
-  await kit.send({ type: "preview", document: { kind: "page", path: "../etc/passwd", title: "x", source: "x", hash: "x" } });
+  await kit.send({ type: "preview", document: { kind: "slides", path: "docs/A.md" } });
   await kit.page.evaluate(() => window.genbeyaKit.receive("{not json"));
   await until(() => kit.messages.filter((m) => m.type === "error").length >= 2);
   check("invalid messages are refused with an error message", kit.messages.filter((m) => m.type === "error").length >= 2, kit.messages.filter((m) => m.type === "error").map((m) => m.message).join(" | "));
 
   // ---- Editor, desktop-sized ----
   start = Date.now();
-  await kit.send({ type: "edit", area: "wiki", path: "docs/Notes.md", text: "# Notes\n\n", hash: "h-notes" });
+  await kit.send({ type: "edit", area: "wiki", path: "docs/Notes.md", text: "# Notes\n\n", hash: "h-notes", readOnly: false });
   await kit.page.waitForSelector(".cm-content");
   timings.editorOpen = Date.now() - start;
   await kit.page.click(".cm-content");
@@ -341,16 +351,29 @@ try {
   const text = await kit.page.evaluate(() => document.querySelector(".cm-content").innerText);
   check("[[ completes task references in the editor", listed && /\[\[GENBEYA-4\d*\]\]/.test(text), `offered ${options.join(" / ")}; text: ${JSON.stringify(text.split("\n").at(-1))}`);
   check("@ completes people and // completes dates", /@ada\b/.test(text) && /\d{4}-\d{2}-\d{2}/.test(text), JSON.stringify(text.split("\n").at(-1)));
+  // At a person's pace: Genbeya's kit (0.2.1) joins a toolbar step with what was typed within
+  // CodeMirror's half a second into one undo step (see docs/Upstream/Kit-additions.md).
+  const pause = () => kit.page.waitForTimeout(700);
+  await pause();
   await kit.send({ type: "editorCommand", command: "checkbox" });
+  await pause();
   await kit.send({ type: "editorCommand", command: "bold" });
+  await pause();
   await kit.send({ type: "editorCommand", command: "undo" });
   await kit.send({ type: "editorCommand", command: "save" });
   await until(() => kit.messages.some((m) => m.type === "save"));
   const save = kit.messages.find((m) => m.type === "save");
   check("toolbar commands edit, undo works, save sends the text with its base hash", save?.hash === "h-notes" && save.text.includes("- [ ] See [[GENBEYA-") && !save.text.includes("**bold**"), JSON.stringify(save?.text));
   if (process.env.DEBUG) console.log(kit.messages.slice(-40).map((m) => m.type + (m.dirty !== undefined ? `:${m.dirty}:${m.selection.from}` : "") + (m.text !== undefined ? `:${JSON.stringify(m.text)}` : "")).join("\n"));
-  const state = kit.messages.filter((m) => m.type === "editorState").at(-1);
-  check("editorState reports dirty and the selection", state?.dirty === true && Number.isInteger(state.selection?.from), JSON.stringify(state));
+  // Dirty while edited; Genbeya's kit counts the text as saved once it sent save.
+  const saveAt = kit.messages.findIndex((m) => m.type === "save");
+  const before = kit.messages.slice(0, saveAt).filter((m) => m.type === "editorState").at(-1);
+  const after = kit.messages.slice(saveAt).filter((m) => m.type === "editorState").at(-1);
+  check(
+    "editorState reports dirty and the selection, and clean once saved",
+    before?.dirty === true && Number.isInteger(before.selection?.from) && after?.dirty === false,
+    JSON.stringify({ before, after }),
+  );
   await kit.page.keyboard.type(" more");
   await until(() => kit.messages.some((m) => m.type === "draft"), 4000);
   check("drafts reach the host while typing", kit.messages.some((m) => m.type === "draft" && m.hash === "h-notes"));
@@ -360,9 +383,9 @@ try {
   for (const name of ["Pixel 7", "iPhone 15"]) {
     const { defaultBrowserType, ...device } = devices[name];
     const phone = await open(browser, device);
-    await phone.send({ type: "theme", theme: "dark" });
+    await phone.send(theme("dark"));
     await phone.send({ type: "context", parts: context });
-    await phone.send({ type: "edit", area: "wiki", path: "docs/Notes.md", text: "# Notes\n\nFirst line\n", hash: "h" });
+    await phone.send({ type: "edit", area: "wiki", path: "docs/Notes.md", text: "# Notes\n\nFirst line\n", hash: "h", readOnly: false });
     await phone.page.waitForSelector(".cm-content");
     await phone.page.tap(".cm-line:last-child");
     await phone.page.keyboard.press("End");

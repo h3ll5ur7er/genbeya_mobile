@@ -1,4 +1,4 @@
 {
-  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
+  "genbeya": "6fed19403536ee55ce2174ec96618444ef201d58",
   "output": "---\nid: GM-5\ntitle: Build the conformance harness\ntype: chore\nstatus: review\npriority: high\nestimate: 2d\nremaining: 2d\nmilestone: M0\ndepends_on: [GM-1]\n---\n\nThe check that keeps the Dart engines writing exactly what Genbeya writes. See [[Architecture#conformance]].\n\n- [ ] `tool/conformance/cases/`: fixture files and edits as JSON\n- [ ] A Node script that runs each case through Genbeya's engines at `kit/GENBEYA_REF` and writes the expected output\n- [ ] A Dart test that runs the same cases and compares, byte for byte for files\n- [ ] First cases: read `.genbeya.yml` with defaults; change one task field in a file with YAML comments, CRLF and a BOM\n- [ ] CI runs it on push; a nightly job runs it against Genbeya's `develop` and reports drift\n"
 }

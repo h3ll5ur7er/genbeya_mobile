@@ -170,28 +170,23 @@ final _context = <String, KitContextPart>{
   ),
   'wiki': (
     version: 'w1',
-    value: {
-      'wikiRoot': 'docs',
-      'nodes': [
-        {
-          'title': 'Home',
-          'path': 'docs/Home.md',
-          'folder': null,
-          'children': <Object>[],
-        },
-      ],
-    },
+    value: [
+      {
+        'title': 'Home',
+        'path': 'docs/Home.md',
+        'folder': null,
+        'children': <Object>[],
+      },
+    ],
   ),
   'settings': (
     version: 's1',
     value: {
+      'wikiRoot': 'docs',
       'statuses': ['backlog', 'todo', 'in-progress', 'review', 'done'],
-      'hiddenColumns': <String>[],
-      'types': <Object>[],
-      'fields': <Object>[],
     },
   ),
   'files': (version: 'f1', value: ['README.md']),
-  'plan': (version: 'n1', value: null),
+  'plan': (version: 'n1', value: <Object>[]),
   'author': (version: 'a1', value: 'Alex Chen'),
 };

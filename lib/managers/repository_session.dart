@@ -127,11 +127,9 @@ class RepositorySession {
   Map<String, KitContextPart> kitContext() {
     final state = _state;
     final settings = state.settings;
+    // The parts as Genbeya's kit takes them (`ContextParts` in its src/shells/kit/protocol.ts).
     final parts = <String, Object?>{
-      'wiki': {
-        'wikiRoot': settings.wikiRoot,
-        'nodes': [for (final node in state.wiki) node.toJson()],
-      },
+      'wiki': [for (final node in state.wiki) node.toJson()],
       'tasks': [
         for (final task in state.tasks)
           {
@@ -142,14 +140,12 @@ class RepositorySession {
           },
       ],
       // Plan macros wait for the planning port ([[GM-18]]).
-      'plan': null,
+      'plan': const <Object>[],
       'files': [for (final file in state.codeFiles) file.path],
       'people': [for (final person in state.people) person.toJson()],
       'settings': {
+        'wikiRoot': settings.wikiRoot,
         'statuses': settings.statuses,
-        'hiddenColumns': settings.hiddenColumns,
-        'types': [for (final type in settings.types) type.toJson()],
-        'fields': [for (final field in settings.fields) field.toJson()],
       },
       'author': author,
     };

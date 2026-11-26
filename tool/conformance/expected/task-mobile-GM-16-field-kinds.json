@@ -1,4 +1,4 @@
 {
-  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
+  "genbeya": "6fed19403536ee55ce2174ec96618444ef201d58",
   "output": "---\nid: GM-16\ntitle: Edit wiki pages\ntype: feature\nstatus: backlog\npriority: high\nestimate: 4d\nremaining: 4d\nmilestone: M3\ndepends_on: [GM-4, GM-8, GM-11]\npoints: 5\nblocked: true\nios: to-check\n---\n\nFix and write pages on the phone. See [[Experience#wiki]].\n\n- [ ] Editor with the toolbar above the keyboard: heading, bold, list, checkbox, link, `[[`, `@`, `//`\n- [ ] Preview by swipe or button; unsaved edits survive the app being sent to the background\n- [ ] Tick checklists while reading\n- [ ] New page below the current one, and from a red reference\n- [ ] Keeps the file's line endings and BOM\n- [ ] Drafts kept outside the repository, keyed by path and base hash; offered back only next to a page that changed\n- [ ] **Photo**: take or pick one, shrink to 1600 pixels, strip location and camera data, show the size; write it to the wiki's `images/` folder with its reference, in one commit (D8, [[Attached images]])\n- [ ] Conformance: the image reference as the desktop renders it, relative to the page\n"
 }

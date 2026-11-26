@@ -1,5 +1,5 @@
-/// The host's side of the kit's messages (docs/Upstream/Kit-build.md,
-/// kit/src/protocol.ts). Everything the kit sends is untrusted: a rendered
+/// The host's side of the kit's messages (Genbeya's `src/shells/kit/protocol.ts`
+/// and docs/Architecture/Kit.md, protocol 1). Everything the kit sends is untrusted: a rendered
 /// page is repository content. [parseFromKit] accepts only the protocol's
 /// messages, with checked paths and bounded sizes; the builders write what
 /// the host sends.
@@ -323,13 +323,18 @@ String contextMessage(Map<String, ({String version, Object? value})> parts) =>
       },
     });
 
+/// Light or dark, and the app's CSS variables without their `--`
+/// (`bg-app`, `font-ui`); Genbeya's kit requires the tokens, if empty.
 String themeMessage({
   required bool dark,
   Map<String, String> tokens = const {},
 }) => jsonEncode({
   'type': 'theme',
-  'theme': dark ? 'dark' : 'light',
-  if (tokens.isNotEmpty) 'tokens': tokens,
+  'mode': dark ? 'dark' : 'light',
+  'tokens': {
+    for (final e in tokens.entries)
+      (e.key.startsWith('--') ? e.key.substring(2) : e.key): e.value,
+  },
 });
 
 String previewPageMessage({

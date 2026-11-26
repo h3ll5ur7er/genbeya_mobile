@@ -34,6 +34,10 @@ class _TaskEditScreenState extends ConsumerState<TaskEditScreen> {
   var _dirty = false;
   var _saving = false;
 
+  /// A save that didn't go through: the kit counts its text as saved once
+  /// it sent it, so the screen keeps it unsaved itself.
+  var _saveFailed = false;
+
   @override
   void initState() {
     super.initState();
@@ -69,7 +73,8 @@ class _TaskEditScreenState extends ConsumerState<TaskEditScreen> {
     super.dispose();
   }
 
-  bool get _changedAny => _dirty || _title.text != widget.task.title;
+  bool get _changedAny =>
+      _dirty || _saveFailed || _title.text != widget.task.title;
 
   Future<void> _save(String body) async {
     if (_saving) return;
@@ -91,7 +96,10 @@ class _TaskEditScreenState extends ConsumerState<TaskEditScreen> {
       ),
     );
     if (!mounted) return;
-    setState(() => _saving = false);
+    setState(() {
+      _saving = false;
+      _saveFailed = saved == null;
+    });
     if (saved != null) Navigator.of(context).pop(saved);
   }
 

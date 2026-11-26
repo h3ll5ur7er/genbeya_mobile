@@ -1,4 +1,4 @@
 {
-  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
+  "genbeya": "6fed19403536ee55ce2174ec96618444ef201d58",
   "output": "---\nid: GM-15\ntitle: Content branch\ntype: feature\nstatus: backlog\npriority: medium\nestimate: 3d\nremaining: 3d\nmilestone: M2\ndepends_on: [GM-11]\n---\n\nRepositories that keep tasks, wiki, settings or pull requests on Genbeya's content branch work as on desktop. See [[Architecture#clones-on-a-phone]].\n\n- [x] Fetch the content branch with the code branch; read each area where `.genbeya-content` says\n- [ ] Edits to an area on the branch are committed onto it without a checkout\n- [ ] Sync rebases and pushes the content branch too\n- [ ] Tested against a repository whose layout was made by Genbeya desktop\n"
 }

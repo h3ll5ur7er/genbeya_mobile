@@ -1,5 +1,8 @@
 # Kit additions
 
+> [!NOTE]
+> 1 to 3 shipped in Genbeya 0.2.1 ([GENBEYA-70](https://github.com/genbeya/genbeya/blob/main/tasks/GENBEYA-70.md)). 4 is asked since 2026-11-26.
+
 Three additions to Genbeya's kit (`src/shells/kit/`, [GENBEYA-68](https://github.com/genbeya/genbeya/blob/develop/tasks/GENBEYA-68.md)) that the mobile app needs before it can use the kit instead of building its own ([[GM-25]]). All three only add a message or an optional field, so `KIT_PROTOCOL` stays `1` ("adding a message or an optional field keeps it"). They are written for Genbeya's repository; the mobile app's kit (`kit/src/` here) already does each of them, so its code is a reference, not something to copy blindly.
 
 The mobile app adapts to everything else Genbeya chose (`theme.mode`, tokens without `--`, the `wiki`, `settings` and `plan` parts, `readOnly` always sent): see [[Upstream#genbeya-s-kit-and-this-app-s]].
@@ -74,6 +77,25 @@ The mobile app's version: the `reveal` case in `kit/src/kit.ts` and `parseToKit`
 **Default.** Absent means `true` here, so the kit keeps doing what 0.2.1 would ship. (The mobile app's own kit defaults to `false`; the app will always send the field, so either default works for it. `true` is the one that changes nothing in Genbeya.)
 
 **Checks.** `parseToKit`: `checkboxes` absent or a boolean.
+
+## 4. Toolbar steps are their own undo steps
+
+**Why.** The app's editor has a toolbar above the keyboard (bold, checkbox, heading, …) and an **Undo** button that sends `editorCommand` `undo`. In 0.2.1, `KitEditor.run` dispatches a toolbar change as a plain transaction, so CodeMirror's history joins it with whatever was typed less than half a second before (its `newGroupDelay`) and with the toolbar step before it. Typing a word and tapping **Checkbox** and then **Bold** in quick succession, then **Undo**, removes all of it, not just the bold. On desktop, formatting comes from keyboard shortcuts after a pause, which hides this.
+
+**Change.** Give every change `run` makes (`insert`, `bold`, `italic`, `link`, `heading`, `list`, `checkbox`) the annotations `isolateHistory.of("full")` and `Transaction.userEvent.of("input.toolbar")`, from `@codemirror/commands` and `@codemirror/state`:
+
+```ts
+const toolbarStep = (spec: TransactionSpec): TransactionSpec => ({
+  ...spec,
+  annotations: [isolateHistory.of("full"), Transaction.userEvent.of("input.toolbar")],
+});
+```
+
+Then `undo` takes back exactly the last toolbar step. No message changes; the protocol stays 1.
+
+**Test.** `e2e:kit`: type a line, then without waiting send `checkbox`, `bold` and `undo`, then `save`: the saved text has the line with its checkbox and no `**`. The mobile app's `tool/build_kit/test.mjs` waits 700 ms between those steps until a release has this, and can drop the waits then.
+
+The mobile app's former kit did this: `toolbarStep` in `kit/src/editor.ts` (removed in [[GM-25]]; in this repository's history).
 
 ## Tests
 

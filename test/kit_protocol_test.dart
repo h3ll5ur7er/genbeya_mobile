@@ -208,6 +208,27 @@ void main() {
     expect(reply, {'type': 'reply', 'id': 7, 'error': 'No.'});
   });
 
+  test("the theme as Genbeya's kit takes it: mode, tokens without --", () {
+    expect(jsonDecode(themeMessage(dark: true)), {
+      'type': 'theme',
+      'mode': 'dark',
+      'tokens': <String, String>{},
+    });
+    expect(
+      jsonDecode(
+        themeMessage(
+          dark: false,
+          tokens: {'--bg-app': '#fff', 'font-ui': 'Inter'},
+        ),
+      ),
+      {
+        'type': 'theme',
+        'mode': 'light',
+        'tokens': {'bg-app': '#fff', 'font-ui': 'Inter'},
+      },
+    );
+  });
+
   test('outline: headings with level, text and id, bounded', () {
     final outline = parseFromKit(
       jsonEncode({

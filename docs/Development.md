@@ -13,12 +13,12 @@ How to build, test and run the app. The plan behind it is in [[Architecture]] an
 | Java | 21 | Gradle 9.5 and the Android Gradle plugin 9.3 |
 | Xcode | Current, on macOS | iOS builds |
 | Rust | Stable, with the Android targets (`aarch64-linux-android`, `armv7-linux-androideabi`, `x86_64-linux-android`, `i686-linux-android`) and on macOS the iOS ones | The Git core ([[GM-2]]), built by Flutter's build through cargokit; see `native/genbeya_core/README.md` |
-| Node.js | 22 or 24 | Building the kit ([[GM-3]]), which the app needs, and the conformance cases ([[GM-5]]) |
+| Node.js | 22 or 24, and `unzip` | Fetching and checking the kit ([[GM-25]]), which the app needs, and the conformance cases ([[GM-5]]) |
 
 ## Commands
 
 ```bash
-(cd tool/build_kit && node build.mjs)   # the kit, into kit/dist; `node test.mjs` checks it
+(cd tool/build_kit && node build.mjs)   # Genbeya's released kit, into kit/dist; `node test.mjs` checks it
 flutter pub get
 dart format lib test          # CI fails on unformatted code
 flutter analyze
@@ -56,7 +56,7 @@ cd ../.. && flutter test test/conformance_test.dart
 
 **Sorting.** Genbeya sorts names and titles with ICU (`localeCompare` with numeric, base-strength comparison), and Dart has no ICU. `lib/engines/collation.dart` sorts the same way with a table of ICU's root weights that `make-collation.mjs` writes from Node's ICU into `lib/engines/collation_table.dart`: the scripts and symbols names use, with expansions (`ß` is `ss`), decimal digits of every script compared by value, a block for Hangul, and Han after everything in ICU's implicit order. People are sorted with a plain `localeCompare`, at full strength: `collateFull` adds ICU's accent and case weights from the same table (`ø` as `o` plus a mark, `æ` with a ligature weight), after decomposing as `normalize("NFD")` does (`lib/engines/unicode.dart`, which `handleSlug` uses too). The `collate` and `collate.full` cases, among them 60 lists of random strings, check both against ICU; CI regenerates the table, formats it and fails if it differs. Run `node make-collation.mjs` and `dart format lib` after updating Node.
 
-Add a case before changing an engine, and never change `expected/` by hand. To follow a newer Genbeya, bump `kit/GENBEYA_REF`, regenerate, and make the Dart side pass.
+Add a case before changing an engine, and never change `expected/` by hand. To follow a newer Genbeya release, pin its kit in `kit/GENBEYA_KIT` and its commit in `kit/GENBEYA_REF` (see `kit/README.md`), regenerate, and make the Dart side pass.
 
 ## Signing in with GitHub and GitLab
 

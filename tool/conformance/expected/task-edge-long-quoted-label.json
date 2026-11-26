@@ -1,4 +1,4 @@
 {
-  "genbeya": "5739e1a813b9dbdca50431f7960fb3e02befd094",
+  "genbeya": "6fed19403536ee55ce2174ec96618444ef201d58",
   "output": "---\nid: EDGE-9\ntitle: \"A long title that needs quotes: because it has a colon and space, and it\n  goes well past eighty characters in width\"\nstatus: todo\npriority: high\nlabels:\n  - mobile\n---\n"
 }

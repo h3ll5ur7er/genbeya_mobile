@@ -3,7 +3,7 @@
 A spec for Genbeya: **`npm run build:kit`** builds Genbeya's Markdown renderer and its editor as one self-contained browser bundle, the **kit**, that any host can show in a web view and talk to through messages. Each release carries it, as it carries the web demo and the VS Code extension. The mobile app is the first host; the VS Code webviews could become the second.
 
 > [!NOTE]
-> Proposed. Nothing here changes Genbeya's file formats or its managers. The kit is a shell like the VS Code webviews: it may use the client's code, and the client doesn't depend on it.
+> Shipped in Genbeya 0.2.1 ([GENBEYA-68](https://github.com/genbeya/genbeya/blob/main/tasks/GENBEYA-68.md), [GENBEYA-70](https://github.com/genbeya/genbeya/blob/main/tasks/GENBEYA-70.md)); the protocol as built is in Genbeya's wiki ([Kit](https://github.com/genbeya/genbeya/blob/main/docs/Architecture/Kit.md)), and the app uses it ([[GM-25]]). This page is the spec as proposed. Nothing here changes Genbeya's file formats or its managers. The kit is a shell like the VS Code webviews: it may use the client's code, and the client doesn't depend on it.
 
 [TOC]
 
@@ -105,21 +105,16 @@ Everything the kit sends is untrusted input to the host: the page it rendered is
 
 ## Done when
 
-- [ ] `npm run build:kit` writes `dist/kit/` with the files above, `manifest.json` listing each with its SHA-256
-- [ ] The kit renders `preview` messages of all three kinds and edits text with completions, through the two globals only
-- [ ] `context` parts are versioned and applied separately
-- [ ] Every message from the kit is one of the protocol's, checked by unit tests
-- [ ] `e2e:kit` passes in CI; the release attaches the zip
-- [ ] The protocol is documented in Genbeya's wiki
+- [x] `npm run build:kit` writes `dist/kit/` with the files above, `manifest.json` listing each with its SHA-256
+- [x] The kit renders `preview` messages of all three kinds and edits text with completions, through the two globals only
+- [x] `context` parts are versioned and applied separately
+- [x] Every message from the kit is one of the protocol's, checked by unit tests
+- [x] `e2e:kit` passes in CI; the release attaches the zip
+- [x] The protocol is documented in Genbeya's wiki
 
-## Until Genbeya has it
+## Until Genbeya had it
 
-The mobile app builds exactly this bundle itself:
-
-- `kit/src/` in this repository holds `kit.ts`, `bridge.ts`, `protocol.ts` and `editor.ts` as specified here, importing Genbeya's sources from the commit pinned in `kit/GENBEYA_REF`.
-- `tool/build_kit` checks Genbeya out at that commit, bundles with the same esbuild settings, and writes the same layout and `manifest.json` into `kit/dist/` ([[GM-3]]). At 18 MB it isn't committed: CI builds it before building the app, and caches it by `kit/GENBEYA_REF`.
-- When Genbeya ships `build:kit`, `kit/src/` moves into `src/shells/kit/` in a pull request to Genbeya, and `tool/build_kit` downloads the release's zip and checks it against its manifest instead ([[GM-25]]). The app itself doesn't change: it talks to the same protocol.
-- The nightly conformance job keeps building from Genbeya's `develop` source, since artifacts of unreleased runs need a login to download.
+Until 0.2.1 the mobile app built this bundle itself from `kit/src/`, importing Genbeya's sources at a pinned commit ([[GM-3]]). Since 0.2.1 (2026-11-26), `tool/build_kit` downloads the release's zip, refuses it unless its SHA-256 is the one pinned in `kit/GENBEYA_KIT`, and checks every file against `manifest.json` ([[GM-25]]); `kit/src/` is gone. The nightly drift job builds Genbeya's own kit from `develop` and tests it with the app's messages. Genbeya chose some fields differently from what the app sent; the app follows Genbeya's ([[Upstream#genbeya-s-kit-and-this-app-s]]).
 
 ## Open questions
 

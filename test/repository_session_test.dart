@@ -74,6 +74,13 @@ void main() {
       'docs/Old.md',
     ]);
     expect(first['author']!.value, 'Ada');
+    // As Genbeya's kit takes them: the wiki's nodes, the wiki folder with the workflow, a plan list.
+    expect(first['wiki']!.value, isA<List<Object?>>());
+    expect(first['settings']!.value, {
+      'wikiRoot': 'docs',
+      'statuses': ['backlog', 'todo', 'in-progress', 'review', 'done'],
+    });
+    expect(first['plan']!.value, isEmpty);
 
     git
       ..commit('content2', {

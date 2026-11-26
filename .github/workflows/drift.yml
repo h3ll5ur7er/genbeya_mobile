@@ -1,6 +1,8 @@
-# Nightly: runs the conformance cases against Genbeya's develop branch. A
-# failure means Genbeya changed a format the mobile engines don't follow yet:
-# update the engines, then bump kit/GENBEYA_REF. See docs/Development.md.
+# Nightly: runs the conformance cases against Genbeya's develop branch, and
+# tests the kit Genbeya builds from develop with the app's messages. A
+# failure means Genbeya changed a format the mobile engines don't follow yet,
+# or the kit's protocol: update the app before the next release, then bump
+# kit/GENBEYA_KIT and kit/GENBEYA_REF. See docs/Development.md.
 name: Drift from Genbeya develop
 
 on:
@@ -33,3 +35,20 @@ jobs:
           GENBEYA_SRC="$GITHUB_WORKSPACE/.genbeya" node generate.mjs --ref develop
       - name: The Dart engines still match
         run: flutter test test/conformance_test.dart
+
+  kit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Genbeya's kit, built from develop
+        working-directory: tool/build_kit
+        run: node build.mjs --source develop
+      - name: The app's messages still work with it
+        working-directory: tool/build_kit
+        run: |
+          npm install --global playwright@1.63.0
+          npx playwright install --with-deps chromium
+          node test.mjs

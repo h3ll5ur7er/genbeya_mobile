@@ -61,8 +61,9 @@ jobs:
         run: git diff --exit-code tool/conformance/expected
 
   kit:
-    # Builds the kit from Genbeya's sources at kit/GENBEYA_REF and checks it in
-    # Chromium (tool/build_kit/test.mjs). See kit/README.md.
+    # Puts Genbeya's released kit (kit/GENBEYA_KIT) into kit/dist, checked
+    # against its manifest, and checks it in Chromium (tool/build_kit/test.mjs).
+    # See kit/README.md.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -72,10 +73,10 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: tool/build_kit/.cache
-          key: kit-genbeya-${{ runner.os }}-${{ hashFiles('kit/GENBEYA_REF') }}
+          key: kit-genbeya-${{ runner.os }}-${{ hashFiles('kit/GENBEYA_KIT', 'kit/GENBEYA_REF') }}
       - name: Build the kit
         working-directory: tool/build_kit
-        run: node build.mjs --check
+        run: node build.mjs
       - name: Test the kit in Chromium
         working-directory: tool/build_kit
         run: |
@@ -107,7 +108,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: tool/build_kit/.cache
-          key: kit-genbeya-${{ runner.os }}-${{ hashFiles('kit/GENBEYA_REF') }}
+          key: kit-genbeya-${{ runner.os }}-${{ hashFiles('kit/GENBEYA_KIT', 'kit/GENBEYA_REF') }}
       - name: Build the kit
         run: node tool/build_kit/build.mjs
       - name: Rust targets for the Git core (GM-2)
@@ -135,7 +136,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: tool/build_kit/.cache
-          key: kit-genbeya-${{ runner.os }}-${{ hashFiles('kit/GENBEYA_REF') }}
+          key: kit-genbeya-${{ runner.os }}-${{ hashFiles('kit/GENBEYA_KIT', 'kit/GENBEYA_REF') }}
       - name: Build the kit
         run: node tool/build_kit/build.mjs
       - name: Rust targets for the Git core (GM-2)
