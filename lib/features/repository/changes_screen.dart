@@ -35,6 +35,8 @@ String describeSync(SyncReport report) {
   final lines = <String>[
     if (report.recovered)
       'Committed an edit left unfinished when the app stopped.',
+    for (final e in report.renumbered.entries)
+      "${e.key} was taken meanwhile by someone else's task: yours is ${e.value} now, and what you wrote refers to ${e.value}.",
     for (final e in report.pushed.entries)
       'Pushed ${e.value} commit${e.value == 1 ? '' : 's'} to ${e.key}.',
     if (report.merged.isNotEmpty)

@@ -45,6 +45,7 @@ final workProvider = FutureProvider.family<RepositoryWork, CloneRecord>((
     git: git,
     sync: SyncManager(
       git: git,
+      objects: session.git,
       writer: writer,
       access: () => manager.accessFor(record.url, record.credential),
       signer: signer,

@@ -153,6 +153,7 @@ class Story {
       );
       sync = SyncManager(
         git: git,
+        objects: repo,
         writer: writer,
         access: () async => const RemoteAccess.none(),
         signer: signer,

@@ -117,6 +117,7 @@ impl Fixture {
 }
 
 fn edit(dir: &Path, path: &str, text: &str, who: &str, message: &str) -> String {
+    fs::create_dir_all(dir.join(path).parent().unwrap()).unwrap();
     fs::write(dir.join(path), text).unwrap();
     git::commit_files(dir, &[path.to_string()], message, &me(who)).unwrap()
 }
@@ -1284,4 +1285,94 @@ fn the_content_branch_rebases_without_a_checkout_and_a_rescue_keeps_everything()
     );
     git::set_branch(&phone, "main", &upstream, Some(&undone)).unwrap();
     assert_eq!(git::branch_status(&phone, "main").unwrap().ahead, 0);
+}
+
+/// A task this side created whose ID the remote took meanwhile moves to a new
+/// ID while its commits are replayed: resolutions rewrite commits that don't
+/// conflict too, and each replayed commit builds on the one before
+/// (GM-11; the Dart side decides the new ID and the contents).
+#[test]
+fn resolutions_rewrite_commits_that_do_not_conflict() {
+    let f = Fixture::new();
+    let alice = f.clone("alice");
+    let bob = f.clone("bob");
+    // Alice takes GM-2 in her epic, and changes something else.
+    let theirs = TASK.replace("GM-1", "GM-2").replace("First", "Alice's");
+    edit(&alice, "tasks/Web/GM-2.md", &theirs, "Alice", "Create GM-2: Alice's");
+    edit(&alice, "README.md", "# Read me\n\nBy Alice.\n", "Alice", "Readme");
+    git::push(&alice, "main", &none()).unwrap();
+
+    // Bob made GM-2 too, in another epic, edited it, and wrote a page.
+    let first = TASK.replace("GM-1", "GM-2").replace("First", "Bob's");
+    let c1 = edit(&bob, "tasks/App/GM-2.md", &first, "Bob", "Create GM-2: Bob's");
+    let second = first.replace("status: todo", "status: done");
+    let c2 = edit(&bob, "tasks/App/GM-2.md", &second, "Bob", "Update GM-2: Bob's");
+    edit(&bob, "docs/Notes.md", "# Notes\n", "Bob", "Edit docs/Notes.md");
+    git::fetch(&bob, &[], &none(), None, None).unwrap();
+
+    let renumbered = |text: &str| text.replace("GM-2", "GM-3").into_bytes();
+    let resolutions = vec![
+        Resolution { commit: c1.clone(), path: "tasks/App/GM-2.md".into(), content: None },
+        Resolution { commit: c1, path: "tasks/App/GM-3.md".into(), content: Some(renumbered(&first)) },
+        Resolution { commit: c2.clone(), path: "tasks/App/GM-2.md".into(), content: None },
+        Resolution { commit: c2, path: "tasks/App/GM-3.md".into(), content: Some(renumbered(&second)) },
+    ];
+    match git::rebase_branch(&bob, None, &me("Bob"), &resolutions).unwrap() {
+        RebaseOutcome::Rebased { commits: 3, .. } => {}
+        other => panic!("{other:?}"),
+    }
+    assert!(!bob.join("tasks/App/GM-2.md").exists());
+    assert_eq!(
+        fs::read(bob.join("tasks/App/GM-3.md")).unwrap(),
+        renumbered(&second)
+    );
+    assert_eq!(fs::read_to_string(bob.join("tasks/Web/GM-2.md")).unwrap(), theirs);
+    assert_eq!(fs::read_to_string(bob.join("README.md")).unwrap(), "# Read me\n\nBy Alice.\n");
+    assert!(bob.join("docs/Notes.md").exists());
+    // Each replayed commit built on the one before: the first holds the task as created.
+    assert_eq!(
+        sh(&bob, &["show", "HEAD~2:tasks/App/GM-3.md"]),
+        String::from_utf8(renumbered(&first)).unwrap().trim_end()
+    );
+    assert_eq!(sh(&bob, &["log", "--format=%s", "-4"]).lines().collect::<Vec<_>>(), [
+        "Edit docs/Notes.md",
+        "Update GM-2: Bob's",
+        "Create GM-2: Bob's",
+        "Readme",
+    ]);
+    assert!(git::head(&bob).unwrap().dirty.is_empty());
+}
+
+/// The same with both files at one path: the conflict keeps Alice's file,
+/// and Bob's task goes to its new ID in the same replayed commits.
+#[test]
+fn a_conflicting_path_and_a_rewritten_one_in_the_same_commit() {
+    let f = Fixture::new();
+    let alice = f.clone("alice");
+    let bob = f.clone("bob");
+    let theirs = TASK.replace("GM-1", "GM-2").replace("First", "Alice's");
+    edit(&alice, "tasks/GM-2.md", &theirs, "Alice", "Create GM-2: Alice's");
+    git::push(&alice, "main", &none()).unwrap();
+
+    let first = TASK.replace("GM-1", "GM-2").replace("First", "Bob's");
+    let c1 = edit(&bob, "tasks/GM-2.md", &first, "Bob", "Create GM-2: Bob's");
+    let second = first.replace("status: todo", "status: done");
+    let c2 = edit(&bob, "tasks/GM-2.md", &second, "Bob", "Update GM-2: Bob's");
+    git::fetch(&bob, &[], &none(), None, None).unwrap();
+
+    let renumbered = |text: &str| text.replace("GM-2", "GM-3").into_bytes();
+    let keep = || Some(theirs.clone().into_bytes());
+    let resolutions = vec![
+        Resolution { commit: c1.clone(), path: "tasks/GM-2.md".into(), content: keep() },
+        Resolution { commit: c1, path: "tasks/GM-3.md".into(), content: Some(renumbered(&first)) },
+        Resolution { commit: c2.clone(), path: "tasks/GM-2.md".into(), content: keep() },
+        Resolution { commit: c2, path: "tasks/GM-3.md".into(), content: Some(renumbered(&second)) },
+    ];
+    match git::rebase_branch(&bob, None, &me("Bob"), &resolutions).unwrap() {
+        RebaseOutcome::Rebased { .. } => {}
+        other => panic!("{other:?}"),
+    }
+    assert_eq!(fs::read_to_string(bob.join("tasks/GM-2.md")).unwrap(), theirs);
+    assert_eq!(fs::read(bob.join("tasks/GM-3.md")).unwrap(), renumbered(&second));
+    assert!(git::head(&bob).unwrap().dirty.is_empty());
 }

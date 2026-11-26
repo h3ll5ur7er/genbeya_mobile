@@ -1518,9 +1518,11 @@ pub fn fetch(
 /// memory: the working tree and the branch change only once every commit
 /// applied. `resolutions` settle conflicts a previous call reported, by path,
 /// for the local commit it named; anything else conflicting is reported and
-/// nothing changes.
-/// A conflict resolved: the content of `path` when the local commit
-/// `commit` is replayed (None removes the file).
+/// nothing changes. A resolution for a path that doesn't conflict applies
+/// too: the replayed commit leaves that content there (a renumbered task
+/// moving to its new name, say).
+/// The content of `path` when the local commit `commit` is replayed (None
+/// removes the file): a conflict resolved, or a file rewritten.
 #[derive(Debug, Clone)]
 pub struct Resolution {
     pub commit: String,
@@ -1595,6 +1597,48 @@ pub fn rebase_branch(
         let op = op?;
         let replayed = op.id();
         let mut index = rebase.inmemory_index()?;
+        let replayed_id = replayed.to_string();
+        // Resolutions for paths that don't conflict: the commit leaves that content there.
+        let conflicted: Vec<String> = if index.has_conflicts() {
+            index
+                .conflicts()?
+                .filter_map(|c| c.ok())
+                .filter_map(|c| c.our.or(c.their).or(c.ancestor))
+                .map(|e| String::from_utf8_lossy(&e.path).to_string())
+                .collect()
+        } else {
+            Vec::new()
+        };
+        for resolution in resolutions
+            .iter()
+            .filter(|r| r.commit == replayed_id && !conflicted.contains(&r.path))
+        {
+            let path = Path::new(&resolution.path);
+            match &resolution.content {
+                Some(bytes) => {
+                    let entry = git2::IndexEntry {
+                        ctime: git2::IndexTime::new(0, 0),
+                        mtime: git2::IndexTime::new(0, 0),
+                        dev: 0,
+                        ino: 0,
+                        mode: 0o100644,
+                        uid: 0,
+                        gid: 0,
+                        file_size: bytes.len() as u32,
+                        id: repo.blob(bytes)?,
+                        flags: resolution.path.len().min(0xfff) as u16,
+                        flags_extended: 0,
+                        path: resolution.path.as_bytes().to_vec(),
+                    };
+                    index.add(&entry)?;
+                }
+                None => {
+                    if index.get_path(path, 0).is_some() {
+                        index.remove(path, 0)?;
+                    }
+                }
+            }
+        }
         if index.has_conflicts() {
             let mut remaining = Vec::new();
             let conflicts: Vec<_> = index.conflicts()?.collect::<std::result::Result<_, _>>()?;
@@ -1606,7 +1650,6 @@ pub fn rebase_branch(
                     .or(conflict.ancestor.as_ref())
                     .unwrap();
                 let path = String::from_utf8_lossy(&entry.path).to_string();
-                let replayed_id = replayed.to_string();
                 if let Some(resolution) = resolutions
                     .iter()
                     .find(|r| r.path == path && r.commit == replayed_id)
@@ -1651,21 +1694,9 @@ pub fn rebase_branch(
                     conflicts: remaining,
                 });
             }
-            // In-memory rebases commit what the index holds; write the resolved index back.
-            let tree = index.write_tree_to(&repo)?;
-            let original = repo.find_commit(replayed)?;
-            let parent = repo.find_commit(last)?;
-            last = repo.commit(
-                None,
-                &original.author(),
-                &sig,
-                original.message().unwrap_or(""),
-                &repo.find_tree(tree)?,
-                &[&parent],
-            )?;
-            count += 1;
-            continue;
         }
+        // The index is the rebase's own: committing it lets the next commit
+        // build on this one, resolutions and rewrites included.
         match rebase.commit(None, &sig, None) {
             Ok(id) => {
                 last = id;

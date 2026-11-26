@@ -94,6 +94,7 @@ How a mobile edit reaches everyone else is the part that has to be right; [[Arch
   - Otherwise the first edit asks, offering **the checked-out branch**.
   - When the host refuses a push to it (a protected branch), the app offers to move the commits not pushed yet to **a branch of my own** (`mobile/<handle>`), with **New pull request** from it.
 - **Changes** lists the unsynced commits and lets you undo the last ones before they are pushed.
+- **When two people make the next task** before syncing, both called DM-9, the phone's own moves to the next free ID while it syncs: the teammate's DM-9 stays as it is, and references to it in what the phone wrote (a comment, another new task) follow it. The sync says so.
 - **When sync can't finish**, tasks and pull request files are merged the Genbeya way (fields one by one; comments, time log lines and replies both kept, since new ones always go last). If that still conflicts, local commits go to `mobile/rescue/<handle>-<date>`, which is pushed (offline, with the next sync), and the branch is reset to the remote. A banner says which files differ until the desktop has finished the job; once the rescue's commits are upstream, the app offers to delete it. Nothing is ever discarded.
 
 ## Sharing and links

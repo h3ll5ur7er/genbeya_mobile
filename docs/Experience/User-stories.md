@@ -279,6 +279,7 @@ Every story that is built has a test that follows its steps ([[GM-32]]): a widge
 
 - Changes to different frontmatter keys merge; comments, time log lines and replies from both sides are kept in time order.
 - The result is what the desktop would show after merging the same edits.
+- When we both made a new task with the same next ID, mine takes the next free one, and what I wrote about it follows; theirs stays as it is.
 
 **Must** · [[GM-11]]
 

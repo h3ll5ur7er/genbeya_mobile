@@ -102,6 +102,7 @@ void main() {
       writer: writer,
       sync: SyncManager(
         git: gitWriter,
+        objects: NativeGitObjects(phone),
         writer: writer,
         access: () async => const RemoteAccess.none(),
         signer: () async => signer,
@@ -183,6 +184,106 @@ void main() {
         endsWith(
           '## Comments\n\n### Desk — 2026-11-23 09:30+00:00\n\nFrom the desk.\n\n### Alice — 2026-11-23 10:00+00:00\n\nFrom the phone.',
         ),
+      );
+    },
+    skip: skip,
+  );
+
+  String newTask(String id, String title, {String status = 'todo'}) =>
+      '---\nid: $id\ntitle: $title\nstatus: $status\n---\n\nSee $id.\n';
+
+  String remoteFile(String branch, String path) =>
+      git(tmp.path, ['--git-dir', remote, 'show', '$branch:$path']);
+
+  test('US-22: both made the next task: the phone renumbers its own, with what refers to it', () async {
+    final side = phoneSide();
+    final state = await side.model.load();
+    final tasks = TaskEngine();
+    // The phone makes GM-2, edits it, and comments on GM-1 about it.
+    await side.writer.write(state, {
+      'tasks/GM-2.md': newTask('GM-2', "Phone's"),
+    }, "Create GM-2: Phone's");
+    await side.writer.write(state, {
+      'tasks/GM-2.md': newTask('GM-2', "Phone's", status: 'done'),
+    }, "Update GM-2: Phone's");
+    await side.writer.write(state, {
+      'tasks/GM-1.md': tasks.addComment(
+        task('todo'),
+        'Alice',
+        DateTime.utc(2026, 11, 26, 10),
+        'Split off as [[GM-2]].',
+      ),
+    }, 'Comment on GM-1');
+    // The desk made its own GM-2 at the same path, and moved GM-1.
+    git(desk, ['switch', '-q', 'genbeya']);
+    File('$desk/tasks/GM-2.md').writeAsStringSync(newTask('GM-2', "Desk's"));
+    File('$desk/tasks/GM-1.md').writeAsStringSync(task('review'));
+    git(desk, ['add', '-A']);
+    git(desk, ['commit', '-q', '-m', "Create GM-2: Desk's"]);
+    git(desk, ['push', '-q', 'origin', 'genbeya']);
+
+    final report = await side.sync.sync(state);
+    expect(report.renumbered, {'GM-2': 'GM-3'});
+    expect(report.rescued, isEmpty);
+    expect(
+      remoteFile('genbeya', 'tasks/GM-2.md'),
+      newTask('GM-2', "Desk's").trim(),
+      reason: "the desk's task is untouched",
+    );
+    expect(
+      remoteFile('genbeya', 'tasks/GM-3.md'),
+      newTask('GM-3', "Phone's", status: 'done').trim(),
+      reason: "the phone's task, with its edit, under the new ID",
+    );
+    final first = remoteFile('genbeya', 'tasks/GM-1.md');
+    expect(first, contains('status: review'), reason: "the desk's change");
+    expect(first, contains('Split off as [[GM-3]].'));
+    expect(
+      git(tmp.path, [
+        '--git-dir',
+        remote,
+        'log',
+        '--format=%s',
+        '-1',
+        'genbeya',
+      ]),
+      'Renumber GM-2 to GM-3 where this phone referred to it',
+    );
+    final reread = await side.model.load();
+    expect(reread.tasks.map((t) => t.id).toList()..sort(), [
+      'GM-1',
+      'GM-2',
+      'GM-3',
+    ]);
+  }, skip: skip);
+
+  test(
+    'US-22: the same next ID in different epics: no conflict, still renumbered',
+    () async {
+      final side = phoneSide();
+      final state = await side.model.load();
+      await side.writer.write(state, {
+        'tasks/App/GM-2.md': newTask('GM-2', "Phone's"),
+      }, "Create GM-2: Phone's");
+      git(desk, ['switch', '-q', 'genbeya']);
+      Directory('$desk/tasks/Web').createSync(recursive: true);
+      File('$desk/tasks/Web/GM-2.md')
+          .writeAsStringSync(newTask('GM-2', "Desk's"));
+      git(desk, ['add', '-A']);
+      git(desk, ['commit', '-q', '-m', "Create GM-2: Desk's"]);
+      git(desk, ['push', '-q', 'origin', 'genbeya']);
+
+      final report = await side.sync.sync(state);
+      expect(report.renumbered, {'GM-2': 'GM-3'});
+      expect(remoteFile('genbeya', 'tasks/Web/GM-2.md'), contains("Desk's"));
+      expect(
+        remoteFile('genbeya', 'tasks/App/GM-3.md'),
+        newTask('GM-3', "Phone's").trim(),
+      );
+      expect(
+        () => remoteFile('genbeya', 'tasks/App/GM-2.md'),
+        throwsStateError,
+        reason: 'no second GM-2',
       );
     },
     skip: skip,
