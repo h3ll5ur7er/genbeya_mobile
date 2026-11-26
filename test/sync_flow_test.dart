@@ -289,6 +289,73 @@ void main() {
     skip: skip,
   );
 
+  test(
+    "US-22: a renumbered task's ID follows into another new task's depends_on",
+    () async {
+      final side = phoneSide();
+      final state = await side.model.load();
+      await side.writer.write(state, {
+        'tasks/GM-2.md': newTask('GM-2', "Phone's"),
+      }, "Create GM-2: Phone's");
+      await side.writer.write(state, {
+        'tasks/GM-3.md': '---\nid: GM-3\ntitle: After it\nstatus: todo\ndepends_on: [GM-2]\n---\n\nOnce GM-2 is done.\n',
+      }, 'Create GM-3: After it');
+      git(desk, ['switch', '-q', 'genbeya']);
+      File('$desk/tasks/GM-2.md').writeAsStringSync(newTask('GM-2', "Desk's"));
+      git(desk, ['add', '-A']);
+      git(desk, ['commit', '-q', '-m', "Create GM-2: Desk's"]);
+      git(desk, ['push', '-q', 'origin', 'genbeya']);
+
+      final report = await side.sync.sync(state);
+      expect(report.renumbered, {
+        'GM-2': 'GM-4',
+      }, reason: 'GM-3 is taken by the phone itself');
+      expect(remoteFile('genbeya', 'tasks/GM-4.md'), contains("Phone's"));
+      expect(
+        remoteFile('genbeya', 'tasks/GM-3.md'),
+        '---\nid: GM-3\ntitle: After it\nstatus: todo\ndepends_on: [GM-4]\n---\n\nOnce GM-4 is done.',
+      );
+      expect(remoteFile('genbeya', 'tasks/GM-2.md'), contains("Desk's"));
+    },
+    skip: skip,
+  );
+
+  test('US-22: a page on the checked-out branch follows a task renumbered on the content branch', () async {
+    final side = phoneSide();
+    final state = await side.model.load();
+    await side.writer.write(state, {
+      'tasks/GM-2.md': newTask('GM-2', "Phone's"),
+    }, "Create GM-2: Phone's");
+    // The page lives with the code: another branch than the task.
+    await side.writer.write(state, {
+      'docs/Home.md': '# Home\n\nWelcome.\n\nPlan: [[GM-2]], see [[tasks/GM-2.md]] (DM-20, GM-20 untouched).\n',
+    }, 'Edit docs/Home.md');
+    // The desk takes GM-2 and adds a line to the same page.
+    git(desk, ['switch', '-q', 'genbeya']);
+    File('$desk/tasks/GM-2.md').writeAsStringSync(newTask('GM-2', "Desk's"));
+    git(desk, ['add', '-A']);
+    git(desk, ['commit', '-q', '-m', "Create GM-2: Desk's"]);
+    git(desk, ['push', '-q', 'origin', 'genbeya']);
+    git(desk, ['switch', '-q', 'main']);
+    File('$desk/docs/Home.md')
+        .writeAsStringSync('# Home by the desk\n\nWelcome.\n');
+    git(desk, ['commit', '-q', '-am', 'Edit docs/Home.md']);
+    git(desk, ['push', '-q', 'origin', 'main']);
+
+    final report = await side.sync.sync(state);
+    expect(report.renumbered, {'GM-2': 'GM-3'});
+    expect(report.rescued, isEmpty);
+    expect(
+      remoteFile('main', 'docs/Home.md'),
+      '# Home by the desk\n\nWelcome.\n\nPlan: [[GM-3]], see [[tasks/GM-3.md]] (DM-20, GM-20 untouched).',
+      reason: "the desk's line kept, the phone's line renumbered",
+    );
+    expect(
+      git(tmp.path, ['--git-dir', remote, 'log', '--format=%s', '-1', 'main']),
+      'Renumber GM-2 to GM-3 where this phone referred to it',
+    );
+  }, skip: skip);
+
   test('US-23: what cannot merge goes to a pushed rescue branch; the branch follows the remote', () async {
     final side = phoneSide();
     final state = await side.model.load();

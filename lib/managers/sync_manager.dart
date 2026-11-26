@@ -99,33 +99,67 @@ class SyncManager {
     final who = await signer();
     final content = state.place.branch;
     final checkedOut = (await git.head()).branch;
+    // The content branch first: a task renumbered there is settled before
+    // the checked-out branch's references to it are.
     final branches = [
-      ?checkedOut,
       if (content != null && content != checkedOut) content,
+      ?checkedOut,
     ];
 
     for (var attempt = 1; attempt <= 3; attempt++) {
       await git.fetch([?content], remote);
       final rejected = <String>[];
+      // Before anything moves: each branch's local commits, and the tasks
+      // they made whose IDs were taken meanwhile, on every branch, so that
+      // a page on one branch follows a task renumbered on another.
+      final windows = <String, _Window>{};
+      final plans = <String, _Renumbering>{};
+      for (final branch in branches) {
+        final before = await git.branchState(branch);
+        if (before.commit == null || before.ahead == 0) continue;
+        final window = await _window(branch, before);
+        if (window == null) continue;
+        windows[branch] = window;
+        if (before.upstream != null && before.behind > 0) {
+          final plan = await _renumbering(window, before, state);
+          if (plan != null) plans[branch] = plan;
+        }
+      }
+      final rescuedBranches = <String>{};
       for (final branch in branches) {
         final before = await git.branchState(branch);
         if (before.commit == null) continue;
+        final plan = plans[branch];
         if (before.upstream != null && before.behind > 0 && before.ahead > 0) {
-          final renumbering = await _renumbering(branch, before, state);
           final kept = await _rebase(
             branch,
             state,
             who,
             report,
             remote,
-            renumbering?.resolutions ?? const {},
-            renumbering?.oldPaths ?? const {},
+            plan?.resolutions ?? const {},
+            plan?.oldPaths ?? const {},
           );
-          if (kept && renumbering != null) {
-            await _rewriteReferences(branch, state, renumbering, report);
-          }
+          if (!kept) rescuedBranches.add(branch);
+          if (kept && plan != null) report.renumbered.addAll(plan.renumbered);
         } else if (before.upstream != null && before.behind > 0) {
           await git.rebase(branch, who, const {});
+        }
+        final renumbered = {
+          for (final e in plans.entries)
+            if (!rescuedBranches.contains(e.key)) ...e.value.renumbered,
+        };
+        final window = windows[branch];
+        if (renumbered.isNotEmpty &&
+            window != null &&
+            !rescuedBranches.contains(branch)) {
+          await _rewriteReferences(
+            branch,
+            state,
+            window,
+            plan?.oldPaths ?? const {},
+            renumbered,
+          );
         }
         final now = await git.branchState(branch);
         if (now.ahead == 0 && now.upstream != null) continue;
@@ -249,22 +283,30 @@ class SyncManager {
     return false;
   }
 
-  /// Tasks the local commits of [branch] created whose IDs its upstream took
-  /// meanwhile (a teammate made a task with the same next ID): each gets the
-  /// next free ID, and the replayed commits are rewritten so that the old
-  /// path stays as the remote has it and the task is at its new one. Null
-  /// when nothing clashes.
-  Future<_Renumbering?> _renumbering(
-    String branch,
-    BranchState before,
-    RepositoryState state,
-  ) async {
-    final local = before.commit!;
-    final upstream = before.upstreamCommit!;
+  /// The local commits of [branch], oldest last, and the commit they start
+  /// from; null when there are none.
+  Future<_Window?> _window(String branch, BranchState before) async {
     final commits = await git.unpushed(branch, max: 1000);
     if (commits.isEmpty) return null;
     final base = await objects.resolveCommit('${commits.last.id}^');
     if (base == null) return null;
+    return (base: base, local: before.commit!, commits: commits);
+  }
+
+  /// Tasks the local commits of a branch ([window]) created whose IDs its
+  /// upstream took meanwhile (a teammate made a task with the same next ID):
+  /// each gets the next free ID, and the replayed commits are rewritten so
+  /// that the old path stays as the remote has it and the task is at its
+  /// new one. Null when nothing clashes.
+  Future<_Renumbering?> _renumbering(
+    _Window window,
+    BranchState before,
+    RepositoryState state,
+  ) async {
+    final local = window.local;
+    final upstream = before.upstreamCommit!;
+    final commits = window.commits;
+    final base = window.base;
     final settings = state.settings;
     final taskRoot = settings.taskRoot;
     Future<Map<String, String>> tasksAt(String commit) async => {
@@ -328,29 +370,24 @@ class SyncManager {
       resolutions: resolutions,
       oldPaths: oldPaths,
       renumbered: renumbered,
-      base: base,
-      local: local,
     );
   }
 
   /// After a renumbering: references to an old ID in lines this phone
-  /// added (a comment, another new task's `depends_on`) now name the new
-  /// one, in one commit on top of the merged files.
+  /// added on [branch] (a comment, another new task's `depends_on`, a page)
+  /// now name the new one, in one commit on top of the merged files.
   Future<void> _rewriteReferences(
     String branch,
     RepositoryState state,
-    _Renumbering renumbering,
-    SyncReport report,
+    _Window window,
+    Set<String> oldPaths,
+    Map<String, String> renumbered,
   ) async {
-    report.renumbered.addAll(renumbering.renumbered);
     final tip = (await git.branchState(branch)).commit;
     if (tip == null) return;
     final files = <String, String?>{};
-    for (final path in await objects.changedPaths(
-      renumbering.base,
-      renumbering.local,
-    )) {
-      if (renumbering.oldPaths.contains(path)) continue;
+    for (final path in await objects.changedPaths(window.base, window.local)) {
+      if (oldPaths.contains(path)) continue;
       if (contentAreaOf(
             path,
             wikiRoot: state.settings.wikiRoot,
@@ -360,18 +397,10 @@ class SyncManager {
           null) {
         continue;
       }
-      final mine = await objects.readFileAt(
-        renumbering.local,
-        path,
-        _textLimit,
-      );
+      final mine = await objects.readFileAt(window.local, path, _textLimit);
       final now = await objects.readFileAt(tip, path, _textLimit);
       if (mine == null || now == null) continue;
-      final before = await objects.readFileAt(
-        renumbering.base,
-        path,
-        _textLimit,
-      );
+      final before = await objects.readFileAt(window.base, path, _textLimit);
       final String text;
       try {
         text = utf8.decode(now);
@@ -387,7 +416,7 @@ class SyncManager {
       for (var i = 0; i < lines.length; i++) {
         if (!added.contains(lines[i])) continue;
         var line = lines[i];
-        for (final e in renumbering.renumbered.entries) {
+        for (final e in renumbered.entries) {
           line = _renumberText(line, e.key, e.value);
         }
         if (line != lines[i]) {
@@ -398,9 +427,8 @@ class SyncManager {
       if (changed) files[path] = lines.join('\n');
     }
     if (files.isEmpty) return;
-    final names = [
-      for (final e in renumbering.renumbered.entries) '${e.key} to ${e.value}',
-    ].join(', ');
+    final names = [for (final e in renumbered.entries) '${e.key} to ${e.value}']
+        .join(', ');
     await writer.write(
       state,
       files,
@@ -458,13 +486,15 @@ class SyncManager {
   }
 }
 
+/// A branch's local commits (newest first), the commit they start from,
+/// and its tip before the sync.
+typedef _Window = ({String base, String local, List<GitCommit> commits});
+
 /// Tasks renumbered while syncing one branch.
 typedef _Renumbering = ({
   Map<String, Map<String, Uint8List?>> resolutions,
   Set<String> oldPaths,
   Map<String, String> renumbered,
-  String base,
-  String local,
 });
 
 const _textLimit = 2 * 1024 * 1024;
