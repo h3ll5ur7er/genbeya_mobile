@@ -49,7 +49,13 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     super.initState();
     _today = _compute();
     _changes = widget.session.changes.listen((_) {
-      if (mounted) setState(() => _today = _compute());
+      // setState must not return the Future: Flutter's debug build throws
+      // then, after the assignment but before scheduling the rebuild.
+      if (mounted) {
+        setState(() {
+          _today = _compute();
+        });
+      }
     });
   }
 
