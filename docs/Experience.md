@@ -27,10 +27,11 @@ flowchart LR
 
 The screen a repository opens on, and the one thing desktop doesn't have: what needs *you*, computed from the files.
 
-- Tasks assigned to me that aren't done, the in-progress ones first, overdue dates in red.
-- Pull requests waiting for my verdict, and my own with new replies or a request for changes.
-- Recent mentions of my handle (`@ada`) in pages, tasks and comments.
-- Checklist items with a due date (`- [ ] Send the offer 2026-10-12`) that are mine or in my tasks.
+- Tasks assigned to me that aren't done, the ones furthest along first, overdue dates in red and dates within two days in yellow.
+- Pull requests waiting for my verdict, and my own with new replies or a request for changes ([[GM-20]]).
+- Mentions of my handle (`@ada`, or an alias): others' comments, newest first, then task descriptions and pages.
+- Open checklist items with a date (`- [ ] Send the offer 2026-10-12`) in my tasks, or mentioning me in other tasks and pages, soonest first.
+- When the clone's identity matches no one, Today says how "me" is found and offers to set the name and email.
 
 "Me" is the person whose Git name or email matches the identity set for the repository ([Writing pages](https://github.com/genbeya/genbeya/blob/develop/docs/Guide/Writing.md#who-is-in-the-list)).
 

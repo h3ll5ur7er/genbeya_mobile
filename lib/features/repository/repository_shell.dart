@@ -5,10 +5,11 @@ import '../../contracts/clones.dart';
 import '../repositories/repository_screen.dart';
 import '../tasks/tasks_screen.dart';
 import 'session_provider.dart';
+import 'today_screen.dart';
 import 'wiki_screen.dart';
 
 /// Inside a repository: a bottom bar of its parts ([[Experience#navigation]]).
-/// Today, pull requests and code join as they arrive.
+/// It opens on Today; pull requests and code join as they arrive.
 class RepositoryShell extends ConsumerStatefulWidget {
   const RepositoryShell({super.key, required this.record});
 
@@ -40,6 +41,7 @@ class _RepositoryShellState extends ConsumerState<RepositoryShell> {
         body: IndexedStack(
           index: _tab,
           children: [
+            TodayScreen(session: session, record: widget.record),
             WikiScreen(session: session, record: widget.record),
             TasksScreen(session: session, record: widget.record),
             RepositoryScreen(record: widget.record),
@@ -49,6 +51,10 @@ class _RepositoryShellState extends ConsumerState<RepositoryShell> {
           selectedIndex: _tab,
           onDestinationSelected: (tab) => setState(() => _tab = tab),
           destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.wb_sunny_outlined),
+              label: 'Today',
+            ),
             NavigationDestination(
               icon: Icon(Icons.menu_book_outlined),
               label: 'Wiki',
