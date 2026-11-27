@@ -243,6 +243,25 @@ pub fn fetch(
     finish(&events, result)
 }
 
+/// Fetches older history into a shallow clone: `more` commits deeper, or
+/// all of it when None. The stream reports progress and ends with `Done` or
+/// `Failed`; whether the clone is still shallow is in its head afterwards.
+pub fn deepen(
+    dir: String,
+    more: Option<u32>,
+    remote: RemoteOptions,
+    operation_id: u64,
+    events: StreamSink<TransferEvent>,
+) -> Result<(), CoreError> {
+    let operation = Operation::start(operation_id);
+    let mut report = |p: Progress| {
+        let _ = events.add(TransferEvent::Progress(p));
+    };
+    let result = git::deepen(Path::new(&dir), more, &remote, Some(&operation), Some(&mut report))
+        .map(|_| ());
+    finish(&events, result)
+}
+
 /// Replays the local commits of `branch` (the checked-out one when None)
 /// onto its upstream in memory; resolutions per replayed commit and path.
 pub fn rebase_branch(

@@ -17,6 +17,7 @@ import '../tasks/task_edit_screen.dart';
 import '../tasks/task_editing.dart';
 import '../tasks/task_pickers.dart';
 import 'links.dart';
+import 'older_history.dart';
 import 'share_menu.dart';
 import '../repositories/format.dart';
 import '../tasks/task_look.dart';
@@ -494,11 +495,17 @@ class _TaskViewScreenState extends ConsumerState<TaskViewScreen> {
                             ),
                           ),
                         if (activity.truncated)
-                          const Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Text(
-                              'Older history isn\'t on this phone: the clone is shallow.',
-                            ),
+                          OlderHistory(
+                            session: widget.session,
+                            onFetched: () {
+                              if (mounted) {
+                                setState(() {
+                                  _activity = widget.session.taskActivity(
+                                    _task,
+                                  );
+                                });
+                              }
+                            },
                           ),
                         if (activity.entries.isEmpty && !activity.truncated)
                           const Padding(

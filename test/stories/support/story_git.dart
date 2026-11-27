@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:genbeya_mobile/access/git/git_objects.dart';
 import 'package:genbeya_mobile/access/git/git_remote.dart';
 import 'package:genbeya_mobile/access/git/git_writer.dart';
 
@@ -111,6 +112,22 @@ class StoryGit implements GitWriter {
   @override
   Future<void> fetch(List<String> extraBranches, RemoteAccess access) async =>
       fetches++;
+
+  /// What [deepen] was asked for, oldest first (null: all of it).
+  final deepened = <int?>[];
+
+  /// Histories that [deepen] brings in, older revisions last.
+  final older = <String, List<FileRevision>>{};
+
+  @override
+  Future<void> deepen(int? more, RemoteAccess access) async {
+    deepened.add(more);
+    for (final e in older.entries) {
+      repo.histories[e.key] = [...?repo.histories[e.key], ...e.value];
+    }
+    older.clear();
+    if (more == null) repo.shallow = false;
+  }
 
   @override
   Future<Rebased> rebase(

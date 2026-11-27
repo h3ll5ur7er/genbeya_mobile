@@ -70,6 +70,18 @@ class NativeGitWriter implements GitWriter {
       );
 
   @override
+  Future<void> deepen(int? more, RemoteAccess access) => _mapped(
+    () => runTransfer(
+      core.deepen(
+        dir: dir,
+        more: more,
+        remote: _options(access),
+        operationId: BigInt.from(++_operation),
+      ),
+    ),
+  );
+
+  @override
   Future<Rebased> rebase(
     String? branch,
     Signer signer,

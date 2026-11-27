@@ -62,6 +62,11 @@ abstract interface class GitWriter {
 
   Future<void> fetch(List<String> extraBranches, RemoteAccess access);
 
+  /// Fetches older history into a shallow clone, for every branch [fetch]
+  /// fetches: [more] commits deeper than the checked-out branch goes now,
+  /// or all of it when null.
+  Future<void> deepen(int? more, RemoteAccess access);
+
   /// Replays [branch]'s local commits (the checked-out one when null) onto
   /// its upstream; [resolutions] by commit, then path.
   Future<Rebased> rebase(

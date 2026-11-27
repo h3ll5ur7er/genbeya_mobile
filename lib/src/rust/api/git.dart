@@ -221,6 +221,21 @@ Stream<TransferEvent> fetch({
   operationId: operationId,
 );
 
+/// Fetches older history into a shallow clone: `more` commits deeper, or
+/// all of it when None. The stream reports progress and ends with `Done` or
+/// `Failed`; whether the clone is still shallow is in its head afterwards.
+Stream<TransferEvent> deepen({
+  required String dir,
+  int? more,
+  required RemoteOptions remote,
+  required BigInt operationId,
+}) => RustLib.instance.api.crateApiGitDeepen(
+  dir: dir,
+  more: more,
+  remote: remote,
+  operationId: operationId,
+);
+
 /// Replays the local commits of `branch` (the checked-out one when None)
 /// onto its upstream in memory; resolutions per replayed commit and path.
 Future<RebaseOutcome> rebaseBranch({

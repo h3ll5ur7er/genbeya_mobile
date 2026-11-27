@@ -98,6 +98,14 @@ class SyncManager {
     return result;
   }
 
+  /// Fetches older history into a shallow clone ([[GM-29]]): [more]
+  /// commits deeper, or all of it when null. In turn with syncs.
+  Future<void> fetchOlder({int? more}) {
+    final result = _queue.then((_) async => git.deepen(more, await access()));
+    _queue = result.then((_) {}, onError: (Object _) {});
+    return result;
+  }
+
   Future<SyncReport> _sync(RepositoryState state) async {
     final report = SyncReport()..recovered = await writer.recover();
     final remote = await access();

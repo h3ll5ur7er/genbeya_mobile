@@ -429,45 +429,61 @@ fn log_of_a_path() {
     assert_eq!(git::log_path(&phone, "tasks/GM-1.md", 1).unwrap().len(), 1);
 }
 
+/// git daemon serving the fixture's remote over the smart protocol, which
+/// shallow fetches need: libgit2's local transport doesn't do them. Stops
+/// when dropped. Each test passes its own `slot`, as tests run at once.
+struct GitDaemon {
+    child: std::process::Child,
+    pid_file: PathBuf,
+    url: String,
+}
+
+impl GitDaemon {
+    fn start(f: &Fixture, slot: u16) -> Self {
+        let port = 19418 + slot * 500 + (std::process::id() % 500) as u16;
+        let pid_file = f.root.join("daemon.pid");
+        let child = Command::new("git")
+            .args([
+                "daemon",
+                "--reuseaddr",
+                "--export-all",
+                "--listen=127.0.0.1",
+                &format!("--port={port}"),
+                &format!("--base-path={}", f.root.display()),
+            ])
+            .arg(format!("--pid-file={}", pid_file.display()))
+            .arg(f.root.to_str().unwrap())
+            .stdin(std::process::Stdio::null())
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::null())
+            .spawn()
+            .expect("git daemon starts");
+        std::thread::sleep(Duration::from_millis(500));
+        GitDaemon {
+            child,
+            pid_file,
+            url: format!("git://127.0.0.1:{port}/remote.git"),
+        }
+    }
+}
+
+impl Drop for GitDaemon {
+    fn drop(&mut self) {
+        if let Ok(pid) = fs::read_to_string(&self.pid_file) {
+            Command::new("kill").arg(pid.trim()).status().ok();
+        }
+        self.child.kill().ok();
+        self.child.wait().ok();
+    }
+}
+
 #[test]
 fn shallow_clone_over_the_git_protocol() {
-    // libgit2's local transport doesn't do shallow fetches; git daemon speaks the smart protocol.
     let f = Fixture::new();
-    let port = 19418 + (std::process::id() % 500) as u16;
-    let pid_file = f.root.join("daemon.pid");
-    let mut daemon = Command::new("git")
-        .args([
-            "daemon",
-            "--reuseaddr",
-            "--export-all",
-            "--listen=127.0.0.1",
-            &format!("--port={port}"),
-            &format!("--base-path={}", f.root.display()),
-        ])
-        .arg(format!("--pid-file={}", pid_file.display()))
-        .arg(f.root.to_str().unwrap())
-        .stdin(std::process::Stdio::null())
-        .stdout(std::process::Stdio::null())
-        .stderr(std::process::Stdio::null())
-        .spawn()
-        .expect("git daemon starts");
-    std::thread::sleep(Duration::from_millis(500));
+    let daemon = GitDaemon::start(&f, 0);
     let dir = f.root.join("shallow");
-    let result = git::clone(
-        &format!("git://127.0.0.1:{port}/remote.git"),
-        &dir,
-        Some("main"),
-        &[],
-        Some(2),
-        &none(),
-        None,
-        None,
-    );
-    if let Ok(pid) = fs::read_to_string(&pid_file) {
-        Command::new("kill").arg(pid.trim()).status().ok();
-    }
-    daemon.kill().ok();
-    daemon.wait().ok();
+    let result = git::clone(&daemon.url, &dir, Some("main"), &[], Some(2), &none(), None, None);
+    drop(daemon);
     let head = result.unwrap();
     assert!(head.shallow);
     assert_eq!(sh(&dir, &["rev-list", "--count", "HEAD"]), "2");
@@ -1410,4 +1426,28 @@ fn a_rescue_branch_is_known_upstream_then_deleted_everywhere() {
     assert!(!sh(&bob, &["config", "--get-all", "remote.origin.fetch"]).contains("rescue"));
     // Gone already: no error.
     git::delete_branch(&bob, "mobile/rescue/bob-2026-11-26", Some(&none())).unwrap();
+}
+
+#[test]
+fn a_shallow_clone_deepens_on_demand() {
+    let fixture = Fixture::new();
+    let _daemon = GitDaemon::start(&fixture, 1);
+    let phone = fixture.root.join("phone");
+    git::clone(&_daemon.url, &phone, Some("main"), &[], Some(2), &none(), None, None).unwrap();
+    let head = sh(&phone, &["rev-parse", "HEAD"]);
+    let history = || git::file_history(&phone, &head, "docs/Log.md", 100, 1 << 20).unwrap();
+    let subjects = || -> Vec<String> { history().revisions.into_iter().map(|r| r.subject).collect() };
+    // The oldest commit here has no parent to compare with: not counted.
+    assert!(history().truncated);
+    assert_eq!(subjects(), ["Log 4"]);
+
+    // Two more commits, then the rest.
+    assert!(git::deepen(&phone, Some(2), &none(), None, None).unwrap());
+    assert!(history().truncated);
+    assert_eq!(subjects(), ["Log 4", "Log 3", "Log 2"]);
+    assert!(!git::deepen(&phone, None, &none(), None, None).unwrap());
+    assert!(!history().truncated);
+    assert_eq!(subjects().last().unwrap(), "Log 0");
+    assert!(!git::deepen(&phone, None, &none(), None, None).unwrap(), "nothing more to fetch");
+    assert_eq!(sh(&phone, &["rev-parse", "HEAD"]), head, "the checkout stays");
 }

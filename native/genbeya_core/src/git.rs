@@ -1504,14 +1504,62 @@ pub fn fetch(
             refspecs.push(spec);
         }
     }
+    fetch_refspecs(&repo, &refspecs, remote_options, operation, progress, None)
+}
+
+fn fetch_refspecs(
+    repo: &Repository,
+    refspecs: &[String],
+    remote_options: &RemoteOptions,
+    operation: Option<&Operation>,
+    progress: Option<&mut dyn FnMut(Progress)>,
+    depth: Option<i32>,
+) -> Result<()> {
     let mut remote = repo.find_remote(REMOTE)?;
     let network = Network::new(remote_options);
-    let mut options = fetch_options(&network, operation, progress, None);
+    let mut options = fetch_options(&network, operation, progress, depth);
     let refs: Vec<&str> = refspecs.iter().map(String::as_str).collect();
     remote
         .fetch(&refs, Some(&mut options), None)
         .map_err(|e| network.explain(e, operation))?;
     Ok(())
+}
+
+/// libgit2's depth that fetches the whole history (GIT_FETCH_DEPTH_UNSHALLOW).
+const UNSHALLOW: i32 = i32::MAX;
+
+/// Fetches older history into a shallow clone: `more` commits deeper than
+/// the checked-out branch goes now, or all of it when None, for every
+/// branch `fetch` fetches. Whether the clone is still shallow afterwards;
+/// a clone with its whole history fetches nothing.
+pub fn deepen(
+    dir: &Path,
+    more: Option<u32>,
+    remote_options: &RemoteOptions,
+    operation: Option<&Operation>,
+    progress: Option<&mut dyn FnMut(Progress)>,
+) -> Result<bool> {
+    let repo = Repository::open(dir)?;
+    if !repo.is_shallow() {
+        return Ok(false);
+    }
+    let depth = match more {
+        None => UNSHALLOW,
+        Some(more) => {
+            // The depth asked of the remote counts from its tips: what the
+            // branch has now, plus `more`.
+            let mut walk = repo.revwalk()?;
+            walk.push_head()?;
+            let have = walk.count() as u64;
+            (have + u64::from(more)).min(UNSHALLOW as u64 - 1) as i32
+        }
+    };
+    let configured = repo.find_remote(REMOTE)?.fetch_refspecs()?;
+    let refspecs: Vec<String> = (0..configured.len())
+        .filter_map(|i| configured.get(i).ok().flatten().map(str::to_string))
+        .collect();
+    fetch_refspecs(&repo, &refspecs, remote_options, operation, progress, Some(depth))?;
+    Ok(Repository::open(dir)?.is_shallow())
 }
 
 /// Puts the checked-out branch's local commits on top of its upstream, in

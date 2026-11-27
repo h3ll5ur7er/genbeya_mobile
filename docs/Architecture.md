@@ -57,7 +57,7 @@ The native core exposes a small, task-shaped API rather than libgit2 itself: `cl
 
 ### Clones on a phone
 
-- **Shallow, single branch** by default (the newest 200 commits), plus the content branch if a remote has one. **Activity**, **Burndown** and **Baseline** deepen the clone on demand and say so while they do.
+- **Shallow, single branch** by default (the newest 50 commits, `defaultDepth`), plus the content branch if a remote has one. **Activity**, **Burndown** and **Baseline** deepen the clone on demand and say so while they do. A task's activity that ends at the clone's edge offers to fetch older history ([[GM-29]]): 200 more commits or all of it, for every branch the clone fetches, from the remote it names; the Git core asks the remote for that depth from its tips (libgit2 fetches shallow only over the smart protocols, not `file://`). Nothing can say beforehand how many bytes that is, so the question says how many commits and that it uses whatever network the phone is on.
 - **Storage** per repository is shown on the start screen, with **Remove clone**.
 - **The content branch** needs no worktree on the device: its areas are read from the branch's tree and edits are committed straight onto it, which libgit2 does without a checkout. `.genbeya-content` decides the layout as on desktop ([Content branch](https://github.com/genbeya/genbeya/blob/develop/docs/Architecture/Content-branch.md)).
 

@@ -311,7 +311,7 @@ Story: US-26. Not one chain but what every chain refuses:
 | Symbolic links to files outside | Checked out as plain files (`core.symlinks=false`); the file store never follows links |
 | Programs run on checkout or sync | libgit2 runs no hooks and only built-in filters; `.gitattributes` can't name a program |
 | Submodules and Git LFS | Not fetched; LFS pointer files show as text |
-| Huge files or a huge history | Shallow clones, size caps on reads (2 MB text, 10 MB images), size shown before deepening |
+| Huge files or a huge history | Shallow clones, size caps on reads (2 MB text, 10 MB images), how many commits said before deepening |
 | A `.genbeya.yml` with huge lists | The settings engine's limits (500 people, 100 milestones, …), as on desktop |
 | A regular expression or diagram that never ends | The search isolate's time limit, the diagram time limit, both in other processes or isolates than the UI |
 | Links to other schemes | Only `http`, `https` and `mailto`, through the system browser |

@@ -121,14 +121,19 @@ class FakeGit implements GitObjects {
   /// Histories by path, for tests that need one.
   final histories = <String, List<FileRevision>>{};
 
+  /// Whether histories end at a shallow clone's edge.
+  var shallow = false;
+
   @override
   Future<({List<FileRevision> revisions, bool truncated})> fileHistory(
     String start,
     String path, {
     required int limit,
     required int maxBytes,
-  }) async =>
-      (revisions: histories[path] ?? const <FileRevision>[], truncated: false);
+  }) async => (
+    revisions: histories[path] ?? const <FileRevision>[],
+    truncated: shallow,
+  );
 
   final authors = <({String name, String email, int commits})>[];
   int authorReads = 0;
