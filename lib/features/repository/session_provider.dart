@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../access/native/native_git_objects.dart';
+import '../../access/storage/json_store.dart';
 import '../../contracts/clones.dart';
+import '../../managers/parse_cache.dart';
 import '../../managers/repository_session.dart';
 import '../repositories/providers.dart';
 
@@ -19,6 +21,7 @@ final sessionProvider = FutureProvider.family<RepositorySession, CloneRecord>((
     remote: record.url,
     branch: record.branch,
     record: record,
+    cache: ParseCache(JsonStore(manager.stateFile('parsed', record.id))),
   );
   await session.load();
   return session;

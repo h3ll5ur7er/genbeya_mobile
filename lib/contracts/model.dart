@@ -275,6 +275,12 @@ class TaskComment {
     'date': date,
     'body': body,
   };
+
+  factory TaskComment.fromJson(Map<String, Object?> json) => TaskComment(
+    author: json['author']! as String,
+    date: json['date']! as String,
+    body: json['body']! as String,
+  );
 }
 
 /// The value of a custom field: a String, a num, a bool or a `List<String>`.
@@ -326,6 +332,32 @@ class Task {
     'hash': hash,
     'comments': [for (final c in comments) c.toJson()],
   };
+
+  /// What [toJson] wrote. A field's list comes back as `List<String>`.
+  factory Task.fromJson(Map<String, Object?> json) => Task(
+    id: json['id']! as String,
+    path: json['path']! as String,
+    title: json['title']! as String,
+    status: json['status']! as String,
+    priority: json['priority']! as String,
+    assignee: json['assignee']! as String,
+    labels: [for (final l in json['labels']! as List) l as String],
+    type: json['type']! as String,
+    fields: {
+      for (final e in (json['fields']! as Map<String, Object?>).entries)
+        e.key: switch (e.value) {
+          final List<Object?> list => [for (final v in list) v as String],
+          final value => value!,
+        },
+    },
+    body: json['body']! as String,
+    epic: json['epic']! as String,
+    hash: json['hash']! as String,
+    comments: [
+      for (final c in json['comments']! as List)
+        TaskComment.fromJson(c as Map<String, Object?>),
+    ],
+  );
 
   /// What a client sends to change this task: everything, as `inputOf` does in
   /// Genbeya's task-model.ts.

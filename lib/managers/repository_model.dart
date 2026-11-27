@@ -3,7 +3,7 @@
 /// Each area is read from where it lives, the checked-out commit or the
 /// content branch, as Genbeya's content store decides. Parsed files are
 /// cached by blob ID and path, so loading again after a sync parses only
-/// what changed.
+/// what changed; with a [ParseCache], across app starts too.
 library;
 
 import 'dart:convert';
@@ -18,6 +18,7 @@ import '../engines/people_engine.dart';
 import '../engines/settings_engine.dart';
 import '../engines/task_engine.dart';
 import '../engines/wiki_engine.dart';
+import 'parse_cache.dart';
 
 /// Recent commits whose authors count as the repository's people
 /// (`AUTHOR_COMMITS` in content-manager.ts).
@@ -92,9 +93,18 @@ class RepositoryState {
 
 /// One open repository's model.
 class RepositoryModel {
-  RepositoryModel(this.git, {required this.folderName});
+  RepositoryModel(this.git, {required this.folderName, this.cache});
 
   final GitObjects git;
+
+  /// Where what was parsed is kept between app starts, if anywhere.
+  final ParseCache? cache;
+
+  /// Whether [cache] was read into memory yet.
+  var _restored = false;
+
+  /// The newest save of [cache]; tests wait on it.
+  Future<void> saved = Future.value();
 
   /// The clone's folder name: the settings' default name and task prefix.
   final String folderName;
@@ -119,6 +129,15 @@ class RepositoryModel {
   /// Reads the repository as it is now. Files whose blob was parsed before
   /// are taken from the cache.
   Future<RepositoryState> load() async {
+    if (!_restored) {
+      _restored = true;
+      if (await cache?.read() case final restored?) {
+        _parsed.addAll(restored.parsed);
+        _authors ??= restored.authors;
+      }
+    }
+    final parsedBefore = parses;
+    final authorsBefore = _authors;
     final place = await locate();
     final filesOf = <String, Future<List<GitFile>>>{};
     Future<List<GitFile>> files(String commit) =>
@@ -183,6 +202,19 @@ class RepositoryModel {
         ],
       ),
     );
+
+    // What this load used is kept, the rest dropped, when anything changed.
+    final used = {for (final file in taskFiles) _key(file, settings.taskRoot)};
+    if (cache != null &&
+        (parses != parsedBefore ||
+            _authors != authorsBefore ||
+            _parsed.length != used.length)) {
+      _parsed.removeWhere((key, _) => !used.contains(key));
+      final files = (parsed: Map.of(_parsed), authors: _authors);
+      saved = saved.then((_) => cache!.write(files)).catchError((Object _) {
+        // The cache is only a shortcut; the next load tries again.
+      });
+    }
 
     return _state = RepositoryState(
       place: place,

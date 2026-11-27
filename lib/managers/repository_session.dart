@@ -20,6 +20,7 @@ import '../engines/search_engine.dart';
 import '../engines/task_activity.dart';
 import '../engines/task_engine.dart';
 import '../engines/wiki_engine.dart';
+import 'parse_cache.dart';
 import 'repository_model.dart';
 import 'search.dart';
 import 'task_views.dart';
@@ -32,7 +33,8 @@ class RepositorySession {
     this.remote,
     this.branch,
     this.record,
-  }) : model = RepositoryModel(git, folderName: folderName);
+    ParseCache? cache,
+  }) : model = RepositoryModel(git, folderName: folderName, cache: cache);
 
   final GitObjects git;
   final RepositoryModel model;

@@ -24,7 +24,7 @@ Every chain below reads from one in-memory **repository model** per open reposit
 
 - **Writes made by the app** update the model directly with what was written.
 - **A sync** knows HEAD before and after; the native core diffs the two trees and returns exactly the paths that changed. Only those are read and parsed again.
-- **Parsed files are cached by blob ID** (Git's hash of the content): a task whose blob didn't change is never parsed twice, also across app starts.
+- **Parsed files are cached by blob ID** (Git's hash of the content): a task whose blob didn't change is never parsed twice, also across app starts ([[GM-29]]). The cache is a JSON file per clone in the app's storage (`parsed/<clone>.json`, `lib/managers/parse_cache.dart`) with the commit authors and the HEAD they were read at; it holds only what the last load used, is saved after a load that changed it, and is dropped when its `parseCacheVersion` isn't the app's. `test/parse_cache_test.dart` fails when the task parser's sources change, so that the version is bumped when a file can parse differently.
 - **On resume**, a cheap `status` checks that nothing outside the app touched the working tree (a crash, a restored backup); if something did, the changed paths are reparsed.
 
 ```mermaid
@@ -65,7 +65,7 @@ sequenceDiagram
   C-->>S: render
 ```
 
-- **Cost:** one native call for status and refs, one tree listing, then only blobs not in the cache. A warm start reads nothing but the tree.
+- **Cost:** one native call for status and refs, one tree listing, then only blobs not in the cache. A warm start, and a cold one with the cache, reads the refs, the trees and `.genbeya.yml`, and parses nothing.
 - **Areas nobody shows** (`unused`, hidden parts) aren't parsed, as `snapshot(…, skip)` does on desktop; the task index still comes from file names, so references resolve.
 - **Mentions** for Today come from the search index of C9, limited to the last 30 days of changed files, not from a full scan.
 

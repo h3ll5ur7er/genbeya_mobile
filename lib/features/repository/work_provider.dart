@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../access/git/git_writer.dart';
@@ -39,11 +37,11 @@ final workProvider = FutureProvider.family<RepositoryWork, CloneRecord>((
   final writer = ContentWriter(
     dir: dir,
     git: git,
-    journal: JsonStore(File('${manager.root.path}/journals/${record.id}.json')),
+    journal: JsonStore(manager.stateFile('journals', record.id)),
     signer: signer,
   );
   final rescues = Rescues(
-    store: JsonStore(File('${manager.root.path}/rescues/${record.id}.json')),
+    store: JsonStore(manager.stateFile('rescues', record.id)),
     git: git,
     objects: session.git,
   );

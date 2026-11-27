@@ -363,7 +363,14 @@ class RepositoriesManager {
       (await clones()).where((r) => r.id == id).firstOrNull?.commitsChosen ??
       false;
 
-  /// Removes a clone and its folder. Commits not pushed yet go with it, so
+  /// What the app keeps about each clone outside its folder: the write
+  /// journal, rescue branches, and what was parsed ([stateFile]).
+  static const stateKinds = ['journals', 'rescues', 'parsed'];
+
+  /// The app's file of [kind] (one of [stateKinds]) for the clone [id].
+  File stateFile(String kind, String id) => File('${root.path}/$kind/$id.json');
+
+  /// Removes a clone and its folder, and what the app kept about it. Commits not pushed yet go with it, so
   /// the screen asks first. Tokens stay, for other clones of the host.
   Future<void> remove(String id) async {
     final records = await clones();
@@ -371,6 +378,10 @@ class RepositoriesManager {
     if (record == null) return;
     final dir = Directory(folderOf(record));
     if (dir.existsSync()) await dir.delete(recursive: true);
+    for (final kind in stateKinds) {
+      final file = stateFile(kind, id);
+      if (file.existsSync()) await file.delete();
+    }
     await _saveClones([
       for (final r in records)
         if (r.id != id) r,
