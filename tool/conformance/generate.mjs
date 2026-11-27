@@ -71,7 +71,7 @@ function angularStub() {
     },
   };
 }
-const { runCase } = createRequire(import.meta.url)(bundle);
+const { runCase, desktopRepository } = createRequire(import.meta.url)(bundle);
 
 const out = join(here, "expected");
 rmSync(out, { recursive: true, force: true });
@@ -82,4 +82,6 @@ for (const name of readdirSync(join(here, "cases")).filter((n) => n.endsWith(".j
   writeFileSync(join(out, name), JSON.stringify({ genbeya: refArg > 0 ? `${ref}` : ref, ...runCase(c) }, null, 2) + "\n");
   count++;
 }
-console.log(`${count} cases from Genbeya ${ref.slice(0, 7)}`);
+// A repository desktop laid out, as `git fast-export` writes it (desktop-repository.ts).
+writeFileSync(join(out, "desktop-repository.fi"), await desktopRepository());
+console.log(`${count} cases and a desktop-made repository from Genbeya ${ref.slice(0, 7)}`);

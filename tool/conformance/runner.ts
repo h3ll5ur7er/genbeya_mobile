@@ -198,3 +198,5 @@ export function runCase(c: Case): unknown {
     return { error: (error as Error).message };
   }
 }
+
+export { desktopRepository } from "./desktop-repository";

@@ -1,0 +1,147 @@
+blob
+mark :1
+data 34
+name: Desk Project
+taskPrefix: DP
+
+blob
+mark :2
+data 23
+# Guide
+
+- [ ] Read it
+
+blob
+mark :3
+data 17
+# Home
+
+Welcome.
+
+blob
+mark :4
+data 22
+export const app = 1;
+
+blob
+mark :5
+data 45
+---
+id: DP-2
+title: Sign in
+status: todo
+---
+
+blob
+mark :6
+data 51
+---
+id: DP-1
+title: First
+status: todo
+---
+
+Do it.
+
+reset refs/heads/main
+commit refs/heads/main
+mark :7
+author Desk <desk@example.com> 1795165200 +0000
+committer Desk <desk@example.com> 1795165200 +0000
+data 15
+Initial commit
+M 100644 :1 .genbeya.yml
+M 100644 :2 docs/Guide.md
+M 100644 :3 docs/Home.md
+M 100644 :4 src/app.ts
+M 100644 :5 tasks/Auth/DP-2.md
+M 100644 :6 tasks/DP-1.md
+
+reset refs/heads/genbeya
+commit refs/heads/genbeya
+mark :8
+author Desk <desk@example.com> 1795165260 +0000
+committer Desk <desk@example.com> 1795165260 +0000
+data 33
+Start the Genbeya content branch
+
+blob
+mark :9
+data 206
+# Where Genbeya keeps each area: "branch" is this content branch,
+# "checkout" is the checked-out code branch of every clone.
+[areas]
+	wiki = checkout
+	tasks = branch
+	settings = checkout
+	pulls = checkout
+
+commit refs/heads/genbeya
+mark :10
+author Desk <desk@example.com> 1795165260 +0000
+committer Desk <desk@example.com> 1795165260 +0000
+data 33
+Move tasks to the content branch
+from :8
+M 100644 :9 .genbeya-content
+M 100644 :5 tasks/Auth/DP-2.md
+M 100644 :6 tasks/DP-1.md
+
+blob
+mark :11
+data 204
+# Where Genbeya keeps each area: "branch" is this content branch,
+# "checkout" is the checked-out code branch of every clone.
+[areas]
+	wiki = branch
+	tasks = branch
+	settings = checkout
+	pulls = checkout
+
+commit refs/heads/genbeya
+mark :12
+author Desk <desk@example.com> 1795165320 +0000
+committer Desk <desk@example.com> 1795165320 +0000
+data 36
+Move the wiki to the content branch
+from :10
+M 100644 :11 .genbeya-content
+M 100644 :2 docs/Guide.md
+M 100644 :3 docs/Home.md
+
+blob
+mark :13
+data 58
+---
+id: DP-1
+title: First
+status: in-progress
+---
+
+Do it.
+
+commit refs/heads/genbeya
+mark :14
+author Desk <desk@example.com> 1795165380 +0000
+committer Desk <desk@example.com> 1795165380 +0000
+data 19
+Update DP-1: First
+from :12
+M 100644 :13 tasks/DP-1.md
+
+blob
+mark :15
+data 42
+# Home
+
+Welcome, from the content branch.
+
+commit refs/heads/genbeya
+mark :16
+author Desk <desk@example.com> 1795165440 +0000
+committer Desk <desk@example.com> 1795165440 +0000
+data 18
+Edit docs/Home.md
+from :14
+M 100644 :15 docs/Home.md
+

@@ -138,6 +138,7 @@ Two codebases drift unless something notices. Every engine is checked against Ge
 - `tool/conformance/` holds fixture repositories and edits (change a status in a file with YAML comments and CRLF, append a comment, log time, add a verdict, parse a broken time log line, compute float, compute a change ID, …).
 - A Node script imports Genbeya's engines from the pinned checkout, runs each case and writes the expected results as JSON.
 - Dart tests run the same cases through the ported engines and compare, byte for byte for files.
+- Layouts are checked the same way: `tool/conformance/desktop-repository.ts` runs desktop's own `ContentStore` to move the tasks and the wiki onto the content branch, edit both there and sync, with fixed authors and dates. The remote it pushed to is written out with `git fast-export` (`expected/desktop-repository.fi`), and `test/desktop_layout_test.dart` imports it, clones it with the Git core, reads each area where `.genbeya-content` says, and syncs edits onto desktop's branch over a desk edit made meanwhile ([[GM-15]]).
 - CI runs it against the pinned ref on every push, and nightly against Genbeya's `develop`, so a desktop change that the mobile app doesn't follow yet shows up as a failing case, not as a corrupted file in someone's repository.
 
 The rule that follows: the app writes nothing that conformance doesn't cover.

@@ -165,4 +165,4 @@ jobs:
           channel: stable
           cache: true
       - name: The bridge, end to end
-        run: flutter test test/native_bridge_test.dart test/sync_flow_test.dart
+        run: flutter test test/native_bridge_test.dart test/sync_flow_test.dart test/desktop_layout_test.dart
